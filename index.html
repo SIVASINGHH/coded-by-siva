@@ -3,461 +3,230 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For You Naina ❤️</title>
+    <title>For you babu 💗</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Dancing+Script:wght@700&display=swap');
-
-        :root {
-            --pink: #ff85a2;
-            --soft-pink: #ffb6c1;
-            --white: #ffffff;
-            --glow: 0 0 10px rgba(255, 133, 162, 0.6);
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;700&display=swap');
+        
         body {
+            background: radial-gradient(circle at center, #1a001f 0%, #000000 100%);
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #ffffff 0%, #ffe4e8 100%);
-            height: 100vh;
-            overflow: hidden;
-            color: #444;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
+            overflow: hidden; margin: 0; color: #ffffff; user-select: none;
         }
 
-        /* Floating Hearts Background */
-        .bg-hearts {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none;
-            z-index: 0;
+        .header-tag {
+            position: fixed; top: 10px; width: 100%; text-align: center;
+            z-index: 100; font-family: 'Dancing Script', cursive;
+            color: #ffb3d9; font-size: 1.4rem; letter-spacing: 2px;
+            text-shadow: 0 0 15px rgba(255,179,217,0.7);
         }
 
-        .heart-float {
-            position: absolute;
-            color: var(--soft-pink);
-            opacity: 0.6;
-            animation: floatUp 6s linear infinite;
+        .slide {
+            display: none; position: fixed; inset: 0; width: 100%; height: 100vh;
+            align-items: center; justify-content: center; flex-direction: column;
+            transition: all 0.6s ease-in-out; opacity: 0; z-index: 20; padding: 20px; text-align: center;
+        }
+        .slide.active { display: flex; opacity: 1; }
+
+        /* Darker, bolder text for readability */
+        .cute-msg { font-family: 'Dancing Script', cursive; color: #ffebf5; text-shadow: 0 0 20px #ff00cc, 0 0 40px #ff00cc; font-size: 2.8rem; margin-top: 15px; font-weight: 700; }
+        .sub-text { color: #ffffff; font-weight: 600; font-size: 1.1rem; text-shadow: 2px 2px 4px rgba(0,0,0,1); }
+        
+        .gif-frame { 
+            width: 260px; height: 260px; border-radius: 30px; 
+            border: 3px solid #ff00cc; 
+            box-shadow: 0 0 50px rgba(255, 0, 204, 0.5); 
+            object-fit: cover; 
         }
 
-        @keyframes floatUp {
-            0% { transform: translateY(110vh) scale(0); opacity: 0; }
-            50% { opacity: 0.6; }
-            100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+        .glow-btn { 
+            background: linear-gradient(45deg, #ff00cc, #ff69b4); 
+            padding: 14px 40px; border-radius: 50px; font-weight: 700; 
+            box-shadow: 0 0 25px rgba(255, 0, 204, 0.6); 
+            cursor: pointer; transition: 0.3s; margin: 10px;
+            color: white; border: none; font-size: 1.1rem;
         }
+        .glow-btn:hover { transform: scale(1.1); box-shadow: 0 0 40px #ff00cc; }
+        
+        .no-btn { background: #333; color: #aaa; padding: 10px 25px; border-radius: 50px; cursor: pointer; transition: 0.2s; }
 
-        /* Music Control */
-        .music-control {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 1001;
-            background: white;
-            padding: 10px;
-            border-radius: 50%;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            cursor: pointer;
-        }
-
-        /* Top Bar */
-        .top-bar {
-            position: fixed;
-            top: 0; width: 100%;
-            padding: 15px;
-            text-align: center;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(5px);
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-
-        .top-bar a {
-            color: var(--pink);
-            text-decoration: none;
-            font-weight: 600;
-            text-shadow: var(--glow);
-        }
-
-        /* Container & Pages */
-        .container {
-            width: 90%;
-            max-width: 400px;
-            height: 80vh;
-            position: relative;
-            z-index: 10;
-        }
-
-        .page {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            animation: fadeIn 0.8s ease-in-out;
-        }
-
-        .active { display: flex; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        h1, h2 {
-            font-family: 'Dancing Script', cursive;
-            color: var(--pink);
-            margin-bottom: 20px;
-            text-shadow: var(--glow);
-        }
-
-        .message {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            margin-bottom: 30px;
-            color: #555;
-        }
-
-        .glow-text {
-            color: var(--pink);
-            text-shadow: 0 0 8px rgba(255, 133, 162, 0.4);
-        }
-
-        /* Buttons */
-        .btn {
-            background: var(--pink);
-            color: white;
-            border: none;
-            padding: 12px 35px;
-            border-radius: 30px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.3s;
-            box-shadow: 0 5px 15px rgba(255, 133, 162, 0.4);
-        }
-
-        .btn:hover { transform: scale(1.05); background: #ff6b8d; }
-
-        /* Shayari Box */
-        .shayari-container {
-            background: white;
-            padding: 25px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            max-width: 320px;
-        }
-
-        .shayari-line {
-            display: block;
-            margin: 10px 0;
-            opacity: 0;
-            transform: translateX(-10px);
-            transition: 0.5s;
-            font-size: 0.95rem;
-            font-style: italic;
-        }
-
-        .shayari-line.visible { opacity: 1; transform: translateX(0); }
-
-        /* Gauge */
-        .gauge-wrap { margin: 20px 0; position: relative; }
-        .meter {
-            width: 150px; height: 150px;
-            border-radius: 50%;
-            border: 8px solid #f0f0f0;
-            border-top: 8px solid var(--pink);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--pink);
-            animation: spin 2s infinite linear;
-        }
-
+        .solar-system { position: relative; width: 280px; height: 280px; display: flex; align-items: center; justify-content: center; }
+        .orbit { position: absolute; border: 2px solid rgba(255,105,180,0.4); border-radius: 50%; animation: spin linear infinite; }
+        .orbit-1 { width: 180px; height: 180px; animation-duration: 5s; }
+        .orbit-2 { width: 260px; height: 260px; animation-duration: 9s; animation-direction: reverse; }
+        .planet { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); font-size: 24px; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        /* Final Buttons */
-        .choice-btns { display: flex; gap: 20px; margin-top: 30px; position: relative; width: 100%; justify-content: center; z-index: 10; }
-        #noBtn { position: absolute; transition: 0.3s ease; }
+        .star { position: absolute; background: white; border-radius: 50%; box-shadow: 0 0 10px white; animation: twinkle var(--d) infinite alternate; }
+        @keyframes twinkle { 0% { opacity: 0.2; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1.3); } }
 
-        /* Scratch Card Overlay */
-        #scratch-page {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            animation: fadeIn 1s;
-        }
+        .hold-container { width: 280px; height: 16px; background: rgba(255,255,255,0.2); border-radius: 10px; margin-top: 20px; overflow: hidden; position: relative; border: 1px solid white; }
+        #holdProgress { position: absolute; left: 0; top: 0; height: 100%; background: #ff00cc; width: 0%; box-shadow: 0 0 20px #ff00cc; }
 
-        .scratch-container {
-            width: 300px;
-            height: 150px;
-            position: relative;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            border-radius: 15px;
-            overflow: hidden;
-        }
-
-        #scratch-canvas {
-            position: absolute;
-            top: 0; left: 0;
-            cursor: crosshair;
-            z-index: 2;
-        }
-
-        .scratch-content {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1;
-            font-family: 'Dancing Script', cursive;
-            font-size: 2.2rem;
-            color: var(--pink);
-            text-shadow: var(--glow);
-        }
+        #videoLayer { display: none; position: fixed; inset: 0; background: black; z-index: 1000; align-items: center; justify-content: center; }
+        video { width: 100%; height: 100%; object-fit: contain; }
     </style>
 </head>
 <body>
 
-    <div class="bg-hearts" id="hearts-bg"></div>
+    <div class="header-tag">Coded by SIVASINGH 💗</div>
 
-    <div class="top-bar">
-        <a href="https://instagram.com/smss1708" target="_blank">Follow on Insta - @smss1708</a>
+    <audio id="bgMusic" loop src="tere-liye.mp3"></audio>
+    <div id="stars-container" class="fixed inset-0 pointer-events-none"></div>
+
+    <div id="slide1" class="slide active">
+        <img src="gif1.gif" class="gif-frame">
+        <h1 class="cute-msg">Hey Gorgeous! ✨</h1>
+        <p class="sub-text">We just met, but my heart already knew it was you!</p>
+        <button onclick="startApp()" class="glow-btn">Touch My Heart 🥺</button>
     </div>
 
-    <div class="music-control" onclick="toggleMusic()">
-        <span id="music-icon">🎵</span>
+    <div id="slide2" class="slide">
+        <img src="gif2.gif" class="gif-frame">
+        <h1 class="cute-msg">How are you so cute?</h1>
+        <p class="sub-text">Seriously, your smile is the highlight of my day!</p>
+        <button onclick="next()" class="glow-btn">See More 💕</button>
     </div>
 
-    <audio id="bgMusic" loop>
-        <source src="tere-liye.mp3" type="audio/mpeg">
-    </audio>
+    <div id="slide3" class="slide">
+        <img src="gif3.gif" class="gif-frame">
+        <h1 class="cute-msg">Our Vibe is Rare! 😌</h1>
+        <p class="sub-text">Talking to you feels like time has completely stopped.</p>
+        <button onclick="next()" class="glow-btn">Next Step ✨</button>
+    </div>
 
-    <div class="container">
-        <div class="page active" id="p1">
-            <img src="gif1.gif" alt="Cute GIF" style="width: 200px; border-radius: 20px; margin-bottom: 20px;">
-            <h1 class="typing">Hii Naina 💖</h1>
-            <p class="message">I want to say something very special to you...</p>
-            <button class="btn" onclick="nextPage(2)">Continue ❤️</button>
+    <div id="slide4" class="slide">
+        <div class="text-9xl mb-6 transition-all duration-500" id="pulseHeart">💖</div>
+        <h1 class="text-2xl font-bold">How much do I adore you?</h1>
+        <div class="hold-container"><div id="holdProgress"></div></div>
+        <button id="holdBtn" class="glow-btn mt-6 select-none">PRESS & HOLD TO FEEL</button>
+    </div>
+
+    <div id="slide5" class="slide">
+        <img src="gif4.gif" class="gif-frame">
+        <h1 class="cute-msg">You're One in a Billion! 💎</h1>
+        <p class="sub-text">It's only been a short time, but the feeling is magical.</p>
+        <button onclick="next()" class="glow-btn">Continue...</button>
+    </div>
+
+    <div id="slide6" class="slide">
+        <div class="solar-system">
+            <div class="orbit orbit-1"><span class="planet">💗</span></div>
+            <div class="orbit orbit-2"><span class="planet">⭐</span></div>
+            <div class="text-6xl">🌍</div>
         </div>
+        <h1 class="cute-msg mt-10">My Whole Universe!</h1>
+        <p class="sub-text">Everything seems better when you're around.</p>
+        <button onclick="next()" class="glow-btn">Keep Going 🚀</button>
+    </div>
 
-        <div class="page" id="p2"> <h1>Kab se kuch kehna tha...</h1> <button class="btn" onclick="nextPage(3)">Continue ❤️</button> </div>
-        <div class="page" id="p3"> <h1>Par shayad himmat nahi ho pa rahi thi...</h1> <button class="btn" onclick="nextPage(4)">Continue ❤️</button> </div>
-        <div class="page" id="p4"> <h1 class="glow-text">Tum sabse alag ho... ✨</h1> <button class="btn" onclick="nextPage(5)">Continue ❤️</button> </div>
-        <div class="page" id="p5"> <h1 class="glow-text">Bahut zyada special ho... 🌸</h1> <button class="btn" onclick="nextPage(6)">Continue ❤️</button> </div>
-        <div class="page" id="p6"> <h1>Aur shayad...</h1> <button class="btn" onclick="nextPage(7)">Continue ❤️</button> </div>
-        <div class="page" id="p7"> <h1 class="glow-text">Mujhe tum pasand ho 💖</h1> <button class="btn" onclick="nextPage(8)">Continue ❤️</button> </div>
-        <div class="page" id="p8"> <h2 class="glow-text">Bahut zyada... 🥀</h2> <button class="btn" onclick="nextPage(9)">Continue ❤️</button> </div>
+    <div id="slide7" class="slide">
+        <img src="gif5.gif" class="gif-frame">
+        <h1 class="cute-msg">Don't ever leave! 🥺</h1>
+        <p class="sub-text">I've never met anyone as sweet and special as you.</p>
+        <button onclick="next()" class="glow-btn">Wait for it...</button>
+    </div>
 
-        <div class="page" id="p9">
-            <div class="shayari-container">
-                <span class="shayari-line">Tum bologi dhimi aavaz me❤️‍🔥</span>
-                <span class="shayari-line">fir bhi baat pakad lunga🫠</span>
-                <span class="shayari-line">gale nahi lagaunga tumko🫶</span>
-                <span class="shayari-line">bas haath pakad lunga...🫰</span>
-                <br>
-                <span class="shayari-line">aur is thodi si mohabbat ki aag me🪼</span>
-                <span class="shayari-line">zindagi bhar jalna hai🪷</span>
-                <span class="shayari-line">hotel me nahi jana mujhko🤌</span>
-                <span class="shayari-line">sadak pe saath chalna hai...🪷</span>
-                <br>
-                <span class="shayari-line">fir bhi is duniya se nikal ke🥹</span>
-                <span class="shayari-line">mujhme kho sakti ho kya?❤️‍🩹</span>
-                <span class="shayari-line">jyada ki chah nahi mujhko🪮</span>
-                <span class="shayari-line">thodi si meri ho sakti ho kya 💯</span>
-            </div>
-            <button class="btn" style="margin-top: 20px;" onclick="nextPage(10)">Continue ❤️</button>
-        </div>
+    <div id="slide8" class="slide">
+        <h1 class="cute-msg">You're my Brightest Star! ⭐</h1>
+        <p class="sub-text max-w-xs">In a sky full of stars, my eyes only search for you.</p>
+        <button onclick="next()" class="glow-btn">Just a bit more ✨</button>
+    </div>
 
-        <div class="page" id="p10">
-            <h1 id="meterTitle">Calculating love... 💖</h1>
-            <div class="gauge-wrap">
-                <div class="meter" id="loveMeter">0%</div>
-            </div>
-            <div id="meterResult" style="display:none;">
-                <h2 class="glow-text">100% Perfect Match 💞</h2>
-                <p>Our hearts beat as one</p>
-                <div style="font-size: 50px; margin-top: 10px;">🤗</div>
-            </div>
-            <button class="btn" id="meterBtn" onclick="runMeter()" style="margin-top: 20px;">Check Compatibility</button>
-        </div>
-
-        <div class="page" id="p11">
-            <h1 class="glow-text" style="font-size: 2.5rem;">Will you be mine? 💖</h1>
-            <div class="choice-btns">
-                <button class="btn" id="yesBtn" style="padding: 15px 50px; font-size: 1.2rem;" onclick="showScratchCard()">YES ❤️</button>
-                <button class="btn" id="noBtn" onmouseover="moveNo()" style="background: #ccc; box-shadow: none;">NO 💔</button>
-            </div>
+    <div id="slide9" class="slide">
+        <img src="gif6.gif" class="gif-frame">
+        <h1 class="cute-msg">Will You Be My Friend? ❤️</h1>
+        <p class="sub-text">...and maybe something even more special? 💍</p>
+        <div id="btnContainer" class="flex flex-wrap justify-center mt-4">
+            <button onclick="next()" class="glow-btn">YES! 😍</button>
+            <button id="noBtn" onclick="trapNo()" class="no-btn">No 🥺</button>
         </div>
     </div>
 
-    <div id="scratch-page">
-        <h1 class="glow-text" style="margin-bottom: 30px;">A Little Surprise For You...</h1>
-        <div class="scratch-container">
-            <div class="scratch-content">I Love You ❤️</div>
-            <canvas id="scratch-canvas" width="300" height="150"></canvas>
-        </div>
-        <p style="margin-top: 20px; color: #888; font-size: 0.9rem;">Scratch the card gently 👆</p>
+    <div id="slide10" class="slide">
+        <img src="gif7.gif" class="gif-frame">
+        <h1 class="cute-msg">Yaaay! My Heart is Happy! 🥳</h1>
+        <p class="sub-text">I promise to keep that beautiful smile on your face!</p>
+        <button onclick="playSurprise()" class="glow-btn animate-bounce">A FINAL SURPRISE 🎁</button>
+    </div>
+
+    <div id="videoLayer">
+        <video id="vPlayer" playsinline src="video1.mp4"></video>
     </div>
 
     <script>
-        // Page Navigation
-        function nextPage(n) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById('p' + n).classList.add('active');
-            
-            if (n === 9) showShayari();
-            if (document.getElementById('bgMusic').paused) {
-                document.getElementById('bgMusic').play().catch(e => console.log("Music needs interaction"));
+        let step = 1;
+        const music = document.getElementById('bgMusic');
+
+        // Background Stars Logic
+        const starContainer = document.getElementById('stars-container');
+        for(let i=0; i<100; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            const size = Math.random()*3 + 1 + 'px';
+            star.style.width = size; star.style.height = size;
+            star.style.left = Math.random()*100 + 'vw';
+            star.style.top = Math.random()*100 + 'vh';
+            star.style.setProperty('--d', (Math.random()*2+1)+'s');
+            starContainer.appendChild(star);
+        }
+
+        function startApp() { 
+            music.play().catch(() => {}); 
+            next(); 
+        }
+
+        function next() {
+            document.querySelectorAll('.slide').forEach(s => { s.classList.remove('active'); s.style.display='none'; });
+            step++;
+            const current = document.getElementById('slide'+step);
+            if(current) { 
+                current.style.display='flex'; 
+                setTimeout(() => current.classList.add('active'), 50); 
             }
         }
 
-        // Music Toggle
-        function toggleMusic() {
-            const music = document.getElementById('bgMusic');
-            const icon = document.getElementById('music-icon');
-            if (music.paused) { music.play(); icon.innerHTML = "⏸️"; } 
-            else { music.pause(); icon.innerHTML = "🎵"; }
-        }
-
-        // Floating Hearts
-        function createHeart(isSpecial = false) {
-            const heart = document.createElement('div');
-            heart.classList.add('heart-float');
-            heart.innerHTML = '💖';
-            heart.style.left = Math.random() * 100 + 'vw';
+        // The No Button Trap
+        function trapNo() {
+            const container = document.getElementById('btnContainer');
+            const noBtn = document.getElementById('noBtn');
+            noBtn.style.display = 'none'; // Remove the No button
             
-            if(isSpecial) {
-                // Bigger, faster hearts for scratch reveal
-                heart.style.fontSize = Math.random() * 30 + 20 + 'px'; 
-                heart.style.animationDuration = Math.random() * 2 + 1 + 's';
-                heart.style.zIndex = "3000";
-            } else {
-                heart.style.fontSize = Math.random() * 20 + 10 + 'px';
-                heart.style.animationDuration = Math.random() * 3 + 3 + 's';
+            // Add 5 more YES buttons
+            for(let i=0; i<5; i++) {
+                const newYes = document.createElement('button');
+                newYes.innerHTML = "YES! 💖";
+                newYes.className = "glow-btn";
+                newYes.onclick = next;
+                container.appendChild(newYes);
             }
-            
-            document.getElementById('hearts-bg').appendChild(heart);
-            setTimeout(() => heart.remove(), 5000);
-        }
-        setInterval(() => createHeart(false), 300); // Background hearts
-
-        // Shayari Animation
-        function showShayari() {
-            const lines = document.querySelectorAll('.shayari-line');
-            lines.forEach((line, i) => {
-                setTimeout(() => { line.classList.add('visible'); }, i * 1500);
-            });
         }
 
-        // Love Meter Logic
-        function runMeter() {
-            let count = 0;
-            const meter = document.getElementById('loveMeter');
-            const btn = document.getElementById('meterBtn');
-            btn.style.display = 'none';
-            
-            const interval = setInterval(() => {
-                count += Math.floor(Math.random() * 5) + 1;
-                if (count >= 100) {
-                    count = 100;
-                    clearInterval(interval);
-                    document.getElementById('meterTitle').style.display = 'none';
-                    document.getElementById('meterResult').style.display = 'block';
-                    meter.style.animation = 'none';
-                    setTimeout(() => nextPage(11), 3000);
-                }
-                meter.innerText = count + '%';
-            }, 50);
-        }
+        // Hold Logic
+        let hVal = 0, hInt;
+        const hBtn = document.getElementById('holdBtn'), hProg = document.getElementById('holdProgress'), pHeart = document.getElementById('pulseHeart');
+        
+        const startH = (e) => { 
+            e.preventDefault(); 
+            pHeart.style.transform = 'scale(1.8)';
+            hInt = setInterval(() => { 
+                hVal += 2; 
+                hProg.style.width = hVal + '%'; 
+                if(hVal >= 100) { clearInterval(hInt); next(); } 
+            }, 40); 
+        };
+        const endH = () => { clearInterval(hInt); hVal = 0; hProg.style.width = '0%'; pHeart.style.transform = 'scale(1)'; };
+        
+        hBtn.onmousedown = hBtn.ontouchstart = startH; 
+        window.onmouseup = window.ontouchend = endH;
 
-        // Run Away No Button
-        function moveNo() {
-            const btn = document.getElementById('noBtn');
-            // Restrict movement within reasonable bounds
-            const x = Math.random() * 200 - 100;
-            const y = Math.random() * 200 - 100;
-            btn.style.transform = `translate(${x}px, ${y}px)`;
-        }
-
-        // --- SCRATCH CARD LOGIC ---
-        let specialHeartInterval;
-
-        function showScratchCard() {
-            document.getElementById('scratch-page').style.display = 'flex';
-            initScratchCard();
-        }
-
-        function initScratchCard() {
-            const canvas = document.getElementById('scratch-canvas');
-            const ctx = canvas.getContext('2d');
-            
-            // Fill canvas with scratch layer (pink gradient)
-            const grad = ctx.createLinearGradient(0, 0, 300, 150);
-            grad.addColorStop(0, '#ff85a2');
-            grad.addColorStop(1, '#ffb6c1');
-            ctx.fillStyle = grad;
-            ctx.fillRect(0, 0, 300, 150);
-            
-            // Add some "scratch here" text on canvas
-            ctx.font = '20px Poppins';
-            ctx.fillStyle = 'white';
-            ctx.textAlign = 'center';
-            ctx.fillText('Scratch Me ❤️', 150, 80);
-
-            let isDrawing = false;
-            let scratchedPixels = 0;
-            const totalPixels = 300 * 150;
-
-            function scratch(e) {
-                if (!isDrawing) return;
-                
-                const rect = canvas.getBoundingClientRect();
-                const x = (e.clientX || e.touches[0].clientX) - rect.left;
-                const y = (e.clientY || e.touches[0].clientY) - rect.top;
-                
-                ctx.globalCompositeOperation = 'destination-out';
-                ctx.beginPath();
-                ctx.arc(x, y, 20, 0, Math.PI * 2);
-                ctx.fill();
-
-                // Start special hearts when scratching
-                if(!specialHeartInterval) {
-                    specialHeartInterval = setInterval(() => createHeart(true), 100);
-                }
-            }
-
-            function stopDrawing() {
-                isDrawing = false;
-                if(specialHeartInterval) {
-                    clearInterval(specialHeartInterval);
-                    specialHeartInterval = null;
-                }
-            }
-
-            canvas.addEventListener('mousedown', (e) => { isDrawing = true; scratch(e); });
-            canvas.addEventListener('mousemove', scratch);
-            canvas.addEventListener('mouseup', stopDrawing);
-            canvas.addEventListener('mouseleave', stopDrawing);
-
-            canvas.addEventListener('touchstart', (e) => { isDrawing = true; scratch(e); e.preventDefault(); });
-            canvas.addEventListener('touchmove', (e) => { scratch(e); e.preventDefault(); });
-            canvas.addEventListener('touchend', stopDrawing);
+        function playSurprise() { 
+            music.pause(); 
+            const layer = document.getElementById('videoLayer');
+            const video = document.getElementById('vPlayer');
+            layer.style.display = 'flex';
+            video.play();
+            video.onended = () => { location.reload(); };
         }
     </script>
 </body>
