@@ -2,232 +2,571 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For you babu 💗</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>For you prachi❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;700&display=swap');
-        
+        /* RESET & BASE */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
         body {
-            background: radial-gradient(circle at center, #1a001f 0%, #000000 100%);
             font-family: 'Poppins', sans-serif;
-            overflow: hidden; margin: 0; color: #ffffff; user-select: none;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: #fff;
+            overflow: hidden; /* Prevent scrolling, handled by JS */
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        .header-tag {
-            position: fixed; top: 10px; width: 100%; text-align: center;
-            z-index: 100; font-family: 'Dancing Script', cursive;
-            color: #ffb3d9; font-size: 1.4rem; letter-spacing: 2px;
-            text-shadow: 0 0 15px rgba(255,179,217,0.7);
+        /* BACKGROUND ANIMATION */
+        .bg-gradient {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            z-index: -2;
+            opacity: 0.3;
         }
-
-        .slide {
-            display: none; position: fixed; inset: 0; width: 100%; height: 100vh;
-            align-items: center; justify-content: center; flex-direction: column;
-            transition: all 0.6s ease-in-out; opacity: 0; z-index: 20; padding: 20px; text-align: center;
-        }
-        .slide.active { display: flex; opacity: 1; }
-
-        /* Darker, bolder text for readability */
-        .cute-msg { font-family: 'Dancing Script', cursive; color: #ffebf5; text-shadow: 0 0 20px #ff00cc, 0 0 40px #ff00cc; font-size: 2.8rem; margin-top: 15px; font-weight: 700; }
-        .sub-text { color: #ffffff; font-weight: 600; font-size: 1.1rem; text-shadow: 2px 2px 4px rgba(0,0,0,1); }
         
-        .gif-frame { 
-            width: 260px; height: 260px; border-radius: 30px; 
-            border: 3px solid #ff00cc; 
-            box-shadow: 0 0 50px rgba(255, 0, 204, 0.5); 
-            object-fit: cover; 
+        .dark-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, transparent 0%, #000 90%);
+            z-index: -1;
         }
 
-        .glow-btn { 
-            background: linear-gradient(45deg, #ff00cc, #ff69b4); 
-            padding: 14px 40px; border-radius: 50px; font-weight: 700; 
-            box-shadow: 0 0 25px rgba(255, 0, 204, 0.6); 
-            cursor: pointer; transition: 0.3s; margin: 10px;
-            color: white; border: none; font-size: 1.1rem;
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
-        .glow-btn:hover { transform: scale(1.1); box-shadow: 0 0 40px #ff00cc; }
+
+        /* CONTAINER (MOBILE FIRST REEL STYLE) */
+        .app-container {
+            width: 100%;
+            max-width: 480px;
+            height: 100%;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* FLOATING HEARTS */
+        .hearts-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .heart {
+            position: absolute;
+            bottom: -50px;
+            background-color: rgba(255, 105, 180, 0.6);
+            display: inline-block;
+            height: 30px;
+            width: 30px;
+            margin: 0 10px;
+            transform: rotate(-45deg);
+            animation: float 6s ease-in infinite;
+        }
+
+        .heart::after, .heart::before {
+            content: "";
+            background-color: inherit;
+            border-radius: 50%;
+            height: 30px;
+            width: 30px;
+            position: absolute;
+        }
+
+        .heart::after { top: 0; left: 15px; }
+        .heart::before { top: -15px; left: 0; }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(-45deg) scale(0.8); opacity: 1; }
+            100% { transform: translateY(-120vh) rotate(-45deg) scale(1.2); opacity: 0; }
+        }
+
+        /* HEADER */
+        .header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+        }
+
+        .header-text {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.4;
+        }
+
+        .brand {
+            font-weight: 600;
+            color: #ff6b81;
+        }
+
+        /* SECTIONS */
+        .section {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: scale(0.95);
+            z-index: 10;
+        }
+
+        .section.active {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1);
+        }
+
+        /* GLASS CARDS */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 25px;
+            width: 100%;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 20px rgba(255, 105, 180, 0.2), inset 0 0 20px rgba(255, 255, 255, 0.05);
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .gif-container {
+            width: 100%;
+            height: 200px;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .gif-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .dual-gif {
+            display: flex;
+            gap: 10px;
+        }
         
-        .no-btn { background: #333; color: #aaa; padding: 10px 25px; border-radius: 50px; cursor: pointer; transition: 0.2s; }
+        .dual-gif .gif-container {
+            height: 150px;
+        }
 
-        .solar-system { position: relative; width: 280px; height: 280px; display: flex; align-items: center; justify-content: center; }
-        .orbit { position: absolute; border: 2px solid rgba(255,105,180,0.4); border-radius: 50%; animation: spin linear infinite; }
-        .orbit-1 { width: 180px; height: 180px; animation-duration: 5s; }
-        .orbit-2 { width: 260px; height: 260px; animation-duration: 9s; animation-direction: reverse; }
-        .planet { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); font-size: 24px; }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
+        /* TEXT STYLES */
+        h1, h2 {
+            font-family: 'Dancing Script', cursive;
+            color: #ff8fa3;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(255, 143, 163, 0.5);
+        }
 
-        .star { position: absolute; background: white; border-radius: 50%; box-shadow: 0 0 10px white; animation: twinkle var(--d) infinite alternate; }
-        @keyframes twinkle { 0% { opacity: 0.2; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1.3); } }
+        p {
+            font-size: 0.95rem;
+            color: #e0e0e0;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
 
-        .hold-container { width: 280px; height: 16px; background: rgba(255,255,255,0.2); border-radius: 10px; margin-top: 20px; overflow: hidden; position: relative; border: 1px solid white; }
-        #holdProgress { position: absolute; left: 0; top: 0; height: 100%; background: #ff00cc; width: 0%; box-shadow: 0 0 20px #ff00cc; }
+        /* BUTTONS */
+        .btn {
+            background: linear-gradient(45deg, #ff416c, #ff4b2b);
+            color: white;
+            border: none;
+            padding: 12px 35px;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255, 75, 43, 0.4);
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            outline: none;
+            margin-top: 10px;
+        }
 
-        #videoLayer { display: none; position: fixed; inset: 0; background: black; z-index: 1000; align-items: center; justify-content: center; }
-        video { width: 100%; height: 100%; object-fit: contain; }
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        .btn-outline {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            width: 100%;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        /* MODAL (FOR LITTLE THINGS) */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background: linear-gradient(160deg, #2c0e37, #120524);
+            border: 1px solid rgba(255, 105, 180, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 0 30px rgba(255, 105, 180, 0.3);
+            transform: scale(0.8);
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .modal-text {
+            font-size: 1.1rem;
+            margin-top: 20px;
+            font-style: italic;
+            color: #fff;
+        }
+
+        /* MUSIC CONTROL */
+        .music-btn {
+            position: absolute;
+            bottom: 30px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 200;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+            animation: rotate 5s linear infinite;
+        }
+
+        .music-btn.paused {
+            animation-play-state: paused;
+            opacity: 0.6;
+        }
+
+        /* KEYFRAMES */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes popIn {
+            to { transform: scale(1); }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
     </style>
 </head>
 <body>
 
-    <div class="header-tag">Coded by SIVASINGH 💗</div>
+    <audio id="bgMusic" loop>
+        <source src="tere-liye.mp3" type="audio/mp3">
+    </audio>
 
-    <audio id="bgMusic" loop src="tere-liye.mp3"></audio>
-    <div id="stars-container" class="fixed inset-0 pointer-events-none"></div>
+    <div class="app-container">
+        <div class="bg-gradient"></div>
+        <div class="dark-overlay"></div>
+        <div class="hearts-container" id="heartsContainer"></div>
 
-    <div id="slide1" class="slide active">
-        <img src="gif1.gif" class="gif-frame">
-        <h1 class="cute-msg">Hey Gorgeous! ✨</h1>
-        <p class="sub-text">We just met, but my heart already knew it was you!</p>
-        <button onclick="startApp()" class="glow-btn">Touch My Heart 🥺</button>
-    </div>
-
-    <div id="slide2" class="slide">
-        <img src="gif2.gif" class="gif-frame">
-        <h1 class="cute-msg">How are you so cute?</h1>
-        <p class="sub-text">Seriously, your smile is the highlight of my day!</p>
-        <button onclick="next()" class="glow-btn">See More 💕</button>
-    </div>
-
-    <div id="slide3" class="slide">
-        <img src="gif3.gif" class="gif-frame">
-        <h1 class="cute-msg">Our Vibe is Rare! 😌</h1>
-        <p class="sub-text">Talking to you feels like time has completely stopped.</p>
-        <button onclick="next()" class="glow-btn">Next Step ✨</button>
-    </div>
-
-    <div id="slide4" class="slide">
-        <div class="text-9xl mb-6 transition-all duration-500" id="pulseHeart">💖</div>
-        <h1 class="text-2xl font-bold">How much do I adore you?</h1>
-        <div class="hold-container"><div id="holdProgress"></div></div>
-        <button id="holdBtn" class="glow-btn mt-6 select-none">PRESS & HOLD TO FEEL</button>
-    </div>
-
-    <div id="slide5" class="slide">
-        <img src="gif4.gif" class="gif-frame">
-        <h1 class="cute-msg">You're One in a Billion! 💎</h1>
-        <p class="sub-text">It's only been a short time, but the feeling is magical.</p>
-        <button onclick="next()" class="glow-btn">Continue...</button>
-    </div>
-
-    <div id="slide6" class="slide">
-        <div class="solar-system">
-            <div class="orbit orbit-1"><span class="planet">💗</span></div>
-            <div class="orbit orbit-2"><span class="planet">⭐</span></div>
-            <div class="text-6xl">🌍</div>
+        <div class="header">
+            <div class="header-text">
+                Made by SIVASINGH💖<br>
+                <span class="brand">@smss1707</span>
+            </div>
         </div>
-        <h1 class="cute-msg mt-10">My Whole Universe!</h1>
-        <p class="sub-text">Everything seems better when you're around.</p>
-        <button onclick="next()" class="glow-btn">Keep Going 🚀</button>
-    </div>
 
-    <div id="slide7" class="slide">
-        <img src="gif5.gif" class="gif-frame">
-        <h1 class="cute-msg">Don't ever leave! 🥺</h1>
-        <p class="sub-text">I've never met anyone as sweet and special as you.</p>
-        <button onclick="next()" class="glow-btn">Wait for it...</button>
-    </div>
-
-    <div id="slide8" class="slide">
-        <h1 class="cute-msg">You're my Brightest Star! ⭐</h1>
-        <p class="sub-text max-w-xs">In a sky full of stars, my eyes only search for you.</p>
-        <button onclick="next()" class="glow-btn">Just a bit more ✨</button>
-    </div>
-
-    <div id="slide9" class="slide">
-        <img src="gif6.gif" class="gif-frame">
-        <h1 class="cute-msg">Will You Be My GirlFriend? ❤️</h1>
-        <p class="sub-text">...and maybe something even more special? 💍</p>
-        <div id="btnContainer" class="flex flex-wrap justify-center mt-4">
-            <button onclick="next()" class="glow-btn">YES! 😍</button>
-            <button id="noBtn" onclick="trapNo()" class="no-btn">No 🥺</button>
+        <div class="section active" id="section1">
+            <div class="glass-card">
+                <div class="gif-container">
+                    <img src="intro.gif" alt="Intro" onerror="this.src='https://media.giphy.com/media/26BRv0ThflsHCqDrG/giphy.gif'">
+                </div>
+                <h2>Hey Cutiepie 🌹</h2>
+                <p>Can we talk for a moment?<br>There’s something important I want to tell you…</p>
+                <button class="btn" onclick="nextSection(2)">Continue ❤️</button>
+            </div>
         </div>
-    </div>
 
-    <div id="slide10" class="slide">
-        <img src="gif7.gif" class="gif-frame">
-        <h1 class="cute-msg">Yaaay! My Heart is Happy! 🥳</h1>
-        <p class="sub-text">I promise to keep that beautiful smile on your face!</p>
-        <button onclick="playSurprise()" class="glow-btn animate-bounce">A FINAL SURPRISE 🎁</button>
-    </div>
+        <div class="section" id="section2">
+            <div class="glass-card">
+                <div class="gif-container">
+                    <img src="sorry1.gif" alt="Sorry" onerror="this.src='https://media.giphy.com/media/l4pT2ASyWWGw4NbDq/giphy.gif'">
+                </div>
+                <h2>Prachi babu </h2>
+                <p>I know I hurt you…<br>and I’ve been feeling really bad about it.</p>
+                <button class="btn" onclick="nextSection(3)">Next →</button>
+            </div>
+        </div>
 
-    <div id="videoLayer">
-        <video id="vPlayer" playsinline src="video1.mp4"></video>
+        <div class="section" id="section3">
+            <div class="glass-card">
+                <h2>From my heart…</h2>
+                <div class="dual-gif">
+                    <div class="gif-container">
+                        <img src="heart1.gif" alt="Heart 1" onerror="this.src='https://media.giphy.com/media/LpDmM2wSt6Hm5fKJVa/giphy.gif'">
+                    </div>
+                    <div class="gif-container">
+                        <img src="heart2.gif" alt="Heart 2" onerror="this.src='https://media.giphy.com/media/R6gvnAx4h0t7a/giphy.gif'">
+                    </div>
+                </div>
+                <p>Tap to see the message ↓</p>
+                <button class="btn" onclick="nextSection(4)">Continue ❤️</button>
+            </div>
+        </div>
+
+        <div class="section" id="section4">
+            <div class="glass-card">
+                <h2>Little things…</h2>
+                <p>Things I want you to know</p>
+                
+                <button class="btn btn-outline" onclick="openModal('regret')">
+                    💖 My Regret
+                </button>
+                <button class="btn btn-outline" onclick="openModal('care')">
+                    💖 My Care
+                </button>
+                <button class="btn btn-outline" onclick="openModal('promise')">
+                    💖 My Promise
+                </button>
+
+                <div style="margin-top: 30px;">
+                    <button class="btn" onclick="nextSection(5)">Next →</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="section" id="section5">
+            <div class="glass-card">
+                <div class="gif-container">
+                    <img src="promise.gif" alt="Promise" onerror="this.src='https://media.giphy.com/media/3o7TKoWXm3okO1kgHC/giphy.gif'">
+                </div>
+                <p>
+                    I’m sorry <strong>Ritika didu</strong>, for hurting you and making you feel upset.<br>
+                    I never wanted to be the reason behind your tears or your silence.
+                </p>
+                <p>
+                    You matter to me more than I ever show.<br>
+                    I promise to listen, to grow, and to be better every single day.
+                </p>
+                <p>
+                    I’m really trying… and I hope you can forgive me.
+                </p>
+                <button class="btn" onclick="nextSection(6)">Forgive Me? ❤️</button>
+            </div>
+        </div>
+
+        <div class="section" id="section6">
+            <div class="glass-card" style="padding: 40px 20px;">
+                <div class="gif-container">
+                    <img src="endlove.gif" alt="End Love" onerror="this.src='https://media.giphy.com/media/26BRv0ThflsHCqDrG/giphy.gif'">
+                </div>
+                <h2>I Promise...</h2>
+                <p style="font-size: 1.1rem; margin-top: 20px;">
+                    I promise to listen more,<br>
+                    understand better,<br>
+                    and never let you walk alone through pain again.
+                </p>
+                <br>
+                <small>Forever yours.</small>
+            </div>
+        </div>
+
+        <div class="music-btn" id="musicBtn" onclick="toggleMusic()">
+            🎵
+        </div>
+
+        <div class="modal-overlay" id="messageModal">
+            <div class="modal-content">
+                <button class="close-btn" onclick="closeModal()">✖</button>
+                <h2 id="modalTitle">Title</h2>
+                <p class="modal-text" id="modalText">Message goes here...</p>
+            </div>
+        </div>
+
     </div>
 
     <script>
-        let step = 1;
+        /* --- AUDIO LOGIC --- */
         const music = document.getElementById('bgMusic');
+        const musicBtn = document.getElementById('musicBtn');
+        let isPlaying = false;
+        let musicStarted = false;
 
-        // Background Stars Logic
-        const starContainer = document.getElementById('stars-container');
-        for(let i=0; i<100; i++) {
-            const star = document.createElement('div');
-            star.className = 'star';
-            const size = Math.random()*3 + 1 + 'px';
-            star.style.width = size; star.style.height = size;
-            star.style.left = Math.random()*100 + 'vw';
-            star.style.top = Math.random()*100 + 'vh';
-            star.style.setProperty('--d', (Math.random()*2+1)+'s');
-            starContainer.appendChild(star);
+        music.volume = 0.35; // Set volume to 35%
+
+        function toggleMusic() {
+            if (isPlaying) {
+                music.pause();
+                musicBtn.classList.add('paused');
+            } else {
+                music.play();
+                musicBtn.classList.remove('paused');
+            }
+            isPlaying = !isPlaying;
         }
 
-        function startApp() { 
-            music.play().catch(() => {}); 
-            next(); 
-        }
-
-        function next() {
-            document.querySelectorAll('.slide').forEach(s => { s.classList.remove('active'); s.style.display='none'; });
-            step++;
-            const current = document.getElementById('slide'+step);
-            if(current) { 
-                current.style.display='flex'; 
-                setTimeout(() => current.classList.add('active'), 50); 
+        function ensureMusicPlays() {
+            if (!musicStarted) {
+                music.play().then(() => {
+                    isPlaying = true;
+                    musicStarted = true;
+                    musicBtn.classList.remove('paused');
+                }).catch(e => {
+                    console.log("Auto-play blocked, waiting for interaction");
+                });
             }
         }
 
-        // The No Button Trap
-        function trapNo() {
-            const container = document.getElementById('btnContainer');
-            const noBtn = document.getElementById('noBtn');
-            noBtn.style.display = 'none'; // Remove the No button
-            
-            // Add 5 more YES buttons
-            for(let i=0; i<5; i++) {
-                const newYes = document.createElement('button');
-                newYes.innerHTML = "YES! 💖";
-                newYes.className = "glow-btn";
-                newYes.onclick = next;
-                container.appendChild(newYes);
+        /* --- NAVIGATION LOGIC --- */
+        function nextSection(sectionNumber) {
+            // Try to start music on first button click if it hasn't started
+            ensureMusicPlays();
+
+            // Hide current section
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(sec => sec.classList.remove('active'));
+
+            // Show next section
+            const target = document.getElementById('section' + sectionNumber);
+            if (target) {
+                target.classList.add('active');
             }
         }
 
-        // Hold Logic
-        let hVal = 0, hInt;
-        const hBtn = document.getElementById('holdBtn'), hProg = document.getElementById('holdProgress'), pHeart = document.getElementById('pulseHeart');
-        
-        const startH = (e) => { 
-            e.preventDefault(); 
-            pHeart.style.transform = 'scale(1.8)';
-            hInt = setInterval(() => { 
-                hVal += 2; 
-                hProg.style.width = hVal + '%'; 
-                if(hVal >= 100) { clearInterval(hInt); next(); } 
-            }, 40); 
+        /* --- MODAL LOGIC (LITTLE THINGS) --- */
+        const modal = document.getElementById('messageModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalText = document.getElementById('modalText');
+
+        const messages = {
+            regret: {
+                title: "My Regret 💔",
+                text: "I regret hurting you Ritika didu… I never meant to cause pain or silence in your heart. Seeing you upset because of me is the last thing I ever wanted."
+            },
+            care: {
+                title: "My Care ✨",
+                text: "You matter to me Ritika didu more than words can explain… Your smile, your peace, your feelings matter more to me than anything else in this world."
+            },
+            promise: {
+                title: "My Promise 🤝",
+                text: "I promise to listen more, understand better, and never let you walk alone through pain again. I will be the brother/friend you deserve."
+            }
         };
-        const endH = () => { clearInterval(hInt); hVal = 0; hProg.style.width = '0%'; pHeart.style.transform = 'scale(1)'; };
-        
-        hBtn.onmousedown = hBtn.ontouchstart = startH; 
-        window.onmouseup = window.ontouchend = endH;
 
-        function playSurprise() { 
-            music.pause(); 
-            const layer = document.getElementById('videoLayer');
-            const video = document.getElementById('vPlayer');
-            layer.style.display = 'flex';
-            video.play();
-            video.onended = () => { location.reload(); };
+        function openModal(type) {
+            const content = messages[type];
+            modalTitle.innerText = content.title;
+            modalText.innerText = content.text;
+            modal.style.display = 'flex';
         }
+
+        function closeModal() {
+            modal.style.display = 'none';
+        }
+
+        /* --- FLOATING HEARTS GENERATOR --- */
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            
+            // Randomize position and animation duration
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.animationDuration = Math.random() * 2 + 3 + "s"; // 3-5s
+            
+            // Randomize color slightly
+            const colors = ['#ff6b81', '#ff4757', '#e84118', '#ff6b6b'];
+            heart.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            
+            document.getElementById('heartsContainer').appendChild(heart);
+
+            // Remove heart after animation
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }
+
+        setInterval(createHeart, 300);
+
     </script>
 </body>
-</html>
+    </html>
