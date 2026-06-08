@@ -3,380 +3,230 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>happy birthday, cutiee ❤️‍🔥</title>
+    <title>For you alisha 💗</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Dancing+Script:wght@400;700&family=Cinzel+Decorative:wght@700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;700&display=swap');
         
-        body, html {
-            margin: 0; padding: 0;
-            overflow: hidden;
-            /* Theme Change: Pale Luxurious Gradient for maximum contrast */
-            background: linear-gradient(135deg, #fffdf8, #fff1f6, #f2e9ff);
-            font-family: 'Playfair Display', serif;
-            touch-action: none;
-            color: #333; /* Dark default text */
+        body {
+            background: radial-gradient(circle at center, #1a001f 0%, #000000 100%);
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden; margin: 0; color: #ffffff; user-select: none;
         }
-        
-        .premium-font { font-family: 'Dancing Script', cursive; font-weight: 700; }
-        .title-font { font-family: 'Cinzel Decorative', cursive; letter-spacing: 2px; }
-        
-        .section {
-            position: absolute; inset: 0;
-            display: none; opacity: 0;
+
+        .header-tag {
+            position: fixed; top: 10px; width: 100%; text-align: center;
+            z-index: 100; font-family: 'Dancing Script', cursive;
+            color: #ffb3d9; font-size: 1.4rem; letter-spacing: 2px;
+            text-shadow: 0 0 15px rgba(255,179,217,0.7);
+        }
+
+        .slide {
+            display: none; position: fixed; inset: 0; width: 100%; height: 100vh;
             align-items: center; justify-content: center; flex-direction: column;
-            padding: 20px; width: 100vw; height: 100vh;
+            transition: all 0.6s ease-in-out; opacity: 0; z-index: 20; padding: 20px; text-align: center;
         }
+        .slide.active { display: flex; opacity: 1; }
 
-        .section.active { display: flex; opacity: 1; }
-
-        .glass-premium {
-            /* Optimized Light Glass */
-            background: rgba(255, 255, 255, 0.65);
-            backdrop-filter: blur(4px) saturate(180%);
-            -webkit-backdrop-filter: blur(4px) saturate(180%);
-            border: 1px solid rgba(168, 10, 86, 0.1);
-            box-shadow: 0 8px 32px rgba(168, 10, 86, 0.06);
-            border-radius: 24px;
-        }
+        /* Darker, bolder text for readability */
+        .cute-msg { font-family: 'Dancing Script', cursive; color: #ffebf5; text-shadow: 0 0 20px #ff00cc, 0 0 40px #ff00cc; font-size: 2.8rem; margin-top: 15px; font-weight: 700; }
+        .sub-text { color: #ffffff; font-weight: 600; font-size: 1.1rem; text-shadow: 2px 2px 4px rgba(0,0,0,1); }
         
-        /* Ultra Glow adapted for light theme (uses darker shadow) */
-        .ultra-glow {
-            color: #9d174d; /* Deep Magenta */
-            text-shadow: 
-                0 0 5px rgba(236, 72, 153, 0.3),
-                0 0 10px rgba(168, 10, 86, 0.15);
+        .gif-frame { 
+            width: 260px; height: 260px; border-radius: 30px; 
+            border: 3px solid #ff00cc; 
+            box-shadow: 0 0 50px rgba(255, 0, 204, 0.5); 
+            object-fit: cover; 
         }
 
-        .bg-particles { position: fixed; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
-        .particle {
-            position: absolute; top: -15%; 
-            color: #e056fd; font-size: 24px;
-            animation: fallPremium linear infinite;
-            text-shadow: 0 0 8px rgba(224, 86, 253, 0.4);
-            will-change: transform, opacity;
+        .glow-btn { 
+            background: linear-gradient(45deg, #ff00cc, #ff69b4); 
+            padding: 14px 40px; border-radius: 50px; font-weight: 700; 
+            box-shadow: 0 0 25px rgba(255, 0, 204, 0.6); 
+            cursor: pointer; transition: 0.3s; margin: 10px;
+            color: white; border: none; font-size: 1.1rem;
         }
-        @keyframes fallPremium {
-            0% { transform: translate3d(0, -15vh, 0) rotate(0deg) scale(0.7); opacity: 0.3; }
-            20% { opacity: 0.9; }
-            100% { transform: translate3d(0, 115vh, 0) rotate(720deg) scale(1.1); opacity: 0; }
-        }
-
-        .wish-card {
-            transition: all 0.4s ease;
-            transform: perspective(1000px) rotateX(2deg) rotateY(1deg);
-            border: 1px solid rgba(168, 10, 86, 0.05);
-        }
-        .wish-card:hover, .wish-card:active {
-            transform: perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1.05) translateY(-5px);
-            box-shadow: 0 20px 40px rgba(168, 10, 86, 0.12);
-            background: rgba(255, 255, 255, 0.9);
-        }
-
-        .balloon {
-            width: 80px; height: 105px;
-            /* Simplified Gradient for performance */
-            background: radial-gradient(circle at 35% 25%, #ffffff60, #ffffff00 70%), var(--balloon-color);
-            border-radius: 50% 50% 50% 50% / 45% 45% 55% 55%;
-            position: absolute;
-            /* Reduced Shadows */
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1), inset 0 0 10px rgba(0,0,0,0.05);
-            animation: floatPremium 6s ease-in-out infinite alternate;
-            cursor: pointer;
-            will-change: transform;
-        }
-        .balloon::after {
-            content: ''; position: absolute; bottom: -14px; left: 50%; transform: translateX(-50%);
-            width: 2px; height: 35px; background: rgba(0,0,0,0.1);
-        }
-        @keyframes floatPremium {
-            0% { transform: translate3d(0, 0, 0) rotate(-4deg); }
-            100% { transform: translate3d(0, -25px, 0) rotate(4deg); }
-        }
+        .glow-btn:hover { transform: scale(1.1); box-shadow: 0 0 40px #ff00cc; }
         
-        .pop-text-anim {
-            animation: premiumPop 1.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-            will-change: transform, opacity;
-        }
-        @keyframes premiumPop {
-            0% { opacity: 0; transform: translate3d(0, 30px, 0) scale(0.6) rotate(-5deg); filter: blur(2px); }
-            60% { opacity: 1; transform: translate3d(0, -8px, 0) scale(1.1) rotate(2deg); filter: blur(0); }
-            100% { opacity: 1; transform: translate3d(0, 0, 0) scale(1) rotate(0deg); }
-        }
+        .no-btn { background: #333; color: #aaa; padding: 10px 25px; border-radius: 50px; cursor: pointer; transition: 0.2s; }
 
-        .cake-container { filter: drop-shadow(0 15px 30px rgba(168, 10, 86, 0.2)); }
-        
-        #knife {
-            position: absolute; top: 0; left: 0; font-size: 5rem;
-            pointer-events: none; z-index: 30; will-change: transform;
-            /* Remove shadow from the moving element itself */
-        }
+        .solar-system { position: relative; width: 280px; height: 280px; display: flex; align-items: center; justify-content: center; }
+        .orbit { position: absolute; border: 2px solid rgba(255,105,180,0.4); border-radius: 50%; animation: spin linear infinite; }
+        .orbit-1 { width: 180px; height: 180px; animation-duration: 5s; }
+        .orbit-2 { width: 260px; height: 260px; animation-duration: 9s; animation-direction: reverse; }
+        .planet { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); font-size: 24px; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        .star { position: absolute; background: white; border-radius: 50%; box-shadow: 0 0 10px white; animation: twinkle var(--d) infinite alternate; }
+        @keyframes twinkle { 0% { opacity: 0.2; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1.3); } }
+
+        .hold-container { width: 280px; height: 16px; background: rgba(255,255,255,0.2); border-radius: 10px; margin-top: 20px; overflow: hidden; position: relative; border: 1px solid white; }
+        #holdProgress { position: absolute; left: 0; top: 0; height: 100%; background: #ff00cc; width: 0%; box-shadow: 0 0 20px #ff00cc; }
+
+        #videoLayer { display: none; position: fixed; inset: 0; background: black; z-index: 1000; align-items: center; justify-content: center; }
+        video { width: 100%; height: 100%; object-fit: contain; }
     </style>
 </head>
 <body>
 
-    <div class="fixed top-4 left-0 w-full text-center z-[100] text-gray-500/50 text-xs font-mono tracking-widest pointer-events-none">
-        made by sivasingh instagram📷 - @siva_huu
+    <div class="header-tag">Coded by SIVASINGH 💗</div>
+
+    <audio id="bgMusic" loop src="tere-liye.mp3"></audio>
+    <div id="stars-container" class="fixed inset-0 pointer-events-none"></div>
+
+    <div id="slide1" class="slide active">
+        <img src="gif1.gif" class="gif-frame">
+        <h1 class="cute-msg">Hey Gorgeous! ✨</h1>
+        <p class="sub-text">Hi alisha i am sivasingh and i cidded something for you just for your smile 😁!</p>
+        <button onclick="startApp()" class="glow-btn">Touch My Heart 🥺</button>
     </div>
 
-    <audio id="bgmusic" loop><source src="tere-liye.mp3" type="audio/mpeg"></audio>
+    <div id="slide2" class="slide">
+        <img src="gif2.gif" class="gif-frame">
+        <h1 class="cute-msg">How are you so cute?</h1>
+        <p class="sub-text">Seriously, your smile is the highlight of my day!</p>
+        <button onclick="next()" class="glow-btn">See More 💕</button>
+    </div>
 
-    <div class="bg-particles" id="particles-container"></div>
+    <div id="slide3" class="slide">
+        <img src="gif3.gif" class="gif-frame">
+        <h1 class="cute-msg">Our Vibe is Rare! 😌</h1>
+        <p class="sub-text">Talking to you feels like time has completely stopped.</p>
+        <button onclick="next()" class="glow-btn">Next Step ✨</button>
+    </div>
 
-    <section id="intro" class="section active" style="z-index: 10;">
-        <div class="text-center z-20">
-            <h1 class="text-7xl md:text-9xl premium-font ultra-glow mb-6 title-font">hey cutiee ❤️‍🔥</h1>
-            <p class="text-4xl premium-font text-rose-800 mb-14">i have something very special for you...</p>
-            <button onclick="startExperience()" class="bg-gradient-to-br from-rose-600 via-pink-500 to-amber-500 px-12 py-5 rounded-full text-2xl font-bold hover:scale-110 hover:shadow-2xl transition-all duration-500 shadow-xl shadow-rose-700/20 text-white border border-amber-300/30">
-                unlock surprise 💞
-            </button>
+    <div id="slide4" class="slide">
+        <div class="text-9xl mb-6 transition-all duration-500" id="pulseHeart">💖</div>
+        <h1 class="text-2xl font-bold">How much do I adore you?</h1>
+        <div class="hold-container"><div id="holdProgress"></div></div>
+        <button id="holdBtn" class="glow-btn mt-6 select-none">PRESS & HOLD TO FEEL</button>
+    </div>
+
+    <div id="slide5" class="slide">
+        <img src="gif4.gif" class="gif-frame">
+        <h1 class="cute-msg">You're One in a Billion! 💎</h1>
+        <p class="sub-text">It's only been a short time, but the feeling is magical.</p>
+        <button onclick="next()" class="glow-btn">Continue...</button>
+    </div>
+
+    <div id="slide6" class="slide">
+        <div class="solar-system">
+            <div class="orbit orbit-1"><span class="planet">💗</span></div>
+            <div class="orbit orbit-2"><span class="planet">⭐</span></div>
+            <div class="text-6xl">🌍</div>
         </div>
-    </section>
+        <h1 class="cute-msg mt-10">My Whole Universe!</h1>
+        <p class="sub-text">Everything seems better when you're around.</p>
+        <button onclick="next()" class="glow-btn">Keep Going 🚀</button>
+    </div>
 
-    <section id="wishes" class="section" style="z-index: 10;">
-        <h2 class="text-6xl premium-font ultra-glow mb-10 text-center">open my wishes 💌</h2>
-        <div class="grid grid-cols-2 gap-8 z-20 w-full max-w-lg px-5">
-            <div class="wish-card glass-premium p-10 rounded-3xl text-center flex items-center justify-center flex-col cursor-pointer" onclick="openWish('you are the most beautiful soul inside & out. keep shining always cutiee 🌸')">
-                <i class="fa-solid fa-heart text-5xl text-rose-600 mb-4 ultra-glow"></i>
-                <p class="text-gray-900 font-bold text-xl">wish 1</p>
-            </div>
-            <div class="wish-card glass-premium p-10 rounded-3xl text-center flex items-center justify-center flex-col cursor-pointer" onclick="openWish('may every dream of yours become reality this year. you deserve the whole universe! ✨')">
-                <i class="fa-solid fa-star text-5xl text-amber-500 mb-4 ultra-glow"></i>
-                <p class="text-gray-900 font-bold text-xl">wish 2</p>
-            </div>
-            <div class="wish-card glass-premium p-10 rounded-3xl text-center flex items-center justify-center flex-col cursor-pointer" onclick="openWish('no matter where life takes us, my care & support for you will never fade 💞')">
-                <i class="fa-solid fa-gift text-5xl text-rose-500 mb-4 ultra-glow"></i>
-                <p class="text-gray-900 font-bold text-xl">wish 3</p>
-            </div>
-            <div class="wish-card glass-premium p-10 rounded-3xl text-center flex items-center justify-center flex-col cursor-pointer" onclick="openWish('happy birthday cutiee! let’s make today legendary. i love you endlessly ❤️‍🔥')">
-                <i class="fa-solid fa-cake-candles text-5xl text-orange-500 mb-4 ultra-glow"></i>
-                <p class="text-gray-900 font-bold text-xl">wish 4</p>
-            </div>
-        </div>
-        <button id="btn-after-wishes" onclick="nextPage('cake')" class="mt-12 bg-gradient-to-r from-rose-600 to-amber-500 px-10 py-4 rounded-full glass-premium text-white text-xl font-bold hidden hover:scale-105 transition-all shadow-lg shadow-rose-700/20">
-            next magic ✨
-        </button>
+    <div id="slide7" class="slide">
+        <img src="gif5.gif" class="gif-frame">
+        <h1 class="cute-msg">Don't ever leave! 🥺</h1>
+        <p class="sub-text">I've never met anyone as sweet and special as you.</p>
+        <button onclick="next()" class="glow-btn">Wait for it...</button>
+    </div>
 
-        <div id="wish-modal" class="fixed inset-0 bg-white/90 hidden items-center justify-center z-50 px-6">
-            <div class="glass-premium p-12 rounded-3xl text-center max-w-lg w-full relative border border-rose-500/20">
-                <p id="wish-text" class="text-3xl md:text-4xl premium-font leading-relaxed text-charcoal"></p>
-                <button onclick="closeWish()" class="mt-10 bg-gradient-to-r from-rose-600 to-amber-500 text-white px-10 py-3 rounded-full font-bold text-lg hover:scale-105 transition">close ✕</button>
-            </div>
-        </div>
-    </section>
+    <div id="slide8" class="slide">
+        <h1 class="cute-msg">You're my Brightest Star! ⭐</h1>
+        <p class="sub-text max-w-xs">In a sky full of stars, my eyes only search for you.</p>
+        <button onclick="next()" class="glow-btn">Just a bit more ✨</button>
+    </div>
 
-    <section id="cake" class="section" style="z-index: 10;">
-        <div class="text-center mb-10 z-20 pointer-events-none">
-            <h2 class="text-6xl premium-font ultra-glow">cut your cake cutiee! 🎂</h2>
-            <p class="text-rose-800 mt-3 text-xl">drag the knife gently</p>
+    <div id="slide9" class="slide">
+        <img src="gif6.gif" class="gif-frame">
+        <h1 class="cute-msg">Alisha you are my good bestie ? ❤️</h1>
+        <p class="sub-text">...and maybe something even more special? 💍</p>
+        <div id="btnContainer" class="flex flex-wrap justify-center mt-4">
+            <button onclick="next()" class="glow-btn">YES! 😍</button>
+            <button id="noBtn" onclick="trapNo()" class="no-btn">No 🥺</button>
         </div>
-        <div class="cake-container relative w-[340px] h-[280px] z-20" id="cake-wrapper">
-            <div class="relative w-full h-full pointer-events-none">
-                <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[300px] h-[80px] bg-gradient-to-b from-rose-500 to-rose-700 rounded-[50%]"></div>
-                <div class="absolute bottom-[60px] left-1/2 -translate-x-1/2 w-[230px] h-[70px] bg-gradient-to-b from-rose-400 to-rose-600 rounded-[50%]"></div>
-                <div class="absolute bottom-[120px] left-1/2 -translate-x-1/2 w-[160px] h-[60px] bg-gradient-to-b from-rose-300 to-rose-500 rounded-[50%]"></div>
-                <div class="absolute bottom-[170px] left-1/2 -translate-x-1/2 flex gap-6">
-                    <div class="w-4 h-12 bg-white rounded-full shadow-lg"></div>
-                    <div class="w-4 h-14 bg-white rounded-full shadow-lg"></div>
-                    <div class="w-4 h-12 bg-white rounded-full shadow-lg"></div>
-                </div>
-            </div>
-            <div id="knife">🔪</div>
-        </div>
-        <div id="cake-message" class="hidden text-center mt-10 z-20">
-            <h3 class="text-5xl premium-font ultra-glow">happy birthday cutiee ❤️‍🔥</h3>
-            <button onclick="nextPage('balloons')" class="mt-8 bg-gradient-to-r from-rose-600 via-pink-500 to-amber-500 px-10 py-4 rounded-full text-xl font-bold text-white hover:scale-105 transition shadow-xl">
-                play with balloons 🎈
-            </button>
-        </div>
-    </section>
+    </div>
 
-    <section id="balloons" class="section" style="z-index: 10;">
-        <div class="text-center z-20 mb-10 pointer-events-none">
-            <h1 class="text-6xl md:text-8xl premium-font ultra-glow mb-3">pop the balloons cutiee! 🎈</h1>
-            <p class="text-rose-900 text-xl font-bold">tap to explode them</p>
-        </div>
-        
-        <div id="balloon-container" class="relative w-full h-[65vh] max-w-lg z-20"></div>
+    <div id="slide10" class="slide">
+        <img src="gif7.gif" class="gif-frame">
+        <h1 class="cute-msg">Yaaay! My Heart is Happy! 🥳</h1>
+        <p class="sub-text">I promise to keep that beautiful smile on your face!</p>
+        <button onclick="playSurprise()" class="glow-btn animate-bounce">A FINAL SURPRISE 🎁</button>
+    </div>
 
-        <button id="btn-after-balloons" onclick="goToVideo()" class="absolute bottom-12 left-1/2 -translate-x-1/2 bg-gradient-to-r from-rose-600 via-pink-500 to-amber-500 px-12 py-5 rounded-full text-2xl font-bold text-white shadow-2xl hidden z-30 hover:scale-105 transition-all duration-500">
-            see the final surprise 🎬
-        </button>
-    </section>
-
-    <section id="video-page" class="section bg-black" style="z-index: 50; padding: 0;">
-        <video id="final-video" src="video1.mp4" playsinline preload="auto" controlsList="nodownload" class="w-full h-full object-cover pointer-events-none"></video>
-    </section>
+    <div id="videoLayer">
+        <video id="vPlayer" playsinline src="video1.mp4"></video>
+    </div>
 
     <script>
-        let music = document.getElementById('bgmusic');
-        let wishesRead = 0;
-        let balloonsPopped = 0;
-        const totalBalloons = 6;
-        let isTransitioning = false; 
+        let step = 1;
+        const music = document.getElementById('bgMusic');
 
-        function startExperience() {
-            music.volume = 0.5;
-            music.play().catch((e)=>console.log("Audio play blocked until interaction:", e));
-            nextPage('wishes');
+        // Background Stars Logic
+        const starContainer = document.getElementById('stars-container');
+        for(let i=0; i<100; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            const size = Math.random()*3 + 1 + 'px';
+            star.style.width = size; star.style.height = size;
+            star.style.left = Math.random()*100 + 'vw';
+            star.style.top = Math.random()*100 + 'vh';
+            star.style.setProperty('--d', (Math.random()*2+1)+'s');
+            starContainer.appendChild(star);
         }
 
-        function nextPage(nextId) {
-            if (isTransitioning) return;
-            isTransitioning = true;
-
-            const current = document.querySelector('.section.active');
-            const next = document.getElementById(nextId);
-
-            gsap.to(current, {opacity:0, duration:0.5, ease:"power2.inOut", onComplete:()=>{
-                current.classList.remove('active');
-                next.classList.add('active');
-                gsap.fromTo(next, {opacity:0, scale:0.95}, {opacity:1, scale:1, duration:0.6, ease:"back.out(1.2)", onComplete: () => {
-                    isTransitioning = false;
-                }});
-                
-                if(nextId === 'cake') initCake();
-                if(nextId === 'balloons') initBalloons();
-            }});
+        function startApp() { 
+            music.play().catch(() => {}); 
+            next(); 
         }
 
-        function openWish(text) {
-            document.getElementById('wish-text').innerText = text;
-            const modal = document.getElementById('wish-modal');
-            modal.style.display = 'flex';
-            gsap.fromTo(modal.children[0], {scale:0.4, opacity:0}, {scale:1, opacity:1, duration:0.4, ease:"back.out(1.5)"});
-            wishesRead++;
-            if(wishesRead >= 1) document.getElementById('btn-after-wishes').classList.remove('hidden');
-        }
-
-        function closeWish() {
-            gsap.to(document.getElementById('wish-modal').children[0], {scale:0.6, opacity:0, duration:0.3, onComplete:()=>{
-                document.getElementById('wish-modal').style.display = 'none';
-            }});
-        }
-
-        let cakeInitialized = false;
-        let cachedCakeRect = null; // Memory Optimization
-
-        function initCake() {
-            if(cakeInitialized) return;
-            cakeInitialized = true;
-
-            const wrap = document.getElementById('cake-wrapper');
-            const knife = document.getElementById('knife');
-            let hasCut = false;
-            let isCutting = false;
-            
-            // Lag Fix: Reset position only once
-            knife.style.transform = `translate3d(140px, -20px, 0) rotate(-35deg)`;
-            
-            const moveKnife = (e) => {
-                if(!isCutting || hasCut) return;
-                
-                let clientX = e.touches ? e.touches[0].clientX : e.clientX;
-                let clientY = e.touches ? e.touches[0].clientY : e.clientY;
-
-                // Optimization: Cache rectangle only when dragging starts
-                if(!cachedCakeRect) cachedCakeRect = wrap.getBoundingClientRect();
-                
-                const x = clientX - cachedCakeRect.left;
-                const y = clientY - cachedCakeRect.top;
-                
-                // Hardware Acceleration Fix
-                requestAnimationFrame(() => {
-                    knife.style.transform = `translate3d(${x - 30}px, ${y - 40}px, 0) rotate(-35deg)`;
-                });
-                
-                // Optimized Hitbox
-                if(x > 70 && x < 270 && y > 100 && y < 200) {
-                    hasCut = true;
-                    isCutting = false;
-                    cachedCakeRect = null; // Clean up
-                    document.getElementById('cake-message').classList.remove('hidden');
-                    confetti({particleCount:150, spread:80, origin:{y:0.6}, colors:['#e056fd', '#fff700', '#ff0055']});
-                }
-            };
-
-            // Capture the exact moment drag starts to cache rect
-            const startCutting = (e) => {
-                isCutting = true;
-                cachedCakeRect = wrap.getBoundingClientRect();
-                moveKnife(e);
-            }
-
-            wrap.addEventListener('pointerdown', startCutting);
-            window.addEventListener('pointermove', moveKnife);
-            window.addEventListener('pointerup', () => { isCutting = false; cachedCakeRect = null; });
-            window.addEventListener('pointercancel', () => { isCutting = false; cachedCakeRect = null; });
-        }
-
-        function initBalloons() {
-            const container = document.getElementById('balloon-container');
-            container.innerHTML = '';
-            balloonsPopped = 0;
-            // Pastel colors for light theme
-            const colors = ['#e91e63','#ff9800','#03a9f4','#9c27b0','#8bc34a','#ff5722'];
-            
-            for(let i=0; i<totalBalloons; i++) {
-                let b = document.createElement('div');
-                b.className = 'balloon';
-                b.style.setProperty('--balloon-color', colors[i]);
-                b.style.left = `${Math.random()*75 + 10}%`;
-                b.style.top = `${Math.random()*50 + 15}%`;
-                b.style.animationDelay = `${Math.random()*2}s`;
-                
-                b.onclick = function(e) {
-                    confetti({particleCount:50, spread:70, origin:{x:e.clientX/innerWidth, y:e.clientY/innerHeight}});
-                    b.style.display = 'none';
-                    
-                    let text = document.createElement('div');
-                    text.innerHTML = "happy birthday cutiee 🩵";
-                    // Color fix: Charcoal
-                    text.className = "absolute premium-font text-3xl font-bold pop-text-anim whitespace-nowrap text-center w-full text-charcoal pointer-events-none";
-                    text.style.left = "0";
-                    text.style.top = b.style.top;
-                    container.appendChild(text);
-                    
-                    balloonsPopped++;
-                    if(balloonsPopped === totalBalloons) {
-                        document.getElementById('btn-after-balloons').classList.remove('hidden');
-                    }
-                };
-                container.appendChild(b);
+        function next() {
+            document.querySelectorAll('.slide').forEach(s => { s.classList.remove('active'); s.style.display='none'; });
+            step++;
+            const current = document.getElementById('slide'+step);
+            if(current) { 
+                current.style.display='flex'; 
+                setTimeout(() => current.classList.add('active'), 50); 
             }
         }
 
-        function goToVideo() {
-            if(isTransitioning) return;
-            isTransitioning = true;
+        // The No Button Trap
+        function trapNo() {
+            const container = document.getElementById('btnContainer');
+            const noBtn = document.getElementById('noBtn');
+            noBtn.style.display = 'none'; // Remove the No button
             
-            music.pause();
-            const current = document.querySelector('.section.active');
-            const videoSec = document.getElementById('video-page');
-            const video = document.getElementById('final-video');
-
-            gsap.to(current, {opacity:0, duration:0.7, ease:"power3.in", onComplete:()=>{
-                current.classList.remove('active');
-                videoSec.classList.add('active');
-                video.play().catch((e) => console.log("Video Play Error:", e));
-                isTransitioning = false;
-            }});
+            // Add 5 more YES buttons
+            for(let i=0; i<5; i++) {
+                const newYes = document.createElement('button');
+                newYes.innerHTML = "YES! 💖";
+                newYes.className = "glow-btn";
+                newYes.onclick = next;
+                container.appendChild(newYes);
+            }
         }
 
-        // Lag Fix: Reduced background particles from 25 to 12
-        const pContainer = document.getElementById('particles-container');
-        for(let i=0; i<12; i++) { 
-            let p = document.createElement('div');
-            p.className = 'particle';
-            p.innerHTML = Math.random() > 0.4 ? '🌹' : '💞';
-            p.style.left = `${Math.random()*100}vw`;
-            p.style.animationDuration = `${Math.random()*4 + 6}s`;
-            p.style.animationDelay = `${Math.random()*6}s`;
-            p.style.fontSize = `${Math.random()*15 + 12}px`;
-            pContainer.appendChild(p);
+        // Hold Logic
+        let hVal = 0, hInt;
+        const hBtn = document.getElementById('holdBtn'), hProg = document.getElementById('holdProgress'), pHeart = document.getElementById('pulseHeart');
+        
+        const startH = (e) => { 
+            e.preventDefault(); 
+            pHeart.style.transform = 'scale(1.8)';
+            hInt = setInterval(() => { 
+                hVal += 2; 
+                hProg.style.width = hVal + '%'; 
+                if(hVal >= 100) { clearInterval(hInt); next(); } 
+            }, 40); 
+        };
+        const endH = () => { clearInterval(hInt); hVal = 0; hProg.style.width = '0%'; pHeart.style.transform = 'scale(1)'; };
+        
+        hBtn.onmousedown = hBtn.ontouchstart = startH; 
+        window.onmouseup = window.ontouchend = endH;
+
+        function playSurprise() { 
+            music.pause(); 
+            const layer = document.getElementById('videoLayer');
+            const video = document.getElementById('vPlayer');
+            layer.style.display = 'flex';
+            video.play();
+            video.onended = () => { location.reload(); };
         }
     </script>
 </body>
