@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>For My Special One</title>
+    <title>For My Special One - Alisha</title>
     <style>
         * {
             box-sizing: border-box;
@@ -19,7 +19,6 @@
             min-height: 100vh; min-height: 100dvh;
             display: flex; justify-content: center; align-items: center;
             overflow: hidden; position: relative;
-            touch-action: none;
         }
         @keyframes gradientBG {
             0% { background-position: 0% 50%; }
@@ -29,21 +28,22 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* Background Hearts Continuous */
+        /* Screen Heart Blast Dynamic Layer */
         .bg-hearts-layer {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 0; overflow: hidden;
         }
         .bg-heart {
             position: absolute; bottom: -60px;
-            color: rgba(255, 64, 129, 0.2); font-size: 28px;
+            color: rgba(255, 64, 129, 0.25); font-size: 28px;
             animation: bgHeartFloat linear infinite;
         }
         @keyframes bgHeartFloat {
             0% { transform: translateY(0) rotate(0deg) scale(0.6); opacity: 0; }
-            10% { opacity: 0.6; }
-            90% { opacity: 0.4; }
-            100% { transform: translateY(-110vh) rotate(720deg) scale(1.4); opacity: 0; }
+            10% { opacity: 0.8; }
+            70% { transform: translateY(-60vh) scale(1.4); opacity: 1; }
+            71% { opacity: 0.2; transform: translateY(-60vh) scale(2.2); text-shadow: 0 0 20px #ff4081; }
+            100% { transform: translateY(-110vh) rotate(360deg) scale(0); opacity: 0; }
         }
 
         .credits {
@@ -79,302 +79,124 @@
         }
 
         .page {
-            position: absolute; width: 100%; height: 100%; padding: 28px 20px 20px;
+            position: absolute; width: 100%; height: 100%; padding: 35px 20px 20px;
             display: none; flex-direction: column; align-items: center; justify-content: center;
             text-align: center; z-index: 2;
             opacity: 0; transform: scale(0.92);
             transition: opacity 0.4s ease, transform 0.4s ease;
-            will-change: transform, opacity;
         }
         .page.active {
             display: flex; opacity: 1; transform: scale(1);
         }
 
         h1 {
-            color: #ff80ab; font-size: clamp(22px,5vw,28px);
+            color: #ff80ab; font-size: clamp(20px,5vw,26px);
             margin-bottom: 10px; text-shadow: 0 0 20px rgba(255,64,129,0.3);
-            font-weight: 700; letter-spacing: 0.3px;
+            font-weight: 700;
         }
         p {
-            color: rgba(255,210,220,0.9); font-size: clamp(14px,3.2vw,16px);
-            line-height: 1.6; margin-bottom: 18px; max-width: 92%;
+            color: rgba(255,210,220,0.9); font-size: clamp(13px,3.2vw,15px);
+            line-height: 1.5; margin-bottom: 18px; max-width: 92%;
         }
 
         .btn {
             background: linear-gradient(135deg, #ff4081, #d81b60);
             color: white; border: none;
-            padding: 12px 32px; font-size: clamp(15px,3.5vw,17px);
+            padding: 12px 32px; font-size: clamp(14px,3.5vw,16px);
             font-weight: bold; border-radius: 50px;
             cursor: pointer; box-shadow: 0 6px 24px rgba(255,64,129,0.4);
             transition: transform 0.2s, box-shadow 0.2s;
-            letter-spacing: 0.3px; touch-action: manipulation;
+            touch-action: manipulation;
         }
-        .btn:active { transform: scale(0.95); box-shadow: 0 2px 12px rgba(255,64,129,0.3); }
+        .btn:active { transform: scale(0.95); }
 
         .media-box {
-            width: 100%; max-height: 200px; object-fit: cover;
+            width: 100%; height: 210px; object-fit: cover;
             border-radius: 18px; margin-bottom: 14px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-            border: 1px solid rgba(255,64,129,0.12);
-        }
-
-        /* ===== PAGE 2 - BOUNCE BOX ===== */
-        .box-anim-container {
-            width: 120px; height: 120px; margin: 10px auto 18px;
-        }
-        .box-anim {
-            width: 100%; height: 100%;
-            background: linear-gradient(135deg, #ff4081, #e91e63);
-            border-radius: 18px;
-            animation: boxBounce 1.8s ease-in-out infinite;
-            box-shadow: 0 0 30px rgba(255,64,129,0.4);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 44px;
-        }
-        @keyframes boxBounce {
-            0%,100% { transform: translateY(0) scale(1); border-radius: 18px; }
-            25% { transform: translateY(-20px) scale(1.08) rotate(-3deg); border-radius: 22px; }
-            50% { transform: translateY(0) scale(1); border-radius: 18px; }
-            75% { transform: translateY(-10px) scale(1.04) rotate(3deg); border-radius: 20px; }
-        }
-
-        /* ===== PAGE 4 - HEART RAIN ===== */
-        .heart-rain-container {
-            width: 100%; height: 180px; position: relative;
-            overflow: hidden; border-radius: 18px;
-            margin-bottom: 12px; background: rgba(255,64,129,0.04);
-            border: 1px solid rgba(255,64,129,0.1);
-        }
-        .heart-rain-particle {
-            position: absolute; top: -30px; font-size: 22px;
-            animation: heartDrop linear infinite;
-        }
-        @keyframes heartDrop {
-            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(200px) rotate(360deg); opacity: 0.15; }
-        }
-
-        /* ===== PAGE 6 - THERMOMETER BIG ===== */
-        .thermo-wrap {
-            width: 92%; margin: 10px auto 16px;
-        }
-        .thermo-bg {
-            width: 100%; height: 36px;
-            background: rgba(255,255,255,0.06);
-            border-radius: 50px; overflow: hidden;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
             border: 1px solid rgba(255,64,129,0.2);
+            background-color: #000;
+        }
+
+        /* ===== THERMOMETER STYLE ===== */
+        .thermo-wrap { width: 92%; margin: 10px auto 16px; }
+        .thermo-bg {
+            width: 100%; height: 32px; background: rgba(255,255,255,0.06);
+            border-radius: 50px; overflow: hidden; border: 1px solid rgba(255,64,129,0.3);
         }
         .thermo-fill {
             width: 0%; height: 100%;
             background: linear-gradient(90deg, #ff80ab, #ff4081, #d81b60);
-            border-radius: 50px; transition: width 2.5s cubic-bezier(0.34,1.56,0.64,1);
+            border-radius: 50px; transition: width 2s cubic-bezier(0.1, 0.8, 0.3, 1);
         }
         .thermo-label {
-            text-align: center; font-size: clamp(20px,5vw,28px);
-            font-weight: 800; color: #ff80ab; margin-top: 10px;
-            text-shadow: 0 0 20px rgba(255,64,129,0.3);
+            text-align: center; font-size: 24px; font-weight: 800; color: #ff80ab;
+            margin-top: 10px; text-shadow: 0 0 15px rgba(255,64,129,0.4);
         }
 
-        /* ===== PAGE 7 - PULSE RING ===== */
-        .pulse-ring-container {
-            width: 120px; height: 120px; margin: 10px auto 18px;
-            position: relative; display: flex; align-items: center; justify-content: center;
-        }
-        .pulse-ring {
-            width: 100%; height: 100%; border-radius: 50%;
-            background: radial-gradient(circle, #ff4081 0%, transparent 70%);
-            animation: pulseRing 2s ease-in-out infinite;
-        }
-        .pulse-ring-text {
-            position: absolute; font-size: 36px;
-            filter: drop-shadow(0 0 15px rgba(255,64,129,0.6));
-        }
-        @keyframes pulseRing {
-            0%,100% { transform: scale(0.8); opacity: 0.35; }
-            50% { transform: scale(1.35); opacity: 0.9; }
-        }
-
-        /* ===== PAGE 8 - SPIN HEART ===== */
-        .spin-heart {
-            font-size: 80px; margin: 10px auto 14px;
-            animation: spinHeart 3s linear infinite;
-            filter: drop-shadow(0 0 25px rgba(255,64,129,0.5));
-        }
-        @keyframes spinHeart {
-            0% { transform: rotateY(0deg); }
-            100% { transform: rotateY(360deg); }
-        }
-
-        /* ===== PAGE 9 - FLOATING BUBBLES ===== */
-        .bubble-container {
-            width: 100%; height: 160px; position: relative;
-            overflow: hidden; border-radius: 18px;
-            margin-bottom: 10px; background: rgba(255,64,129,0.03);
-            border: 1px solid rgba(255,64,129,0.08);
-        }
-        .bubble {
-            position: absolute; bottom: -20px;
-            width: 30px; height: 30px; border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, rgba(255,128,171,0.4), rgba(255,64,129,0.15));
-            border: 1px solid rgba(255,64,129,0.15);
-            animation: bubbleUp linear infinite;
-        }
-        @keyframes bubbleUp {
-            0% { transform: translateY(0) scale(0.6); opacity: 0; }
-            20% { opacity: 0.7; }
-            100% { transform: translateY(-180px) scale(1.2); opacity: 0; }
-        }
-
-        /* ===== PAGE 10 - SPARKLE GRID ===== */
-        .sparkle-grid {
-            display: grid; grid-template-columns: repeat(3,1fr); gap: 12px;
-            width: 75%; max-width: 180px; margin: 8px auto 14px;
-        }
-        .sparkle-item {
-            aspect-ratio: 1; border-radius: 14px;
-            background: linear-gradient(135deg, #ff4081, #e91e63);
-            animation: sparklePop 1.5s ease-in-out infinite;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 20px;
-        }
-        .sparkle-item:nth-child(2) { animation-delay: 0.25s; }
-        .sparkle-item:nth-child(3) { animation-delay: 0.5s; }
-        .sparkle-item:nth-child(4) { animation-delay: 0.35s; }
-        .sparkle-item:nth-child(5) { animation-delay: 0.7s; }
-        .sparkle-item:nth-child(6) { animation-delay: 0.15s; }
-        .sparkle-item:nth-child(7) { animation-delay: 0.55s; }
-        .sparkle-item:nth-child(8) { animation-delay: 0.4s; }
-        .sparkle-item:nth-child(9) { animation-delay: 0.85s; }
-        @keyframes sparklePop {
-            0%,100% { transform: scale(0.85); opacity: 0.5; }
-            50% { transform: scale(1.15); opacity: 1; box-shadow: 0 0 25px rgba(255,64,129,0.5); }
-        }
-
-        /* ===== PAGE 11 - BUTTERFLY ===== */
-        .butterfly {
-            font-size: 70px; margin: 8px auto 14px;
-            animation: flutter 0.6s ease-in-out infinite alternate;
-            filter: drop-shadow(0 0 15px rgba(255,64,129,0.3));
-        }
-        @keyframes flutter {
-            0% { transform: scaleX(1) rotate(-2deg); }
-            100% { transform: scaleX(0.6) rotate(2deg); }
-        }
-
-        /* ===== PAGE 12 - ARROW → HEART GAME ===== */
+        /* ===== BOW AND ARROW TARGET ===== */
         .bow-game-container {
-            position: relative; width: 100%; height: 280px; margin: 6px 0 10px;
+            position: relative; width: 100%; height: 240px; margin: 10px 0;
             touch-action: none;
         }
         .heart-target {
-            position: absolute; top: 15px; left: 50%; transform: translateX(-50%);
-            font-size: 56px; filter: drop-shadow(0 0 25px rgba(255,64,129,0.6));
-            transition: transform 0.3s; z-index: 5;
+            position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
+            font-size: 50px; filter: drop-shadow(0 0 15px #ff4081);
+            transition: transform 0.2s; z-index: 5;
         }
         .heart-target.hit {
-            animation: heartHit 0.6s ease forwards;
+            animation: heartBlastEffect 0.6s ease forwards;
         }
-        @keyframes heartHit {
+        @keyframes heartBlastEffect {
             0% { transform: translateX(-50%) scale(1); }
-            30% { transform: translateX(-50%) scale(1.6); filter: drop-shadow(0 0 50px rgba(255,64,129,0.9)); }
-            60% { transform: translateX(-50%) scale(1.2); }
-            100% { transform: translateX(-50%) scale(1); }
+            40% { transform: translateX(-50%) scale(1.8); filter: drop-shadow(0 0 40px #ff4081); }
+            100% { transform: translateX(-50%) scale(1.2); }
         }
         .arrow-drag-area {
-            position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
-            width: 90px; height: 100px;
+            position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);
+            width: 80px; height: 100px;
         }
         .bow-string {
-            position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);
-            width: 4px; height: 70px; background: linear-gradient(to top, #ff80ab, transparent);
-            border-radius: 2px; transform-origin: bottom center;
+            position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%);
+            width: 2px; height: 60px; background: rgba(255,128,171,0.5);
         }
         .draggable-arrow {
-            position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);
-            width: 8px; height: 60px; background: linear-gradient(to top, #ff4081, #ff80ab);
-            border-radius: 4px 4px 0 0; cursor: grab;
-            touch-action: none; z-index: 10;
-            transition: transform 0.15s ease-out;
+            position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%);
+            width: 6px; height: 55px; background: linear-gradient(to top, #ff4081, #ff80ab);
+            border-radius: 3px; cursor: grab; z-index: 10;
         }
         .draggable-arrow::before {
-            content: '\25B2'; position: absolute; top: -12px; left: 50%;
-            transform: translateX(-50%); color: #ff4081; font-size: 14px;
-        }
-        .draggable-arrow::after {
-            content: '\1FAB6'; position: absolute; bottom: -8px; left: 50%;
-            transform: translateX(-50%); font-size: 14px;
+            content: '▲'; position: absolute; top: -10px; left: 50%;
+            transform: translateX(-50%); color: #ff4081; font-size: 11px;
         }
         .comp-msg-box {
-            display: none; width: 100%;
-            background: rgba(255,64,129,0.08);
-            border: 1px solid rgba(255,64,129,0.25);
-            border-radius: 16px; padding: 14px; margin-top: 6px;
-            backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+            display: none; width: 100%; background: rgba(255,64,129,0.08);
+            border: 1px solid rgba(255,64,129,0.25); border-radius: 16px;
+            padding: 10px; margin-top: 6px;
         }
-        .comp-msg-box p {
-            margin: 4px 0; font-weight: 600; color: #ff80ab; font-size: 14px;
-        }
+        .comp-msg-box p { margin: 4px 0; font-weight: 600; color: #ff80ab; font-size: 13px; }
 
-        /* ===== PAGE 13 - CONFETTI CELEBRATION ===== */
-        .confetti-container {
-            width: 100%; height: 160px; position: relative;
-            overflow: hidden; border-radius: 18px;
-            margin-bottom: 10px; background: rgba(255,64,129,0.03);
-        }
-        .confetti-piece {
-            position: absolute; top: -10px; width: 8px; height: 8px;
-            border-radius: 2px; animation: confettiFall linear infinite;
-        }
-        @keyframes confettiFall {
-            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(170px) rotate(720deg); opacity: 0.15; }
-        }
-        .final-heart-big {
-            font-size: 64px; animation: finalBeat 1s ease-in-out infinite;
-            filter: drop-shadow(0 0 30px rgba(255,64,129,0.6));
-        }
-        @keyframes finalBeat {
-            0%,100% { transform: scale(1); }
-            25% { transform: scale(1.2); }
-            50% { transform: scale(0.95); }
-            75% { transform: scale(1.1); }
-        }
-
-        /* ===== PAGE INDICATOR ===== */
         .page-indicator {
-            position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);
+            position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
             display: flex; gap: 5px; z-index: 15;
         }
         .indicator-dot {
-            width: 6px; height: 6px; border-radius: 50%;
-            background: rgba(255,255,255,0.12); transition: all 0.3s;
+            width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.15);
         }
         .indicator-dot.active {
-            background: #ff4081; width: 18px; border-radius: 3px;
-            box-shadow: 0 0 10px rgba(255,64,129,0.4);
+            background: #ff4081; width: 16px; border-radius: 3px;
         }
 
         @media (max-height: 640px) {
-            .window-container { height: 86vh; border-radius: 24px; }
-            .page { padding: 20px 14px 14px; }
-            .media-box { max-height: 135px; }
-            h1 { font-size: 20px; }
-            p { font-size: 13px; margin-bottom: 12px; }
-            .btn { padding: 10px 24px; font-size: 14px; }
-            .bow-game-container { height: 220px; }
-            .heart-target { font-size: 42px; }
-            .box-anim-container { width: 90px; height: 90px; }
-            .box-anim { font-size: 34px; }
-            .spin-heart { font-size: 60px; }
-            .butterfly { font-size: 54px; }
-            .final-heart-big { font-size: 50px; }
+            .window-container { height: 86vh; }
+            .media-box { height: 150px; }
+            .bow-game-container { height: 180px; }
         }
     </style>
 </head>
 <body>
 
     <div class="bg-hearts-layer" id="bgHeartsLayer"></div>
-
     <div class="credits">Coded by sivasingh</div>
 
     <div class="window-container">
@@ -383,474 +205,272 @@
             <span class="dot dot-y"></span>
             <span class="dot dot-g"></span>
         </div>
-        <div class="page-counter" id="pageCounter">1 / 13</div>
+        <div class="page-counter" id="pageCounter">1 / 10</div>
 
         <audio id="bgMusic" loop preload="auto">
             <source src="tere-liye.mp3" type="audio/mpeg">
         </audio>
 
-        <!-- ===== PAGE 1 ===== -->
         <div class="page active" id="page1">
-            <div style="font-size:64px;margin-bottom:6px;animation:finalBeat 1.5s ease-in-out infinite;">❤️</div>
-            <h1>Hi Cutie :)</h1>
-            <p>I made a little something just for you. Ready to see why you're so special, Alisha?</p>
+            <img src="gif1.gif" class="media-box" alt="Gif 1">
+            <h1>Hi Cutie Alisha :)</h1>
+            <p>I made a little something special just for you. Ready to explore our romantic timeline?</p>
             <button class="btn" onclick="startApp()">Let's Go! ❤️</button>
         </div>
 
-        <!-- ===== PAGE 2 ===== -->
         <div class="page" id="page2">
-            <div class="box-anim-container">
-                <div class="box-anim">🎁</div>
+            <h1>Pull & Release Bow!</h1>
+            <p>Drag the pink arrow down and let it fly to shoot Shiva's love heart!</p>
+            <div class="bow-game-container">
+                <div class="heart-target" id="heartTarget">❤️</div>
+                <div class="arrow-drag-area">
+                    <div class="bow-string"></div>
+                    <div class="draggable-arrow" id="draggableArrow"></div>
+                </div>
             </div>
-            <h1>Stretch the bow to pop!</h1>
-            <p>Drag the arrow down and release to reveal surprises!</p>
-            <button class="btn" onclick="goPage(3)">Next Secret ✨</button>
+            <div class="comp-msg-box" id="compMsgBox">
+                <p>💖 Your heart is genuinely so kind Alisha</p>
+                <p>😂 You always know how to make me laugh</p>
+                <p>🤍 Your smile feels so comforting to Shiva</p>
+            </div>
+            <button class="btn" id="arrowNextBtn" style="display:none; margin-top: 10px;" onclick="goPage(3)">Next Secret ✨</button>
         </div>
 
-        <!-- ===== PAGE 3 ===== -->
         <div class="page" id="page3">
-            <div class="media-box" style="background:linear-gradient(135deg,#ff4081,#e91e63);height:160px;display:flex;align-items:center;justify-content:center;font-size:56px;">🥰</div>
-            <h1>Every moment with you...</h1>
-            <p>Feels magical. You bring so much bright energy into Shiva's life.</p>
+            <img src="gif2.gif" class="media-box" alt="Gif 2">
+            <h1>Every Moment With You...</h1>
+            <p>Feels like an absolute dream sequence. You bring beautiful vibes into my world.</p>
             <button class="btn" onclick="goPage(4)">Continue 🥰</button>
         </div>
 
-        <!-- ===== PAGE 4 - HEART RAIN ===== -->
         <div class="page" id="page4">
-            <div class="heart-rain-container" id="heartRainContainer"></div>
+            <video id="vid1" class="media-box" loop playsinline>
+                <source src="video1.mp4" type="video/mp4">
+            </video>
             <h1>Just Look At You!</h1>
-            <p>Captivating and completely unique. Cannot skip admiring this view.</p>
+            <p>Captivating, mesmerizing, and completely unique. Couldn't help but lock this clip here.</p>
             <button class="btn" onclick="goPage(5)">Next Page 👉</button>
         </div>
 
-        <!-- ===== PAGE 5 - VIDEO (BG SONG OFF) ===== -->
         <div class="page" id="page5">
-            <video id="vid1" class="media-box" autoplay loop muted playsinline style="max-height:180px;">
-                <source src="video1.mp4" type="video/mp4">
-            </video>
+            <img src="photo1.jpg" class="media-box" alt="Photo 1">
             <h1>My Favorite View</h1>
-            <p>This picture always puts a massive smile right across my face.</p>
+            <p>This picture never fails to put a massive smile right across my face. Simply stunning.</p>
             <button class="btn" onclick="goPage(6)">See More 🤫</button>
         </div>
 
-        <!-- ===== PAGE 6 - THERMOMETER BIG ===== -->
         <div class="page" id="page6">
-            <h1>Cuteness Meter Check!</h1>
-            <p>Let's run a quick live calculation of your current cute levels.</p>
+            <h1>Alisha's Cuteness Check!</h1>
+            <p>Let's run a real-time smart calculation of your absolute cuteness levels.</p>
             <div class="thermo-wrap">
                 <div class="thermo-bg">
                     <div class="thermo-fill" id="thermoFill"></div>
                 </div>
                 <div class="thermo-label" id="thermoLabel">0%</div>
             </div>
-            <button class="btn" id="thermoBtn" onclick="startThermometer()">Run Test 📊</button>
-            <button class="btn" id="thermoNextBtn" style="display:none;" onclick="goPage(7)">Wow, Next! 🚀</button>
+            <button class="btn" id="thermoBtn" onclick="startThermometer()">Run Live Test 📊</button>
+            <button class="btn" id="thermoNextBtn" style="display:none;" onclick="goPage(7)">Wow, Ahead! 🚀</button>
         </div>
 
-        <!-- ===== PAGE 7 ===== -->
         <div class="page" id="page7">
-            <div class="pulse-ring-container">
-                <div class="pulse-ring"></div>
-                <div class="pulse-ring-text">❤️</div>
-            </div>
+            <img src="gif3.gif" class="media-box" alt="Gif 3">
             <h1>Did You Know?</h1>
-            <p>Alisha + Shiva makes the absolute best squad team in the world.</p>
+            <p>Shiva + Alisha make the most beautiful and unbeatable team in this universe.</p>
             <button class="btn" onclick="goPage(8)">Agree? Click Here! 💕</button>
         </div>
 
-        <!-- ===== PAGE 8 ===== -->
         <div class="page" id="page8">
-            <div class="spin-heart">💖</div>
+            <img src="photo2.jpg" class="media-box" alt="Photo 2">
             <h1>Another Classic Frame</h1>
-            <p>Freeze framing this beautiful memory forever in our digital timeline.</p>
+            <p>Freezing this beautiful candid memory forever inside our premium digital space.</p>
             <button class="btn" onclick="goPage(9)">Almost There 🥺</button>
         </div>
 
-        <!-- ===== PAGE 9 ===== -->
         <div class="page" id="page9">
-            <div class="bubble-container" id="bubbleContainer"></div>
-            <h1>Infinite Support</h1>
-            <p>No matter what day it is, you'll always find me cheering for you.</p>
+            <img src="gif4.gif" class="media-box" alt="Gif 4">
+            <h1>Infinite Supporter</h1>
+            <p>No matter what day or time it is, you will always find me cheering for you out loud.</p>
             <button class="btn" onclick="goPage(10)">Final Surprise 🎁</button>
         </div>
 
-        <!-- ===== PAGE 10 ===== -->
         <div class="page" id="page10">
-            <div class="sparkle-grid">
-                <div class="sparkle-item">💎</div>
-                <div class="sparkle-item">✨</div>
-                <div class="sparkle-item">⭐</div>
-                <div class="sparkle-item">💎</div>
-                <div class="sparkle-item">✨</div>
-                <div class="sparkle-item">⭐</div>
-                <div class="sparkle-item">💎</div>
-                <div class="sparkle-item">✨</div>
-                <div class="sparkle-item">⭐</div>
-            </div>
-            <h1>You're so special!</h1>
-            <p>Never ever forget it. Coded with love, just for you Alisha.</p>
-            <button class="btn" onclick="goPage(11)">Read Again 🔄</button>
-        </div>
-
-        <!-- ===== PAGE 11 ===== -->
-        <div class="page" id="page11">
-            <div class="butterfly">🦋</div>
-            <h1>You're so special!</h1>
-            <p>Never ever forget it. Coded with love, just for you Alisha.</p>
-            <button class="btn" onclick="goPage(12)">Next 💘</button>
-        </div>
-
-        <!-- ===== PAGE 12 - ARROW → HEART GAME ===== -->
-        <div class="page" id="page12">
-            <h1 style="font-size:20px;">Stretch the bow to pop!</h1>
-            <p>Drag the arrow down and release to reveal surprises!</p>
-            <div class="bow-game-container">
-                <div class="heart-target" id="heartTarget">🎯</div>
-                <div class="arrow-drag-area">
-                    <div class="bow-string" id="bowString"></div>
-                    <div class="draggable-arrow" id="draggableArrow"></div>
-                </div>
-            </div>
-            <div class="comp-msg-box" id="compMsgBox">
-                <p>💖 Your heart is genuinely so kind</p>
-                <p>😂 You always know how to make me laugh</p>
-                <p>🤍 Your smile feels so comforting</p>
-            </div>
-            <button class="btn" id="arrowNextBtn" style="display:none;" onclick="goPage(13)">Final Surprise 🎁</button>
-        </div>
-
-        <!-- ===== PAGE 13 ===== -->
-        <div class="page" id="page13">
-            <div class="confetti-container" id="confettiContainer"></div>
-            <div class="final-heart-big">💗</div>
-            <h1>You're so special!</h1>
-            <p>Never ever forget it. Coded with love, just for you Alisha.</p>
-            <button class="btn" onclick="resetApp()" style="background:linear-gradient(135deg,#7c4dff,#536dfe);">Read Again 🔄</button>
+            <video id="vid2" class="media-box" loop playsinline>
+                <source src="video2.mp4" type="video/mp4">
+            </video>
+            <img src="gif5.gif" style="display:none;" alt="Gif 5 Linkage">
+            <h1>You're So Precious!</h1>
+            <p>Never ever forget that you hold the most vital value. Forever yours.</p>
+            <button class="btn" onclick="resetApp()">Read Again 🔄</button>
         </div>
 
         <div class="page-indicator" id="pageIndicator"></div>
     </div>
 
     <script>
-        // ==========================================
-        const TOTAL_PAGES = 13;
+        const TOTAL_PAGES = 10;
         let currentPage = 1;
-        let bgMusicPlaying = false;
-        let thermoRunning = false;
-        let arrowHit = false;
-        let heartRainInterval = null;
-        let bubbleInterval = null;
-        let confettiInterval = null;
+        let bgMusicActive = false;
 
-        // ==========================================
-        // BACKGROUND HEARTS
-        // ==========================================
-        function spawnBgHeart() {
+        // --- HEART FLOATING ANIMATION ---
+        function generateHeart() {
             const layer = document.getElementById('bgHeartsLayer');
             const heart = document.createElement('div');
             heart.className = 'bg-heart';
-            const hearts = ['❤️','💕','💗','💖','💘','💝'];
-            heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
-            heart.style.left = Math.random() * 96 + '%';
-            heart.style.fontSize = (20 + Math.random() * 30) + 'px';
-            heart.style.animationDuration = (12 + Math.random() * 18) + 's';
+            const heartTypes = ['❤️','💖','💗','💕','💘'];
+            heart.innerHTML = heartTypes[Math.floor(Math.random() * heartTypes.length)];
+            heart.style.left = Math.random() * 95 + '%';
+            heart.style.animationDuration = (6 + Math.random() * 6) + 's';
             layer.appendChild(heart);
-            setTimeout(() => heart.remove(), 28000);
+            setTimeout(() => heart.remove(), 11000);
         }
-        setInterval(spawnBgHeart, 600);
-        for(let i = 0; i < 8; i++) setTimeout(spawnBgHeart, i * 200);
+        setInterval(generateHeart, 500);
 
-        // ==========================================
-        // PAGE INDICATOR
-        // ==========================================
-        function updateIndicator(page) {
-            const container = document.getElementById('pageIndicator');
-            container.innerHTML = '';
+        // --- INDICATOR MANAGEMENT ---
+        function renderIndicators(page) {
+            const indicator = document.getElementById('pageIndicator');
+            indicator.innerHTML = '';
             for(let i = 1; i <= TOTAL_PAGES; i++) {
                 const dot = document.createElement('div');
                 dot.className = 'indicator-dot' + (i === page ? ' active' : '');
-                container.appendChild(dot);
+                indicator.appendChild(dot);
             }
             document.getElementById('pageCounter').textContent = page + ' / ' + TOTAL_PAGES;
         }
-        updateIndicator(1);
+        renderIndicators(1);
 
-        // ==========================================
-        // BG MUSIC
-        // ==========================================
-        function playBgMusic() {
-            const m = document.getElementById('bgMusic');
-            m.play().catch(() => {});
-            bgMusicPlaying = true;
-        }
-        function pauseBgMusic() {
-            document.getElementById('bgMusic').pause();
-        }
-
-        // ==========================================
-        // PAGE NAVIGATION
-        // ==========================================
+        // --- NAVIGATION HANDLING (WITH AUDIO LOGIC) ---
         function goPage(num) {
             if(num < 1 || num > TOTAL_PAGES) return;
 
-            // Video page (page 5) - bg music OFF
-            if(num === 5) {
-                pauseBgMusic();
-                const v = document.getElementById('vid1');
-                v.muted = false; v.volume = 0.8;
-                v.play().catch(() => {});
+            const audio = document.getElementById('bgMusic');
+            const v1 = document.getElementById('vid1');
+            const v2 = document.getElementById('vid2');
+
+            // Manage Page 4 Video Audio Interlocking
+            if(num === 4) {
+                audio.pause();
+                v1.muted = false;
+                v1.currentTime = 0;
+                v1.play().catch(()=>{});
             } else {
-                const v = document.getElementById('vid1');
-                v.muted = true; v.pause();
-                if(bgMusicPlaying) playBgMusic();
+                v1.pause();
             }
 
-            // Cleanup leaving pages
-            if(currentPage === 4 && heartRainInterval) {
-                clearInterval(heartRainInterval); heartRainInterval = null;
-                document.getElementById('heartRainContainer').innerHTML = '';
+            // Manage Page 10 Video Audio Interlocking
+            if(num === 10) {
+                audio.pause();
+                v2.muted = false;
+                v2.currentTime = 0;
+                v2.play().catch(()=>{});
+            } else {
+                v2.pause();
             }
-            if(currentPage === 9 && bubbleInterval) {
-                clearInterval(bubbleInterval); bubbleInterval = null;
-                document.getElementById('bubbleContainer').innerHTML = '';
-            }
-            if(currentPage === 13 && confettiInterval) {
-                clearInterval(confettiInterval); confettiInterval = null;
-                document.getElementById('confettiContainer').innerHTML = '';
+
+            // Resume BG Music if leaving video pages
+            if(num !== 4 && num !== 10 && bgMusicActive) {
+                audio.play().catch(()=>{});
             }
 
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            const target = document.getElementById('page' + num);
-            if(target) {
-                target.classList.add('active');
-                currentPage = num;
-                updateIndicator(num);
+            document.getElementById('page' + num).classList.add('active');
+            currentPage = num;
+            renderIndicators(num);
+        }
+
+        function startApp() {
+            bgMusicActive = true;
+            document.getElementById('bgMusic').play().catch(()=>{});
+            goPage(2);
+            setupArrowGame();
+        }
+
+        // --- BIG THERMOMETER LOGIC ---
+        function startThermometer() {
+            const fill = document.getElementById('thermoFill');
+            const label = document.getElementById('thermoLabel');
+            document.getElementById('thermoBtn').style.display = 'none';
+            
+            fill.style.width = '100%';
+            let speed = 0;
+            const counting = setInterval(() => {
+                speed += 2;
+                if(speed >= 100) {
+                    clearInterval(counting);
+                    label.textContent = 'Infinite Cuteness! ♾️❤️';
+                    document.getElementById('thermoNextBtn').style.display = 'inline-block';
+                } else {
+                    label.textContent = speed + '% Cute';
+                }
+            }, 40);
+        }
+
+        // --- INTERACTIVE ARROW LOGIC (EASY CONTROL) ---
+        function setupArrowGame() {
+            const arrow = document.getElementById('draggableArrow');
+            const target = document.getElementById('heartTarget');
+            let initialY = 0;
+            let currentDrag = 0;
+            let isMoving = false;
+
+            function startMove(e) {
+                isMoving = true;
+                initialY = e.clientY || e.touches[0].clientY;
             }
 
-            // Start animations on enter
-            if(num === 4) startHeartRain();
-            if(num === 6) resetThermometer();
-            if(num === 9) startBubbles();
-            if(num === 12) resetArrowGame();
-            if(num === 13) startConfetti();
+            function dragMove(e) {
+                if(!isMoving) return;
+                let clientY = e.clientY || e.touches[0].clientY;
+                let diffY = clientY - initialY;
+                if(diffY > 0 && diffY < 70) {
+                    currentDrag = diffY;
+                    arrow.style.transform = `translateX(-50%) translateY(${diffY}px)`;
+                }
+            }
+
+            function endMove() {
+                if(!isMoving) return;
+                isMoving = false;
+                if(currentDrag > 30) {
+                    // Shoot Upward Animation instantly
+                    arrow.style.transition = 'transform 0.15s cubic-bezier(0.1, 1, 0.1, 1)';
+                    arrow.style.transform = 'translateX(-50%) translateY(-180px)';
+                    
+                    setTimeout(() => {
+                        target.className = 'heart-target hit';
+                        target.textContent = '💥❤️';
+                        document.getElementById('compMsgBox').style.display = 'block';
+                        document.getElementById('arrowNextBtn').style.display = 'inline-block';
+                    }, 140);
+                } else {
+                    arrow.style.transform = 'translateX(-50%) translateY(0)';
+                }
+            }
+
+            arrow.addEventListener('mousedown', startMove);
+            arrow.addEventListener('touchstart', startMove);
+            window.addEventListener('mousemove', dragMove);
+            window.addEventListener('touchmove', dragMove);
+            window.addEventListener('mouseup', endMove);
+            window.addEventListener('touchend', endMove);
         }
 
-        // ==========================================
-        // START APP
-        // ==========================================
-        function startApp() {
-            playBgMusic();
-            goPage(2);
-        }
-
-        // ==========================================
-        // PAGE 4 - HEART RAIN
-        // ==========================================
-        function startHeartRain() {
-            if(heartRainInterval) return;
-            const c = document.getElementById('heartRainContainer');
-            heartRainInterval = setInterval(() => {
-                const h = document.createElement('div');
-                h.className = 'heart-rain-particle';
-                const hearts = ['💖','💗','❤️','💕','💘','💝'];
-                h.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
-                h.style.left = Math.random() * 90 + '%';
-                h.style.animationDuration = (2 + Math.random() * 2) + 's';
-                h.style.fontSize = (16 + Math.random() * 16) + 'px';
-                c.appendChild(h);
-                setTimeout(() => h.remove(), 5000);
-            }, 200);
-        }
-
-        // ==========================================
-        // PAGE 6 - THERMOMETER
-        // ==========================================
-        function resetThermometer() {
+        function resetApp() {
             document.getElementById('thermoFill').style.width = '0%';
             document.getElementById('thermoLabel').textContent = '0%';
             document.getElementById('thermoBtn').style.display = 'inline-block';
             document.getElementById('thermoNextBtn').style.display = 'none';
-            thermoRunning = false;
-        }
-        function startThermometer() {
-            if(thermoRunning) return;
-            thermoRunning = true;
-            const fill = document.getElementById('thermoFill');
-            const label = document.getElementById('thermoLabel');
-            const btn = document.getElementById('thermoBtn');
-            btn.style.display = 'none';
-            fill.style.width = '100%';
-            let count = 0;
-            const interval = setInterval(() => {
-                count += 3;
-                if(count >= 100) {
-                    count = 100;
-                    clearInterval(interval);
-                    label.textContent = 'Infinite Cuteness! ♾️';
-                    document.getElementById('thermoNextBtn').style.display = 'inline-block';
-                    thermoRunning = false;
-                } else {
-                    label.textContent = count + '% Cuteness';
-                }
-            }, 60);
-        }
-
-        // ==========================================
-        // PAGE 9 - BUBBLES
-        // ==========================================
-        function startBubbles() {
-            if(bubbleInterval) return;
-            const c = document.getElementById('bubbleContainer');
-            bubbleInterval = setInterval(() => {
-                const b = document.createElement('div');
-                b.className = 'bubble';
-                b.style.left = (10 + Math.random() * 80) + '%';
-                const size = 18 + Math.random() * 24;
-                b.style.width = size + 'px';
-                b.style.height = size + 'px';
-                b.style.animationDuration = (3 + Math.random() * 3) + 's';
-                c.appendChild(b);
-                setTimeout(() => b.remove(), 7000);
-            }, 300);
-        }
-
-        // ==========================================
-        // PAGE 12 - ARROW → HEART GAME
-        // ==========================================
-        function resetArrowGame() {
-            arrowHit = false;
+            
+            const target = document.getElementById('heartTarget');
+            target.className = 'heart-target';
+            target.textContent = '❤️';
             const arrow = document.getElementById('draggableArrow');
-            arrow.style.transform = 'translateX(-50%) translateY(0)';
             arrow.style.transition = 'none';
-            document.getElementById('bowString').style.transform = 'scaleY(1)';
-            document.getElementById('heartTarget').className = 'heart-target';
-            document.getElementById('heartTarget').innerHTML = '\uD83C\uDFAF';
-            document.getElementById('compMsgBox').style.display = 'none';
-            document.getElementById('arrowNextBtn').style.display = 'none';
-            arrowHit = false;
-        }
-
-        function initArrowGame() {
-            const arrow = document.getElementById('draggableArrow');
-            const bowString = document.getElementById('bowString');
-            const heartTarget = document.getElementById('heartTarget');
-            const compBox = document.getElementById('compMsgBox');
-            const nextBtn = document.getElementById('arrowNextBtn');
-
-            let isDragging = false;
-            let startY = 0;
-
-            function onStart(e) {
-                if(arrowHit) return;
-                e.preventDefault();
-                isDragging = true;
-                const t = e.touches ? e.touches[0] : e;
-                startY = t.clientY;
-                arrow.style.transition = 'none';
-                bowString.style.transition = 'none';
-            }
-
-            function onMove(e) {
-                if(!isDragging || arrowHit) return;
-                e.preventDefault();
-                const t = e.touches ? e.touches[0] : e;
-                const delta = startY - t.clientY;
-                if(delta > 5 && delta < 100) {
-                    arrow.style.transform = 'translateX(-50%) translateY(-' + delta + 'px)';
-                    bowString.style.transform = 'scaleY(' + (1 + delta / 120) + ')';
-                }
-            }
-
-            function onEnd() {
-                if(!isDragging) return;
-                isDragging = false;
-                if(arrowHit) return;
-
-                const match = arrow.style.transform.match(/translateY\(-(\d+)px\)/);
-                const pulled = match ? parseInt(match[1]) : 0;
-
-                if(pulled > 30 && !arrowHit) {
-                    arrowHit = true;
-                    arrow.style.transition = 'transform 0.35s cubic-bezier(0.25,0.46,0.45,0.94)';
-                    arrow.style.transform = 'translateX(-50%) translateY(-250px)';
-                    bowString.style.transition = 'transform 0.3s ease';
-                    bowString.style.transform = 'scaleY(1)';
-
-                    setTimeout(() => {
-                        heartTarget.className = 'heart-target hit';
-                        heartTarget.innerHTML = '\uD83D\uDC98';
-                        setTimeout(() => {
-                            compBox.style.display = 'block';
-                            nextBtn.style.display = 'inline-block';
-                            arrow.style.transition = 'transform 0.3s ease';
-                            arrow.style.transform = 'translateX(-50%) translateY(0)';
-                        }, 600);
-                    }, 350);
-                } else {
-                    arrow.style.transition = 'transform 0.2s ease';
-                    arrow.style.transform = 'translateX(-50%) translateY(0)';
-                    bowString.style.transition = 'transform 0.2s ease';
-                    bowString.style.transform = 'scaleY(1)';
-                }
-            }
-
-            arrow.addEventListener('touchstart', onStart, { passive: false });
-            arrow.addEventListener('mousedown', onStart);
-            document.addEventListener('touchmove', onMove, { passive: false });
-            document.addEventListener('mousemove', onMove);
-            document.addEventListener('touchend', onEnd);
-            document.addEventListener('mouseup', onEnd);
-        }
-
-        // ==========================================
-        // PAGE 13 - CONFETTI
-        // ==========================================
-        function startConfetti() {
-            if(confettiInterval) return;
-            const c = document.getElementById('confettiContainer');
-            const colors = ['#ff4081','#ff80ab','#e91e63','#f48fb1','#ff1744','#d81b60','#fce4ec','#ffb74d','#7c4dff'];
-            confettiInterval = setInterval(() => {
-                const piece = document.createElement('div');
-                piece.className = 'confetti-piece';
-                piece.style.left = Math.random() * 96 + '%';
-                piece.style.background = colors[Math.floor(Math.random() * colors.length)];
-                piece.style.width = (5 + Math.random() * 8) + 'px';
-                piece.style.height = (5 + Math.random() * 8) + 'px';
-                piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
-                piece.style.animationDuration = (2 + Math.random() * 3) + 's';
-                c.appendChild(piece);
-                setTimeout(() => piece.remove(), 6000);
-            }, 100);
-        }
-
-        // ==========================================
-        // RESET APP
-        // ==========================================
-        function resetApp() {
-            currentPage = 1;
-            if(heartRainInterval) { clearInterval(heartRainInterval); heartRainInterval = null; }
-            if(bubbleInterval) { clearInterval(bubbleInterval); bubbleInterval = null; }
-            if(confettiInterval) { clearInterval(confettiInterval); confettiInterval = null; }
-            document.getElementById('heartRainContainer').innerHTML = '';
-            document.getElementById('bubbleContainer').innerHTML = '';
-            document.getElementById('confettiContainer').innerHTML = '';
-
-            const v = document.getElementById('vid1');
-            v.muted = true; v.pause();
-
+            arrow.style.transform = 'translateX(-50%) translateY(0)';
             document.getElementById('compMsgBox').style.display = 'none';
             document.getElementById('arrowNextBtn').style.display = 'none';
 
             goPage(1);
         }
-
-        // ==========================================
-        // INIT
-        // ==========================================
-        document.addEventListener('DOMContentLoaded', () => {
-            initArrowGame();
-            goPage(1);
-        });
     </script>
 </body>
-</html>
+    </html>
