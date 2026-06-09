@@ -3,230 +3,563 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For you alisha 💗</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>For you cutie😻 </title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;700&display=swap');
-        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
         body {
-            background: radial-gradient(circle at center, #1a001f 0%, #000000 100%);
-            font-family: 'Poppins', sans-serif;
-            overflow: hidden; margin: 0; color: #ffffff; user-select: none;
+            background: linear-gradient(135deg, #e0f7fa, #fce4ec);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
         }
 
-        .header-tag {
-            position: fixed; top: 10px; width: 100%; text-align: center;
-            z-index: 100; font-family: 'Dancing Script', cursive;
-            color: #ffb3d9; font-size: 1.4rem; letter-spacing: 2px;
-            text-shadow: 0 0 15px rgba(255,179,217,0.7);
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
-        .slide {
-            display: none; position: fixed; inset: 0; width: 100%; height: 100vh;
-            align-items: center; justify-content: center; flex-direction: column;
-            transition: all 0.6s ease-in-out; opacity: 0; z-index: 20; padding: 20px; text-align: center;
-        }
-        .slide.active { display: flex; opacity: 1; }
-
-        /* Darker, bolder text for readability */
-        .cute-msg { font-family: 'Dancing Script', cursive; color: #ffebf5; text-shadow: 0 0 20px #ff00cc, 0 0 40px #ff00cc; font-size: 2.8rem; margin-top: 15px; font-weight: 700; }
-        .sub-text { color: #ffffff; font-weight: 600; font-size: 1.1rem; text-shadow: 2px 2px 4px rgba(0,0,0,1); }
-        
-        .gif-frame { 
-            width: 260px; height: 260px; border-radius: 30px; 
-            border: 3px solid #ff00cc; 
-            box-shadow: 0 0 50px rgba(255, 0, 204, 0.5); 
-            object-fit: cover; 
+        /* Credits Header */
+        .credits {
+            position: absolute;
+            top: 15px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #d81b60;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 5px 15px;
+            border-radius: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
         }
 
-        .glow-btn { 
-            background: linear-gradient(45deg, #ff00cc, #ff69b4); 
-            padding: 14px 40px; border-radius: 50px; font-weight: 700; 
-            box-shadow: 0 0 25px rgba(255, 0, 204, 0.6); 
-            cursor: pointer; transition: 0.3s; margin: 10px;
-            color: white; border: none; font-size: 1.1rem;
+        /* App Container mimicking Instagram Window */
+        .window-container {
+            width: 90%;
+            max-width: 400px;
+            height: 80vh;
+            max-height: 700px;
+            background: #ffffff;
+            border: 8px solid #ccffdd;
+            border-radius: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
-        .glow-btn:hover { transform: scale(1.1); box-shadow: 0 0 40px #ff00cc; }
-        
-        .no-btn { background: #333; color: #aaa; padding: 10px 25px; border-radius: 50px; cursor: pointer; transition: 0.2s; }
 
-        .solar-system { position: relative; width: 280px; height: 280px; display: flex; align-items: center; justify-content: center; }
-        .orbit { position: absolute; border: 2px solid rgba(255,105,180,0.4); border-radius: 50%; animation: spin linear infinite; }
-        .orbit-1 { width: 180px; height: 180px; animation-duration: 5s; }
-        .orbit-2 { width: 260px; height: 260px; animation-duration: 9s; animation-direction: reverse; }
-        .planet { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); font-size: 24px; }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
+        /* Top Window Deco dots */
+        .window-dots {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            display: flex;
+            gap: 5px;
+        }
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        .dot-r { background: #ff5f56; }
+        .dot-y { background: #ffbd2e; }
+        .dot-g { background: #27c93f; }
 
-        .star { position: absolute; background: white; border-radius: 50%; box-shadow: 0 0 10px white; animation: twinkle var(--d) infinite alternate; }
-        @keyframes twinkle { 0% { opacity: 0.2; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1.3); } }
+        /* Pages Setup */
+        .page {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            padding: 30px;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
 
-        .hold-container { width: 280px; height: 16px; background: rgba(255,255,255,0.2); border-radius: 10px; margin-top: 20px; overflow: hidden; position: relative; border: 1px solid white; }
-        #holdProgress { position: absolute; left: 0; top: 0; height: 100%; background: #ff00cc; width: 0%; box-shadow: 0 0 20px #ff00cc; }
+        .page.active {
+            display: flex;
+        }
 
-        #videoLayer { display: none; position: fixed; inset: 0; background: black; z-index: 1000; align-items: center; justify-content: center; }
-        video { width: 100%; height: 100%; object-fit: contain; }
+        /* Typography & Buttons */
+        h1 {
+            color: #ff4081;
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        p {
+            color: #555;
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 25px;
+        }
+
+        .btn {
+            background: #ff4081;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255, 64, 129, 0.4);
+            transition: transform 0.2s;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Media Elements */
+        .media-box {
+            width: 100%;
+            max-height: 250px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        video {
+            pointer-events: none; /* Disables click on video, no pause/play controls */
+        }
+
+        /* Bow and Arrow Interactive Area */
+        .bow-game-container {
+            position: relative;
+            width: 100%;
+            height: 350px;
+            margin-top: 20px;
+        }
+
+        .balloon-stack {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .balloon {
+            width: 45px;
+            height: 55px;
+            background: #ff4081;
+            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 10px;
+            box-shadow: inset -5px -5px 10px rgba(0,0,0,0.1);
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        .balloon::after {
+            content: "▲";
+            position: absolute;
+            bottom: -8px;
+            font-size: 8px;
+            color: #ff4081;
+        }
+
+        .bow-wrapper {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+        }
+
+        .bow-arc {
+            width: 80px;
+            height: 40px;
+            border: 4px solid #b0bec5;
+            border-bottom: none;
+            border-radius: 40px 40px 0 0;
+            position: absolute;
+            bottom: 0;
+            transform: rotate(180deg);
+        }
+
+        .arrow {
+            width: 6px;
+            height: 50px;
+            background: #78909c;
+            position: absolute;
+            bottom: 10px;
+            left: 47px;
+            cursor: grab;
+            transform-origin: bottom center;
+            border-radius: 3px 3px 0 0;
+        }
+
+        .arrow::before {
+            content: "▲";
+            position: absolute;
+            top: -10px;
+            left: -4px;
+            color: #d81b60;
+            font-size: 14px;
+        }
+
+        /* Compliments Reveal Box */
+        .compliments-box {
+            display: none;
+            width: 100%;
+            background: #fff0f5;
+            padding: 15px;
+            border-radius: 15px;
+            margin-top: 15px;
+            border: 2px dashed #ff4081;
+        }
+
+        .compliments-box p {
+            margin: 5px 0;
+            font-weight: 500;
+            color: #d81b60;
+        }
+
+        /* Thermometer Styles */
+        .thermometer-container {
+            width: 80%;
+            background: #eee;
+            border-radius: 20px;
+            padding: 5px;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .thermometer-bar {
+            width: 0%;
+            height: 25px;
+            background: linear-gradient(to right, #ff80ab, #ff4081);
+            border-radius: 15px;
+            transition: width 2.5s ease-in-out;
+        }
+
+        .thermo-label {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            top: 7px;
+            font-weight: bold;
+            color: #333;
+            font-size: 14px;
+        }
+
+        /* Floating Hearts Screen Effect */
+        .heart-particle {
+            position: absolute;
+            color: #ff4081;
+            font-size: 24px;
+            pointer-events: none;
+            animation: floatUpAndBurst 1.5s forwards ease-out;
+            z-index: 9999;
+        }
+
+        @keyframes floatUpAndBurst {
+            0% {
+                transform: translateY(100vh) scale(0.5);
+                opacity: 1;
+            }
+            70% {
+                transform: translateY(30vh) scale(1.5);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(20vh) scale(2);
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <div class="header-tag">Coded by SIVASINGH 💗</div>
+    <div class="credits">Coded by sivasingh</div>
 
-    <audio id="bgMusic" loop src="tere-liye.mp3"></audio>
-    <div id="stars-container" class="fixed inset-0 pointer-events-none"></div>
-
-    <div id="slide1" class="slide active">
-        <img src="gif1.gif" class="gif-frame">
-        <h1 class="cute-msg">Hey Gorgeous! ✨</h1>
-        <p class="sub-text">Hi alisha i am sivasingh and i cidded something for you just for your smile 😁!</p>
-        <button onclick="startApp()" class="glow-btn">Touch My Heart 🥺</button>
-    </div>
-
-    <div id="slide2" class="slide">
-        <img src="gif2.gif" class="gif-frame">
-        <h1 class="cute-msg">How are you so cute?</h1>
-        <p class="sub-text">Seriously, your smile is the highlight of my day!</p>
-        <button onclick="next()" class="glow-btn">See More 💕</button>
-    </div>
-
-    <div id="slide3" class="slide">
-        <img src="gif3.gif" class="gif-frame">
-        <h1 class="cute-msg">Our Vibe is Rare! 😌</h1>
-        <p class="sub-text">Talking to you feels like time has completely stopped.</p>
-        <button onclick="next()" class="glow-btn">Next Step ✨</button>
-    </div>
-
-    <div id="slide4" class="slide">
-        <div class="text-9xl mb-6 transition-all duration-500" id="pulseHeart">💖</div>
-        <h1 class="text-2xl font-bold">How much do I adore you?</h1>
-        <div class="hold-container"><div id="holdProgress"></div></div>
-        <button id="holdBtn" class="glow-btn mt-6 select-none">PRESS & HOLD TO FEEL</button>
-    </div>
-
-    <div id="slide5" class="slide">
-        <img src="gif4.gif" class="gif-frame">
-        <h1 class="cute-msg">You're One in a Billion! 💎</h1>
-        <p class="sub-text">It's only been a short time, but the feeling is magical.</p>
-        <button onclick="next()" class="glow-btn">Continue...</button>
-    </div>
-
-    <div id="slide6" class="slide">
-        <div class="solar-system">
-            <div class="orbit orbit-1"><span class="planet">💗</span></div>
-            <div class="orbit orbit-2"><span class="planet">⭐</span></div>
-            <div class="text-6xl">🌍</div>
+    <div class="window-container">
+        <div class="window-dots">
+            <span class="dot dot-r"></span>
+            <span class="dot dot-y"></span>
+            <span class="dot dot-g"></span>
         </div>
-        <h1 class="cute-msg mt-10">My Whole Universe!</h1>
-        <p class="sub-text">Everything seems better when you're around.</p>
-        <button onclick="next()" class="glow-btn">Keep Going 🚀</button>
-    </div>
 
-    <div id="slide7" class="slide">
-        <img src="gif5.gif" class="gif-frame">
-        <h1 class="cute-msg">Don't ever leave! 🥺</h1>
-        <p class="sub-text">I've never met anyone as sweet and special as you.</p>
-        <button onclick="next()" class="glow-btn">Wait for it...</button>
-    </div>
+        <audio id="bgMusic" loop>
+            <source src="tere-liye.mp3" type="audio/mpeg">
+        </audio>
 
-    <div id="slide8" class="slide">
-        <h1 class="cute-msg">You're my Brightest Star! ⭐</h1>
-        <p class="sub-text max-w-xs">In a sky full of stars, my eyes only search for you.</p>
-        <button onclick="next()" class="glow-btn">Just a bit more ✨</button>
-    </div>
-
-    <div id="slide9" class="slide">
-        <img src="gif6.gif" class="gif-frame">
-        <h1 class="cute-msg">Alisha you are my good bestie ? ❤️</h1>
-        <p class="sub-text">...and maybe something even more special? 💍</p>
-        <div id="btnContainer" class="flex flex-wrap justify-center mt-4">
-            <button onclick="next()" class="glow-btn">YES! 😍</button>
-            <button id="noBtn" onclick="trapNo()" class="no-btn">No 🥺</button>
+        <div class="page active" id="page1">
+            <img src="gif1.gif" class="media-box" alt="Cute Gif">
+            <h1>Hi Cutie :)</h1>
+            <p>I made a little something just for you. Ready to see why you're so special, Alisha?</p>
+            <button class="btn" onclick="startApp()">Let's Go! ❤️</button>
         </div>
-    </div>
 
-    <div id="slide10" class="slide">
-        <img src="gif7.gif" class="gif-frame">
-        <h1 class="cute-msg">Yaaay! My Heart is Happy! 🥳</h1>
-        <p class="sub-text">I promise to keep that beautiful smile on your face!</p>
-        <button onclick="playSurprise()" class="glow-btn animate-bounce">A FINAL SURPRISE 🎁</button>
-    </div>
+        <div class="page" id="page2">
+            <h1>Stretch the bow to pop!</h1>
+            <p>Drag the arrow down and release to reveal surprises!</p>
+            
+            <div class="bow-game-container">
+                <div class="balloon-stack" id="balloonStack">
+                    <div class="balloon" id="b1">🎈</div>
+                    <div class="balloon" id="b2">🎈</div>
+                    <div class="balloon" id="b3">🎈</div>
+                    <div class="balloon" id="b4">🎈</div>
+                    <div class="balloon" id="b5">🎈</div>
+                </div>
 
-    <div id="videoLayer">
-        <video id="vPlayer" playsinline src="video1.mp4"></video>
+                <div class="bow-wrapper">
+                    <div class="bow-arc"></div>
+                    <div class="arrow" id="gameArrow"></div>
+                </div>
+            </div>
+
+            <div class="compliments-box" id="compBox">
+                <p>💖 Your heart is genuinely so kind</p>
+                <p>😂 You always know how to make me laugh</p>
+                <p>🤍 Your smile feels so comforting</p>
+            </div>
+            
+            <button class="btn" id="nextPage2Btn" style="display:none; margin-top:15px;" onclick="nextPage(3)">Next Secret ✨</button>
+        </div>
+
+        <div class="page" id="page3">
+            <img src="gif2.gif" class="media-box" alt="Gif 2">
+            <h1>Every moment with you...</h1>
+            <p>Feels magical. You bring so much bright energy into Shiva's life.</p>
+            <button class="btn" onclick="nextPage(4)">Continue 🥰</button>
+        </div>
+
+        <div class="page" id="page4">
+            <video id="vid1" class="media-box" autoplay loop muted playsinline>
+                <source src="video1.mp4" type="video/mp4">
+            </video>
+            <h1>Just Look At You!</h1>
+            <p>Captivating and completely unique. Cannot skip admiring this view.</p>
+            <button class="btn" onclick="nextPage(5)">Next Page 👉</button>
+        </div>
+
+        <div class="page" id="page5">
+            <img src="photo1.jpg" class="media-box" alt="Photo 1">
+            <h1>My Favorite View</h1>
+            <p>This picture always puts a massive smile right across my face.</p>
+            <button class="btn" onclick="nextPage(6)">See More 🤫</button>
+        </div>
+
+        <div class="page" id="page6">
+            <img src="gif3.gif" class="media-box" alt="Gif 3">
+            <h1>Cuteness Meter Check!</h1>
+            <p>Let's run a quick live calculation of your current cute levels.</p>
+            <button class="btn" onclick="startThermometer()">Run Test 📊</button>
+            
+            <div class="thermometer-container" id="thermoContainer" style="display:none;">
+                <div class="thermometer-bar" id="thermoBar"></div>
+                <div class="thermo-label" id="thermoLabel">0%</div>
+            </div>
+            <button class="btn" id="nextPage6Btn" style="display:none; margin-top:10px;" onclick="nextPage(7)">Wow, Next! 🚀</button>
+        </div>
+
+        <div class="page" id="page7">
+            <img src="gif4.gif" class="media-box" alt="Gif 4">
+            <h1>Did You Know?</h1>
+            <p>Alisha + Shiva makes the absolute best squad team in the world.</p>
+            <button class="btn" onclick="nextPage(8)">Agree? Click Here! 💕</button>
+        </div>
+
+        <div class="page" id="page8">
+            <img src="photo2.jpg" class="media-box" alt="Photo 2">
+            <h1>Another Classic Frame</h1>
+            <p>Freeze framing this beautiful memory forever in our digital timeline.</p>
+            <button class="btn" onclick="nextPage(9)">Almost There 🥺</button>
+        </div>
+
+        <div class="page" id="page9">
+            <img src="gif5.gif" class="media-box" alt="Gif 5">
+            <h1>Infinite Support</h1>
+            <p>No matter what day it is, you'll always find me cheering for you.</p>
+            <button class="btn" onclick="nextPage(10)">Final Surprise 🎁</button>
+        </div>
+
+        <div class="page" id="page10">
+            <video id="vid2" class="media-box" autoplay loop muted playsinline>
+                <source src="video2.mp4" type="video/mp4">
+            </video>
+            <h1>You're so special!</h1>
+            <p>Never ever forget it. Coded with love, just for you Alisha.</p>
+            <button class="btn" onclick="resetApp()">Read Again 🔄</button>
+        </div>
+
     </div>
 
     <script>
-        let step = 1;
-        const music = document.getElementById('bgMusic');
-
-        // Background Stars Logic
-        const starContainer = document.getElementById('stars-container');
-        for(let i=0; i<100; i++) {
-            const star = document.createElement('div');
-            star.className = 'star';
-            const size = Math.random()*3 + 1 + 'px';
-            star.style.width = size; star.style.height = size;
-            star.style.left = Math.random()*100 + 'vw';
-            star.style.top = Math.random()*100 + 'vh';
-            star.style.setProperty('--d', (Math.random()*2+1)+'s');
-            starContainer.appendChild(star);
+        // Start playing Music and switch to Page 2
+        function startApp() {
+            const music = document.getElementById('bgMusic');
+            music.play().catch(e => console.log("Audio play awaited user focus."));
+            startHeartBlastInterval();
+            nextPage(2);
+            initBowGame();
         }
 
-        function startApp() { 
-            music.play().catch(() => {}); 
-            next(); 
-        }
+        // Generic Page Navigation router
+        function nextPage(pageNum) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(`page${pageNum}`).classList.add('active');
 
-        function next() {
-            document.querySelectorAll('.slide').forEach(s => { s.classList.remove('active'); s.style.display='none'; });
-            step++;
-            const current = document.getElementById('slide'+step);
-            if(current) { 
-                current.style.display='flex'; 
-                setTimeout(() => current.classList.add('active'), 50); 
-            }
-        }
-
-        // The No Button Trap
-        function trapNo() {
-            const container = document.getElementById('btnContainer');
-            const noBtn = document.getElementById('noBtn');
-            noBtn.style.display = 'none'; // Remove the No button
+            // Handle non-interactive loops cleanly for media pages
+            const v1 = document.getElementById('vid1');
+            const v2 = document.getElementById('vid2');
             
-            // Add 5 more YES buttons
-            for(let i=0; i<5; i++) {
-                const newYes = document.createElement('button');
-                newYes.innerHTML = "YES! 💖";
-                newYes.className = "glow-btn";
-                newYes.onclick = next;
-                container.appendChild(newYes);
+            if(pageNum === 4) { v1.play(); } else { v1.pause(); }
+            if(pageNum === 10) { v2.play(); } else { v2.pause(); }
+        }
+
+        // Reset application to start
+        function resetApp() {
+            nextPage(1);
+            // Reset local elements
+            document.getElementById('compBox').style.display = 'none';
+            document.getElementById('nextPage2Btn').style.display = 'none';
+            document.getElementById('thermoContainer').style.display = 'none';
+            document.getElementById('nextPage6Btn').style.display = 'none';
+            document.getElementById('thermoBar').style.width = '0%';
+            document.querySelectorAll('.balloon').forEach(b => {
+                b.style.opacity = '1';
+                b.style.transform = 'scale(1)';
+            });
+        }
+
+        // Drag down arrow animation for Bow & Arrow Game
+        function initBowGame() {
+            const arrow = document.getElementById('gameArrow');
+            let isDragging = false;
+            let startY = 0;
+
+            // Simple Touch & Mouse tracking
+            arrow.addEventListener('mousedown', startDrag);
+            arrow.addEventListener('touchstart', startDrag);
+
+            function startDrag(e) {
+                isDragging = true;
+                startY = e.clientY || e.touches[0].clientY;
+                arrow.style.transition = 'none';
+            }
+
+            window.addEventListener('mousemove', doDrag);
+            window.addEventListener('touchmove', doDrag);
+
+            function doDrag(e) {
+                if (!isDragging) return;
+                const currentY = e.clientY || e.touches[0].clientY;
+                const deltaY = currentY - startY;
+
+                if (deltaY > 0 && deltaY < 80) {
+                    arrow.style.transform = `translateY(${deltaY}px)`;
+                }
+            }
+
+            window.addEventListener('mouseup', endDrag);
+            window.addEventListener('touchend', endDrag);
+
+            function endDrag() {
+                if (!isDragging) return;
+                isDragging = false;
+                
+                // Snap arrow upwards simulating release shoot animation
+                arrow.style.transition = 'transform 0.1s ease-out';
+                arrow.style.transform = 'translateY(-150px)';
+
+                setTimeout(() => {
+                    // Trigger Pop Sequence
+                    popBalloonsSequence();
+                    // Reset Arrow Home
+                    arrow.style.transform = 'translateY(0)';
+                }, 150);
             }
         }
 
-        // Hold Logic
-        let hVal = 0, hInt;
-        const hBtn = document.getElementById('holdBtn'), hProg = document.getElementById('holdProgress'), pHeart = document.getElementById('pulseHeart');
-        
-        const startH = (e) => { 
-            e.preventDefault(); 
-            pHeart.style.transform = 'scale(1.8)';
-            hInt = setInterval(() => { 
-                hVal += 2; 
-                hProg.style.width = hVal + '%'; 
-                if(hVal >= 100) { clearInterval(hInt); next(); } 
-            }, 40); 
-        };
-        const endH = () => { clearInterval(hInt); hVal = 0; hProg.style.width = '0%'; pHeart.style.transform = 'scale(1)'; };
-        
-        hBtn.onmousedown = hBtn.ontouchstart = startH; 
-        window.onmouseup = window.ontouchend = endH;
+        function popBalloonsSequence() {
+            const balloons = document.querySelectorAll('.balloon');
+            balloons.forEach((balloon, index) => {
+                setTimeout(() => {
+                    balloon.style.transform = 'scale(1.3)';
+                    balloon.style.opacity = '0';
+                }, index * 200);
+            });
 
-        function playSurprise() { 
-            music.pause(); 
-            const layer = document.getElementById('videoLayer');
-            const video = document.getElementById('vPlayer');
-            layer.style.display = 'flex';
-            video.play();
-            video.onended = () => { location.reload(); };
+            setTimeout(() => {
+                document.getElementById('compBox').style.display = 'block';
+                document.getElementById('nextPage2Btn').style.display = 'inline-block';
+            }, balloons.length * 200);
+        }
+
+        // Thermometer Loader Profile
+        function startThermometer() {
+            document.getElementById('thermoContainer').style.display = 'block';
+            const bar = document.getElementById('thermoBar');
+            const label = document.getElementById('thermoLabel');
+            
+            bar.style.width = '100%';
+            
+            let count = 0;
+            const counterInterval = setInterval(() => {
+                count += 4;
+                if(count <= 100) {
+                    label.innerText = count + '% Cuteness';
+                } else {
+                    label.innerText = 'Infinite Cuteness! ♾️';
+                    clearInterval(counterInterval);
+                    document.getElementById('nextPage6Btn').style.display = 'inline-block';
+                }
+            }, 80);
+        }
+
+        // Screen Heart Blast Loop Function
+        function startHeartBlastInterval() {
+            setInterval(() => {
+                createHeartParticle();
+            }, 2500); // Trigger system wide loop intervals
+        }
+
+        function createHeartParticle() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart-particle');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 80 + 10 + '%'; 
+            
+            document.body.appendChild(heart);
+
+            // Blast into multiple tiny components at point apex
+            setTimeout(() => {
+                heart.remove();
+            }, 1500);
         }
     </script>
 </body>
