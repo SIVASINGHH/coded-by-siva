@@ -41,9 +41,8 @@
         @keyframes bgHeartFloat {
             0% { transform: translateY(0) rotate(0deg) scale(0.6); opacity: 0; }
             10% { opacity: 0.8; }
-            70% { transform: translateY(-60vh) scale(1.4); opacity: 1; }
-            71% { opacity: 0.2; transform: translateY(-60vh) scale(2.2); text-shadow: 0 0 20px #ff4081; }
-            100% { transform: translateY(-110vh) rotate(360deg) scale(0); opacity: 0; }
+            90% { opacity: 0.4; }
+            100% { transform: translateY(-110vh) rotate(360deg) scale(1.4); opacity: 0; }
         }
 
         .credits {
@@ -79,7 +78,7 @@
         }
 
         .page {
-            position: absolute; width: 100%; height: 100%; padding: 35px 20px 20px;
+            position: absolute; width: 100%; height: 100%; padding: 45px 20px 20px;
             display: none; flex-direction: column; align-items: center; justify-content: center;
             text-align: center; z-index: 2;
             opacity: 0; transform: scale(0.92);
@@ -110,12 +109,14 @@
         }
         .btn:active { transform: scale(0.95); }
 
+        /* FIXED PREMIUM MEDIA VIEW (NO CROPPING) */
         .media-box {
-            width: 100%; height: 210px; object-fit: cover;
+            width: 100%; height: 230px; 
+            object-fit: contain; /* Full picture visible without cut */
             border-radius: 18px; margin-bottom: 14px;
             box-shadow: 0 6px 20px rgba(0,0,0,0.4);
-            border: 1px solid rgba(255,64,129,0.2);
-            background-color: #000;
+            border: 1px solid rgba(255,64,129,0.25);
+            background: rgba(0, 0, 0, 0.4);
         }
 
         /* ===== THERMOMETER STYLE ===== */
@@ -134,47 +135,54 @@
             margin-top: 10px; text-shadow: 0 0 15px rgba(255,64,129,0.4);
         }
 
-        /* ===== BOW AND ARROW TARGET ===== */
+        /* ===== ADVANCED BOW AND ARROW TARGET ===== */
         .bow-game-container {
-            position: relative; width: 100%; height: 240px; margin: 10px 0;
+            position: relative; width: 100%; height: 250px; margin: 10px 0;
             touch-action: none;
         }
         .heart-target {
-            position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
-            font-size: 50px; filter: drop-shadow(0 0 15px #ff4081);
-            transition: transform 0.2s; z-index: 5;
+            position: absolute; top: 15px; left: 50%; transform: translateX(-50%);
+            font-size: 55px; filter: drop-shadow(0 0 15px #ff4081);
+            transition: all 0.2s ease; z-index: 5;
         }
-        .heart-target.hit {
-            animation: heartBlastEffect 0.6s ease forwards;
+        
+        /* Heart Burst Animations */
+        @keyframes heartShatter {
+            0% { transform: translateX(-50%) scale(1); opacity: 1; }
+            30% { transform: translateX(-50%) scale(1.7); filter: drop-shadow(0 0 35px #ff4081); }
+            50% { transform: translateX(-50%) scale(0.5); opacity: 0.5; }
+            100% { transform: translateX(-50%) scale(0); opacity: 0; }
         }
-        @keyframes heartBlastEffect {
-            0% { transform: translateX(-50%) scale(1); }
-            40% { transform: translateX(-50%) scale(1.8); filter: drop-shadow(0 0 40px #ff4081); }
-            100% { transform: translateX(-50%) scale(1.2); }
+        .heart-target.shatter {
+            animation: heartShatter 0.5s ease-out forwards;
         }
+
         .arrow-drag-area {
             position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);
-            width: 80px; height: 100px;
+            width: 80px; height: 110px;
         }
         .bow-string {
             position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%);
-            width: 2px; height: 60px; background: rgba(255,128,171,0.5);
+            width: 2px; height: 70px; background: rgba(255,128,171,0.4);
         }
         .draggable-arrow {
             position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%);
-            width: 6px; height: 55px; background: linear-gradient(to top, #ff4081, #ff80ab);
+            width: 6px; height: 60px; background: linear-gradient(to top, #ff4081, #ff80ab);
             border-radius: 3px; cursor: grab; z-index: 10;
         }
         .draggable-arrow::before {
             content: '▲'; position: absolute; top: -10px; left: 50%;
             transform: translateX(-50%); color: #ff4081; font-size: 11px;
         }
+
         .comp-msg-box {
             display: none; width: 100%; background: rgba(255,64,129,0.08);
             border: 1px solid rgba(255,64,129,0.25); border-radius: 16px;
-            padding: 10px; margin-top: 6px;
+            padding: 12px; margin-top: 10px;
+            animation: fadeIn 0.4s ease-in;
         }
-        .comp-msg-box p { margin: 4px 0; font-weight: 600; color: #ff80ab; font-size: 13px; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .comp-msg-box p { margin: 6px 0; font-weight: 600; color: #ff80ab; font-size: 14px; }
 
         .page-indicator {
             position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
@@ -189,8 +197,8 @@
 
         @media (max-height: 640px) {
             .window-container { height: 86vh; }
-            .media-box { height: 150px; }
-            .bow-game-container { height: 180px; }
+            .media-box { height: 170px; }
+            .bow-game-container { height: 190px; }
         }
     </style>
 </head>
@@ -219,8 +227,8 @@
         </div>
 
         <div class="page" id="page2">
-            <h1>Pull & Release Bow!</h1>
-            <p>Drag the pink arrow down and let it fly to shoot Shiva's love heart!</p>
+            <h1>Shoot the Heart!</h1>
+            <p>Drag the pink arrow down smoothly and release to burst Shiva's heart!</p>
             <div class="bow-game-container">
                 <div class="heart-target" id="heartTarget">❤️</div>
                 <div class="arrow-drag-area">
@@ -297,7 +305,7 @@
             <video id="vid2" class="media-box" loop playsinline>
                 <source src="video2.mp4" type="video/mp4">
             </video>
-            <img src="gif5.gif" style="display:none;" alt="Gif 5 Linkage">
+            <img src="gif5.gif" style="display:none;" alt="Gif 5 Asset Linkage">
             <h1>You're So Precious!</h1>
             <p>Never ever forget that you hold the most vital value. Forever yours.</p>
             <button class="btn" onclick="resetApp()">Read Again 🔄</button>
@@ -311,7 +319,7 @@
         let currentPage = 1;
         let bgMusicActive = false;
 
-        // --- HEART FLOATING ANIMATION ---
+        // --- HEART FLOATING BACKGROUND ANIMATION ---
         function generateHeart() {
             const layer = document.getElementById('bgHeartsLayer');
             const heart = document.createElement('div');
@@ -325,7 +333,7 @@
         }
         setInterval(generateHeart, 500);
 
-        // --- INDICATOR MANAGEMENT ---
+        // --- INDICATOR INFOBAR UPDATE ---
         function renderIndicators(page) {
             const indicator = document.getElementById('pageIndicator');
             indicator.innerHTML = '';
@@ -338,7 +346,7 @@
         }
         renderIndicators(1);
 
-        // --- NAVIGATION HANDLING (WITH AUDIO LOGIC) ---
+        // --- NAVIGATION HANDLING WITH AUTOMATIC AUDIO CONTROL ---
         function goPage(num) {
             if(num < 1 || num > TOTAL_PAGES) return;
 
@@ -346,7 +354,7 @@
             const v1 = document.getElementById('vid1');
             const v2 = document.getElementById('vid2');
 
-            // Manage Page 4 Video Audio Interlocking
+            // Manage Page 4 Video Track Audio Cut-off
             if(num === 4) {
                 audio.pause();
                 v1.muted = false;
@@ -356,7 +364,7 @@
                 v1.pause();
             }
 
-            // Manage Page 10 Video Audio Interlocking
+            // Manage Page 10 Video Track Audio Cut-off
             if(num === 10) {
                 audio.pause();
                 v2.muted = false;
@@ -366,7 +374,7 @@
                 v2.pause();
             }
 
-            // Resume BG Music if leaving video pages
+            // Resume general background ambient track if leaving video frames
             if(num !== 4 && num !== 10 && bgMusicActive) {
                 audio.play().catch(()=>{});
             }
@@ -384,7 +392,7 @@
             setupArrowGame();
         }
 
-        // --- BIG THERMOMETER LOGIC ---
+        // --- THERMOMETER FILL LOGIC ---
         function startThermometer() {
             const fill = document.getElementById('thermoFill');
             const label = document.getElementById('thermoLabel');
@@ -404,7 +412,7 @@
             }, 40);
         }
 
-        // --- INTERACTIVE ARROW LOGIC (EASY CONTROL) ---
+        // --- INTERACTIVE BOW SEAMLESS SNAP AND SHATTER MECHANISM ---
         function setupArrowGame() {
             const arrow = document.getElementById('draggableArrow');
             const target = document.getElementById('heartTarget');
@@ -415,13 +423,14 @@
             function startMove(e) {
                 isMoving = true;
                 initialY = e.clientY || e.touches[0].clientY;
+                arrow.style.transition = 'none';
             }
 
             function dragMove(e) {
                 if(!isMoving) return;
                 let clientY = e.clientY || e.touches[0].clientY;
                 let diffY = clientY - initialY;
-                if(diffY > 0 && diffY < 70) {
+                if(diffY > 0 && diffY < 80) {
                     currentDrag = diffY;
                     arrow.style.transform = `translateX(-50%) translateY(${diffY}px)`;
                 }
@@ -431,16 +440,21 @@
                 if(!isMoving) return;
                 isMoving = false;
                 if(currentDrag > 30) {
-                    // Shoot Upward Animation instantly
-                    arrow.style.transition = 'transform 0.15s cubic-bezier(0.1, 1, 0.1, 1)';
-                    arrow.style.transform = 'translateX(-50%) translateY(-180px)';
+                    // Instantly launch arrow upwards to hit heart target coordinates
+                    arrow.style.transition = 'transform 0.12s cubic-bezier(0.1, 1, 0.1, 1)';
+                    arrow.style.transform = 'translateX(-50%) translateY(-190px)';
                     
                     setTimeout(() => {
-                        target.className = 'heart-target hit';
-                        target.textContent = '💥❤️';
-                        document.getElementById('compMsgBox').style.display = 'block';
-                        document.getElementById('arrowNextBtn').style.display = 'inline-block';
-                    }, 140);
+                        // Apply CSS blast/shatter class
+                        target.className = 'heart-target shatter';
+                        
+                        setTimeout(() => {
+                            target.innerHTML = '💥';
+                            // Reveal hidden textual container blocks instantly
+                            document.getElementById('compMsgBox').style.display = 'block';
+                            document.getElementById('arrowNextBtn').style.display = 'inline-block';
+                        }, 150);
+                    }, 100);
                 } else {
                     arrow.style.transform = 'translateX(-50%) translateY(0)';
                 }
@@ -473,4 +487,4 @@
         }
     </script>
 </body>
-    </html>
+</html>
