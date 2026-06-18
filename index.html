@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>happy birthday, cutiee ❤️‍🔥</title>
+    <title>My intro ✨❤️‍🔥</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
@@ -14,11 +14,10 @@
         body, html {
             margin: 0; padding: 0;
             overflow: hidden;
-            /* Theme Change: Pale Luxurious Gradient for maximum contrast */
             background: linear-gradient(135deg, #fffdf8, #fff1f6, #f2e9ff);
             font-family: 'Playfair Display', serif;
             touch-action: none;
-            color: #333; /* Dark default text */
+            color: #333;
         }
         
         .premium-font { font-family: 'Dancing Script', cursive; font-weight: 700; }
@@ -34,18 +33,16 @@
         .section.active { display: flex; opacity: 1; }
 
         .glass-premium {
-            /* Optimized Light Glass */
-            background: rgba(255, 255, 255, 0.65);
-            backdrop-filter: blur(4px) saturate(180%);
-            -webkit-backdrop-filter: blur(4px) saturate(180%);
-            border: 1px solid rgba(168, 10, 86, 0.1);
-            box-shadow: 0 8px 32px rgba(168, 10, 86, 0.06);
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(8px) saturate(180%);
+            -webkit-backdrop-filter: blur(8px) saturate(180%);
+            border: 1px solid rgba(236, 72, 153, 0.2);
+            box-shadow: 0 12px 40px rgba(236, 72, 153, 0.1);
             border-radius: 24px;
         }
         
-        /* Ultra Glow adapted for light theme (uses darker shadow) */
         .ultra-glow {
-            color: #9d174d; /* Deep Magenta */
+            color: #9d174d;
             text-shadow: 
                 0 0 5px rgba(236, 72, 153, 0.3),
                 0 0 10px rgba(168, 10, 86, 0.15);
@@ -65,56 +62,6 @@
             100% { transform: translate3d(0, 115vh, 0) rotate(720deg) scale(1.1); opacity: 0; }
         }
 
-        .wish-card {
-            transition: all 0.4s ease;
-            transform: perspective(1000px) rotateX(2deg) rotateY(1deg);
-            border: 1px solid rgba(168, 10, 86, 0.05);
-        }
-        .wish-card:hover, .wish-card:active {
-            transform: perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1.05) translateY(-5px);
-            box-shadow: 0 20px 40px rgba(168, 10, 86, 0.12);
-            background: rgba(255, 255, 255, 0.9);
-        }
-
-        .balloon {
-            width: 80px; height: 105px;
-            /* Simplified Gradient for performance */
-            background: radial-gradient(circle at 35% 25%, #ffffff60, #ffffff00 70%), var(--balloon-color);
-            border-radius: 50% 50% 50% 50% / 45% 45% 55% 55%;
-            position: absolute;
-            /* Reduced Shadows */
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1), inset 0 0 10px rgba(0,0,0,0.05);
-            animation: floatPremium 6s ease-in-out infinite alternate;
-            cursor: pointer;
-            will-change: transform;
-        }
-        .balloon::after {
-            content: ''; position: absolute; bottom: -14px; left: 50%; transform: translateX(-50%);
-            width: 2px; height: 35px; background: rgba(0,0,0,0.1);
-        }
-        @keyframes floatPremium {
-            0% { transform: translate3d(0, 0, 0) rotate(-4deg); }
-            100% { transform: translate3d(0, -25px, 0) rotate(4deg); }
-        }
-        
-        .pop-text-anim {
-            animation: premiumPop 1.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-            will-change: transform, opacity;
-        }
-        @keyframes premiumPop {
-            0% { opacity: 0; transform: translate3d(0, 30px, 0) scale(0.6) rotate(-5deg); filter: blur(2px); }
-            60% { opacity: 1; transform: translate3d(0, -8px, 0) scale(1.1) rotate(2deg); filter: blur(0); }
-            100% { opacity: 1; transform: translate3d(0, 0, 0) scale(1) rotate(0deg); }
-        }
-
-        .cake-container { filter: drop-shadow(0 15px 30px rgba(168, 10, 86, 0.2)); }
-        
-        #knife {
-            position: absolute; top: 0; left: 0; font-size: 5rem;
-            pointer-events: none; z-index: 30; will-change: transform;
-        }
-
-        /* Gallery Premium Styles */
         .gallery-img {
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow: 0 10px 25px rgba(168, 10, 86, 0.1);
@@ -129,7 +76,7 @@
 <body>
 
     <div class="fixed top-4 left-0 w-full text-center z-[100] text-gray-500/50 text-xs font-mono tracking-widest pointer-events-none">
-        Codded by sivasingh instagram📷 - @smss1708
+        made by sivasingh instagram📷 - @smss1708
     </div>
 
     <audio id="bgmusic" loop><source src="tere-liye.mp3" type="audio/mpeg"></audio>
@@ -137,127 +84,84 @@
     <div class="bg-particles" id="particles-container"></div>
 
     <section id="intro" class="section active" style="z-index: 10;">
-        <div class="text-center z-20">
-            <h1 class="text-7xl md:text-9xl premium-font ultra-glow mb-6 title-font">hey cutiee ❤️‍🔥</h1>
-            <p class="text-4xl premium-font text-rose-800 mb-14">i have something very special for you...</p>
-            <button onclick="startExperience()" class="bg-gradient-to-br from-rose-600 via-pink-500 to-amber-500 px-12 py-5 rounded-full text-2xl font-bold hover:scale-110 hover:shadow-2xl transition-all duration-500 shadow-xl shadow-rose-700/20 text-white border border-amber-300/30">
-                unlock surprise 💞
+        <div class="text-center z-20 flex flex-col items-center">
+            <div class="w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden border-4 border-pink-400 shadow-2xl mb-6 animate-pulse">
+                <img src="photo1.jpg" alt="Aarohi" class="w-full h-full object-cover">
+            </div>
+            <h1 class="text-5xl md:text-7xl premium-font ultra-glow mb-2 title-font">Hey Cutiee ❤️‍🔥</h1>
+            <p class="text-2xl md:text-3xl premium-font text-rose-800 mb-8">Step inside the world of an angel...</p>
+            <button onclick="startExperience()" class="bg-gradient-to-br from-rose-600 via-pink-500 to-amber-500 px-10 py-4 rounded-full text-xl font-bold hover:scale-110 hover:shadow-2xl transition-all duration-500 shadow-xl text-white border border-amber-300/30">
+                Enter Her World 💞
             </button>
         </div>
     </section>
 
-    <section id="wishes" class="section" style="z-index: 10;">
-        <h2 class="text-6xl premium-font ultra-glow mb-10 text-center">open my wishes 💌</h2>
-        <div class="grid grid-cols-2 gap-8 z-20 w-full max-w-lg px-5">
-            <div class="wish-card glass-premium p-10 rounded-3xl text-center flex items-center justify-center flex-col cursor-pointer" onclick="openWish('you are the most beautiful soul inside & out. keep shining always cutiee 🌸')">
-                <i class="fa-solid fa-heart text-5xl text-rose-600 mb-4 ultra-glow"></i>
-                <p class="text-gray-900 font-bold text-xl">wish 1</p>
+    <section id="profile-details" class="section" style="z-index: 10;">
+        <div class="text-center z-20 w-full max-w-md px-4">
+            <h2 class="text-4xl md:text-5xl premium-font ultra-glow mb-6">(\ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /)<br>(｡•ㅅ•｡) 𝗕𝗲𝗮𝘂𝘁𝗶𝗳𝘂𝗹 𝗦𝗼𝘂𝗹 ✨</h2>
+            
+            <div class="glass-premium p-8 text-left space-y-4 border-2 border-pink-200/50 shadow-inner">
+                <div class="text-2xl text-rose-900 tracking-wide font-medium"><i class="fa-solid fa-crown text-amber-500 mr-2"></i> 𝗩𝗜𝗣 𝗜𝗻𝘁𝗿𝗼 🌟</div>
+                <hr class="border-pink-200">
+                <p class="text-xl text-gray-800 flex items-center"><span class="font-bold text-rose-700 w-28">𓋜 𝗡𝗮𝗺𝗲 :</span> <span class="premium-font text-3xl text-pink-600 font-bold">Aarohi 𓂃♡</span> 😁</p>
+                <p class="text-xl text-gray-800 flex items-center"><span class="font-bold text-rose-700 w-28">𓋜 𝗖𝗹𝗮𝘀𝘀 :</span> <span class="font-semibold">10th 𓈒𓂃♡</span> 💞</p>
+                <p class="text-xl text-gray-800 flex items-center"><span class="font-bold text-rose-700 w-28">𓋜 𝗔𝗴𝗲 :</span> <span class="font-semibold text-amber-600">15 𓂃♡</span> 🥰</p>
+                <p class="text-xl text-gray-800 flex items-center"><span class="font-bold text-rose-700 w-28">𓋜 𝗙𝗿𝗼𝗺 :</span> <span class="font-semibold text-emerald-700">Nepal 𓈒𓂃♡</span> 🇳🇵</p>
+                <p class="text-xl text-gray-800 flex items-center"><span class="font-bold text-rose-700 w-28">𓋜 𝗥𝗲𝗹𝗮𝘁𝗶𝗼𝗻 :</span> <span class="font-semibold text-purple-600">Single 𓈒𓂃♡</span> 👀</p>
             </div>
-            <div class="wish-card glass-premium p-10 rounded-3xl text-center flex items-center justify-center flex-col cursor-pointer" onclick="openWish('may every dream of yours become reality this year. you deserve the whole universe! ✨')">
-                <i class="fa-solid fa-star text-5xl text-amber-500 mb-4 ultra-glow"></i>
-                <p class="text-gray-900 font-bold text-xl">wish 2</p>
-            </div>
-            <div class="wish-card glass-premium p-10 rounded-3xl text-center flex items-center justify-center flex-col cursor-pointer" onclick="openWish('no matter where life takes us, my care & support for you will never fade 💞')">
-                <i class="fa-solid fa-gift text-5xl text-rose-500 mb-4 ultra-glow"></i>
-                <p class="text-gray-900 font-bold text-xl">wish 3</p>
-            </div>
-            <div class="wish-card glass-premium p-10 rounded-3xl text-center flex items-center justify-center flex-col cursor-pointer" onclick="openWish('happy birthday cutiee! let’s make today legendary. i love you endlessly ❤️‍🔥')">
-                <i class="fa-solid fa-cake-candles text-5xl text-orange-500 mb-4 ultra-glow"></i>
-                <p class="text-gray-900 font-bold text-xl">wish 4</p>
-            </div>
-        </div>
-        <button id="btn-after-wishes" onclick="nextPage('cake')" class="mt-12 bg-gradient-to-r from-rose-600 to-amber-500 px-10 py-4 rounded-full glass-premium text-white text-xl font-bold hidden hover:scale-105 transition-all shadow-lg shadow-rose-700/20">
-            next magic ✨
-        </button>
 
-        <div id="wish-modal" class="fixed inset-0 bg-white/90 hidden items-center justify-center z-50 px-6">
-            <div class="glass-premium p-12 rounded-3xl text-center max-w-lg w-full relative border border-rose-500/20">
-                <p id="wish-text" class="text-3xl md:text-4xl premium-font leading-relaxed text-charcoal"></p>
-                <button onclick="closeWish()" class="mt-10 bg-gradient-to-r from-rose-600 to-amber-500 text-white px-10 py-3 rounded-full font-bold text-lg hover:scale-105 transition">close ✕</button>
-            </div>
-        </div>
-    </section>
-
-    <section id="cake" class="section" style="z-index: 10;">
-        <div class="text-center mb-10 z-20 pointer-events-none">
-            <h2 class="text-6xl premium-font ultra-glow">cut your cake cutiee! 🎂</h2>
-            <p class="text-rose-800 mt-3 text-xl">drag the knife gently</p>
-        </div>
-        <div class="cake-container relative w-[340px] h-[280px] z-20" id="cake-wrapper">
-            <div class="relative w-full h-full pointer-events-none">
-                <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[300px] h-[80px] bg-gradient-to-b from-rose-500 to-rose-700 rounded-[50%]"></div>
-                <div class="absolute bottom-[60px] left-1/2 -translate-x-1/2 w-[230px] h-[70px] bg-gradient-to-b from-rose-400 to-rose-600 rounded-[50%]"></div>
-                <div class="absolute bottom-[120px] left-1/2 -translate-x-1/2 w-[160px] h-[60px] bg-gradient-to-b from-rose-300 to-rose-500 rounded-[50%]"></div>
-                <div class="absolute bottom-[170px] left-1/2 -translate-x-1/2 flex gap-6">
-                    <div class="w-4 h-12 bg-white rounded-full shadow-lg"></div>
-                    <div class="w-4 h-14 bg-white rounded-full shadow-lg"></div>
-                    <div class="w-4 h-12 bg-white rounded-full shadow-lg"></div>
-                </div>
-            </div>
-            <div id="knife">🔪</div>
-        </div>
-        <div id="cake-message" class="hidden text-center mt-10 z-20">
-            <h3 class="text-5xl premium-font ultra-glow">happy birthday cutiee ❤️‍🔥</h3>
-            <button onclick="nextPage('balloons')" class="mt-8 bg-gradient-to-r from-rose-600 via-pink-500 to-amber-500 px-10 py-4 rounded-full text-xl font-bold text-white hover:scale-105 transition shadow-xl">
-                play with balloons 🎈
+            <button onclick="nextPage('gallery-page')" class="mt-8 bg-gradient-to-r from-rose-600 to-amber-500 px-10 py-4 rounded-full text-white text-xl font-bold hover:scale-105 transition-all shadow-lg">
+                See Her Moments 📸
             </button>
         </div>
-    </section>
-
-    <section id="balloons" class="section" style="z-index: 10;">
-        <div class="text-center z-20 mb-10 pointer-events-none">
-            <h1 class="text-6xl md:text-8xl premium-font ultra-glow mb-3">pop the balloons cutiee! 🎈</h1>
-            <p class="text-rose-900 text-xl font-bold">tap to explode them</p>
-        </div>
-        
-        <div id="balloon-container" class="relative w-full h-[65vh] max-w-lg z-20"></div>
-
-        <button id="btn-after-balloons" onclick="nextPage('gallery-page')" class="absolute bottom-12 left-1/2 -translate-x-1/2 bg-gradient-to-r from-rose-600 via-pink-500 to-amber-500 px-12 py-5 rounded-full text-2xl font-bold text-white shadow-2xl hidden z-30 hover:scale-105 transition-all duration-500">
-            see your moments 📸
-        </button>
     </section>
 
     <section id="gallery-page" class="section" style="z-index: 10; overflow-y: auto; touch-action: auto;">
-        <div class="text-center z-20 mb-6 max-w-md pointer-events-none">
-            <h1 class="text-5xl md:text-6xl premium-font ultra-glow mb-2">beautiful birthday girl ✨</h1>
-            <p class="text-rose-800 text-lg">some of my favorite views...</p>
+        <div class="text-center z-20 mb-4 max-w-md pointer-events-none mt-8">
+            <h1 class="text-5xl premium-font ultra-glow mb-1">Pure Perfection ✨</h1>
+            <p class="text-rose-800 text-lg">Capturing the prettiest views...</p>
         </div>
         
-        <div class="grid grid-cols-2 gap-4 z-20 w-full max-w-lg px-4 mb-8">
+        <div class="grid grid-cols-2 gap-4 z-20 w-full max-w-lg px-4 mb-6">
             <div class="aspect-[3/4] rounded-2xl overflow-hidden border-2 border-pink-200 glass-premium p-1 gallery-img">
-                <img src="photo1.jpg" alt="Birthday Girl 1" class="w-full h-full object-cover rounded-xl">
+                <img src="photo1.jpg" alt="Aarohi 1" class="w-full h-full object-cover rounded-xl">
             </div>
             <div class="aspect-[3/4] rounded-2xl overflow-hidden border-2 border-pink-200 glass-premium p-1 gallery-img">
-                <img src="photo2.jpg" alt="Birthday Girl 2" class="w-full h-full object-cover rounded-xl">
+                <img src="photo2.jpg" alt="Aarohi 2" class="w-full h-full object-cover rounded-xl">
             </div>
             <div class="aspect-[3/4] rounded-2xl overflow-hidden border-2 border-pink-200 glass-premium p-1 gallery-img">
-                <img src="photo3.jpg" alt="Birthday Girl 3" class="w-full h-full object-cover rounded-xl">
+                <img src="photo3.jpg" alt="Aarohi 3" class="w-full h-full object-cover rounded-xl">
             </div>
             <div class="aspect-[3/4] rounded-2xl overflow-hidden border-2 border-pink-200 glass-premium p-1 gallery-img">
-                <img src="photo4.jpg" alt="Birthday Girl 4" class="w-full h-full object-cover rounded-xl">
+                <img src="photo4.jpg" alt="Aarohi 4" class="w-full h-full object-cover rounded-xl">
             </div>
         </div>
 
-        <button onclick="goToVideo()" class="bg-gradient-to-r from-rose-600 via-pink-500 to-amber-500 px-12 py-4 rounded-full text-xl font-bold text-white shadow-xl hover:scale-105 transition-all duration-300 z-30">
-            see the final surprise 🎬
+        <div class="z-20 text-center max-w-sm mb-6 px-4 bg-white/40 py-2 rounded-xl backdrop-blur-sm">
+            <p class="premium-font text-2xl text-rose-700">"You have a heart as beautiful as your smile. Keep glowing always cutiee! 🌸"</p>
+        </div>
+
+        <button onclick="goToVideo()" class="bg-gradient-to-r from-rose-600 via-pink-500 to-amber-500 px-12 py-4 rounded-full text-xl font-bold text-white shadow-xl hover:scale-105 transition-all duration-300 z-30 mb-8">
+            The Final Surprise 🎬
         </button>
     </section>
 
     <section id="video-page" class="section bg-black" style="z-index: 50; padding: 0;">
-        <video id="final-video" src="video1.mp4" playsinline preload="auto" controlsList="nodownload" class="w-full h-full object-cover pointer-events-none"></video>
+        <video id="final-video" src="video1.mp4" playsinline preload="auto" controls class="w-full h-full object-cover"></video>
     </section>
 
     <script>
         let music = document.getElementById('bgmusic');
-        let wishesRead = 0;
-        let balloonsPopped = 0;
-        const totalBalloons = 6;
         let isTransitioning = false; 
 
         function startExperience() {
             music.volume = 0.5;
-            music.play().catch((e)=>console.log("Audio play blocked until interaction:", e));
-            nextPage('wishes');
+            music.play().catch((e)=>console.log("Audio play blocked:", e));
+            
+            // Pop romantic confetti to celebrate entry
+            confetti({particleCount: 100, spread: 60, origin: { y: 0.6 }, colors: ['#ff0055', '#ff9800', '#e056fd']});
+            
+            nextPage('profile-details');
         }
 
         function nextPage(nextId) {
@@ -273,116 +177,14 @@
                 gsap.fromTo(next, {opacity:0, scale:0.95}, {opacity:1, scale:1, duration:0.6, ease:"back.out(1.2)", onComplete: () => {
                     isTransitioning = false;
                 }});
-                
-                if(nextId === 'cake') initCake();
-                if(nextId === 'balloons') initBalloons();
             }});
-        }
-
-        function openWish(text) {
-            document.getElementById('wish-text').innerText = text;
-            const modal = document.getElementById('wish-modal');
-            modal.style.display = 'flex';
-            gsap.fromTo(modal.children[0], {scale:0.4, opacity:0}, {scale:1, opacity:1, duration:0.4, ease:"back.out(1.5)"});
-            wishesRead++;
-            if(wishesRead >= 1) document.getElementById('btn-after-wishes').classList.remove('hidden');
-        }
-
-        function closeWish() {
-            gsap.to(document.getElementById('wish-modal').children[0], {scale:0.6, opacity:0, duration:0.3, onComplete:()=>{
-                document.getElementById('wish-modal').style.display = 'none';
-            }});
-        }
-
-        let cakeInitialized = false;
-        let cachedCakeRect = null; 
-
-        function initCake() {
-            if(cakeInitialized) return;
-            cakeInitialized = true;
-
-            const wrap = document.getElementById('cake-wrapper');
-            const knife = document.getElementById('knife');
-            let hasCut = false;
-            let isCutting = false;
-            
-            knife.style.transform = `translate3d(140px, -20px, 0) rotate(-35deg)`;
-            
-            const moveKnife = (e) => {
-                if(!isCutting || hasCut) return;
-                
-                let clientX = e.touches ? e.touches[0].clientX : e.clientX;
-                let clientY = e.touches ? e.touches[0].clientY : e.clientY;
-
-                if(!cachedCakeRect) cachedCakeRect = wrap.getBoundingClientRect();
-                
-                const x = clientX - cachedCakeRect.left;
-                const y = clientY - cachedCakeRect.top;
-                
-                requestAnimationFrame(() => {
-                    knife.style.transform = `translate3d(${x - 30}px, ${y - 40}px, 0) rotate(-35deg)`;
-                });
-                
-                if(x > 70 && x < 270 && y > 100 && y < 200) {
-                    hasCut = true;
-                    isCutting = false;
-                    cachedCakeRect = null; 
-                    document.getElementById('cake-message').classList.remove('hidden');
-                    confetti({particleCount:150, spread:80, origin:{y:0.6}, colors:['#e056fd', '#fff700', '#ff0055']});
-                }
-            };
-
-            const startCutting = (e) => {
-                isCutting = true;
-                cachedCakeRect = wrap.getBoundingClientRect();
-                moveKnife(e);
-            }
-
-            wrap.addEventListener('pointerdown', startCutting);
-            window.addEventListener('pointermove', moveKnife);
-            window.addEventListener('pointerup', () => { isCutting = false; cachedCakeRect = null; });
-            window.addEventListener('pointercancel', () => { isCutting = false; cachedCakeRect = null; });
-        }
-
-        function initBalloons() {
-            const container = document.getElementById('balloon-container');
-            container.innerHTML = '';
-            balloonsPopped = 0;
-            const colors = ['#e91e63','#ff9800','#03a9f4','#9c27b0','#8bc34a','#ff5722'];
-            
-            for(let i=0; i<totalBalloons; i++) {
-                let b = document.createElement('div');
-                b.className = 'balloon';
-                b.style.setProperty('--balloon-color', colors[i]);
-                b.style.left = `${Math.random()*75 + 10}%`;
-                b.style.top = `${Math.random()*50 + 15}%`;
-                b.style.animationDelay = `${Math.random()*2}s`;
-                
-                b.onclick = function(e) {
-                    confetti({particleCount:50, spread:70, origin:{x:e.clientX/innerWidth, y:e.clientY/innerHeight}});
-                    b.style.display = 'none';
-                    
-                    let text = document.createElement('div');
-                    text.innerHTML = "happy birthday cutiee 🩵";
-                    text.className = "absolute premium-font text-3xl font-bold pop-text-anim whitespace-nowrap text-center w-full text-charcoal pointer-events-none";
-                    text.style.left = "0";
-                    text.style.top = b.style.top;
-                    container.appendChild(text);
-                    
-                    balloonsPopped++;
-                    if(balloonsPopped === totalBalloons) {
-                        document.getElementById('btn-after-balloons').classList.remove('hidden');
-                    }
-                };
-                container.appendChild(b);
-            }
         }
 
         function goToVideo() {
             if(isTransitioning) return;
             isTransitioning = true;
             
-            music.pause();
+            music.pause(); // Soft transition over to video sound
             const current = document.querySelector('.section.active');
             const videoSec = document.getElementById('video-page');
             const video = document.getElementById('final-video');
@@ -395,12 +197,12 @@
             }});
         }
 
-        // Lag Fix: Reduced background particles from 25 to 12
+        // Luxurious falling particle effects (Rose Petals and Hearts)
         const pContainer = document.getElementById('particles-container');
-        for(let i=0; i<12; i++) { 
+        for(let i=0; i<15; i++) { 
             let p = document.createElement('div');
             p.className = 'particle';
-            p.innerHTML = Math.random() > 0.4 ? '🌹' : '💞';
+            p.innerHTML = Math.random() > 0.5 ? '🌹' : '💞';
             p.style.left = `${Math.random()*100}vw`;
             p.style.animationDuration = `${Math.random()*4 + 6}s`;
             p.style.animationDelay = `${Math.random()*6}s`;
