@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>𝐅𝐨𝐫 𝐘𝐨𝐮 𝐂𝐮𝐭𝐢𝐞𝐞 🌹</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Poppins:wght@400;500;600&display=swap');
 
         * {
             margin: 0;
@@ -22,11 +22,11 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(135deg, #0a0015, #1a0030, #2d0045);
+            background: linear-gradient(135deg, #ffeef2, #fff5f7, #ffd6e0);
             transition: background 1.5s ease;
         }
 
-        /* ===== DREAMY STARFIELD ===== */
+        /* ===== DREAMY PINK STARFIELD ===== */
         #starfield {
             position: fixed;
             top: 0; left: 0;
@@ -36,13 +36,13 @@
         }
         .star {
             position: absolute;
-            background: white;
+            background: #ff6b8b;
             border-radius: 50%;
             animation: twinkle var(--duration) ease-in-out infinite alternate;
         }
         @keyframes twinkle {
             0% { opacity: 0.2; transform: scale(0.8); }
-            100% { opacity: 1; transform: scale(1.2); }
+            100% { opacity: 1; transform: scale(1.3); }
         }
 
         /* ===== FLOATING HEARTS ===== */
@@ -58,381 +58,235 @@
             font-size: 1.2rem;
             animation: heartFloat var(--float-duration) linear infinite;
             opacity: 0;
-            pointer-events: none;
         }
         @keyframes heartFloat {
             0% { transform: translateY(100vh) rotate(0deg) scale(0.5); opacity: 0; }
-            10% { opacity: 0.7; }
-            90% { opacity: 0.7; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
             100% { transform: translateY(-10vh) rotate(720deg) scale(1.2); opacity: 0; }
         }
 
-        /* ===== PAGE SYSTEM ===== */
+        /* ===== PAGE CONTAINER ===== */
         .page {
             display: none;
             width: 92%;
-            max-width: 440px;
-            padding: 28px 22px;
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 28px;
-            box-shadow: 0 8px 40px rgba(255, 20, 100, 0.15), inset 0 1px 0 rgba(255,255,255,0.1);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            max-width: 420px;
+            padding: 22px 18px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 24px;
+            box-shadow: 0 10px 35px rgba(255, 105, 180, 0.2), inset 0 1px 0 rgba(255,255,255,0.6);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 182, 193, 0.6);
             position: relative;
             z-index: 10;
-            animation: pageIn 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-            transform-origin: center;
+            text-align: center;
+            animation: pageIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .page.active {
             display: block;
         }
         @keyframes pageIn {
-            0% {
-                opacity: 0;
-                transform: scale(0.85) translateY(30px);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
+            0% { opacity: 0; transform: scale(0.9) translateY(20px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
         }
 
-        /* ===== TYPOGRAPHY ===== */
         .header-credit {
             position: fixed;
-            top: 16px;
+            top: 14px;
             width: 100%;
             text-align: center;
             font-family: 'Dancing Script', cursive;
-            font-size: 1.05rem;
-            color: rgba(255, 150, 200, 0.5);
-            letter-spacing: 3px;
+            font-size: 1.1rem;
+            color: #ff477e;
+            letter-spacing: 2px;
             z-index: 100;
-            text-shadow: 0 0 20px rgba(255, 50, 100, 0.3);
-            pointer-events: none;
+            font-weight: bold;
         }
 
         h1 {
             font-family: 'Dancing Script', cursive;
-            font-size: 2.4rem;
-            background: linear-gradient(135deg, #ff9a9e, #fad0c4, #fbc2eb);
+            font-size: 2.6rem;
+            background: linear-gradient(135deg, #ff477e, #ff758f, #ff8fa3);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 12px;
-            line-height: 1.2;
-        }
-        h2 {
-            font-family: 'Dancing Script', cursive;
-            font-size: 1.8rem;
-            color: #f8e0f0;
-            margin-bottom: 10px;
-            font-weight: 400;
-            text-shadow: 0 0 30px rgba(255, 100, 150, 0.3);
-        }
-        h3 {
-            font-family: 'Dancing Script', cursive;
-            font-size: 1.5rem;
-            color: #f0d0e8;
-            margin-bottom: 10px;
-            font-weight: 400;
-        }
-        p {
-            color: rgba(255, 220, 240, 0.85);
-            font-size: 0.95rem;
-            line-height: 1.7;
-            font-weight: 300;
+            margin-bottom: 15px;
         }
 
-        /* ===== GLOW BUTTON ===== */
+        h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            color: #ff477e;
+            font-weight: 500;
+            margin-bottom: 8px;
+            letter-spacing: 0.3px;
+        }
+
+        /* ===== CUTE BUTTON ===== */
         .btn {
-            background: linear-gradient(135deg, #ff2d55, #ff6b8a, #ff8fab);
+            background: linear-gradient(135deg, #ff4d6d, #ff758f, #ffccd5);
             color: white;
             border: none;
-            padding: 14px 36px;
-            font-size: 1.05rem;
-            border-radius: 60px;
+            padding: 11px 28px;
+            font-size: 0.95rem;
+            border-radius: 50px;
             cursor: pointer;
-            margin-top: 18px;
+            margin-top: 15px;
             font-weight: 600;
-            letter-spacing: 0.5px;
-            box-shadow: 0 4px 25px rgba(255, 45, 85, 0.45), 0 0 60px rgba(255, 45, 85, 0.15);
-            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-            position: relative;
-            overflow: hidden;
-            width: auto;
+            box-shadow: 0 4px 15px rgba(255, 77, 109, 0.3);
+            transition: all 0.2s ease;
             display: inline-block;
         }
-        .btn::after {
-            content: '';
-            position: absolute;
-            top: -50%; left: -50%;
-            width: 200%; height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
-            opacity: 0;
-            transition: opacity 0.5s;
-        }
         .btn:active {
-            transform: scale(0.96);
-            box-shadow: 0 2px 15px rgba(255,45,85,0.3);
-        }
-        .btn:hover::after {
-            opacity: 1;
+            transform: scale(0.95);
         }
 
-        /* ===== BEATING HEARTS ===== */
-        .heart-container {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            margin: 15px 0;
-        }
-        .beating-heart {
-            font-size: 2.8rem;
-            animation: beat 0.6s ease-in-out infinite alternate;
-            filter: drop-shadow(0 0 12px rgba(255,50,100,0.5));
-        }
-        @keyframes beat {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.35); }
-        }
-
-        /* ===== PREMIUM ROSE ===== */
-        .rose-section {
-            text-align: center;
-            padding: 10px 0;
-        }
-        .premium-rose-container {
-            position: relative;
-            width: 160px;
-            height: 160px;
-            margin: 10px auto;
-        }
-        .premium-rose {
-            font-size: 6rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            height: 100%;
-            animation: roseDance 5s ease-in-out infinite;
-            filter: drop-shadow(0 0 25px var(--rose-glow, rgba(255,77,109,0.5)));
-            transition: filter 0.8s ease;
-            position: relative;
-        }
-        @keyframes roseDance {
-            0%, 100% { transform: rotate(-5deg) scale(1); }
-            25% { transform: rotate(5deg) scale(1.08); }
-            50% { transform: rotate(-3deg) scale(1.12); }
-            75% { transform: rotate(4deg) scale(1.06); }
-        }
-        .rose-glow-ring {
-            position: absolute;
-            top: 50%; left: 50%;
-            width: 120px; height: 120px;
-            transform: translate(-50%, -50%);
-            border-radius: 50%;
-            background: radial-gradient(circle, var(--rose-glow-transparent, rgba(255,77,109,0.25)) 0%, transparent 70%);
-            animation: pulseGlow 2s ease-in-out infinite;
-            pointer-events: none;
-        }
-        @keyframes pulseGlow {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
-            50% { transform: translate(-50%, -50%) scale(1.3); opacity: 1; }
-        }
-
-        /* Color picker */
-        .color-picker {
-            display: flex;
-            justify-content: center;
-            gap: 14px;
-            margin: 12px 0 18px;
-            flex-wrap: wrap;
-        }
-        .color-dot {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            cursor: pointer;
-            border: 2.5px solid rgba(255,255,255,0.3);
-            box-shadow: 0 3px 15px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2);
-            transition: all 0.3s ease;
-            position: relative;
-        }
-        .color-dot:active {
-            transform: scale(0.9);
-        }
-        .color-dot.active {
-            border-color: white;
-            box-shadow: 0 0 20px var(--dot-glow, rgba(255,255,255,0.4));
-            transform: scale(1.15);
-        }
-
-        /* ===== MEDIA ===== */
+        /* ===== PERFECT COMPACT MEDIA BOX ===== */
         .media-box {
-            margin: 12px 0;
-            border-radius: 18px;
+            margin: 10px 0;
+            border-radius: 16px;
             overflow: hidden;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.3);
-            border: 1px solid rgba(255,255,255,0.06);
-        }
-        .media-box img, .media-box video {
+            box-shadow: 0 6px 20px rgba(255, 105, 180, 0.15);
+            border: 2px solid white;
+            background: #fff;
             width: 100%;
-            max-height: 260px;
-            object-fit: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .media-box img {
+            width: 100%;
+            height: auto;
+            max-height: 360px; /* Fully displays full image without clipping */
+            object-fit: contain; 
             display: block;
         }
 
-        /* ===== SHAYARI TEXT ===== */
-        .shayari-text {
-            font-family: 'Dancing Script', cursive;
-            font-size: 1.6rem;
-            line-height: 1.5;
-            font-weight: 700;
-            background: linear-gradient(135deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin: 20px 0;
-            text-shadow: none;
-            letter-spacing: 0.5px;
-        }
-
-        /* ===== TYPEWRITER EFFECT ===== */
+        /* ===== HIGHLY READABLE TYPEWRITER TEXT ===== */
         .typewriter-wrapper {
-            min-height: 90px;
+            min-height: 80px;
             display: flex;
             align-items: center;
             justify-content: center;
+            margin: 12px 0;
+            padding: 0 5px;
         }
         .typewriter-text {
             font-family: 'Dancing Script', cursive;
-            font-size: 1.6rem;
+            font-size: 1.8rem;
             font-weight: 700;
-            background: linear-gradient(135deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1);
+            line-height: 1.45;
+            background: linear-gradient(135deg, #ff0055, #ff477e, #ff758f, #9b5de5);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
-            line-height: 1.5;
-            min-height: 1.8em;
         }
         .typewriter-cursor {
             display: inline-block;
             width: 3px;
-            height: 1.4em;
-            background: #ff6b8a;
+            height: 1.2em;
+            background: #ff477e;
             margin-left: 3px;
             animation: blink 0.8s step-end infinite;
             vertical-align: text-bottom;
-            border-radius: 2px;
         }
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* ===== PREMIUM ROSE ===== */
+        .premium-rose-container {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 8px auto;
+        }
+        .premium-rose {
+            font-size: 5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%; height: 100%;
+            animation: roseDance 4s ease-in-out infinite;
+            filter: drop-shadow(0 0 15px var(--rose-glow, rgba(255,77,109,0.4)));
+        }
+        @keyframes roseDance {
+            0%, 100% { transform: rotate(-5deg) scale(1); }
+            50% { transform: rotate(5deg) scale(1.08); }
+        }
+        .color-picker {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 8px 0;
+        }
+        .color-dot {
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            transition: 0.2s ease;
+        }
+        .color-dot.active {
+            transform: scale(1.15);
+            border-color: #ff477e;
         }
 
-        /* ===== SOLAR SYSTEM ===== */
+        /* ===== LOVELY SOLAR SYSTEM ===== */
         .solar-system {
             position: relative;
-            width: 200px;
-            height: 200px;
-            margin: 15px auto;
+            width: 150px; height: 150px;
+            margin: 12px auto;
         }
         .sun {
             position: absolute;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            width: 50px; height: 50px;
-            background: radial-gradient(circle, #ffdd44, #ff8800);
+            width: 40px; height: 40px;
+            background: radial-gradient(circle, #ffccd5, #ff4d6d);
             border-radius: 50%;
-            box-shadow: 0 0 40px #ff8800, 0 0 80px rgba(255,136,0,0.3);
-            animation: sunPulse 2s ease-in-out infinite;
-            z-index: 2;
-        }
-        @keyframes sunPulse {
-            0%, 100% { box-shadow: 0 0 40px #ff8800, 0 0 80px rgba(255,136,0,0.3); }
-            50% { box-shadow: 0 0 60px #ffaa00, 0 0 100px rgba(255,136,0,0.5); }
+            box-shadow: 0 0 25px #ff477e;
         }
         .planet {
             position: absolute;
             top: 50%; left: 50%;
-            width: 18px; height: 18px;
+            width: 14px; height: 14px;
             border-radius: 50%;
             transform: translate(-50%, -50%);
             animation: orbit var(--orbit-duration) linear infinite;
-            z-index: 1;
         }
         .planet::before {
             content: '💖';
-            font-size: 1.2rem;
+            font-size: 1rem;
             position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-        }
-        .planet-dot {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100%; height: 100%;
-            border-radius: 50%;
-            opacity: 0.9;
-        }
-        .orbit-ring {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 50%;
-            pointer-events: none;
+            top: -5px; left: -5px;
         }
         @keyframes orbit {
             0% { transform: translate(-50%, -50%) rotate(0deg) translateX(var(--orbit-radius)) rotate(0deg); }
             100% { transform: translate(-50%, -50%) rotate(360deg) translateX(var(--orbit-radius)) rotate(-360deg); }
         }
 
-        /* ===== LOVE COUNTER ===== */
         .love-counter {
-            background: rgba(255,255,255,0.05);
-            border-radius: 20px;
-            padding: 18px 22px;
-            margin: 12px 0;
-            border: 1px solid rgba(255,255,255,0.06);
+            background: rgba(255,255,255,0.6);
+            border-radius: 16px;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ffccd5;
         }
         .love-counter .count {
             font-family: 'Dancing Script', cursive;
-            font-size: 2.8rem;
+            font-size: 2.4rem;
             font-weight: 700;
-            background: linear-gradient(135deg, #ff9a9e, #fbc2eb);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: #ff4d6d;
             display: block;
         }
         .love-counter .label {
-            color: rgba(255,220,240,0.6);
+            color: #ff758f;
             font-size: 0.85rem;
-            letter-spacing: 1px;
         }
 
-        /* ===== VIDEO PAGE ===== */
         video {
             width: 100%;
-            border-radius: 18px;
-            box-shadow: 0 5px 30px rgba(0,0,0,0.4);
-            outline: none;
-        }
-
-        /* ===== RESPONSIVE FINE-TUNE ===== */
-        @media (max-width: 420px) {
-            .page { padding: 20px 16px; border-radius: 22px; }
-            h1 { font-size: 2rem; }
-            .shayari-text { font-size: 1.3rem; }
-            .premium-rose { font-size: 5rem; }
-            .premium-rose-container { width: 130px; height: 130px; }
-            .solar-system { width: 160px; height: 160px; }
-            .sun { width: 40px; height: 40px; }
-            .btn { padding: 12px 28px; font-size: 0.95rem; }
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
         }
     </style>
 </head>
@@ -448,232 +302,187 @@
 
 <div class="page active" id="page1">
     <h1>Hey Cutiee... ✨</h1>
-    <p style="margin-bottom: 10px; font-size: 0.9rem; opacity: 0.7;">I have something special just for you...</p>
-    <button class="btn" onclick="startExperience()">Cutiee, I want to say something 💖</button>
+    <h3>just wanted to share something special with you...</h3>
+    <button class="btn" onclick="startExperience()">open it up 💖</button>
 </div>
 
 <div class="page" id="page2">
-    <h2>You are so special! 🥰</h2>
-    <div class="heart-container">
-        <span class="beating-heart">💖</span>
-        <span class="beating-heart" style="animation-delay: 0.15s;">❤️</span>
-        <span class="beating-heart" style="animation-delay: 0.3s;">💘</span>
-    </div>
-    <p>Ever since I met you, my mind stays entirely lost in your thoughts... You bring a beautiful smile to my face every single day!</p>
-    <button class="btn" onclick="nextPage(3)">Next ✨</button>
+    <h3>made a sweet little universe for you 😉</h3>
+    <div class="media-box"><img src="gif1.gif" alt="Cute GIF 1"></div>
+    <button class="btn" onclick="nextPage(3)">tap to continue ➡️</button>
 </div>
 
 <div class="page" id="page3">
-    <h3>Just look at this! Cute, right? 😉</h3>
-    <div class="media-box"><img src="gif1.gif" alt="Cute GIF 1" loading="lazy"></div>
-    <button class="btn" onclick="nextPage(4)">Ahead ➡️</button>
+    <div class="typewriter-wrapper">
+        <div class="typewriter-text" id="tw3"></div>
+    </div>
+    <button class="btn" onclick="nextPage(4)">read next line 💫</button>
 </div>
 
 <div class="page" id="page4">
     <div class="typewriter-wrapper">
         <div class="typewriter-text" id="tw4"></div>
     </div>
-    <button class="btn" onclick="nextPage(5)">Next Line 💫</button>
+    <button class="btn" onclick="nextPage(5)">see next surprise 💫</button>
 </div>
 
 <div class="page" id="page5">
-    <div class="typewriter-wrapper">
-        <div class="typewriter-text" id="tw5"></div>
-    </div>
-    <button class="btn" onclick="nextPage(6)">Next Line 💫</button>
+    <h3>you look absolutely charming here ✨</h3>
+    <div class="media-box"><img src="photo1.jpg" alt="Photo 1"></div>
+    <button class="btn" onclick="nextPage(6)">keep going 🌹</button>
 </div>
 
 <div class="page" id="page6">
-    <h3>Moments with you are magical ✨</h3>
-    <div class="media-box"><img src="photo1.jpg" alt="Photo 1" loading="lazy"></div>
-    <button class="btn" onclick="nextPage(7)">Next 🌹</button>
+    <div class="typewriter-wrapper">
+        <div class="typewriter-text" id="tw6"></div>
+    </div>
+    <button class="btn" onclick="nextPage(7)">read next line 💫</button>
 </div>
 
 <div class="page" id="page7">
     <div class="typewriter-wrapper">
         <div class="typewriter-text" id="tw7"></div>
     </div>
-    <button class="btn" onclick="nextPage(8)">Next Line 💫</button>
+    <button class="btn" onclick="nextPage(8)">see what's next 🥰</button>
 </div>
 
 <div class="page" id="page8">
-    <div class="typewriter-wrapper">
-        <div class="typewriter-text" id="tw8"></div>
-    </div>
-    <div style="font-size: 2.5rem; margin-top: 6px; letter-spacing: 6px;">🤝❤️👉💘</div>
-    <button class="btn" onclick="nextPage(9)">More... 🥰</button>
+    <h3>my mood whenever your notification pop up! 🔔</h3>
+    <div class="media-box"><img src="gif2.gif" alt="Cute GIF 2"></div>
+    <button class="btn" onclick="nextPage(9)">let's go ➡️</button>
 </div>
 
 <div class="page" id="page9">
-    <h3>My mood when I see your notification! 🔔</h3>
-    <div class="media-box"><img src="gif2.gif" alt="Cute GIF 2" loading="lazy"></div>
-    <button class="btn" onclick="nextPage(10)">Next ➡️</button>
+    <h3>this bright sunset can't match your lovely smile... 🌅</h3>
+    <div class="media-box"><img src="photo2.jpg" alt="Photo 2"></div>
+    <button class="btn" onclick="nextPage(10)">move ahead 💖</button>
 </div>
 
 <div class="page" id="page10">
-    <h3>This reminds me of your gorgeous smile! 🌟</h3>
-    <div class="media-box"><img src="photo2.jpg" alt="Photo 2" loading="lazy"></div>
-    <button class="btn" onclick="nextPage(11)">Keep Going 💖</button>
+    <h3>a cute little rose for the cutest person 🌹</h3>
+    <div class="color-picker">
+        <div class="color-dot active" style="background:#ff4d6d;" onclick="changeRoseColor('#ff4d6d', this)"></div>
+        <div class="color-dot" style="background:#ff69b4;" onclick="changeRoseColor('#ff69b4', this)"></div>
+        <div class="color-dot" style="background:#ffd700;" onclick="changeRoseColor('#ffd700', this)"></div>
+        <div class="color-dot" style="background:#00b4d8;" onclick="changeRoseColor('#00b4d8', this)"></div>
+    </div>
+    <div class="premium-rose-container">
+        <span class="premium-rose" id="roseEmoji">🌹</span>
+    </div>
+    <button class="btn" onclick="nextPage(11)">next page ➡️</button>
 </div>
 
 <div class="page" id="page11">
-    <h2 style="font-size:1.4rem;">A Premium Rose For A Premium Person 🌹</h2>
-    <p style="font-size:0.85rem; opacity:0.7; margin-bottom:6px;">Choose a color that matches your vibe:</p>
-    <div class="color-picker">
-        <div class="color-dot active" style="background:#ff4d6d; --dot-glow:rgba(255,77,109,0.6);" onclick="changeRoseColor('#ff4d6d', this)"></div>
-        <div class="color-dot" style="background:#ff69b4; --dot-glow:rgba(255,105,180,0.6);" onclick="changeRoseColor('#ff69b4', this)"></div>
-        <div class="color-dot" style="background:#ffd700; --dot-glow:rgba(255,215,0,0.6);" onclick="changeRoseColor('#ffd700', this)"></div>
-        <div class="color-dot" style="background:#00b4d8; --dot-glow:rgba(0,180,216,0.6);" onclick="changeRoseColor('#00b4d8', this)"></div>
-        <div class="color-dot" style="background:#c77dff; --dot-glow:rgba(199,125,255,0.6);" onclick="changeRoseColor('#c77dff', this)"></div>
-        <div class="color-dot" style="background:#ffffff; --dot-glow:rgba(255,255,255,0.6); border-color:rgba(255,255,255,0.5);" onclick="changeRoseColor('#ffffff', this)"></div>
-    </div>
-    <div class="rose-section">
-        <div class="premium-rose-container">
-            <div class="rose-glow-ring" id="roseGlowRing"></div>
-            <span class="premium-rose" id="roseEmoji">🌹</span>
-        </div>
-        <p style="font-size:0.8rem; opacity:0.5;">(It changes color with every click... ✨)</p>
-    </div>
-    <button class="btn" onclick="nextPage(12)">Next Page ➡️</button>
+    <h3>sending you a huge warm virtual hug! 🤗</h3>
+    <div class="media-box"><img src="gif3.gif" alt="Cute GIF 3"></div>
+    <button class="btn" onclick="nextPage(12)">next step ➡️</button>
 </div>
 
 <div class="page" id="page12">
-    <h3>Always sending you virtual hugs! 🤗</h3>
-    <div class="media-box"><img src="gif3.gif" alt="Cute GIF 3" loading="lazy"></div>
-    <button class="btn" onclick="nextPage(13)">Next ➡️</button>
+    <div class="typewriter-wrapper">
+        <div class="typewriter-text" id="tw12"></div>
+    </div>
+    <button class="btn" onclick="nextPage(13)">read next line 📖</button>
 </div>
 
 <div class="page" id="page13">
     <div class="typewriter-wrapper">
         <div class="typewriter-text" id="tw13"></div>
     </div>
-    <button class="btn" onclick="nextPage(14)">Next Line 📖</button>
+    <button class="btn" onclick="nextPage(14)">continue 📖</button>
 </div>
 
 <div class="page" id="page14">
-    <div class="typewriter-wrapper">
-        <div class="typewriter-text" id="tw14"></div>
-    </div>
-    <button class="btn" onclick="nextPage(15)">Next Line 📖</button>
+    <h3>you make my heart skip a little beat... 💓</h3>
+    <div class="media-box"><img src="gif4.gif" alt="Cute GIF 4"></div>
+    <button class="btn" onclick="nextPage(15)">tap to continue ➡️</button>
 </div>
 
 <div class="page" id="page15">
-    <h3>You make my heart skip a beat... 💓</h3>
-    <div class="media-box"><img src="gif4.gif" alt="Cute GIF 4" loading="lazy"></div>
-    <button class="btn" onclick="nextPage(16)">Continue ➡️</button>
+    <div class="typewriter-wrapper">
+        <div class="typewriter-text" id="tw15"></div>
+    </div>
+    <button class="btn" onclick="nextPage(16)">read next line 📖</button>
 </div>
 
 <div class="page" id="page16">
     <div class="typewriter-wrapper">
         <div class="typewriter-text" id="tw16"></div>
     </div>
-    <button class="btn" onclick="nextPage(17)">Next Line 📖</button>
+    <button class="btn" onclick="nextPage(17)">next line ⏳</button>
 </div>
 
 <div class="page" id="page17">
-    <div class="typewriter-wrapper">
-        <div class="typewriter-text" id="tw17"></div>
-    </div>
-    <button class="btn" onclick="nextPage(18)">Next Line ⏳</button>
+    <h3>spending time with you is pure happiness... 🌸</h3>
+    <div class="media-box"><img src="photo3.jpg" alt="Photo 3"></div>
+    <button class="btn" onclick="nextPage(18)">almost at the end... 👀</button>
 </div>
 
 <div class="page" id="page18">
-    <div class="media-box"><img src="photo3.jpg" alt="Photo 3" loading="lazy"></div>
-    <div class="shayari-text" style="font-size:1.2rem;">
-        They say life is just a brief moment ⏳🌸<br>
-        But I want to write every single second of mine with you ❤️‍🩹🌹🫶✨🥰🌙📖💫
+    <h3>every single second matters to me... ✨</h3>
+    <div class="solar-system">
+        <div class="sun"></div>
+        <div class="planet" style="--orbit-duration:3s; --orbit-radius:52px;"></div>
+        <div class="planet" style="--orbit-duration:5s; --orbit-radius:72px;"></div>
     </div>
-    <button class="btn" onclick="nextPage(19)">Almost There... 👀</button>
+    <div class="love-counter">
+        <span class="label">❤️ seconds of being adorable ❤️</span>
+        <span class="count" id="loveCount">0</span>
+    </div>
+    <button class="btn" onclick="nextPage(19)">the final surprise... 🥺❤️</button>
 </div>
 
 <div class="page" id="page19">
-    <h3>✨ Our Little Universe ✨</h3>
-    
-    <div class="solar-system" id="solarSystem">
-        <div class="orbit-ring" style="width:130px;height:130px;"></div>
-        <div class="orbit-ring" style="width:180px;height:180px;"></div>
-        <div class="sun"></div>
-        <div class="planet" style="--orbit-duration:3s; --orbit-radius:65px;">
-            <div class="planet-dot" style="background:radial-gradient(circle,#ff6b8a,#ff2d55);"></div>
-        </div>
-        <div class="planet" style="--orbit-duration:4.5s; --orbit-radius:90px;">
-            <div class="planet-dot" style="background:radial-gradient(circle,#c77dff,#7a00ff);"></div>
-        </div>
-    </div>
-
-    <div class="love-counter">
-        <span class="label">❤️ Seconds of Love ❤️</span>
-        <span class="count" id="loveCount">0</span>
-        <span class="label">and it just keeps growing...</span>
-    </div>
-
-    <p style="font-size:0.85rem; margin-top:4px; opacity:0.6;">You are my center, and I am your orbit... 🌌</p>
-    <button class="btn" onclick="nextPage(20)">Last Surprise... 🥺❤️</button>
-</div>
-
-<div class="page" id="page20">
-    <h2 style="margin-bottom:12px;">Made with ❤️ for You</h2>
     <video id="proposeVideo" src="video1.mp4" playsinline preload="auto"></video>
-    <p style="margin-top:15px; font-weight:600; font-size:1.2rem; color:#f8e0f0;">Will you be mine forever? 🌹✨</p>
+    <h2 style="font-family:'Dancing Script'; color:#ff477e; margin-top:10px;">will you be mine forever? 🌹✨</h2>
 </div>
 
 <script>
-    // ============================================================
-    //  STARFIELD GENERATOR
-    // ============================================================
+    // STARFIELD
     (function createStars() {
         const container = document.getElementById('starfield');
-        for (let i = 0; i < 80; i++) {
+        for (let i = 0; i < 50; i++) {
             const star = document.createElement('div');
             star.className = 'star';
-            const size = 1.5 + Math.random() * 2.5;
+            const size = 2 + Math.random() * 3;
             star.style.cssText = `
                 width:${size}px; height:${size}px;
-                left:${Math.random() * 100}%;
-                top:${Math.random() * 100}%;
-                --duration:${1.5 + Math.random() * 3}s;
-                animation-delay:${Math.random() * 3}s;
-                opacity:${0.2 + Math.random() * 0.5};
+                left:${Math.random() * 100}%; top:${Math.random() * 100}%;
+                --duration:${1.5 + Math.random() * 2}s;
+                animation-delay:${Math.random() * 2}s;
             `;
             container.appendChild(star);
         }
     })();
 
-    // ============================================================
-    //  FLOATING HEART RAIN
-    // ============================================================
+    // FLOATING HEARTS
     (function startHeartRain() {
         const container = document.getElementById('heart-rain');
-        const hearts = ['💖','❤️','💗','💘','💝','🩷','❣️'];
-        function createHeart() {
+        const hearts = ['💖','❤️','💗','💘','💝'];
+        setInterval(() => {
             const el = document.createElement('div');
             el.className = 'float-heart';
             el.textContent = hearts[Math.floor(Math.random() * hearts.length)];
             el.style.cssText = `
                 left:${Math.random() * 100}%;
-                font-size:${0.8 + Math.random() * 1}rem;
-                --float-duration:${8 + Math.random() * 14}s;
-                animation-delay:${Math.random() * 5}s;
+                font-size:${0.8 + Math.random() * 0.8}rem;
+                --float-duration:${6 + Math.random() * 6}s;
             `;
             container.appendChild(el);
-            setTimeout(() => el.remove(), 25000);
-        }
-        setInterval(createHeart, 1200);
-        for (let i = 0; i < 5; i++) setTimeout(createHeart, i * 400);
+            setTimeout(() => el.remove(), 12000);
+        }, 1500);
     })();
 
-    // ============================================================
-    //  TYPEWRITER ENGINE
-    // ============================================================
+    // NEW EXACT SHAYARI TEXT DATA
     const shayariLines = {
-        tw4:  "💖 Make the sweet mistake of falling for me... 💖",
-        tw5:  "✨ Break all your rules just for me... ✨",
-        tw7:  "💫 Whatever I am, I am entirely yours... 💫",
-        tw8:  "🤍 Be mine forever and completely accept me... 🤍",
-        tw13: "One night, I will write down our story 🌙✍️",
-        tw14: "Keeping all flaws to myself, leaving you pure 🤍🥀",
-        tw16: "Even if reality kept us apart for a moment 😔💔",
-        tw17: "I will make us meet beautifully in my pages 📖✨🙂"
+        tw3:  "💖 Mujhse “Pyar” karne ki “Bhool” kar.. 💖",
+        tw4:  "✨ Mere liye apne alag “Usool” kar.. ✨",
+        tw6:  "💫 Main “jaisa” bhi hu, tera hu.. 💫",
+        tw7:  "🤍 Tu meri “ban” mujhe “Qubool” kar.. 🤍 <br><br> 🤝❤️",
+        tw12: "Ek Raat Ek Baat Likhunga 🌙✍️",
+        tw13: "Khud Ko Daag, Tujhe Saaf Likhunga 🤍🥀",
+        tw15: "Haqeeqat Mein Tu Kabhi Mila Nahi 😔💔<br>Ek Kitaab Mein Apni Mulaqaat Likhunga 📖✨🙂",
+        tw16: "Kehte Hain Zindagi Hai Chaar Dino Ki ⏳🌸<br>Main Woh Chaaro Din Tere Saath Likhunga ❤️‍🩹🌹🫶✨🥰🌙📖💫"
     };
 
     function typeWriter(elementId, text, speed = 55) {
@@ -692,7 +501,7 @@
                     el.innerHTML += char;
                     i++;
                 }
-                setTimeout(type, speed + Math.random() * 30);
+                setTimeout(type, speed);
             } else {
                 el.innerHTML += '<span class="typewriter-cursor"></span>';
             }
@@ -700,57 +509,26 @@
         type();
     }
 
-    // ============================================================
-    //  PREMIUM ROSE COLOR CHANGER
-    // ============================================================
     function changeRoseColor(color, dotEl) {
-        const rose = document.getElementById('roseEmoji');
-        const ring = document.getElementById('roseGlowRing');
-        
-        document.documentElement.style.setProperty('--rose-glow', `${color}80`);
-        document.documentElement.style.setProperty('--rose-glow-transparent', `${color}40`);
-        
+        document.documentElement.style.setProperty('--rose-glow', color);
         document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('active'));
         if (dotEl) dotEl.classList.add('active');
-        
-        const bgMap = {
-            '#ff4d6d': 'linear-gradient(135deg, #0a0015, #1a0030, #2d0045)',
-            '#ff69b4': 'linear-gradient(135deg, #15000a, #2d0018, #400020)',
-            '#ffd700': 'linear-gradient(135deg, #150d00, #2d1a00, #402500)',
-            '#00b4d8': 'linear-gradient(135deg, #000d15, #001a2d, #002540)',
-            '#c77dff': 'linear-gradient(135deg, #0f0015, #1f002d, #2e0040)',
-            '#ffffff': 'linear-gradient(135deg, #0a0a0a, #1a1a1a, #2d2d2d)'
-        };
-        if (bgMap[color]) {
-            document.body.style.background = bgMap[color];
-        }
     }
 
-    // ============================================================
-    //  LOVE COUNTER
-    // ============================================================
     let loveInterval = null;
     function startLoveCounter() {
         const el = document.getElementById('loveCount');
         let count = 0;
         if (loveInterval) clearInterval(loveInterval);
-        loveInterval = setInterval(() => {
-            count++;
-            el.textContent = count.toLocaleString();
-        }, 1000);
+        loveInterval = setInterval(() => { count++; el.textContent = count; }, 1000);
     }
 
-    // ============================================================
-    //  PAGE NAVIGATION
-    // ============================================================
-    let currentPage = 1;
     let songStarted = false;
     let typewriterDone = {};
 
     function startExperience() {
         if (!songStarted) {
-            const song = document.getElementById('bgSong');
-            song.play().catch(() => {});
+            document.getElementById('bgSong').play().catch(() => {});
             songStarted = true;
         }
         nextPage(2);
@@ -758,44 +536,28 @@
 
     function nextPage(pageNumber) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        
         const target = document.getElementById('page' + pageNumber);
-        if (target) {
-            target.classList.add('active');
-            currentPage = pageNumber;
-        }
+        if (target) target.classList.add('active');
 
         const lineId = 'tw' + pageNumber;
         if (shayariLines[lineId] && !typewriterDone[lineId]) {
             setTimeout(() => {
                 typeWriter(lineId, shayariLines[lineId]);
                 typewriterDone[lineId] = true;
-            }, 400);
+            }, 300);
         }
+
+        if (pageNumber === 18) startLoveCounter();
+        if (pageNumber !== 18 && loveInterval) { clearInterval(loveInterval); loveInterval = null; }
 
         if (pageNumber === 19) {
-            setTimeout(() => startLoveCounter(), 300);
-        }
-
-        if (pageNumber !== 19 && loveInterval) {
-            clearInterval(loveInterval);
-            loveInterval = null;
-        }
-
-        if (pageNumber === 20) {
             const song = document.getElementById('bgSong');
             song.pause();
-            song.currentTime = 0;
             setTimeout(() => {
-                const video = document.getElementById('proposeVideo');
-                video.play().catch(() => {});
-            }, 500);
+                document.getElementById('proposeVideo').play().catch(() => {});
+            }, 400);
         }
     }
-
-    document.documentElement.style.setProperty('--rose-glow', '#ff4d6d80');
-    document.documentElement.style.setProperty('--rose-glow-transparent', '#ff4d6d40');
 </script>
-
 </body>
-</html>
+    </html>
