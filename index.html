@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>𝐅𝐨𝐫 𝐘𝐨𝐮 cutee 🌹</title>
+    <title>𝐅𝐨𝐫 𝐘𝐨𝐮 𝐂𝐮𝐭𝐢𝐞𝐞 🌹</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;600;700&display=swap');
 
@@ -217,7 +217,7 @@
             width: 100%;
             height: 100%;
             animation: roseDance 5s ease-in-out infinite;
-            filter: drop-shadow(0 0 25px var(--rose-glow));
+            filter: drop-shadow(0 0 25px var(--rose-glow, rgba(255,77,109,0.5)));
             transition: filter 0.8s ease;
             position: relative;
         }
@@ -227,14 +227,13 @@
             50% { transform: rotate(-3deg) scale(1.12); }
             75% { transform: rotate(4deg) scale(1.06); }
         }
-        /* Rose glow ring */
         .rose-glow-ring {
             position: absolute;
             top: 50%; left: 50%;
             width: 120px; height: 120px;
             transform: translate(-50%, -50%);
             border-radius: 50%;
-            background: radial-gradient(circle, var(--rose-glow-transparent) 0%, transparent 70%);
+            background: radial-gradient(circle, var(--rose-glow-transparent, rgba(255,77,109,0.25)) 0%, transparent 70%);
             animation: pulseGlow 2s ease-in-out infinite;
             pointer-events: none;
         }
@@ -243,7 +242,7 @@
             50% { transform: translate(-50%, -50%) scale(1.3); opacity: 1; }
         }
 
-        /* Color picker - premium style */
+        /* Color picker */
         .color-picker {
             display: flex;
             justify-content: center;
@@ -298,11 +297,6 @@
             margin: 20px 0;
             text-shadow: none;
             letter-spacing: 0.5px;
-        }
-        .shayari-text small {
-            font-size: 1rem;
-            display: block;
-            margin-top: 6px;
         }
 
         /* ===== TYPEWRITER EFFECT ===== */
@@ -440,39 +434,24 @@
             .sun { width: 40px; height: 40px; }
             .btn { padding: 12px 28px; font-size: 0.95rem; }
         }
-        @media (max-width: 360px) {
-            .page { padding: 16px 12px; }
-            h1 { font-size: 1.7rem; }
-            .shayari-text { font-size: 1.1rem; }
-            .beating-heart { font-size: 2.2rem; }
-            .color-dot { width: 30px; height: 30px; }
-        }
     </style>
 </head>
 <body>
 
-<!-- Starfield -->
 <div id="starfield"></div>
-
-<!-- Floating Hearts -->
 <div id="heart-rain"></div>
-
-<!-- Credit -->
 <div class="header-credit">CODED BY SIVASINGH ❤️</div>
 
-<!-- Audio -->
 <audio id="bgSong" loop preload="auto">
     <source src="tere-liye.mp3" type="audio/mpeg">
 </audio>
 
-<!-- ==================== PAGE 1 ==================== -->
 <div class="page active" id="page1">
     <h1>Hey Cutiee... ✨</h1>
-    <p style="margin-bottom: 10px; font-size: 0.9rem; opacity: 0.7;">Kuch khaas hai tumhare liye...</p>
-    <button class="btn" onclick="startExperience()">Cutiee I want to say something 💖</button>
+    <p style="margin-bottom: 10px; font-size: 0.9rem; opacity: 0.7;">I have something special just for you...</p>
+    <button class="btn" onclick="startExperience()">Cutiee, I want to say something 💖</button>
 </div>
 
-<!-- ==================== PAGE 2 ==================== -->
 <div class="page" id="page2">
     <h2>You are so special! 🥰</h2>
     <div class="heart-container">
@@ -480,18 +459,16 @@
         <span class="beating-heart" style="animation-delay: 0.15s;">❤️</span>
         <span class="beating-heart" style="animation-delay: 0.3s;">💘</span>
     </div>
-    <p>Jab se aapko dekha hai, dil bas aapke hi khayalon mein khoya rehta hai... You bring a smile to my face every single day!</p>
+    <p>Ever since I met you, my mind stays entirely lost in your thoughts... You bring a beautiful smile to my face every single day!</p>
     <button class="btn" onclick="nextPage(3)">Next ✨</button>
 </div>
 
-<!-- ==================== PAGE 3 ==================== -->
 <div class="page" id="page3">
     <h3>Just look at this! Cute, right? 😉</h3>
     <div class="media-box"><img src="gif1.gif" alt="Cute GIF 1" loading="lazy"></div>
     <button class="btn" onclick="nextPage(4)">Ahead ➡️</button>
 </div>
 
-<!-- ==================== PAGE 4 ==================== -->
 <div class="page" id="page4">
     <div class="typewriter-wrapper">
         <div class="typewriter-text" id="tw4"></div>
@@ -499,7 +476,6 @@
     <button class="btn" onclick="nextPage(5)">Next Line 💫</button>
 </div>
 
-<!-- ==================== PAGE 5 ==================== -->
 <div class="page" id="page5">
     <div class="typewriter-wrapper">
         <div class="typewriter-text" id="tw5"></div>
@@ -507,14 +483,12 @@
     <button class="btn" onclick="nextPage(6)">Next Line 💫</button>
 </div>
 
-<!-- ==================== PAGE 6 ==================== -->
 <div class="page" id="page6">
     <h3>Moments with you are magical ✨</h3>
     <div class="media-box"><img src="photo1.jpg" alt="Photo 1" loading="lazy"></div>
     <button class="btn" onclick="nextPage(7)">Next 🌹</button>
 </div>
 
-<!-- ==================== PAGE 7 ==================== -->
 <div class="page" id="page7">
     <div class="typewriter-wrapper">
         <div class="typewriter-text" id="tw7"></div>
@@ -522,7 +496,6 @@
     <button class="btn" onclick="nextPage(8)">Next Line 💫</button>
 </div>
 
-<!-- ==================== PAGE 8 ==================== -->
 <div class="page" id="page8">
     <div class="typewriter-wrapper">
         <div class="typewriter-text" id="tw8"></div>
@@ -531,21 +504,18 @@
     <button class="btn" onclick="nextPage(9)">More... 🥰</button>
 </div>
 
-<!-- ==================== PAGE 9 ==================== -->
 <div class="page" id="page9">
     <h3>My mood when I see your notification! 🔔</h3>
     <div class="media-box"><img src="gif2.gif" alt="Cute GIF 2" loading="lazy"></div>
     <button class="btn" onclick="nextPage(10)">Next ➡️</button>
 </div>
 
-<!-- ==================== PAGE 10 ==================== -->
 <div class="page" id="page10">
     <h3>This reminds me of your gorgeous smile! 🌟</h3>
     <div class="media-box"><img src="photo2.jpg" alt="Photo 2" loading="lazy"></div>
     <button class="btn" onclick="nextPage(11)">Keep Going 💖</button>
 </div>
 
-<!-- ==================== PAGE 11 = PREMIUM ROSE ==================== -->
 <div class="page" id="page11">
     <h2 style="font-size:1.4rem;">A Premium Rose For A Premium Person 🌹</h2>
     <p style="font-size:0.85rem; opacity:0.7; margin-bottom:6px;">Choose a color that matches your vibe:</p>
@@ -562,19 +532,17 @@
             <div class="rose-glow-ring" id="roseGlowRing"></div>
             <span class="premium-rose" id="roseEmoji">🌹</span>
         </div>
-        <p style="font-size:0.8rem; opacity:0.5;">(Har click pe rang badalta hai... ✨)</p>
+        <p style="font-size:0.8rem; opacity:0.5;">(It changes color with every click... ✨)</p>
     </div>
     <button class="btn" onclick="nextPage(12)">Next Page ➡️</button>
 </div>
 
-<!-- ==================== PAGE 12 ==================== -->
 <div class="page" id="page12">
     <h3>Always sending you virtual hugs! 🤗</h3>
     <div class="media-box"><img src="gif3.gif" alt="Cute GIF 3" loading="lazy"></div>
     <button class="btn" onclick="nextPage(13)">Next ➡️</button>
 </div>
 
-<!-- ==================== PAGE 13 ==================== -->
 <div class="page" id="page13">
     <div class="typewriter-wrapper">
         <div class="typewriter-text" id="tw13"></div>
@@ -582,7 +550,6 @@
     <button class="btn" onclick="nextPage(14)">Next Line 📖</button>
 </div>
 
-<!-- ==================== PAGE 14 ==================== -->
 <div class="page" id="page14">
     <div class="typewriter-wrapper">
         <div class="typewriter-text" id="tw14"></div>
@@ -590,14 +557,12 @@
     <button class="btn" onclick="nextPage(15)">Next Line 📖</button>
 </div>
 
-<!-- ==================== PAGE 15 ==================== -->
 <div class="page" id="page15">
     <h3>You make my heart skip a beat... 💓</h3>
     <div class="media-box"><img src="gif4.gif" alt="Cute GIF 4" loading="lazy"></div>
     <button class="btn" onclick="nextPage(16)">Continue ➡️</button>
 </div>
 
-<!-- ==================== PAGE 16 ==================== -->
 <div class="page" id="page16">
     <div class="typewriter-wrapper">
         <div class="typewriter-text" id="tw16"></div>
@@ -605,7 +570,6 @@
     <button class="btn" onclick="nextPage(17)">Next Line 📖</button>
 </div>
 
-<!-- ==================== PAGE 17 ==================== -->
 <div class="page" id="page17">
     <div class="typewriter-wrapper">
         <div class="typewriter-text" id="tw17"></div>
@@ -613,21 +577,18 @@
     <button class="btn" onclick="nextPage(18)">Next Line ⏳</button>
 </div>
 
-<!-- ==================== PAGE 18 ==================== -->
 <div class="page" id="page18">
     <div class="media-box"><img src="photo3.jpg" alt="Photo 3" loading="lazy"></div>
     <div class="shayari-text" style="font-size:1.2rem;">
-        Kehte Hain Zindagi Hai Chaar Dino Ki ⏳🌸<br>
-        Main Woh Chaaro Din Tere Saath Likhunga ❤️‍🩹🌹🫶✨🥰🌙📖💫
+        They say life is just a brief moment ⏳🌸<br>
+        But I want to write every single second of mine with you ❤️‍🩹🌹🫶✨🥰🌙📖💫
     </div>
     <button class="btn" onclick="nextPage(19)">Almost There... 👀</button>
 </div>
 
-<!-- ==================== PAGE 19 = SOLAR SYSTEM + LOVE COUNTER ==================== -->
 <div class="page" id="page19">
     <h3>✨ Our Little Universe ✨</h3>
     
-    <!-- Solar System -->
     <div class="solar-system" id="solarSystem">
         <div class="orbit-ring" style="width:130px;height:130px;"></div>
         <div class="orbit-ring" style="width:180px;height:180px;"></div>
@@ -640,24 +601,21 @@
         </div>
     </div>
 
-    <!-- Love Counter -->
     <div class="love-counter">
         <span class="label">❤️ Seconds of Love ❤️</span>
         <span class="count" id="loveCount">0</span>
-        <span class="label">aur badhta hi ja raha hai...</span>
+        <span class="label">and it just keeps growing...</span>
     </div>
 
-    <p style="font-size:0.85rem; margin-top:4px; opacity:0.6;">Tu mera center hai, main tera orbit... 🌌</p>
+    <p style="font-size:0.85rem; margin-top:4px; opacity:0.6;">You are my center, and I am your orbit... 🌌</p>
     <button class="btn" onclick="nextPage(20)">Last Surprise... 🥺❤️</button>
 </div>
 
-<!-- ==================== PAGE 20 = VIDEO ==================== -->
 <div class="page" id="page20">
     <h2 style="margin-bottom:12px;">Made with ❤️ for You</h2>
     <video id="proposeVideo" src="video1.mp4" playsinline preload="auto"></video>
     <p style="margin-top:15px; font-weight:600; font-size:1.2rem; color:#f8e0f0;">Will you be mine forever? 🌹✨</p>
 </div>
-
 
 <script>
     // ============================================================
@@ -708,14 +666,14 @@
     //  TYPEWRITER ENGINE
     // ============================================================
     const shayariLines = {
-        tw4:  "💖 Mujhse \"Pyar\" karne ki \"Bhool\" kar.. 💖",
-        tw5:  "✨ Mere liye apne alag \"Usool\" kar.. ✨",
-        tw7:  "💫 Main \"jaisa\" bhi hu, tera hu.. 💫",
-        tw8:  "🤍 Tu meri \"ban\" mujhe \"Qubool\" kar.. 🤍",
-        tw13: "Ek Raat Ek Baat Likhunga 🌙✍️",
-        tw14: "Khud Ko Daag, Tujhe Saaf Likhunga 🤍🥀",
-        tw16: "Haqeeqat Mein Tu Kabhi Mila Nahi 😔💔",
-        tw17: "Ek Kitaab Mein Apni Mulaqaat Likhunga 📖✨🙂"
+        tw4:  "💖 Make the sweet mistake of falling for me... 💖",
+        tw5:  "✨ Break all your rules just for me... ✨",
+        tw7:  "💫 Whatever I am, I am entirely yours... 💫",
+        tw8:  "🤍 Be mine forever and completely accept me... 🤍",
+        tw13: "One night, I will write down our story 🌙✍️",
+        tw14: "Keeping all flaws to myself, leaving you pure 🤍🥀",
+        tw16: "Even if reality kept us apart for a moment 😔💔",
+        tw17: "I will make us meet beautifully in my pages 📖✨🙂"
     };
 
     function typeWriter(elementId, text, speed = 55) {
@@ -727,7 +685,6 @@
             if (i < text.length) {
                 const char = text.charAt(i);
                 if (char === '<') {
-                    // Handle HTML entities properly
                     const end = text.indexOf('>', i);
                     el.innerHTML += text.substring(i, end + 1);
                     i = end + 1;
@@ -737,7 +694,6 @@
                 }
                 setTimeout(type, speed + Math.random() * 30);
             } else {
-                // Add cursor blink at end
                 el.innerHTML += '<span class="typewriter-cursor"></span>';
             }
         }
@@ -751,22 +707,19 @@
         const rose = document.getElementById('roseEmoji');
         const ring = document.getElementById('roseGlowRing');
         
-        // Update CSS vars
         document.documentElement.style.setProperty('--rose-glow', `${color}80`);
         document.documentElement.style.setProperty('--rose-glow-transparent', `${color}40`);
         
-        // Active dot styling
         document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('active'));
         if (dotEl) dotEl.classList.add('active');
         
-        // Subtle background shift
         const bgMap = {
             '#ff4d6d': 'linear-gradient(135deg, #0a0015, #1a0030, #2d0045)',
             '#ff69b4': 'linear-gradient(135deg, #15000a, #2d0018, #400020)',
             '#ffd700': 'linear-gradient(135deg, #150d00, #2d1a00, #402500)',
-            '#00b4d8': 'linear-gradient(135deg, #000d15, #001a2d, '#002540')',
-            '#c77dff': 'linear-gradient(135deg, #0f0015, '#1f002d', '#2e0040')',
-            '#ffffff': 'linear-gradient(135deg, #0a0a0a, '#1a1a1a', '#2d2d2d')'
+            '#00b4d8': 'linear-gradient(135deg, #000d15, #001a2d, #002540)',
+            '#c77dff': 'linear-gradient(135deg, #0f0015, #1f002d, #2e0040)',
+            '#ffffff': 'linear-gradient(135deg, #0a0a0a, #1a1a1a, #2d2d2d)'
         };
         if (bgMap[color]) {
             document.body.style.background = bgMap[color];
@@ -804,17 +757,14 @@
     }
 
     function nextPage(pageNumber) {
-        // Hide all pages
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         
-        // Show target
         const target = document.getElementById('page' + pageNumber);
         if (target) {
             target.classList.add('active');
             currentPage = pageNumber;
         }
 
-        // Trigger typewriter for shayari pages
         const lineId = 'tw' + pageNumber;
         if (shayariLines[lineId] && !typewriterDone[lineId]) {
             setTimeout(() => {
@@ -823,18 +773,15 @@
             }, 400);
         }
 
-        // Start love counter on page 19
         if (pageNumber === 19) {
             setTimeout(() => startLoveCounter(), 300);
         }
 
-        // Stop love counter when leaving page 19
         if (pageNumber !== 19 && loveInterval) {
             clearInterval(loveInterval);
             loveInterval = null;
         }
 
-        // Stop song on video page
         if (pageNumber === 20) {
             const song = document.getElementById('bgSong');
             song.pause();
@@ -846,12 +793,9 @@
         }
     }
 
-    // ============================================================
-    //  INIT: Set default rose glow
-    // ============================================================
     document.documentElement.style.setProperty('--rose-glow', '#ff4d6d80');
     document.documentElement.style.setProperty('--rose-glow-transparent', '#ff4d6d40');
 </script>
 
 </body>
-    </html>
+</html>
