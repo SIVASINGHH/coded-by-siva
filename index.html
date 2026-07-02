@@ -2,362 +2,856 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For You cutee</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>𝐅𝐨𝐫 𝐘𝐨𝐮 cutee 🌹</title>
     <style>
-        :root {
-            --rose-color: #ff4d6d;
-            --bg-gradient: linear-gradient(135deg, #ffe5ec, #ffb3c1);
-            --text-color: #4a154b;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;600;700&display=swap');
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            background: var(--bg-gradient);
-            color: var(--text-color);
+            font-family: 'Poppins', sans-serif;
             overflow: hidden;
+            height: 100vh;
+            width: 100vw;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            text-align: center;
+            background: linear-gradient(135deg, #0a0015, #1a0030, #2d0045);
+            transition: background 1.5s ease;
         }
 
-        /* Top Header */
-        .header-credit {
+        /* ===== DREAMY STARFIELD ===== */
+        #starfield {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .star {
             position: absolute;
-            top: 20px;
-            width: 100%;
-            font-size: 1.2rem;
-            font-weight: bold;
-            letter-spacing: 2px;
-            color: #ff0055;
-            text-shadow: 1px 1px 5px rgba(0,0,0,0.1);
-            z-index: 100;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle var(--duration) ease-in-out infinite alternate;
+        }
+        @keyframes twinkle {
+            0% { opacity: 0.2; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1.2); }
         }
 
-        /* Page Management */
+        /* ===== FLOATING HEARTS ===== */
+        #heart-rain {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .float-heart {
+            position: absolute;
+            font-size: 1.2rem;
+            animation: heartFloat var(--float-duration) linear infinite;
+            opacity: 0;
+            pointer-events: none;
+        }
+        @keyframes heartFloat {
+            0% { transform: translateY(100vh) rotate(0deg) scale(0.5); opacity: 0; }
+            10% { opacity: 0.7; }
+            90% { opacity: 0.7; }
+            100% { transform: translateY(-10vh) rotate(720deg) scale(1.2); opacity: 0; }
+        }
+
+        /* ===== PAGE SYSTEM ===== */
         .page {
             display: none;
-            width: 90%;
-            max-width: 500px;
-            padding: 30px;
-            background: rgba(255, 255, 255, 0.85);
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            backdrop-filter: blur(10px);
-            animation: fadeIn 0.5s ease-in-out;
+            width: 92%;
+            max-width: 440px;
+            padding: 28px 22px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 28px;
+            box-shadow: 0 8px 40px rgba(255, 20, 100, 0.15), inset 0 1px 0 rgba(255,255,255,0.1);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             position: relative;
+            z-index: 10;
+            animation: pageIn 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            transform-origin: center;
         }
-
         .page.active {
             display: block;
         }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
+        @keyframes pageIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.85) translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
         }
 
-        /* Buttons */
+        /* ===== TYPOGRAPHY ===== */
+        .header-credit {
+            position: fixed;
+            top: 16px;
+            width: 100%;
+            text-align: center;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.05rem;
+            color: rgba(255, 150, 200, 0.5);
+            letter-spacing: 3px;
+            z-index: 100;
+            text-shadow: 0 0 20px rgba(255, 50, 100, 0.3);
+            pointer-events: none;
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.4rem;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4, #fbc2eb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+            line-height: 1.2;
+        }
+        h2 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            color: #f8e0f0;
+            margin-bottom: 10px;
+            font-weight: 400;
+            text-shadow: 0 0 30px rgba(255, 100, 150, 0.3);
+        }
+        h3 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.5rem;
+            color: #f0d0e8;
+            margin-bottom: 10px;
+            font-weight: 400;
+        }
+        p {
+            color: rgba(255, 220, 240, 0.85);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            font-weight: 300;
+        }
+
+        /* ===== GLOW BUTTON ===== */
         .btn {
-            background: linear-gradient(45deg, #ff4d6d, #ff758f);
+            background: linear-gradient(135deg, #ff2d55, #ff6b8a, #ff8fab);
             color: white;
             border: none;
-            padding: 12px 30px;
-            font-size: 1.1rem;
-            border-radius: 25px;
+            padding: 14px 36px;
+            font-size: 1.05rem;
+            border-radius: 60px;
             cursor: pointer;
-            margin-top: 20px;
-            box-shadow: 0 5px 15px rgba(255,77,109,0.4);
-            transition: 0.3s;
+            margin-top: 18px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 25px rgba(255, 45, 85, 0.45), 0 0 60px rgba(255, 45, 85, 0.15);
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+            overflow: hidden;
+            width: auto;
+            display: inline-block;
+        }
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        .btn:active {
+            transform: scale(0.96);
+            box-shadow: 0 2px 15px rgba(255,45,85,0.3);
+        }
+        .btn:hover::after {
+            opacity: 1;
         }
 
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(255,77,109,0.6);
-        }
-
-        /* Beating Hearts Animation */
+        /* ===== BEATING HEARTS ===== */
         .heart-container {
             display: flex;
             justify-content: center;
-            gap: 15px;
-            margin: 20px 0;
-        }
-
-        .beating-heart {
-            font-size: 3rem;
-            animation: beat 0.4s infinite alternate;
-        }
-
-        @keyframes beat {
-            to { transform: scale(1.3); }
-        }
-
-        /* Images and GIFs */
-        .media-box img {
-            width: 100%;
-            max-height: 250px;
-            object-fit: cover;
-            border-radius: 15px;
+            gap: 12px;
             margin: 15px 0;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .beating-heart {
+            font-size: 2.8rem;
+            animation: beat 0.6s ease-in-out infinite alternate;
+            filter: drop-shadow(0 0 12px rgba(255,50,100,0.5));
+        }
+        @keyframes beat {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.35); }
         }
 
-        /* Premium Floating Rose */
-        .rose-box {
+        /* ===== PREMIUM ROSE ===== */
+        .rose-section {
+            text-align: center;
+            padding: 10px 0;
+        }
+        .premium-rose-container {
             position: relative;
-            width: 150px;
-            height: 150px;
-            margin: 0 auto;
+            width: 160px;
+            height: 160px;
+            margin: 10px auto;
         }
-
         .premium-rose {
-            font-size: 5rem;
-            display: inline-block;
-            animation: rotateRose 4s linear infinite;
-            color: var(--rose-color);
-            transition: color 0.5s ease;
+            font-size: 6rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            animation: roseDance 5s ease-in-out infinite;
+            filter: drop-shadow(0 0 25px var(--rose-glow));
+            transition: filter 0.8s ease;
+            position: relative;
+        }
+        @keyframes roseDance {
+            0%, 100% { transform: rotate(-5deg) scale(1); }
+            25% { transform: rotate(5deg) scale(1.08); }
+            50% { transform: rotate(-3deg) scale(1.12); }
+            75% { transform: rotate(4deg) scale(1.06); }
+        }
+        /* Rose glow ring */
+        .rose-glow-ring {
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 120px; height: 120px;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--rose-glow-transparent) 0%, transparent 70%);
+            animation: pulseGlow 2s ease-in-out infinite;
+            pointer-events: none;
+        }
+        @keyframes pulseGlow {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
+            50% { transform: translate(-50%, -50%) scale(1.3); opacity: 1; }
         }
 
-        @keyframes rotateRose {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        /* Color Picker */
+        /* Color picker - premium style */
         .color-picker {
             display: flex;
             justify-content: center;
-            gap: 10px;
-            margin: 15px 0;
+            gap: 14px;
+            margin: 12px 0 18px;
+            flex-wrap: wrap;
         }
-
         .color-dot {
-            width: 25px;
-            height: 25px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             cursor: pointer;
-            border: 2px solid white;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            border: 2.5px solid rgba(255,255,255,0.3);
+            box-shadow: 0 3px 15px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .color-dot:active {
+            transform: scale(0.9);
+        }
+        .color-dot.active {
+            border-color: white;
+            box-shadow: 0 0 20px var(--dot-glow, rgba(255,255,255,0.4));
+            transform: scale(1.15);
         }
 
-        /* Shayari Style */
+        /* ===== MEDIA ===== */
+        .media-box {
+            margin: 12px 0;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .media-box img, .media-box video {
+            width: 100%;
+            max-height: 260px;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* ===== SHAYARI TEXT ===== */
         .shayari-text {
-            font-size: 1.3rem;
-            font-weight: bold;
-            line-height: 1.6;
-            background: linear-gradient(45deg, #ff0055, #7a00ff);
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.6rem;
+            line-height: 1.5;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
             margin: 20px 0;
+            text-shadow: none;
+            letter-spacing: 0.5px;
+        }
+        .shayari-text small {
+            font-size: 1rem;
+            display: block;
+            margin-top: 6px;
         }
 
-        /* Video element */
+        /* ===== TYPEWRITER EFFECT ===== */
+        .typewriter-wrapper {
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .typewriter-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.6rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.5;
+            min-height: 1.8em;
+        }
+        .typewriter-cursor {
+            display: inline-block;
+            width: 3px;
+            height: 1.4em;
+            background: #ff6b8a;
+            margin-left: 3px;
+            animation: blink 0.8s step-end infinite;
+            vertical-align: text-bottom;
+            border-radius: 2px;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* ===== SOLAR SYSTEM ===== */
+        .solar-system {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 15px auto;
+        }
+        .sun {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px; height: 50px;
+            background: radial-gradient(circle, #ffdd44, #ff8800);
+            border-radius: 50%;
+            box-shadow: 0 0 40px #ff8800, 0 0 80px rgba(255,136,0,0.3);
+            animation: sunPulse 2s ease-in-out infinite;
+            z-index: 2;
+        }
+        @keyframes sunPulse {
+            0%, 100% { box-shadow: 0 0 40px #ff8800, 0 0 80px rgba(255,136,0,0.3); }
+            50% { box-shadow: 0 0 60px #ffaa00, 0 0 100px rgba(255,136,0,0.5); }
+        }
+        .planet {
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 18px; height: 18px;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: orbit var(--orbit-duration) linear infinite;
+            z-index: 1;
+        }
+        .planet::before {
+            content: '💖';
+            font-size: 1.2rem;
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .planet-dot {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%; height: 100%;
+            border-radius: 50%;
+            opacity: 0.9;
+        }
+        .orbit-ring {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        @keyframes orbit {
+            0% { transform: translate(-50%, -50%) rotate(0deg) translateX(var(--orbit-radius)) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg) translateX(var(--orbit-radius)) rotate(-360deg); }
+        }
+
+        /* ===== LOVE COUNTER ===== */
+        .love-counter {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            padding: 18px 22px;
+            margin: 12px 0;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .love-counter .count {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ff9a9e, #fbc2eb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+        }
+        .love-counter .label {
+            color: rgba(255,220,240,0.6);
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+
+        /* ===== VIDEO PAGE ===== */
         video {
             width: 100%;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            border-radius: 18px;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.4);
+            outline: none;
+        }
+
+        /* ===== RESPONSIVE FINE-TUNE ===== */
+        @media (max-width: 420px) {
+            .page { padding: 20px 16px; border-radius: 22px; }
+            h1 { font-size: 2rem; }
+            .shayari-text { font-size: 1.3rem; }
+            .premium-rose { font-size: 5rem; }
+            .premium-rose-container { width: 130px; height: 130px; }
+            .solar-system { width: 160px; height: 160px; }
+            .sun { width: 40px; height: 40px; }
+            .btn { padding: 12px 28px; font-size: 0.95rem; }
+        }
+        @media (max-width: 360px) {
+            .page { padding: 16px 12px; }
+            h1 { font-size: 1.7rem; }
+            .shayari-text { font-size: 1.1rem; }
+            .beating-heart { font-size: 2.2rem; }
+            .color-dot { width: 30px; height: 30px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="header-credit">CODED BY SIVASINGH</div>
+<!-- Starfield -->
+<div id="starfield"></div>
 
-    <audio id="bgSong" loop>
-        <source src="tere-liye.mp3" type="audio/mpeg">
-    </audio>
+<!-- Floating Hearts -->
+<div id="heart-rain"></div>
 
-    <div class="page active" id="page1">
-        <h1 style="font-size: 2rem; margin-bottom: 20px;">Hey Cutiee... ✨</h1>
-        <button class="btn" onclick="startExperience()">Cutiee I want to say something 💖</button>
+<!-- Credit -->
+<div class="header-credit">CODED BY SIVASINGH ❤️</div>
+
+<!-- Audio -->
+<audio id="bgSong" loop preload="auto">
+    <source src="tere-liye.mp3" type="audio/mpeg">
+</audio>
+
+<!-- ==================== PAGE 1 ==================== -->
+<div class="page active" id="page1">
+    <h1>Hey Cutiee... ✨</h1>
+    <p style="margin-bottom: 10px; font-size: 0.9rem; opacity: 0.7;">Kuch khaas hai tumhare liye...</p>
+    <button class="btn" onclick="startExperience()">Cutiee I want to say something 💖</button>
+</div>
+
+<!-- ==================== PAGE 2 ==================== -->
+<div class="page" id="page2">
+    <h2>You are so special! 🥰</h2>
+    <div class="heart-container">
+        <span class="beating-heart">💖</span>
+        <span class="beating-heart" style="animation-delay: 0.15s;">❤️</span>
+        <span class="beating-heart" style="animation-delay: 0.3s;">💘</span>
     </div>
+    <p>Jab se aapko dekha hai, dil bas aapke hi khayalon mein khoya rehta hai... You bring a smile to my face every single day!</p>
+    <button class="btn" onclick="nextPage(3)">Next ✨</button>
+</div>
 
-    <div class="page" id="page2">
-        <h2>You are so special! 🥰</h2>
-        <div class="heart-container">
-            <span class="beating-heart">💖</span>
-            <span class="beating-heart" style="animation-delay: 0.1s;">❤️</span>
-            <span class="beating-heart" style="animation-delay: 0.2s;">💘</span>
-        </div>
-        <p>Jab se aapko dekha hai, dil bas aapke hi khayalon mein khoya rehta hai... You bring a smile to my face every single day!</p>
-        <button class="btn" onclick="nextPage(3)">Next ✨</button>
+<!-- ==================== PAGE 3 ==================== -->
+<div class="page" id="page3">
+    <h3>Just look at this! Cute, right? 😉</h3>
+    <div class="media-box"><img src="gif1.gif" alt="Cute GIF 1" loading="lazy"></div>
+    <button class="btn" onclick="nextPage(4)">Ahead ➡️</button>
+</div>
+
+<!-- ==================== PAGE 4 ==================== -->
+<div class="page" id="page4">
+    <div class="typewriter-wrapper">
+        <div class="typewriter-text" id="tw4"></div>
     </div>
+    <button class="btn" onclick="nextPage(5)">Next Line 💫</button>
+</div>
 
-    <div class="page" id="page3">
-        <h3>Just look at this! Cute, right? 😉</h3>
-        <div class="media-box"><img src="gif1.gif" alt="Cute GIF 1"></div>
-        <button class="btn" onclick="nextPage(4)">Ahead ➡️</button>
+<!-- ==================== PAGE 5 ==================== -->
+<div class="page" id="page5">
+    <div class="typewriter-wrapper">
+        <div class="typewriter-text" id="tw5"></div>
     </div>
+    <button class="btn" onclick="nextPage(6)">Next Line 💫</button>
+</div>
 
-    <div class="page" id="page4">
-        <div class="shayari-text">💖 Mujhse “Pyar” karne ki “Bhool” kar.. 💖</div>
-        <button class="btn" onclick="nextPage(5)">Next Line 💫</button>
+<!-- ==================== PAGE 6 ==================== -->
+<div class="page" id="page6">
+    <h3>Moments with you are magical ✨</h3>
+    <div class="media-box"><img src="photo1.jpg" alt="Photo 1" loading="lazy"></div>
+    <button class="btn" onclick="nextPage(7)">Next 🌹</button>
+</div>
+
+<!-- ==================== PAGE 7 ==================== -->
+<div class="page" id="page7">
+    <div class="typewriter-wrapper">
+        <div class="typewriter-text" id="tw7"></div>
     </div>
+    <button class="btn" onclick="nextPage(8)">Next Line 💫</button>
+</div>
 
-    <div class="page" id="page5">
-        <div class="shayari-text">✨ Mere liye apne alag “Usool” kar.. ✨</div>
-        <button class="btn" onclick="nextPage(6)">Next Line 💫</button>
+<!-- ==================== PAGE 8 ==================== -->
+<div class="page" id="page8">
+    <div class="typewriter-wrapper">
+        <div class="typewriter-text" id="tw8"></div>
     </div>
+    <div style="font-size: 2.5rem; margin-top: 6px; letter-spacing: 6px;">🤝❤️👉💘</div>
+    <button class="btn" onclick="nextPage(9)">More... 🥰</button>
+</div>
 
-    <div class="page" id="page6">
-        <h3>Moments with you are magical ✨</h3>
-        <div class="media-box"><img src="photo1.jpg" alt="Photo 1"></div>
-        <button class="btn" onclick="nextPage(7)">Next 🌹</button>
+<!-- ==================== PAGE 9 ==================== -->
+<div class="page" id="page9">
+    <h3>My mood when I see your notification! 🔔</h3>
+    <div class="media-box"><img src="gif2.gif" alt="Cute GIF 2" loading="lazy"></div>
+    <button class="btn" onclick="nextPage(10)">Next ➡️</button>
+</div>
+
+<!-- ==================== PAGE 10 ==================== -->
+<div class="page" id="page10">
+    <h3>This reminds me of your gorgeous smile! 🌟</h3>
+    <div class="media-box"><img src="photo2.jpg" alt="Photo 2" loading="lazy"></div>
+    <button class="btn" onclick="nextPage(11)">Keep Going 💖</button>
+</div>
+
+<!-- ==================== PAGE 11 = PREMIUM ROSE ==================== -->
+<div class="page" id="page11">
+    <h2 style="font-size:1.4rem;">A Premium Rose For A Premium Person 🌹</h2>
+    <p style="font-size:0.85rem; opacity:0.7; margin-bottom:6px;">Choose a color that matches your vibe:</p>
+    <div class="color-picker">
+        <div class="color-dot active" style="background:#ff4d6d; --dot-glow:rgba(255,77,109,0.6);" onclick="changeRoseColor('#ff4d6d', this)"></div>
+        <div class="color-dot" style="background:#ff69b4; --dot-glow:rgba(255,105,180,0.6);" onclick="changeRoseColor('#ff69b4', this)"></div>
+        <div class="color-dot" style="background:#ffd700; --dot-glow:rgba(255,215,0,0.6);" onclick="changeRoseColor('#ffd700', this)"></div>
+        <div class="color-dot" style="background:#00b4d8; --dot-glow:rgba(0,180,216,0.6);" onclick="changeRoseColor('#00b4d8', this)"></div>
+        <div class="color-dot" style="background:#c77dff; --dot-glow:rgba(199,125,255,0.6);" onclick="changeRoseColor('#c77dff', this)"></div>
+        <div class="color-dot" style="background:#ffffff; --dot-glow:rgba(255,255,255,0.6); border-color:rgba(255,255,255,0.5);" onclick="changeRoseColor('#ffffff', this)"></div>
     </div>
-
-    <div class="page" id="page7">
-        <div class="shayari-text">💫 Main “jaisa” bhi hu, tera hu.. 💫</div>
-        <button class="btn" onclick="nextPage(8)">Next Line 💫</button>
-    </div>
-
-    <div class="page" id="page8">
-        <div class="shayari-text">🤍 Tu meri “ban” mujhe “Qubool” kar.. 🤍</div>
-        <h2 style="font-size: 2.5rem; margin-top: 10px;">🤝❤️ 👉 💘</h2>
-        <button class="btn" onclick="nextPage(9)">More... 🥰</button>
-    </div>
-
-    <div class="page" id="page9">
-        <h3>My mood when I see your notification! 🔔</h3>
-        <div class="media-box"><img src="gif2.gif" alt="Cute GIF 2"></div>
-        <button class="btn" onclick="nextPage(10)">Next ➡️</button>
-    </div>
-
-    <div class="page" id="page10">
-        <h3>This reminds me of your gorgeous smile! 🌟</h3>
-        <div class="media-box"><img src="photo2.jpg" alt="Photo 2"></div>
-        <button class="btn" onclick="nextPage(11)">Keep Going 💖</button>
-    </div>
-
-    <div class="page" id="page11">
-        <h3>A Premium Rose For A Premium Person 🌹</h3>
-        <p style="font-size: 0.9rem; margin-bottom: 10px;">Pick your favorite color:</p>
-        <div class="color-picker">
-            <div class="color-dot" style="background: #ff4d6d;" onclick="changeRoseColor('#ff4d6d')"></div>
-            <div class="color-dot" style="background: #ffffff; border: 2px solid #ccc;" onclick="changeRoseColor('#ffffff')"></div>
-            <div class="color-dot" style="background: #00b4d8;" onclick="changeRoseColor('#00b4d8')"></div>
-            <div class="color-dot" style="background: #1a1a1a;" onclick="changeRoseColor('#1a1a1a')"></div>
-            <div class="color-dot" style="background: #9b5de5;" onclick="changeRoseColor('#9b5de5')"></div>
-        </div>
-        <div class="rose-box">
+    <div class="rose-section">
+        <div class="premium-rose-container">
+            <div class="rose-glow-ring" id="roseGlowRing"></div>
             <span class="premium-rose" id="roseEmoji">🌹</span>
         </div>
-        <p style="font-size: 0.85rem; margin-top: 10px; color: #666;">(Magic: It keeps rotating beautifully!)</p>
-        <button class="btn" onclick="nextPage(12)">Next Page ➡️</button>
+        <p style="font-size:0.8rem; opacity:0.5;">(Har click pe rang badalta hai... ✨)</p>
     </div>
+    <button class="btn" onclick="nextPage(12)">Next Page ➡️</button>
+</div>
 
-    <div class="page" id="page12">
-        <h3>Always sending you virtual hugs! 🤗</h3>
-        <div class="media-box"><img src="gif3.gif" alt="Cute GIF 3"></div>
-        <button class="btn" onclick="nextPage(13)">Next ➡️</button>
+<!-- ==================== PAGE 12 ==================== -->
+<div class="page" id="page12">
+    <h3>Always sending you virtual hugs! 🤗</h3>
+    <div class="media-box"><img src="gif3.gif" alt="Cute GIF 3" loading="lazy"></div>
+    <button class="btn" onclick="nextPage(13)">Next ➡️</button>
+</div>
+
+<!-- ==================== PAGE 13 ==================== -->
+<div class="page" id="page13">
+    <div class="typewriter-wrapper">
+        <div class="typewriter-text" id="tw13"></div>
     </div>
+    <button class="btn" onclick="nextPage(14)">Next Line 📖</button>
+</div>
 
-    <div class="page" id="page13">
-        <div class="shayari-text">Ek Raat Ek Baat Likhunga 🌙✍️</div>
-        <button class="btn" onclick="nextPage(14)">Next Line 📖</button>
+<!-- ==================== PAGE 14 ==================== -->
+<div class="page" id="page14">
+    <div class="typewriter-wrapper">
+        <div class="typewriter-text" id="tw14"></div>
     </div>
+    <button class="btn" onclick="nextPage(15)">Next Line 📖</button>
+</div>
 
-    <div class="page" id="page14">
-        <div class="shayari-text">Khud Ko Daag, Tujhe Saaf Likhunga 🤍🥀</div>
-        <button class="btn" onclick="nextPage(15)">Next Line 📖</button>
+<!-- ==================== PAGE 15 ==================== -->
+<div class="page" id="page15">
+    <h3>You make my heart skip a beat... 💓</h3>
+    <div class="media-box"><img src="gif4.gif" alt="Cute GIF 4" loading="lazy"></div>
+    <button class="btn" onclick="nextPage(16)">Continue ➡️</button>
+</div>
+
+<!-- ==================== PAGE 16 ==================== -->
+<div class="page" id="page16">
+    <div class="typewriter-wrapper">
+        <div class="typewriter-text" id="tw16"></div>
     </div>
+    <button class="btn" onclick="nextPage(17)">Next Line 📖</button>
+</div>
 
-    <div class="page" id="page15">
-        <h3>You make my heart skip a beat... 💓</h3>
-        <div class="media-box"><img src="gif4.gif" alt="Cute GIF 4"></div>
-        <button class="btn" onclick="nextPage(16)">Continue ➡️</button>
+<!-- ==================== PAGE 17 ==================== -->
+<div class="page" id="page17">
+    <div class="typewriter-wrapper">
+        <div class="typewriter-text" id="tw17"></div>
     </div>
+    <button class="btn" onclick="nextPage(18)">Next Line ⏳</button>
+</div>
 
-    <div class="page" id="page16">
-        <div class="shayari-text">Haqeeqat Mein Tu Kabhi Mila Nahi 😔💔</div>
-        <button class="btn" onclick="nextPage(17)">Next Line 📖</button>
+<!-- ==================== PAGE 18 ==================== -->
+<div class="page" id="page18">
+    <div class="media-box"><img src="photo3.jpg" alt="Photo 3" loading="lazy"></div>
+    <div class="shayari-text" style="font-size:1.2rem;">
+        Kehte Hain Zindagi Hai Chaar Dino Ki ⏳🌸<br>
+        Main Woh Chaaro Din Tere Saath Likhunga ❤️‍🩹🌹🫶✨🥰🌙📖💫
     </div>
+    <button class="btn" onclick="nextPage(19)">Almost There... 👀</button>
+</div>
 
-    <div class="page" id="page17">
-        <div class="shayari-text">Ek Kitaab Mein Apni Mulaqaat Likhunga 📖✨🙂</div>
-        <button class="btn" onclick="nextPage(18)">Next Line ⏳</button>
-    </div>
-
-    <div class="page" id="page18">
-        <div class="media-box"><img src="photo3.jpg" alt="Photo 3"></div>
-        <div class="shayari-text" style="font-size: 1.1rem;">
-            Kehte Hain Zindagi Hai Chaar Dino Ki ⏳🌸<br>
-            Main Woh Chaaro Din Tere Saath Likhunga ❤️‍🩹🌹🫶 ✨🥰🌙📖💫
+<!-- ==================== PAGE 19 = SOLAR SYSTEM + LOVE COUNTER ==================== -->
+<div class="page" id="page19">
+    <h3>✨ Our Little Universe ✨</h3>
+    
+    <!-- Solar System -->
+    <div class="solar-system" id="solarSystem">
+        <div class="orbit-ring" style="width:130px;height:130px;"></div>
+        <div class="orbit-ring" style="width:180px;height:180px;"></div>
+        <div class="sun"></div>
+        <div class="planet" style="--orbit-duration:3s; --orbit-radius:65px;">
+            <div class="planet-dot" style="background:radial-gradient(circle,#ff6b8a,#ff2d55);"></div>
         </div>
-        <button class="btn" onclick="nextPage(19)">Almost There... 👀</button>
+        <div class="planet" style="--orbit-duration:4.5s; --orbit-radius:90px;">
+            <div class="planet-dot" style="background:radial-gradient(circle,#c77dff,#7a00ff);"></div>
+        </div>
     </div>
 
-    <div class="page" id="page19">
-        <h3>Just one last thing for you... 🥺❤️</h3>
-        <div class="media-box"><img src="gif5.gif" alt="Cute GIF 5"></div>
-        <button class="btn" onclick="goToVideoPage()">Watch This Video 🎬</button>
+    <!-- Love Counter -->
+    <div class="love-counter">
+        <span class="label">❤️ Seconds of Love ❤️</span>
+        <span class="count" id="loveCount">0</span>
+        <span class="label">aur badhta hi ja raha hai...</span>
     </div>
 
-    <div class="page" id="page20">
-        <h2 style="margin-bottom: 15px;">Made by siva 💖</h2>
-        <video id="proposeVideo" src="video1.mp4" playsinline></video>
-        <p style="margin-top: 15px; font-weight: bold; font-size: 1.2rem;">Will you be mine forever? 🌹✨</p>
-    </div>
+    <p style="font-size:0.85rem; margin-top:4px; opacity:0.6;">Tu mera center hai, main tera orbit... 🌌</p>
+    <button class="btn" onclick="nextPage(20)">Last Surprise... 🥺❤️</button>
+</div>
 
-    <script>
-        // Start Experience & Play Background Music
-        function startExperience() {
-            var song = document.getElementById("bgSong");
-            song.play().catch(function(error) {
-                console.log("Audio autoplay restricted by browser until click.");
-            });
-            nextPage(2);
+<!-- ==================== PAGE 20 = VIDEO ==================== -->
+<div class="page" id="page20">
+    <h2 style="margin-bottom:12px;">Made with ❤️ for You</h2>
+    <video id="proposeVideo" src="video1.mp4" playsinline preload="auto"></video>
+    <p style="margin-top:15px; font-weight:600; font-size:1.2rem; color:#f8e0f0;">Will you be mine forever? 🌹✨</p>
+</div>
+
+
+<script>
+    // ============================================================
+    //  STARFIELD GENERATOR
+    // ============================================================
+    (function createStars() {
+        const container = document.getElementById('starfield');
+        for (let i = 0; i < 80; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            const size = 1.5 + Math.random() * 2.5;
+            star.style.cssText = `
+                width:${size}px; height:${size}px;
+                left:${Math.random() * 100}%;
+                top:${Math.random() * 100}%;
+                --duration:${1.5 + Math.random() * 3}s;
+                animation-delay:${Math.random() * 3}s;
+                opacity:${0.2 + Math.random() * 0.5};
+            `;
+            container.appendChild(star);
         }
+    })();
 
-        // Standard Page Navigation
-        function nextPage(pageNumber) {
-            // Hide all pages
-            var pages = document.querySelectorAll('.page');
-            pages.forEach(function(p) {
-                p.classList.remove('active');
-            });
-            // Show target page
-            document.getElementById('page' + pageNumber).classList.add('active');
+    // ============================================================
+    //  FLOATING HEART RAIN
+    // ============================================================
+    (function startHeartRain() {
+        const container = document.getElementById('heart-rain');
+        const hearts = ['💖','❤️','💗','💘','💝','🩷','❣️'];
+        function createHeart() {
+            const el = document.createElement('div');
+            el.className = 'float-heart';
+            el.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+            el.style.cssText = `
+                left:${Math.random() * 100}%;
+                font-size:${0.8 + Math.random() * 1}rem;
+                --float-duration:${8 + Math.random() * 14}s;
+                animation-delay:${Math.random() * 5}s;
+            `;
+            container.appendChild(el);
+            setTimeout(() => el.remove(), 25000);
         }
+        setInterval(createHeart, 1200);
+        for (let i = 0; i < 5; i++) setTimeout(createHeart, i * 400);
+    })();
 
-        // Special handlers for Premium Rose Color Selection
-        function changeRoseColor(color) {
-            var rose = document.getElementById('roseEmoji');
-            // Using standard CSS filters or simple text shadow hacks to style the emoji beautifully
-            rose.style.textShadow = `0 0 20px ${color}, 0 0 40px ${color}`;
-            
-            // Subtle color themes change based on selection
-            if (color === '#1a1a1a') {
-                document.documentElement.style.setProperty('--rose-color', '#1a1a1a');
-            } else if (color === '#ffffff') {
-                document.documentElement.style.setProperty('--rose-color', '#ffffff');
+    // ============================================================
+    //  TYPEWRITER ENGINE
+    // ============================================================
+    const shayariLines = {
+        tw4:  "💖 Mujhse \"Pyar\" karne ki \"Bhool\" kar.. 💖",
+        tw5:  "✨ Mere liye apne alag \"Usool\" kar.. ✨",
+        tw7:  "💫 Main \"jaisa\" bhi hu, tera hu.. 💫",
+        tw8:  "🤍 Tu meri \"ban\" mujhe \"Qubool\" kar.. 🤍",
+        tw13: "Ek Raat Ek Baat Likhunga 🌙✍️",
+        tw14: "Khud Ko Daag, Tujhe Saaf Likhunga 🤍🥀",
+        tw16: "Haqeeqat Mein Tu Kabhi Mila Nahi 😔💔",
+        tw17: "Ek Kitaab Mein Apni Mulaqaat Likhunga 📖✨🙂"
+    };
+
+    function typeWriter(elementId, text, speed = 55) {
+        const el = document.getElementById(elementId);
+        if (!el) return;
+        el.innerHTML = '';
+        let i = 0;
+        function type() {
+            if (i < text.length) {
+                const char = text.charAt(i);
+                if (char === '<') {
+                    // Handle HTML entities properly
+                    const end = text.indexOf('>', i);
+                    el.innerHTML += text.substring(i, end + 1);
+                    i = end + 1;
+                } else {
+                    el.innerHTML += char;
+                    i++;
+                }
+                setTimeout(type, speed + Math.random() * 30);
             } else {
-                document.documentElement.style.setProperty('--rose-color', color);
+                // Add cursor blink at end
+                el.innerHTML += '<span class="typewriter-cursor"></span>';
             }
         }
+        type();
+    }
 
-        // Final Transition to Video Page
-        function goToVideoPage() {
-            // Stop background song completely
-            var song = document.getElementById("bgSong");
+    // ============================================================
+    //  PREMIUM ROSE COLOR CHANGER
+    // ============================================================
+    function changeRoseColor(color, dotEl) {
+        const rose = document.getElementById('roseEmoji');
+        const ring = document.getElementById('roseGlowRing');
+        
+        // Update CSS vars
+        document.documentElement.style.setProperty('--rose-glow', `${color}80`);
+        document.documentElement.style.setProperty('--rose-glow-transparent', `${color}40`);
+        
+        // Active dot styling
+        document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('active'));
+        if (dotEl) dotEl.classList.add('active');
+        
+        // Subtle background shift
+        const bgMap = {
+            '#ff4d6d': 'linear-gradient(135deg, #0a0015, #1a0030, #2d0045)',
+            '#ff69b4': 'linear-gradient(135deg, #15000a, #2d0018, #400020)',
+            '#ffd700': 'linear-gradient(135deg, #150d00, #2d1a00, #402500)',
+            '#00b4d8': 'linear-gradient(135deg, #000d15, #001a2d, '#002540')',
+            '#c77dff': 'linear-gradient(135deg, #0f0015, '#1f002d', '#2e0040')',
+            '#ffffff': 'linear-gradient(135deg, #0a0a0a, '#1a1a1a', '#2d2d2d')'
+        };
+        if (bgMap[color]) {
+            document.body.style.background = bgMap[color];
+        }
+    }
+
+    // ============================================================
+    //  LOVE COUNTER
+    // ============================================================
+    let loveInterval = null;
+    function startLoveCounter() {
+        const el = document.getElementById('loveCount');
+        let count = 0;
+        if (loveInterval) clearInterval(loveInterval);
+        loveInterval = setInterval(() => {
+            count++;
+            el.textContent = count.toLocaleString();
+        }, 1000);
+    }
+
+    // ============================================================
+    //  PAGE NAVIGATION
+    // ============================================================
+    let currentPage = 1;
+    let songStarted = false;
+    let typewriterDone = {};
+
+    function startExperience() {
+        if (!songStarted) {
+            const song = document.getElementById('bgSong');
+            song.play().catch(() => {});
+            songStarted = true;
+        }
+        nextPage(2);
+    }
+
+    function nextPage(pageNumber) {
+        // Hide all pages
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        
+        // Show target
+        const target = document.getElementById('page' + pageNumber);
+        if (target) {
+            target.classList.add('active');
+            currentPage = pageNumber;
+        }
+
+        // Trigger typewriter for shayari pages
+        const lineId = 'tw' + pageNumber;
+        if (shayariLines[lineId] && !typewriterDone[lineId]) {
+            setTimeout(() => {
+                typeWriter(lineId, shayariLines[lineId]);
+                typewriterDone[lineId] = true;
+            }, 400);
+        }
+
+        // Start love counter on page 19
+        if (pageNumber === 19) {
+            setTimeout(() => startLoveCounter(), 300);
+        }
+
+        // Stop love counter when leaving page 19
+        if (pageNumber !== 19 && loveInterval) {
+            clearInterval(loveInterval);
+            loveInterval = null;
+        }
+
+        // Stop song on video page
+        if (pageNumber === 20) {
+            const song = document.getElementById('bgSong');
             song.pause();
             song.currentTime = 0;
-
-            // Move to Page 20
-            nextPage(20);
-
-            // Play the main video automatically
-            var video = document.getElementById("proposeVideo");
-            video.play();
+            setTimeout(() => {
+                const video = document.getElementById('proposeVideo');
+                video.play().catch(() => {});
+            }, 500);
         }
-    </script>
+    }
+
+    // ============================================================
+    //  INIT: Set default rose glow
+    // ============================================================
+    document.documentElement.style.setProperty('--rose-glow', '#ff4d6d80');
+    document.documentElement.style.setProperty('--rose-glow-transparent', '#ff4d6d40');
+</script>
+
 </body>
-</html>
+    </html>
