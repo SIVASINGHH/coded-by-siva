@@ -1,486 +1,1014 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>𝐅𝐨𝐫 𝐘𝐨𝐮 𝐂𝐮𝐭𝐢𝐞𝐞 🌹</title>
+    <title>for you baby </title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Poppins:wght@400;500;600&display=swap');
+        /* --- DESIGN SYSTEM & CSS VARIABLES --- */
+        :root {
+            --bg-dark: #07070c;
+            --pink-primary: #ff7597;
+            --purple-primary: #9d4edd;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-glow: rgba(255, 117, 151, 0.2);
+            --rose-color: #ff3366;
+            --rose-glow: rgba(255, 51, 102, 0.5);
+            --font-premium: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
 
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
+            user-select: none;
             -webkit-tap-highlight-color: transparent;
         }
 
-        body {
-            font-family: 'Poppins', sans-serif;
+        body, html {
+            width: 100%;
+            height: 100%;
             overflow: hidden;
-            height: 100vh;
+            background-color: var(--bg-dark);
+            font-family: var(--font-premium);
+            color: #ffffff;
+            font-size: 16px;
+        }
+
+        /* --- GLOBAL BACKGROUND EFFECTS --- */
+        #canvas-ambient {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100vw;
+            height: 100vh;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .aurora-bg {
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 117, 151, 0.12), transparent 40%),
+                        radial-gradient(circle at 70% 60%, rgba(157, 78, 221, 0.12), transparent 40%),
+                        radial-gradient(circle at 50% 40%, rgba(36, 0, 70, 0.5), transparent 60%);
+            z-index: 0;
+            animation: aurora-rotate 40s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes aurora-rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* --- PERSISTENT GLOWING HEADER --- */
+        .premium-header {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            font-size: 0.85rem;
+            letter-spacing: 4px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 0 10px var(--pink-primary), 0 0 20px rgba(255, 117, 151, 0.5);
+            animation: pulse-glow 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.8; text-shadow: 0 0 10px var(--pink-primary); }
+            50% { opacity: 1; text-shadow: 0 0 20px var(--pink-primary), 0 0 30px var(--purple-primary); }
+        }
+
+        /* --- PRELOADER --- */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-dark);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .loader-heart {
+            font-size: 3rem;
+            animation: heart-beat 1.2s infinite cubic-bezier(0.215, 0.610, 0.355, 1);
+            filter: drop-shadow(0 0 15px var(--pink-primary));
+        }
+
+        @keyframes heart-beat {
+            0% { transform: scale(0.95); }
+            5% { transform: scale(1.1); }
+            39% { transform: scale(0.85); }
+            45% { transform: scale(1.05); }
+            60% { transform: scale(0.95); }
+            100% { transform: scale(0.95); }
+        }
+
+        /* --- FRAMEWORK ARCHITECTURE (PAGES) --- */
+        .page-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+        }
+
+        .page {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+            opacity: 0;
+            visibility: hidden;
+            transform: scale(0.96) translateY(10px);
+            filter: blur(10px);
+            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 1s cubic-bezier(0.16, 1, 0.3, 1),
+                        filter 1s cubic-bezier(0.16, 1, 0.3, 1),
+                        visibility 1s;
+        }
+
+        .page.active {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1) translateY(0);
+            filter: blur(0);
+        }
+
+        /* --- GLASSMORPHISM COMPONENTS --- */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 40px 30px;
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.05), transparent);
+            transform: rotate(45deg);
+            transition: 0.5s;
+            pointer-events: none;
+        }
+
+        /* --- TYPOGRAPHY & BUTTONS --- */
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 400;
+            letter-spacing: -0.5px;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #ffffff 0%, #ffe3ec 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtext {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.65);
+            line-height: 1.6;
+            margin-bottom: 32px;
+            font-weight: 300;
+        }
+
+        .lowercase-msg {
+            font-size: 1.15rem;
+            color: rgba(255, 255, 255, 0.85);
+            line-height: 1.8;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+            word-wrap: break-word;
+        }
+
+        .btn-premium {
+            background: linear-gradient(135deg, var(--pink-primary) 0%, #ff4d79 100%);
+            border: none;
+            outline: none;
+            padding: 16px 36px;
+            color: white;
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+            border-radius: 50px;
+            cursor: pointer;
+            position: relative;
+            box-shadow: 0 8px 25px rgba(255, 117, 151, 0.4);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .btn-premium:activate {
+            transform: scale(0.95);
+        }
+
+        .media-container {
+            width: 100%;
+            max-width: 380px;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+            margin-bottom: 24px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+        }
+
+        .media-container img {
+            width: 100%;
+            display: block;
+            object-fit: cover;
+        }
+
+        /* --- NAVIGATION UNDERLAY CONTROLS (INVISIBLE/TAP ANYWHERE) --- */
+        .tap-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+        }
+
+        .interactive-zone {
+            position: relative;
+            z-index: 5;
+        }
+
+        /* --- SOLAR SYSTEM (PAGE 5) --- */
+        .universe-box {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin-bottom: 30px;
+        }
+
+        .sun {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 50px;
+            height: 50px;
+            background: radial-gradient(circle, #fff 20%, #ff9e00 60%, #ff3300 100%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 40px #ff6a00, 0 0 80px #ff3300;
+        }
+
+        .orbit {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            border: 1px dashed rgba(255,255,255,0.15);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: orbit-rotation linear infinite;
+        }
+
+        .orbit-1 { width: 140px; height: 140px; animation-duration: 6s; }
+        .orbit-2 { width: 230px; height: 230px; animation-duration: 10s; }
+
+        .planet {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .planet-regular {
+            width: 14px;
+            height: 14px;
+            background: linear-gradient(135deg, #00b4db, #0083b0);
+            box-shadow: 0 0 10px #00b4db;
+        }
+
+        .heart-planet {
+            width: 20px;
+            height: 20px;
+            background: #ff3366;
+            transform: translate(-50%, -50%) rotate(45deg);
+            box-shadow: 0 0 15px #ff3366;
+        }
+        .heart-planet::before, .heart-planet::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #ff3366;
+            border-radius: 50%;
+        }
+        .heart-planet::before { left: -10px; }
+        .heart-planet::after { top: -10px; }
+
+        @keyframes orbit-rotation {
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* --- COUNTER DISPLAY (PAGE 10) --- */
+        .counter-number {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff, var(--pink-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            font-feature-settings: "tnum";
+        }
+
+        /* --- GALLERY GRID (PAGE 11) --- */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .gallery-item {
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.08);
+            border-color: var(--pink-primary);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+        }
+
+        /* --- SCRATCH CARD (PAGE 13) --- */
+        .scratch-container {
+            position: relative;
+            width: 280px;
+            height: 160px;
+            margin: 20px auto 0;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .scratch-revealed-msg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #1a1525;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(135deg, #ffeef2, #fff5f7, #ffd6e0);
-            transition: background 1s ease;
+            padding: 20px;
+            text-align: center;
+            z-index: 1;
         }
 
-        /* Dynamic Background Themes */
-        body.black-sky {
-            background: #0b0f19 !important;
-        }
-
-        /* ===== MOVING CLOUDS ANIMATION ===== */
-        .clouds-container {
+        .scratch-canvas {
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; overflow: hidden; display: none;
-        }
-        .cloud {
-            position: absolute; background: rgba(255, 255, 255, 0.15);
-            border-radius: 50px; animation: moveClouds var(--speed) linear infinite;
-        }
-        .cloud::before, .cloud::after {
-            content: ''; position: absolute; background: rgba(255, 255, 255, 0.15); border-radius: 50%;
-        }
-        .cloud::before { width: 50px; height: 50px; top: -20px; left: 15px; }
-        .cloud::after { width: 70px; height: 70px; top: -35px; right: 15px; }
-        @keyframes moveClouds {
-            0% { transform: translateX(-150px); }
-            100% { transform: translateX(100vw); }
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            cursor: pointer;
         }
 
-        /* ===== BIG TWINKLING STARS ===== */
-        .big-stars-container {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; display: none;
-        }
-        .big-star {
-            position: absolute; color: #fff; font-size: 1.5rem;
-            animation: superTwinkle var(--spd) ease-in-out infinite alternate;
-        }
-        @keyframes superTwinkle {
-            0% { opacity: 0.2; transform: scale(0.6) rotate(0deg); filter: drop-shadow(0 0 2px #fff); }
-            100% { opacity: 1; transform: scale(1.4) rotate(180deg); filter: drop-shadow(0 0 12px #ff477e); }
+        /* --- PREMIUM CSS ROSE (PAGE 15) --- */
+        .rose-stage {
+            position: relative;
+            width: 200px;
+            height: 250px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
         }
 
-        /* ===== HEART RAIN ===== */
-        #heart-rain {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 1;
-        }
-        .float-heart {
-            position: absolute; font-size: 1.2rem;
-            animation: heartFloat var(--float-duration) linear infinite; opacity: 0;
-        }
-        @keyframes heartFloat {
-            0% { transform: translateY(100vh) rotate(0deg) scale(0.5); opacity: 0; }
-            10% { opacity: 0.8; }
-            90% { opacity: 0.8; }
-            100% { transform: translateY(-10vh) rotate(720deg) scale(1.2); opacity: 0; }
+        .rose-flower {
+            position: absolute;
+            top: 40px;
+            width: 60px;
+            height: 60px;
+            animation: rose-pulse 4s ease-in-out infinite;
+            z-index: 3;
         }
 
-        /* ===== PAGE CONTAINER ===== */
-        .page {
-            display: none; width: 92%; max-width: 420px;
-            padding: 24px 20px; background: rgba(255, 255, 255, 0.85);
-            border-radius: 24px; box-shadow: 0 10px 35px rgba(255, 105, 180, 0.15);
-            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 182, 193, 0.6);
-            position: relative; z-index: 10; text-align: center;
-            animation: pageIn 0.5s ease-out;
-        }
-        .page.active { display: block; }
-        .page.dark-card {
-            background: rgba(15, 22, 38, 0.75);
-            border: 1px solid rgba(255, 71, 126, 0.4);
-            color: #fff;
-        }
-        @keyframes pageIn {
-            0% { opacity: 0; transform: scale(0.95); }
-            100% { opacity: 1; transform: scale(1); }
+        .petal {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--rose-color);
+            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.3), 0 0 20px var(--rose-glow);
+            transition: background 0.8s ease, box-shadow 0.8s ease, transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+            transform-origin: bottom center;
         }
 
-        .header-credit {
-            position: fixed; top: 14px; width: 100%; text-align: center;
-            font-family: 'Dancing Script', cursive; font-size: 1.1rem;
-            color: #ff477e; letter-spacing: 2px; z-index: 100; font-weight: bold;
+        /* Layer configuration for blooming simulation */
+        .p-1 { transform: scale(0.6); z-index: 5; }
+        .p-2 { transform: scale(0.75) rotate(45deg); z-index: 4; }
+        .p-3 { transform: scale(0.75) rotate(-45deg); z-index: 4; }
+        .p-4 { transform: scale(0.9) rotate(90deg); z-index: 3; }
+        .p-5 { transform: scale(0.9) rotate(-90deg); z-index: 3; }
+
+        .rose-stage.bloomed .p-1 { transform: scale(0.7) translateY(-2px); }
+        .rose-stage.bloomed .p-2 { transform: scale(0.9) rotate(55deg) translate(5px, -5px); }
+        .rose-stage.bloomed .p-3 { transform: scale(0.9) rotate(-55deg) translate(-5px, -5px); }
+        .rose-stage.bloomed .p-4 { transform: scale(1.05) rotate(105deg) translate(8px, 2px); }
+        .rose-stage.bloomed .p-5 { transform: scale(1.05) rotate(-105deg) translate(-8px, 2px); }
+
+        .stem {
+            position: absolute;
+            top: 95px;
+            left: 50%;
+            width: 4px;
+            height: 120px;
+            background: #2d6a4f;
+            transform: translateX(-50%);
+            box-shadow: 0 0 10px rgba(45, 106, 79, 0.4);
+            z-index: 2;
+            transition: background 0.8s ease, box-shadow 0.8s ease;
         }
 
-        h1 {
-            font-family: 'Dancing Script', cursive; font-size: 2.6rem;
-            background: linear-gradient(135deg, #ff477e, #ff758f);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            margin-bottom: 15px;
+        .leaf {
+            position: absolute;
+            width: 25px;
+            height: 15px;
+            background: #40916c;
+            border-radius: 100% 0% 100% 0% / 100% 0% 100% 0%;
+            z-index: 2;
+        }
+        .l-1 { top: 30px; left: 4px; transform: rotate(-15deg); }
+        .l-2 { top: 60px; right: 4px; transform: scaleX(-1) rotate(-15deg); }
+
+        .rose-controls {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            width: 100%;
+            max-width: 320px;
         }
 
-        h3 { font-size: 1.05rem; color: #ff477e; font-weight: 500; margin-bottom: 12px; }
-        .dark-card h3 { color: #ff758f; }
-
-        .btn {
-            background: linear-gradient(135deg, #ff4d6d, #ff758f);
-            color: white; border: none; padding: 12px 30px;
-            font-size: 0.95rem; border-radius: 50px; cursor: pointer;
-            margin-top: 15px; font-weight: 600; transition: all 0.2s;
+        .color-palette-btn {
+            padding: 8px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            font-size: 0.75rem;
+            color: white;
+            cursor: pointer;
+            background: rgba(0,0,0,0.3);
+            transition: transform 0.2s;
         }
-        .btn:active { transform: scale(0.95); }
+        .color-palette-btn:active { transform: scale(0.9); }
 
-        /* Media Box Auto Fix */
-        .media-box {
-            margin: 12px 0; border-radius: 16px; overflow: hidden;
-            background: #fff; width: 100%; display: flex; justify-content: center;
-        }
-        .media-box img {
-            width: 100%; height: auto; max-height: 320px; object-fit: contain; display: block;
+        @keyframes rose-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
         }
 
-        /* Typewriter text space styling */
-        .typewriter-box {
-            font-family: 'Dancing Script', cursive; font-size: 1.65rem;
-            font-weight: 700; line-height: 1.6; text-align: center;
-            margin: 15px 0; min-height: 120px; color: #ff477e;
-        }
-        .dark-card .typewriter-box { color: #ffccd5; }
-
-        /* ===== SOLAR SYSTEM ===== */
-        .solar-system {
-            position: relative; width: 180px; height: 180px; margin: 15px auto;
-        }
-        .sun {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 45px; height: 45px; background: radial-gradient(circle, #ffccd5, #ff4d6d);
-            border-radius: 50%; box-shadow: 0 0 25px #ff477e;
-        }
-        .orbit {
-            position: absolute; top: 50%; left: 50%; border: 1px dashed rgba(255,255,255,0.2);
-            border-radius: 50%; transform: translate(-50%, -50%);
-        }
-        .planet {
-            position: absolute; top: 50%; left: 50%; width: 20px; height: 20px;
-            border-radius: 50%; transform-origin: 0 0;
-            animation: rotateOrbit var(--dur) linear infinite;
-        }
-        @keyframes rotateOrbit {
-            0% { transform: rotate(0deg) translateX(var(--rad)) rotate(0deg); }
-            100% { transform: rotate(360deg) translateX(var(--rad)) rotate(-360deg); }
+        /* --- CINEMATIC FULLSCREEN VIDEO SYSTEM (PAGE 16) --- */
+        .video-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 10;
         }
 
-        /* ===== STRETCH GIFT CARD ===== */
-        .gift-card {
-            background: linear-gradient(135deg, #ffccd5, #ff4d6d);
-            padding: 25px; border-radius: 16px; margin: 15px 0; cursor: pointer;
-            transition: transform 0.3s; color: white; font-weight: bold;
-        }
-        .gift-card:active { transform: scale(0.98) skewX(-2deg); }
-
-        .love-counter {
-            font-family: 'Dancing Script', cursive; font-size: 2.5rem;
-            color: #ff4d6d; font-weight: bold; margin: 15px 0;
+        .fullscreen-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
-        .premium-rose {
-            font-size: 5.5rem; display: block; margin: 10px 0;
-            animation: roseWave 3s ease-in-out infinite alternate;
-        }
-        @keyframes roseWave {
-            0% { transform: rotate(-8deg) scale(0.95); }
-            100% { transform: rotate(8deg) scale(1.05); }
+        .final-overlay-msg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 2s ease;
+            z-index: 20;
+            color: var(--pink-primary);
+            text-shadow: 0 0 20px rgba(255,117,151,0.6);
         }
 
-        video { width: 100%; border-radius: 16px; max-height: 280px; background: #000; }
+        .final-overlay-msg.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* --- PARTICLES CANVAS RIPPLE CLICK --- */
+        .click-ripple {
+            position: fixed;
+            border: 2px solid var(--pink-primary);
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            animation: ripple-out 0.6s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+            z-index: 9999;
+        }
+
+        @keyframes ripple-out {
+            0% { width: 0; height: 0; opacity: 1; }
+            100% { width: 80px; height: 80px; opacity: 0; }
+        }
     </style>
 </head>
 <body>
 
-<div id="heart-rain"></div>
+    <div class="premium-header">CODED BY SIVASINGH ❤️</div>
+    <div class="aurora-bg"></div>
+    <canvas id="canvas-ambient"></canvas>
 
-<div class="clouds-container" id="cloudsContainer">
-    <div class="cloud" style="top: 10%; --speed: 22s; width: 120px; height: 40px;"></div>
-    <div class="cloud" style="top: 25%; --speed: 16s; width: 140px; height: 45px;"></div>
-    <div class="cloud" style="top: 40%; --speed: 28s; width: 100px; height: 35px;"></div>
-</div>
-
-<div class="big-stars-container" id="starsContainer">
-    <div class="big-star" style="top:15%; left:15%; --spd:2s;">✦</div>
-    <div class="big-star" style="top:20%; left:75%; --spd:2.5s;">★</div>
-    <div class="big-star" style="top:55%; left:80%; --spd:1.8s;">✦</div>
-    <div class="big-star" style="top:70%; left:20%; --spd:3s;">★</div>
-</div>
-
-<div class="header-credit">CODED WITH LOVE ❤️</div>
-
-<audio id="bgSong" loop preload="auto">
-    <source src="tere-liye.mp3" type="audio/mpeg">
-</audio>
-
-<div class="page active" id="page1">
-    <h1>Hey Cutiee... ✨</h1>
-    <h3>Welcome to your own little digital magical place!</h3>
-    <button class="btn" onclick="startExperience()">Let's Enter 💖</button>
-</div>
-
-<div class="page" id="page2">
-    <h3>Just look at this adorable setup for you! 😊</h3>
-    <div class="media-box"><img src="gif1.gif" alt="Cute GIF 1"></div>
-    <button class="btn" onclick="nextPage(3)">Next Surprise ➡️</button>
-</div>
-
-<div class="page dark-card" id="page3">
-    <h3>Look outside the window tonight... ☁️</h3>
-    <div class="typewriter-box" id="msg3"></div>
-    <button class="btn" onclick="nextPage(4)">Go Ahead ✨</button>
-</div>
-
-<div class="page" id="page4">
-    <h3>Every tiny moment spent with you sparkles! 🥰</h3>
-    <div class="media-box"><img src="gif2.gif" alt="Cute GIF 2"></div>
-    <button class="btn" onclick="nextPage(5)">Explore More ➡️</button>
-</div>
-
-<div class="page dark-card" id="page5">
-    <h3>You are the center of my universe! 🌌</h3>
-    <div class="solar-system">
-        <div class="sun"></div>
-        <div class="orbit" style="width:100px; height:100px;"></div>
-        <div class="planet" style="--dur:4s; --rad:50px;">💖</div>
-        <div class="orbit" style="width:150px; height:150px;"></div>
-        <div class="planet" style="--dur:7s; --rad:75px;">✨</div>
+    <div id="preloader">
+        <div class="loader-heart">💖</div>
     </div>
-    <h3>My heart revolves around you completely.</h3>
-    <button class="btn" onclick="nextPage(6)">Read Something Special 📖</button>
-</div>
 
-<div class="page" id="page6">
-    <h3>A beautiful poem for a beautiful soul ✨</h3>
-    <div class="typewriter-box" id="shayari1Box"></div>
-    <button class="btn" onclick="nextPage(7)">Keep Going 💫</button>
-</div>
+    <audio id="bg-music" src="tere-liye.mp3" loop></audio>
 
-<div class="page dark-card" id="page7">
-    <h3>The stars look so bright today... ✨</h3>
-    <div class="typewriter-box" id="msg7"></div>
-    <button class="btn" onclick="nextPage(8)">See Next Surprise 😍</button>
-</div>
+    <div class="page-container">
 
-<div class="page" id="page8">
-    <h3>This is me when you reply instantly! 💖</h3>
-    <div class="media-box"><img src="gif3.gif" alt="Cute GIF 3"></div>
-    <button class="btn" onclick="nextPage(9)">Read Next Shayari 📖</button>
-</div>
+        <div class="page active" id="page-1">
+            <div class="glass-card interactive-zone">
+                <h1>hey cutiee ✨</h1>
+                <p class="subtext">welcome to your own little digital magical place!</p>
+                <button class="btn-premium" onclick="navigateToPage(2, true)">let's enter 💖</button>
+            </div>
+        </div>
 
-<div class="page" id="page9">
-    <h3>Just for you... ❤️</h3>
-    <div class="typewriter-box" id="shayari2Box"></div>
-    <button class="btn" onclick="nextPage(10)">Move Forward ➡️</button>
-</div>
+        <div class="page" id="page-2">
+            <div class="tap-overlay" onclick="navigateToPage(3)"></div>
+            <div class="glass-card">
+                <div class="media-container">
+                    <img src="gif1.gif" alt="romantic graphic setup">
+                </div>
+                <p class="lowercase-msg">just look at this adorable setup for you 😊</p>
+            </div>
+        </div>
 
-<div class="page" id="page10">
-    <h3>Every second with you is precious... ⏳</h3>
-    <div class="love-counter" id="timerDisplay">0</div>
-    <h3>Seconds of pure happiness! ❤️</h3>
-    <button class="btn" onclick="nextPage(11)">See Photo ✨</button>
-</div>
+        <div class="page" id="page-3" data-scene="sky">
+            <div class="tap-overlay" onclick="navigateToPage(4)"></div>
+            <div class="glass-card">
+                <p class="lowercase-msg type-writer" data-text="even if the sky gets dark and clouds roll by, your smile is all i need to brighten up my entire day ✨☁️"></p>
+            </div>
+        </div>
 
-<div class="page" id="page11">
-    <h3>You look absolutely gorgeous here! ⭐</h3>
-    <div class="media-box"><img src="photo1.jpg" alt="Perfect Photo Display"></div>
-    <button class="btn" onclick="nextPage(12)">Next Page 🌹</button>
-</div>
+        <div class="page" id="page-4">
+            <div class="tap-overlay" onclick="navigateToPage(5)"></div>
+            <div class="glass-card">
+                <div class="media-container">
+                    <img src="gif2.gif" alt="sparkle moments graphic">
+                </div>
+                <p class="lowercase-msg">every tiny moment spent with you sparkles 🥰</p>
+            </div>
+        </div>
 
-<div class="page" id="page12">
-    <h3>Sending you the biggest virtual hug right now! 🤗</h3>
-    <div class="media-box"><img src="gif4.gif" alt="Cute GIF 4"></div>
-    <button class="btn" onclick="nextPage(13)">Unwrap Gift Card 🎁</button>
-</div>
+        <div class="page" id="page-5" data-scene="galaxy">
+            <div class="tap-overlay" onclick="navigateToPage(6)"></div>
+            <div class="universe-box">
+                <div class="sun"></div>
+                <div class="orbit orbit-1">
+                    <div class="planet planet-regular"></div>
+                </div>
+                <div class="orbit orbit-2">
+                    <div class="planet heart-planet"></div>
+                </div>
+            </div>
+            <div class="glass-card">
+                <p class="lowercase-msg">you are the center of my universe 🌌</p>
+            </div>
+        </div>
 
-<div class="page" id="page13">
-    <h3>Tap & Scratch your special surprise token!</h3>
-    <div class="gift-card" onclick="revealGift(this)">
-        🎁 Tap to Open Card
+        <div class="page" id="page-6">
+            <div class="tap-overlay" onclick="navigateToPage(7)"></div>
+            <div class="glass-card">
+                <p class="lowercase-msg type-writer" data-text="💖 mujhse &quot;pyar&quot; karne ki &quot;bhool&quot; kar..<br><br>✨ mere liye apne alag &quot;usool&quot; kar..<br><br>💫 main &quot;jaisa&quot; bhi hu tera hu..<br><br>🤍 tu meri ban mujhe qubool kar.."></p>
+            </div>
+        </div>
+
+        <div class="page" id="page-7" data-scene="deepnight">
+            <div class="tap-overlay" onclick="navigateToPage(8)"></div>
+            <div class="glass-card">
+                <p class="lowercase-msg">just like these big twinkling stars in the deep night sky, your presence shines brightest in my world ⭐🌌</p>
+            </div>
+        </div>
+
+        <div class="page" id="page-8">
+            <div class="tap-overlay" onclick="navigateToPage(9)"></div>
+            <div class="glass-card">
+                <div class="media-container">
+                    <img src="gif3.gif" alt="heart warming aesthetic asset">
+                </div>
+            </div>
+        </div>
+
+        <div class="page" id="page-9">
+            <div class="tap-overlay" onclick="navigateToPage(10)"></div>
+            <div class="glass-card">
+                <p class="lowercase-msg type-writer" data-text="ek raat ek baat likhunga 🌙<br><br>khud ko daag tujhe saaf likhunga 🤍<br><br>haqeeqat mein tu kabhi mila nahi<br><br>ek kitaab mein apni mulaqaat likhunga 📖<br><br>main woh chaaro din tere saath likhunga 🥰"></p>
+            </div>
+        </div>
+
+        <div class="page" id="page-10">
+            <div class="tap-overlay" onclick="navigateToPage(11)"></div>
+            <div class="glass-card">
+                <div class="counter-number" id="love-counter-digits">0000000</div>
+                <p class="lowercase-msg">moments of loving you endlessly architecture</p>
+            </div>
+        </div>
+
+        <div class="page" id="page-11">
+            <div class="tap-overlay" onclick="navigateToPage(12)"></div>
+            <div class="glass-card">
+                <p class="lowercase-msg">captured chapters</p>
+                <div class="gallery-grid interactive-zone">
+                    <div class="gallery-item"><img src="photo1.jpg" alt="memory layer one"></div>
+                    <div class="gallery-item"><img src="photo2.jpg" alt="memory layer two"></div>
+                    <div class="gallery-item"><img src="photo3.jpg" alt="memory layer three"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page" id="page-12">
+            <div class="tap-overlay" onclick="navigateToPage(13)"></div>
+            <div class="glass-card">
+                <div class="media-container">
+                    <img src="gif4.gif" alt="narrative asset tier four">
+                </div>
+            </div>
+        </div>
+
+        <div class="page" id="page-13">
+            <div class="glass-card interactive-zone">
+                <p class="lowercase-msg">scratch your little prize coupon below ✨</p>
+                <div class="scratch-container">
+                    <div class="scratch-revealed-msg">
+                        <p style="color: #ff7597; font-weight: 600;">✨ unlimited free hugs valid forever ❤️</p>
+                    </div>
+                    <canvas class="scratch-canvas" id="scratch-canvas-element"></canvas>
+                </div>
+                <button class="btn-premium" style="margin-top: 20px; padding: 10px 24px; font-size: 0.8rem;" onclick="navigateToPage(14)">continue 🤍</button>
+            </div>
+        </div>
+
+        <div class="page" id="page-14">
+            <div class="tap-overlay" onclick="navigateToPage(15)"></div>
+            <div class="glass-card">
+                <p class="lowercase-msg type-writer" data-text="you make my heart skip a beat effortlessly. thank you for simply being the wonderful human you are 💖"></p>
+            </div>
+        </div>
+
+        <div class="page" id="page-15">
+            <div class="rose-stage" id="rose-stage-wrapper">
+                <div class="rose-flower">
+                    <div class="petal p-1"></div>
+                    <div class="petal p-2"></div>
+                    <div class="petal p-3"></div>
+                    <div class="petal p-4"></div>
+                    <div class="petal p-5"></div>
+                </div>
+                <div class="stem" id="rose-stem-element">
+                    <div class="leaf l-1"></div>
+                    <div class="leaf l-2"></div>
+                </div>
+            </div>
+            <div class="rose-controls interactive-zone">
+                <button class="color-palette-btn" onclick="transformRoseColor('#ff3366', 'rgba(255,51,102,0.5)', '#2d6a4f')">pink</button>
+                <button class="color-palette-btn" onclick="transformRoseColor('#9d4edd', 'rgba(157,78,221,0.5)', '#3c096c')">purple</button>
+                <button class="color-palette-btn" onclick="transformRoseColor('#00b4db', 'rgba(0,180,219,0.5)', '#003566')">blue</button>
+                <button class="color-palette-btn" onclick="transformRoseColor('#d00000', 'rgba(208,0,0,0.5)', '#370617')">red</button>
+                <button class="color-palette-btn" onclick="transformRoseColor('#ffb703', 'rgba(255,183,3,0.5)', '#606c38')">golden</button>
+                <button class="color-palette-btn" onclick="transformRoseColor('linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet)', 'rgba(255,255,255,0.6)', '#4a5759')">rainbow</button>
+                <button class="color-palette-btn" onclick="transformRoseColor('#212529', 'rgba(33,37,41,0.8)', '#343a40')">black</button>
+                <button class="color-palette-btn" onclick="transformRoseColor('#f8f9fa', 'rgba(248,249,250,0.6)', '#e9ecef')">white</button>
+            </div>
+            <button class="btn-premium interactive-zone" style="margin-top: 25px;" onclick="navigateToPage(16)">our cinema 🎬</button>
+        </div>
+
+        <div class="page" id="page-16" style="padding:0;">
+            <div class="video-wrapper">
+                <video class="fullscreen-video" id="cinema-video-core" playsinline webkit-playsinline>
+                    <source src="video1.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="final-overlay-msg" id="ultimate-end-card">forever yours ❤️</div>
+        </div>
+
     </div>
-    <button class="btn" onclick="nextPage(14)">Continue ➡️</button>
-</div>
 
-<div class="page" id="page14">
-    <h3>A little gentle reminder... 🥰</h3>
-    <div class="typewriter-box" id="msg14"></div>
-    <button class="btn" onclick="nextPage(15)">See Magic Flower 🌹</button>
-</div>
+    <script>
+        /* --- GLOBAL APPLICATION STATE CONTEXT --- */
+        let currentActivePage = 1;
+        const totalPagesCount = 16;
+        let ambientCanvas, ctx;
+        let globalParticlesArray = [];
+        let sceneStateContext = 'default';
 
-<div class="page" id="page15">
-    <h3>A premium magical dynamic rose 🌹</h3>
-    <span class="premium-rose" id="magicRose">🌹</span>
-    <h3>Tap below to shift its magical aura color:</h3>
-    <button class="btn" style="background:#ff4d6d; margin:5px;" onclick="changeRoseColor('#ff4d6d')">Pink</button>
-    <button class="btn" style="background:#9b5de5; margin:5px;" onclick="changeRoseColor('#9b5de5')">Purple</button>
-    <button class="btn" onclick="nextPage(16)">Watch Final Video 🍿</button>
-</div>
+        // Initialize App Ecosystem
+        window.addEventListener('DOMContentLoaded', () => {
+            setupAmbientCanvas();
+            setTimeout(() => {
+                document.getElementById('preloader').style.opacity = '0';
+                setTimeout(() => document.getElementById('preloader').style.display = 'none', 1000);
+            }, 1200);
+            initGlobalClickTracker();
+        });
 
-<div class="page" id="page16">
-    <h3>The final sweetest surprise for you! 🎬</h3>
-    <video id="finalVdo" controls playsinline>
-        <source src="video1.mp4" type="video/mp4">
-    </video>
-    <h2 style="font-family:'Dancing Script'; color:#ff477e; margin-top:10px;">Forever yours... ✨❤️</h2>
-</div>
+        /* --- NAVIGATION CONTROL MATRIX --- */
+        function navigateToPage(pageIndex, initialTrig = false) {
+            if (initialTrig) {
+                handleMusicAutoplayEngage();
+            }
 
-<script>
-    let loveTimerInterval;
-    let songStarted = false;
+            // Teardown steps or specific page configurations
+            if(currentActivePage === 10) clearInterval(counterIntervalId);
 
-    // Typewriter text strings data
-    const textData = {
-        msg3: "Even if the sky gets dark and clouds roll by, your smile is all I need to brighten up my entire day! ✨☁️",
-        msg7: "Just like these big twinkling stars in the deep night sky, your presence shines brightest in my world! ⭐🌌",
-        msg14: "You make my heart skips a beat effortlessly. Thank you for simply being the wonderful human you are! 💖",
-        shayari1: [
-            "💖 Mujhse “Pyar” karne ki “Bhool” kar..",
-            "✨ Mere liye apne alag “Usool” kar..",
-            "💫 Main “jaisa” bhi hu, tera hu..",
-            "Tu meri “ban” mujhe “Qubool” kar.. 🤍"
-        ],
-        shayari2: [
-            "Ek Raat Ek Baat Likhunga 🌙✍️",
-            "Khud Ko Daag, Tujhe Saaf Likhunga 🤍🥀",
-            "Haqeeqat Mein Tu Kabhi Mila Nahi 😔",
-            "Ek Kitaab Mein Apni Mulaqaat Likhunga 📖",
-            "Main Woh Chaaro Din Tere Saath Likhunga 🥰"
-        ]
-    };
+            document.getElementById(`page-${currentActivePage}`).classList.remove('active');
+            currentActivePage = pageIndex;
+            const targetPageElement = document.getElementById(`page-${currentActivePage}`);
+            targetPageElement.classList.add('active');
 
-    function startHeartRain() {
-        const container = document.getElementById('heart-rain');
-        const heartIcons = ['💖','❤️','💗','💘','💝'];
-        setInterval(() => {
-            const el = document.createElement('div');
-            el.className = 'float-heart';
-            el.textContent = heartIcons[Math.floor(Math.random() * heartIcons.length)];
-            el.style.cssText = `
-                left:${Math.random() * 100}%;
-                font-size:${0.8 + Math.random() * 0.8}rem;
-                --float-duration:${5 + Math.random() * 5}s;
-            `;
-            container.appendChild(el);
-            setTimeout(() => el.remove(), 10000);
-        }, 1200);
-    }
-    startHeartRain();
+            // Evaluation Context Per Page
+            const targetScene = targetPageElement.getAttribute('data-scene');
+            sceneStateContext = targetScene ? targetScene : 'default';
 
-    function runTypewriter(targetId, text) {
-        const el = document.getElementById(targetId);
-        if (!el) return;
-        el.innerHTML = "";
-        let i = 0;
-        function type() {
-            if (i < text.length) {
-                el.innerHTML += text.charAt(i);
-                i++;
-                setTimeout(type, 45);
+            // Trigger Typewriters dynamically
+            const typewriterChild = targetPageElement.querySelector('.type-writer');
+            if(typewriterChild) {
+                executePremiumTypewriter(typewriterChild);
+            }
+
+            // Page 10 Custom Trigger
+            if(currentActivePage === 10) {
+                runLoveCounterDynamics();
+            }
+
+            // Page 13 Initialization Layer
+            if(currentActivePage === 13) {
+                initializeScratchCardSystem();
+            }
+
+            // Page 15 Interactive Bloom Engine Trigger
+            if(currentActivePage === 15) {
+                setTimeout(() => {
+                    document.getElementById('rose-stage-wrapper').classList.add('bloomed');
+                }, 400);
+            }
+
+            // Page 16 Core Player Launchpad
+            if(currentActivePage === 16) {
+                executeCinematicVideoSequence();
             }
         }
-        type();
-    }
 
-    function runShayariLineByLine(targetId, linesArray) {
-        const box = document.getElementById(targetId);
-        if (!box) return;
-        box.innerHTML = "";
-        let lineIdx = 0;
+        /* --- AUDIO MANAGEMENT --- */
+        function handleMusicAutoplayEngage() {
+            const musicInstance = document.getElementById('bg-music');
+            musicInstance.volume = 0;
+            musicInstance.play().then(() => {
+                let volFadeIn = setInterval(() => {
+                    if (musicInstance.volume < 0.8) {
+                        musicInstance.volume += 0.05;
+                    } else {
+                        clearInterval(volFadeIn);
+                    }
+                }, 100);
+            }).catch(err => console.log("User interaction constraint captured. Fluid resume structural protocol active."));
+        }
 
-        function printLine() {
-            if (lineIdx < linesArray.length) {
-                const p = document.createElement('p');
-                p.style.margin = "6px 0";
-                p.style.opacity = "0";
-                p.style.transition = "opacity 0.6s ease";
-                p.textContent = linesArray[lineIdx];
-                box.appendChild(p);
-                
-                setTimeout(() => { p.style.opacity = "1"; }, 50);
-                lineIdx++;
-                setTimeout(printLine, 1400); // 1.4 seconds delay between each line generation
+        /* --- TYPEWRITER SYSTEM --- */
+        function executePremiumTypewriter(domTarget) {
+            const cleanTextSource = domTarget.getAttribute('data-text');
+            domTarget.innerHTML = '';
+            let loopIndex = 0;
+            
+            function printCharacter() {
+                if(loopIndex < cleanTextSource.length) {
+                    let character = cleanTextSource.charAt(loopIndex);
+                    if(cleanTextSource.substring(loopIndex, loopIndex+4) === '<br>') {
+                        character = '<br><br>';
+                        loopIndex += 3;
+                    }
+                    domTarget.innerHTML += character;
+                    loopIndex++;
+                    setTimeout(printCharacter, 45);
+                }
             }
+            printCharacter();
         }
-        printLine();
-    }
 
-    function revealGift(element) {
-        element.style.background = "#fff";
-        element.style.color = "#ff4d6d";
-        element.innerHTML = "✨ Special Token: Unlimited Free Hugs Valid Forever! 🎟️💖";
-    }
+        /* --- INCREMENTAL COUNTER ENGINE (PAGE 10) --- */
+        let counterIntervalId;
+        function runLoveCounterDynamics() {
+            const counterScreen = document.getElementById('love-counter-digits');
+            let baselineMetric = 9991205; 
+            counterIntervalId = setInterval(() => {
+                baselineMetric += Math.floor(Math.random() * 3) + 1;
+                counterScreen.innerText = baselineMetric.toLocaleString();
+            }, 60);
+        }
 
-    function changeRoseColor(color) {
-        const rose = document.getElementById('magicRose');
-        rose.style.filter = `drop-shadow(0 0 20px ${color})`;
-        rose.style.transform = "scale(1.2) rotate(15deg)";
-        setTimeout(() => { rose.style.transform = "none"; }, 400);
-    }
+        /* --- PROCEDURAL PROCEDURAL COLOR TRANSFORM (PAGE 15) --- */
+        function transformRoseColor(petalVal, glowVal, stemVal) {
+            const petalsList = document.querySelectorAll('.petal');
+            petalsList.forEach(p => {
+                p.style.background = petalVal;
+                p.style.boxShadow = `inset 0 0 15px rgba(0,0,0,0.3), 0 0 25px ${glowVal}`;
+            });
+            document.getElementById('rose-stem-element').style.background = stemVal;
+        }
 
-    function startLoveCounter() {
-        const display = document.getElementById('timerDisplay');
-        let val = 0;
-        if(loveTimerInterval) clearInterval(loveTimerInterval);
-        loveTimerInterval = setInterval(() => {
-            val++;
-            display.textContent = val;
-        }, 1000);
-    }
+        /* --- SCRATCH CARD INTERACTIVE SCHEMATIC (PAGE 13) --- */
+        function initializeScratchCardSystem() {
+            const canvas = document.getElementById('scratch-canvas-element');
+            if(!canvas) return;
+            const sCtx = canvas.getContext('2d');
+            const boxWidth = canvas.width = 280;
+            const boxHeight = canvas.height = 160;
 
-    function startExperience() {
-        if (!songStarted) {
-            document.getElementById('bgSong').play().catch(() => {});
-            songStarted = true;
-        }
-        nextPage(2);
-    }
+            // Paint Scratch Layer Overlay Metallic Slate Grey
+            sCtx.fillStyle = '#495057';
+            sCtx.fillRect(0, 0, boxWidth, boxHeight);
+            
+            // Texture patterning
+            sCtx.fillStyle = '#343a40';
+            for (let i = 0; i < boxWidth; i += 8) {
+                for (let j = 0; j < boxHeight; j += 8) {
+                    if ((i + j) % 16 === 0) sCtx.fillRect(i, j, 4, 4);
+                }
+            }
 
-    function nextPage(pageNum) {
-        // Hide all pages
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        
-        // Reset dynamic global environments
-        document.body.classList.remove('black-sky');
-        document.getElementById('cloudsContainer').style.display = 'none';
-        document.getElementById('starsContainer').style.display = 'none';
+            let clientScratchedToken = false;
 
-        // Activate page
-        const targetPage = document.getElementById('page' + pageNum);
-        if (targetPage) targetPage.classList.add('active');
+            function scratchEffectExecute(e) {
+                const coordinates = canvas.getBoundingClientRect();
+                const currentX = (e.clientX || e.touches[0].clientX) - coordinates.left;
+                const currentY = (e.clientY || e.touches[0].clientY) - coordinates.top;
 
-        // Apply customized features based on page numbers
-        if (pageNum === 3) {
-            document.body.classList.add('black-sky');
-            document.getElementById('cloudsContainer').style.display = 'block';
-            runTypewriter('msg3', textData.msg3);
-        } 
-        else if (pageNum === 5) {
-            document.body.classList.add('black-sky');
+                sCtx.globalCompositeOperation = 'destination-out';
+                sCtx.beginPath();
+                sCtx.arc(currentX, currentY, 18, 0, Math.PI * 2);
+                sCtx.fill();
+            }
+
+            canvas.addEventListener('mousemove', (e) => { if(e.buttons === 1) scratchEffectExecute(e); });
+            canvas.addEventListener('touchmove', (e) => { scratchEffectExecute(e); });
         }
-        else if (pageNum === 6) {
-            runShayariLineByLine('shayari1Box', textData.shayari1);
+
+        /* --- CINEMATIC SEQUENCE PLAYER COUPLING (PAGE 16) --- */
+        function executeCinematicVideoSequence() {
+            const coreVideo = document.getElementById('cinema-video-core');
+            const ambientMusic = document.getElementById('bg-music');
+
+            // Smooth linear volume diminution architecture
+            if(ambientMusic) {
+                let volFadeOut = setInterval(() => {
+                    if (ambientMusic.volume > 0.05) {
+                        ambientMusic.volume -= 0.05;
+                    } else {
+                        ambientMusic.pause();
+                        clearInterval(volFadeOut);
+                    }
+                }, 100);
+            }
+
+            coreVideo.play();
+            coreVideo.onended = () => {
+                document.getElementById('ultimate-end-card').classList.add('show');
+            };
         }
-        else if (pageNum === 7) {
-            document.body.classList.add('black-sky');
-            document.getElementById('starsContainer').style.display = 'block';
-            runTypewriter('msg7', textData.msg7);
+
+        /* --- PARTICLE ANIMATION MATRIX FOUNDATION (60FPS CANVAS ENGINE) --- */
+        function setupAmbientCanvas() {
+            ambientCanvas = document.getElementById('canvas-ambient');
+            ctx = ambientCanvas.getContext('2d');
+            resizeAmbientCanvasContext();
+            window.addEventListener('resize', resizeAmbientCanvasContext);
+
+            // Populate system particle reserves initially
+            for(let i=0; i<65; i++) {
+                globalParticlesArray.push(createNewParticleUnit());
+            }
+            renderEcosystemLoop();
         }
-        else if (pageNum === 9) {
-            runShayariLineByLine('shayari2Box', textData.shayari2);
+
+        function resizeAmbientCanvasContext() {
+            ambientCanvas.width = window.innerWidth;
+            ambientCanvas.height = window.innerHeight;
         }
-        else if (pageNum === 10) {
-            startLoveCounter();
+
+        function createNewParticleUnit() {
+            return {
+                x: Math.random() * window.innerWidth,
+                y: Math.random() * window.innerHeight + window.innerHeight,
+                size: Math.random() * 3 + 1,
+                speedY: Math.random() * 1.2 + 0.4,
+                speedX: Math.sin(Math.random() * 2) * 0.3,
+                opacity: Math.random() * 0.6 + 0.2,
+                variant: Math.floor(Math.random() * 3) // 0: Star/Dust, 1: Heart, 2: Petal
+            };
         }
-        else if (pageNum === 14) {
-            runTypewriter('msg14', textData.msg14);
+
+        function renderEcosystemLoop() {
+            ctx.clearRect(0, 0, ambientCanvas.width, ambientCanvas.height);
+
+            // Conditional adjustments built into ambient canvas parameters depending on programmatic scene tags
+            if (sceneStateContext === 'sky') {
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.08)';
+                ctx.beginPath();
+                ctx.arc(ambientCanvas.width * 0.8, 120, 35, 0, Math.PI*2);
+                ctx.fill();
+            }
+
+            globalParticlesArray.forEach((part, idx) => {
+                part.y -= part.speedY;
+                part.x += part.speedX;
+
+                if (part.y < -20) {
+                    globalParticlesArray[idx] = createNewParticleUnit();
+                    globalParticlesArray[idx].y = ambientCanvas.height + 10;
+                }
+
+                ctx.save();
+                ctx.globalAlpha = part.opacity;
+
+                if (part.variant === 1 || sceneStateContext === 'default') {
+                    // Render Vector Procedural Romantic Heart Object
+                    ctx.fillStyle = '#ff7597';
+                    ctx.beginPath();
+                    ctx.moveTo(part.x, part.y);
+                    ctx.bezierCurveTo(part.x - part.size, part.y - part.size, part.x - part.size*1.5, part.y + part.size*0.5, part.x, part.y + part.size*2);
+                    ctx.bezierCurveTo(part.x + part.size*1.5, part.y + part.size*0.5, part.x + part.size, part.y - part.size, part.x, part.y);
+                    ctx.fill();
+                } else {
+                    // Render Natural Celestial Starfield Particle Point
+                    ctx.fillStyle = sceneStateContext === 'deepnight' ? '#fff' : '#ffe3ec';
+                    ctx.beginPath();
+                    ctx.arc(part.x, part.y, part.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                ctx.restore();
+            });
+
+            requestAnimationFrame(renderEcosystemLoop);
         }
-        else if (pageNum === 16) {
-            document.getElementById('bgSong').pause();
-            const vdo = document.getElementById('finalVdo');
-            if(vdo) vdo.play().catch(() => {});
+
+        /* --- CLICK RIPPLE ENGAGEMENT ENGINE --- */
+        function initGlobalClickTracker() {
+            window.addEventListener('click', (e) => {
+                const ripple = document.createElement('div');
+                ripple.className = 'click-ripple';
+                ripple.style.left = `${e.clientX}px`;
+                ripple.style.top = `${e.clientY}px`;
+                document.body.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 600);
+            });
         }
-    }
-</script>
+    </script>
 </body>
-</html>
+             </html>
