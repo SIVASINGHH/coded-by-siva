@@ -3,274 +3,360 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For you babu 💗</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>For You cutee</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;700&display=swap');
-        
-        body {
-            /* Extra romantic deep pinkish-maroon theme */
-            background: radial-gradient(circle at center, #2e001f 0%, #12000d 50%, #000000 100%);
+        :root {
+            --rose-color: #ff4d6d;
+            --bg-gradient: linear-gradient(135deg, #ffe5ec, #ffb3c1);
+            --text-color: #4a154b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
             font-family: 'Poppins', sans-serif;
-            overflow: hidden; margin: 0; color: #ffffff; user-select: none;
         }
 
-        .header-tag {
-            position: fixed; top: 10px; width: 100%; text-align: center;
-            z-index: 100; font-family: 'Dancing Script', cursive;
-            color: #ffb3d9; font-size: 1.4rem; letter-spacing: 2px;
-            text-shadow: 0 0 15px rgba(255,179,217,0.7);
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-color);
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
         }
 
-        .slide {
-            display: none; position: fixed; inset: 0; width: 100%; height: 100vh;
-            align-items: center; justify-content: center; flex-direction: column;
-            transition: all 0.6s ease-in-out; opacity: 0; z-index: 20; padding: 20px; text-align: center;
-        }
-        .slide.active { display: flex; opacity: 1; }
-
-        .cute-msg { font-family: 'Dancing Script', cursive; color: #ffebf5; text-shadow: 0 0 20px #ff00cc, 0 0 40px #ff00cc; font-size: 2.8rem; margin-top: 15px; font-weight: 700; }
-        .sub-text { color: #ffffff; font-weight: 600; font-size: 1.1rem; text-shadow: 2px 2px 4px rgba(0,0,0,1); }
-        
-        .gif-frame { 
-            width: 260px; height: 260px; border-radius: 30px; 
-            border: 3px solid #ff00cc; 
-            box-shadow: 0 0 50px rgba(255, 0, 204, 0.5); 
-            object-fit: cover; 
+        /* Top Header */
+        .header-credit {
+            position: absolute;
+            top: 20px;
+            width: 100%;
+            font-size: 1.2rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: #ff0055;
+            text-shadow: 1px 1px 5px rgba(0,0,0,0.1);
+            z-index: 100;
         }
 
-        /* 3 Photo Grid styling */
-        .photo-grid {
-            display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px;
-        }
-        .photo-frame {
-            width: 130px; height: 170px; border-radius: 15px; border: 3px solid #ff69b4;
-            box-shadow: 0 0 20px rgba(255, 105, 180, 0.6); object-fit: cover;
-            transform: rotate(var(--r)); transition: 0.3s;
-        }
-        .photo-frame:hover { transform: scale(1.1) rotate(0deg); z-index: 30; }
-
-        .glow-btn { 
-            background: linear-gradient(45deg, #ff00cc, #ff69b4); 
-            padding: 14px 40px; border-radius: 50px; font-weight: 700; 
-            box-shadow: 0 0 25px rgba(255, 0, 204, 0.6); 
-            cursor: pointer; transition: 0.3s; margin: 10px;
-            color: white; border: none; font-size: 1.1rem;
-        }
-        .glow-btn:hover { transform: scale(1.1); box-shadow: 0 0 40px #ff00cc; }
-        
-        .no-btn { background: #333; color: #aaa; padding: 10px 25px; border-radius: 50px; cursor: pointer; transition: 0.2s; }
-
-        .solar-system { position: relative; width: 280px; height: 280px; display: flex; align-items: center; justify-content: center; }
-        .orbit { position: absolute; border: 2px solid rgba(255,105,180,0.4); border-radius: 50%; animation: spin linear infinite; }
-        .orbit-1 { width: 180px; height: 180px; animation-duration: 5s; }
-        .orbit-2 { width: 260px; height: 260px; animation-duration: 9s; animation-direction: reverse; }
-        .planet { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); font-size: 24px; }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-
-        .star { position: absolute; background: white; border-radius: 50%; box-shadow: 0 0 10px white; animation: twinkle var(--d) infinite alternate; }
-        @keyframes twinkle { 0% { opacity: 0.2; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1.3); } }
-
-        /* Smooth Floating Hearts */
-        .romantic-heart { position: absolute; color: #ff3385; opacity: 0.4; font-size: 20px; pointer-events: none; animation: floatUp var(--duration) linear infinite; }
-        @keyframes floatUp {
-            0% { transform: translateY(105vh) scale(0.5); opacity: 0; }
-            50% { opacity: 0.6; }
-            100% { transform: translateY(-5vh) scale(1.2); opacity: 0; }
+        /* Page Management */
+        .page {
+            display: none;
+            width: 90%;
+            max-width: 500px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.5s ease-in-out;
+            position: relative;
         }
 
-        .hold-container { width: 280px; height: 16px; background: rgba(255,255,255,0.2); border-radius: 10px; margin-top: 20px; overflow: hidden; position: relative; border: 1px solid white; }
-        #holdProgress { position: absolute; left: 0; top: 0; height: 100%; background: #ff00cc; width: 0%; box-shadow: 0 0 20px #ff00cc; }
+        .page.active {
+            display: block;
+        }
 
-        #videoLayer { display: none; position: fixed; inset: 0; background: black; z-index: 1000; align-items: center; justify-content: center; }
-        video { width: 100%; height: 100%; object-fit: contain; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Buttons */
+        .btn {
+            background: linear-gradient(45deg, #ff4d6d, #ff758f);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(255,77,109,0.4);
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255,77,109,0.6);
+        }
+
+        /* Beating Hearts Animation */
+        .heart-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .beating-heart {
+            font-size: 3rem;
+            animation: beat 0.4s infinite alternate;
+        }
+
+        @keyframes beat {
+            to { transform: scale(1.3); }
+        }
+
+        /* Images and GIFs */
+        .media-box img {
+            width: 100%;
+            max-height: 250px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin: 15px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Premium Floating Rose */
+        .rose-box {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            margin: 0 auto;
+        }
+
+        .premium-rose {
+            font-size: 5rem;
+            display: inline-block;
+            animation: rotateRose 4s linear infinite;
+            color: var(--rose-color);
+            transition: color 0.5s ease;
+        }
+
+        @keyframes rotateRose {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Color Picker */
+        .color-picker {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .color-dot {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        /* Shayari Style */
+        .shayari-text {
+            font-size: 1.3rem;
+            font-weight: bold;
+            line-height: 1.6;
+            background: linear-gradient(45deg, #ff0055, #7a00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 20px 0;
+        }
+
+        /* Video element */
+        video {
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
     </style>
 </head>
 <body>
 
-    <div class="header-tag">Coded by SIVASINGH 💗</div>
+    <div class="header-credit">CODED BY SIVASINGH</div>
 
-    <audio id="bgMusic" loop src="tere-liye.mp3"></audio>
-    <div id="stars-container" class="fixed inset-0 pointer-events-none"></div>
+    <audio id="bgSong" loop>
+        <source src="tere-liye.mp3" type="audio/mpeg">
+    </audio>
 
-    <div id="slide1" class="slide active">
-        <img src="gif1.gif" class="gif-frame">
-        <h1 class="cute-msg">Hey Gorgeous! ✨</h1>
-        <p class="sub-text">We just met, but my heart already knew it was you!</p>
-        <button onclick="startApp()" class="glow-btn">Touch My Heart 🥺</button>
+    <div class="page active" id="page1">
+        <h1 style="font-size: 2rem; margin-bottom: 20px;">Hey Cutiee... ✨</h1>
+        <button class="btn" onclick="startExperience()">Cutiee I want to say something 💖</button>
     </div>
 
-    <div id="slide2" class="slide">
-        <img src="gif2.gif" class="gif-frame">
-        <h1 class="cute-msg">How are you so cute?</h1>
-        <p class="sub-text">Seriously, your smile is the highlight of my day!</p>
-        <button onclick="next()" class="glow-btn">See More 💕</button>
-    </div>
-
-    <div id="slide3" class="slide">
-        <img src="gif3.gif" class="gif-frame">
-        <h1 class="cute-msg">Our Vibe is Rare! 😌</h1>
-        <p class="sub-text">Talking to you feels like time has completely stopped.</p>
-        <button onclick="next()" class="glow-btn">Next Step ✨</button>
-    </div>
-
-    <div id="slide4" class="slide">
-        <div class="text-9xl mb-6 transition-all duration-500" id="pulseHeart">💖</div>
-        <h1 class="text-2xl font-bold">How much do I adore you?</h1>
-        <div class="hold-container"><div id="holdProgress"></div></div>
-        <button id="holdBtn" class="glow-btn mt-6 select-none">PRESS & HOLD TO FEEL</button>
-    </div>
-
-    <div id="slide5" class="slide">
-        <img src="gif4.gif" class="gif-frame">
-        <h1 class="cute-msg">You're One in a Billion! 💎</h1>
-        <p class="sub-text">It's only been a short time, but the feeling is magical.</p>
-        <button onclick="next()" class="glow-btn">Continue...</button>
-    </div>
-
-    <div id="slide6" class="slide">
-        <div class="solar-system">
-            <div class="orbit orbit-1"><span class="planet">💗</span></div>
-            <div class="orbit orbit-2"><span class="planet">⭐</span></div>
-            <div class="text-6xl">🌍</div>
+    <div class="page" id="page2">
+        <h2>You are so special! 🥰</h2>
+        <div class="heart-container">
+            <span class="beating-heart">💖</span>
+            <span class="beating-heart" style="animation-delay: 0.1s;">❤️</span>
+            <span class="beating-heart" style="animation-delay: 0.2s;">💘</span>
         </div>
-        <h1 class="cute-msg mt-10">My Whole Universe!</h1>
-        <p class="sub-text">Everything seems better when you're around.</p>
-        <button onclick="next()" class="glow-btn">Keep Going 🚀</button>
+        <p>Jab se aapko dekha hai, dil bas aapke hi khayalon mein khoya rehta hai... You bring a smile to my face every single day!</p>
+        <button class="btn" onclick="nextPage(3)">Next ✨</button>
     </div>
 
-    <div id="slide7" class="slide">
-        <img src="gif5.gif" class="gif-frame">
-        <h1 class="cute-msg">Don't ever leave! 🥺</h1>
-        <p class="sub-text">I've never met anyone as sweet and special as you.</p>
-        <button onclick="next()" class="glow-btn">Wait for it...</button>
+    <div class="page" id="page3">
+        <h3>Just look at this! Cute, right? 😉</h3>
+        <div class="media-box"><img src="gif1.gif" alt="Cute GIF 1"></div>
+        <button class="btn" onclick="nextPage(4)">Ahead ➡️</button>
     </div>
 
-    <div id="slide8" class="slide">
-        <h1 class="cute-msg">You're my Brightest Star! ⭐</h1>
-        <p class="sub-text max-w-xs">In a sky full of stars, my eyes only search for you.</p>
-        <button onclick="next()" class="glow-btn">Just a bit more ✨</button>
+    <div class="page" id="page4">
+        <div class="shayari-text">💖 Mujhse “Pyar” karne ki “Bhool” kar.. 💖</div>
+        <button class="btn" onclick="nextPage(5)">Next Line 💫</button>
     </div>
 
-    <div id="slide9" class="slide">
-        <img src="gif6.gif" class="gif-frame">
-        <h1 class="cute-msg">Will You Be My Friend? ❤️</h1>
-        <p class="sub-text">...and maybe something even more special? 💍</p>
-        <div id="btnContainer" class="flex flex-wrap justify-center mt-4">
-            <button onclick="next()" class="glow-btn">YES! 😍</button>
-            <button id="noBtn" onclick="trapNo()" class="no-btn">No 🥺</button>
+    <div class="page" id="page5">
+        <div class="shayari-text">✨ Mere liye apne alag “Usool” kar.. ✨</div>
+        <button class="btn" onclick="nextPage(6)">Next Line 💫</button>
+    </div>
+
+    <div class="page" id="page6">
+        <h3>Moments with you are magical ✨</h3>
+        <div class="media-box"><img src="photo1.jpg" alt="Photo 1"></div>
+        <button class="btn" onclick="nextPage(7)">Next 🌹</button>
+    </div>
+
+    <div class="page" id="page7">
+        <div class="shayari-text">💫 Main “jaisa” bhi hu, tera hu.. 💫</div>
+        <button class="btn" onclick="nextPage(8)">Next Line 💫</button>
+    </div>
+
+    <div class="page" id="page8">
+        <div class="shayari-text">🤍 Tu meri “ban” mujhe “Qubool” kar.. 🤍</div>
+        <h2 style="font-size: 2.5rem; margin-top: 10px;">🤝❤️ 👉 💘</h2>
+        <button class="btn" onclick="nextPage(9)">More... 🥰</button>
+    </div>
+
+    <div class="page" id="page9">
+        <h3>My mood when I see your notification! 🔔</h3>
+        <div class="media-box"><img src="gif2.gif" alt="Cute GIF 2"></div>
+        <button class="btn" onclick="nextPage(10)">Next ➡️</button>
+    </div>
+
+    <div class="page" id="page10">
+        <h3>This reminds me of your gorgeous smile! 🌟</h3>
+        <div class="media-box"><img src="photo2.jpg" alt="Photo 2"></div>
+        <button class="btn" onclick="nextPage(11)">Keep Going 💖</button>
+    </div>
+
+    <div class="page" id="page11">
+        <h3>A Premium Rose For A Premium Person 🌹</h3>
+        <p style="font-size: 0.9rem; margin-bottom: 10px;">Pick your favorite color:</p>
+        <div class="color-picker">
+            <div class="color-dot" style="background: #ff4d6d;" onclick="changeRoseColor('#ff4d6d')"></div>
+            <div class="color-dot" style="background: #ffffff; border: 2px solid #ccc;" onclick="changeRoseColor('#ffffff')"></div>
+            <div class="color-dot" style="background: #00b4d8;" onclick="changeRoseColor('#00b4d8')"></div>
+            <div class="color-dot" style="background: #1a1a1a;" onclick="changeRoseColor('#1a1a1a')"></div>
+            <div class="color-dot" style="background: #9b5de5;" onclick="changeRoseColor('#9b5de5')"></div>
         </div>
-    </div>
-
-    <div id="slide10" class="slide">
-        <img src="gif7.gif" class="gif-frame">
-        <h1 class="cute-msg">Yaaay! My Heart is Happy! 🥳</h1>
-        <p class="sub-text">I promise to keep that beautiful smile on your face!</p>
-        <button onclick="next()" class="glow-btn">See My World 🫣</button>
-    </div>
-
-    <div id="slide11" class="slide">
-        <div class="photo-grid">
-            <img src="photo1.jpg" class="photo-frame" style="--r: -8deg;">
-            <img src="photo2.jpg" class="photo-frame" style="--r: 4deg;">
-            <img src="photo3.jpg" class="photo-frame" style="--r: -5deg;">
+        <div class="rose-box">
+            <span class="premium-rose" id="roseEmoji">🌹</span>
         </div>
-        <h1 class="cute-msg">My Shruu ❤️</h1>
-        <p class="sub-text">Duniya mein sabse pyaari aur khubsoorat ladki!</p>
-        <button onclick="playSurprise()" class="glow-btn animate-bounce mt-4">A FINAL SURPRISE 🎁</button>
+        <p style="font-size: 0.85rem; margin-top: 10px; color: #666;">(Magic: It keeps rotating beautifully!)</p>
+        <button class="btn" onclick="nextPage(12)">Next Page ➡️</button>
     </div>
 
-    <div id="videoLayer">
-        <video id="vPlayer" playsinline src="video1.mp4"></video>
+    <div class="page" id="page12">
+        <h3>Always sending you virtual hugs! 🤗</h3>
+        <div class="media-box"><img src="gif3.gif" alt="Cute GIF 3"></div>
+        <button class="btn" onclick="nextPage(13)">Next ➡️</button>
+    </div>
+
+    <div class="page" id="page13">
+        <div class="shayari-text">Ek Raat Ek Baat Likhunga 🌙✍️</div>
+        <button class="btn" onclick="nextPage(14)">Next Line 📖</button>
+    </div>
+
+    <div class="page" id="page14">
+        <div class="shayari-text">Khud Ko Daag, Tujhe Saaf Likhunga 🤍🥀</div>
+        <button class="btn" onclick="nextPage(15)">Next Line 📖</button>
+    </div>
+
+    <div class="page" id="page15">
+        <h3>You make my heart skip a beat... 💓</h3>
+        <div class="media-box"><img src="gif4.gif" alt="Cute GIF 4"></div>
+        <button class="btn" onclick="nextPage(16)">Continue ➡️</button>
+    </div>
+
+    <div class="page" id="page16">
+        <div class="shayari-text">Haqeeqat Mein Tu Kabhi Mila Nahi 😔💔</div>
+        <button class="btn" onclick="nextPage(17)">Next Line 📖</button>
+    </div>
+
+    <div class="page" id="page17">
+        <div class="shayari-text">Ek Kitaab Mein Apni Mulaqaat Likhunga 📖✨🙂</div>
+        <button class="btn" onclick="nextPage(18)">Next Line ⏳</button>
+    </div>
+
+    <div class="page" id="page18">
+        <div class="media-box"><img src="photo3.jpg" alt="Photo 3"></div>
+        <div class="shayari-text" style="font-size: 1.1rem;">
+            Kehte Hain Zindagi Hai Chaar Dino Ki ⏳🌸<br>
+            Main Woh Chaaro Din Tere Saath Likhunga ❤️‍🩹🌹🫶 ✨🥰🌙📖💫
+        </div>
+        <button class="btn" onclick="nextPage(19)">Almost There... 👀</button>
+    </div>
+
+    <div class="page" id="page19">
+        <h3>Just one last thing for you... 🥺❤️</h3>
+        <div class="media-box"><img src="gif5.gif" alt="Cute GIF 5"></div>
+        <button class="btn" onclick="goToVideoPage()">Watch This Video 🎬</button>
+    </div>
+
+    <div class="page" id="page20">
+        <h2 style="margin-bottom: 15px;">Made by siva 💖</h2>
+        <video id="proposeVideo" src="video1.mp4" playsinline></video>
+        <p style="margin-top: 15px; font-weight: bold; font-size: 1.2rem;">Will you be mine forever? 🌹✨</p>
     </div>
 
     <script>
-        let step = 1;
-        const music = document.getElementById('bgMusic');
-
-        // Background Elements
-        const starContainer = document.getElementById('stars-container');
-        
-        // Stars
-        for(let i=0; i<80; i++) {
-            const star = document.createElement('div');
-            star.className = 'star';
-            const size = Math.random()*3 + 1 + 'px';
-            star.style.width = size; star.style.height = size;
-            star.style.left = Math.random()*100 + 'vw';
-            star.style.top = Math.random()*100 + 'vh';
-            star.style.setProperty('--d', (Math.random()*2+1)+'s');
-            starContainer.appendChild(star);
+        // Start Experience & Play Background Music
+        function startExperience() {
+            var song = document.getElementById("bgSong");
+            song.play().catch(function(error) {
+                console.log("Audio autoplay restricted by browser until click.");
+            });
+            nextPage(2);
         }
 
-        // Floating Hearts
-        const hearts = ['❤️', '💖', '💗', '💕'];
-        for(let i=0; i<20; i++) {
-            const heart = document.createElement('div');
-            heart.className = 'romantic-heart';
-            heart.innerText = hearts[Math.floor(Math.random() * hearts.length)];
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.setProperty('--duration', (Math.random() * 6 + 4) + 's');
-            heart.style.animationDelay = (Math.random() * 5) + 's';
-            starContainer.appendChild(heart);
+        // Standard Page Navigation
+        function nextPage(pageNumber) {
+            // Hide all pages
+            var pages = document.querySelectorAll('.page');
+            pages.forEach(function(p) {
+                p.classList.remove('active');
+            });
+            // Show target page
+            document.getElementById('page' + pageNumber).classList.add('active');
         }
 
-        function startApp() { 
-            music.play().catch(() => {}); 
-            next(); 
-        }
-
-        function next() {
-            document.querySelectorAll('.slide').forEach(s => { s.classList.remove('active'); s.style.display='none'; });
-            step++;
-            const current = document.getElementById('slide'+step);
-            if(current) { 
-                current.style.display='flex'; 
-                setTimeout(() => current.classList.add('active'), 50); 
-            }
-        }
-
-        // No Button Trap
-        function trapNo() {
-            const container = document.getElementById('btnContainer');
-            const noBtn = document.getElementById('noBtn');
-            noBtn.style.display = 'none'; 
+        // Special handlers for Premium Rose Color Selection
+        function changeRoseColor(color) {
+            var rose = document.getElementById('roseEmoji');
+            // Using standard CSS filters or simple text shadow hacks to style the emoji beautifully
+            rose.style.textShadow = `0 0 20px ${color}, 0 0 40px ${color}`;
             
-            for(let i=0; i<5; i++) {
-                const newYes = document.createElement('button');
-                newYes.innerHTML = "YES! 💖";
-                newYes.className = "glow-btn";
-                newYes.onclick = next;
-                container.appendChild(newYes);
+            // Subtle color themes change based on selection
+            if (color === '#1a1a1a') {
+                document.documentElement.style.setProperty('--rose-color', '#1a1a1a');
+            } else if (color === '#ffffff') {
+                document.documentElement.style.setProperty('--rose-color', '#ffffff');
+            } else {
+                document.documentElement.style.setProperty('--rose-color', color);
             }
         }
 
-        // Hold Logic
-        let hVal = 0, hInt;
-        const hBtn = document.getElementById('holdBtn'), hProg = document.getElementById('holdProgress'), pHeart = document.getElementById('pulseHeart');
-        
-        const startH = (e) => { 
-            e.preventDefault(); 
-            pHeart.style.transform = 'scale(1.8)';
-            hInt = setInterval(() => { 
-                hVal += 2; 
-                hProg.style.width = hVal + '%'; 
-                if(hVal >= 100) { clearInterval(hInt); next(); } 
-            }, 40); 
-        };
-        const endH = () => { clearInterval(hInt); hVal = 0; hProg.style.width = '0%'; pHeart.style.transform = 'scale(1)'; };
-        
-        hBtn.onmousedown = hBtn.ontouchstart = startH; 
-        window.onmouseup = window.ontouchend = endH;
+        // Final Transition to Video Page
+        function goToVideoPage() {
+            // Stop background song completely
+            var song = document.getElementById("bgSong");
+            song.pause();
+            song.currentTime = 0;
 
-        // Final Video Surprise function
-        function playSurprise() { 
-            music.pause(); 
-            const layer = document.getElementById('videoLayer');
-            const video = document.getElementById('vPlayer');
-            layer.style.display = 'flex';
+            // Move to Page 20
+            nextPage(20);
+
+            // Play the main video automatically
+            var video = document.getElementById("proposeVideo");
             video.play();
-            video.onended = () => { location.reload(); };
         }
     </script>
 </body>
