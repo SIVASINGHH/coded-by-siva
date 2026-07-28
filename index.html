@@ -2,1013 +2,741 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>for you baby </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forever With You ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
     <style>
-        /* --- DESIGN SYSTEM & CSS VARIABLES --- */
-        :root {
-            --bg-dark: #07070c;
-            --pink-primary: #ff7597;
-            --purple-primary: #9d4edd;
-            --glass-bg: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --glass-glow: rgba(255, 117, 151, 0.2);
-            --rose-color: #ff3366;
-            --rose-glow: rgba(255, 51, 102, 0.5);
-            --font-premium: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        }
-
+        /* ================= RESET & BASE STYLES ================= */
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
             user-select: none;
-            -webkit-tap-highlight-color: transparent;
         }
 
-        body, html {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background-color: var(--bg-dark);
-            font-family: var(--font-premium);
-            color: #ffffff;
-            font-size: 16px;
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #0f021a;
+            color: #fff;
+            overflow-x: hidden;
+            min-height: 100vh;
         }
 
-        /* --- GLOBAL BACKGROUND EFFECTS --- */
-        #canvas-ambient {
+        h1, h2, .promise-msg {
+            font-family: 'Dancing Script', cursive;
+            text-shadow: 0 0 10px rgba(255, 105, 180, 0.8);
+        }
+
+        canvas#particle-canvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
+            pointer-events: none;
             z-index: 1;
-            pointer-events: none;
         }
 
-        .aurora-bg {
-            position: fixed;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at 30% 30%, rgba(255, 117, 151, 0.12), transparent 40%),
-                        radial-gradient(circle at 70% 60%, rgba(157, 78, 221, 0.12), transparent 40%),
-                        radial-gradient(circle at 50% 40%, rgba(36, 0, 70, 0.5), transparent 60%);
-            z-index: 0;
-            animation: aurora-rotate 40s linear infinite;
-            pointer-events: none;
-        }
-
-        @keyframes aurora-rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* --- PERSISTENT GLOWING HEADER --- */
-        .premium-header {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 100;
-            font-size: 0.85rem;
-            letter-spacing: 4px;
-            font-weight: 600;
-            color: rgba(255, 255, 255, 0.9);
-            text-shadow: 0 0 10px var(--pink-primary), 0 0 20px rgba(255, 117, 151, 0.5);
-            animation: pulse-glow 3s ease-in-out infinite;
-        }
-
-        @keyframes pulse-glow {
-            0%, 100% { opacity: 0.8; text-shadow: 0 0 10px var(--pink-primary); }
-            50% { opacity: 1; text-shadow: 0 0 20px var(--pink-primary), 0 0 30px var(--purple-primary); }
-        }
-
-        /* --- PRELOADER --- */
-        #preloader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--bg-dark);
-            z-index: 1000;
+        /* ================= UTILITY & LAYOUT ================= */
+        .screen, .page {
+            position: relative;
+            z-index: 2;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .loader-heart {
-            font-size: 3rem;
-            animation: heart-beat 1.2s infinite cubic-bezier(0.215, 0.610, 0.355, 1);
-            filter: drop-shadow(0 0 15px var(--pink-primary));
-        }
-
-        @keyframes heart-beat {
-            0% { transform: scale(0.95); }
-            5% { transform: scale(1.1); }
-            39% { transform: scale(0.85); }
-            45% { transform: scale(1.05); }
-            60% { transform: scale(0.95); }
-            100% { transform: scale(0.95); }
-        }
-
-        /* --- FRAMEWORK ARCHITECTURE (PAGES) --- */
-        .page-container {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            z-index: 10;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            text-align: center;
         }
 
         .page {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            display: none;
+            animation: fadeIn 0.8s ease-in-out forwards;
+        }
+
+        .page.active-page {
             display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 24px;
-            opacity: 0;
-            visibility: hidden;
-            transform: scale(0.96) translateY(10px);
-            filter: blur(10px);
-            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
-                        transform 1s cubic-bezier(0.16, 1, 0.3, 1),
-                        filter 1s cubic-bezier(0.16, 1, 0.3, 1),
-                        visibility 1s;
         }
 
-        .page.active {
-            opacity: 1;
-            visibility: visible;
-            transform: scale(1) translateY(0);
-            filter: blur(0);
-        }
+        .hidden { display: none !important; }
 
-        /* --- GLASSMORPHISM COMPONENTS --- */
+        /* Glassmorphism Cards */
         .glass-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            padding: 40px 30px;
-            width: 100%;
-            max-width: 420px;
-            text-align: center;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);
-            position: relative;
-            overflow: hidden;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 192, 203, 0.2);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 8px 32px 0 rgba(235, 87, 87, 0.3);
+            max-width: 90vw;
         }
 
-        .glass-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.05), transparent);
-            transform: rotate(45deg);
-            transition: 0.5s;
-            pointer-events: none;
-        }
-
-        /* --- TYPOGRAPHY & BUTTONS --- */
-        h1 {
-            font-size: 2.2rem;
-            font-weight: 400;
-            letter-spacing: -0.5px;
-            margin-bottom: 16px;
-            background: linear-gradient(135deg, #ffffff 0%, #ffe3ec 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .subtext {
-            font-size: 1rem;
-            color: rgba(255, 255, 255, 0.65);
-            line-height: 1.6;
-            margin-bottom: 32px;
-            font-weight: 300;
-        }
-
-        .lowercase-msg {
-            font-size: 1.15rem;
-            color: rgba(255, 255, 255, 0.85);
-            line-height: 1.8;
-            font-weight: 300;
-            letter-spacing: 0.5px;
-            word-wrap: break-word;
-        }
-
-        .btn-premium {
-            background: linear-gradient(135deg, var(--pink-primary) 0%, #ff4d79 100%);
+        /* Glow Buttons */
+        .glow-btn {
+            background: linear-gradient(135deg, #ff758c, #ff7eb3);
             border: none;
-            outline: none;
-            padding: 16px 36px;
             color: white;
-            font-weight: 600;
-            font-size: 0.95rem;
-            letter-spacing: 1px;
+            padding: 12px 28px;
+            font-size: 1.1rem;
             border-radius: 50px;
             cursor: pointer;
-            position: relative;
-            box-shadow: 0 8px 25px rgba(255, 117, 151, 0.4);
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            margin-top: 20px;
+            box-shadow: 0 0 15px #ff758c;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .btn-premium:activate {
-            transform: scale(0.95);
+        .glow-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px #ff7eb3;
         }
 
-        .media-container {
-            width: 100%;
-            max-width: 380px;
-            border-radius: 20px;
-            overflow: hidden;
-            border: 1px solid var(--glass-border);
-            margin-bottom: 24px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
-        }
-
-        .media-container img {
-            width: 100%;
-            display: block;
-            object-fit: cover;
-        }
-
-        /* --- NAVIGATION UNDERLAY CONTROLS (INVISIBLE/TAP ANYWHERE) --- */
-        .tap-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 2;
-        }
-
-        .interactive-zone {
-            position: relative;
-            z-index: 5;
-        }
-
-        /* --- SOLAR SYSTEM (PAGE 5) --- */
-        .universe-box {
-            position: relative;
-            width: 300px;
-            height: 300px;
-            margin-bottom: 30px;
-        }
-
-        .sun {
-            position: absolute;
-            top: 50%;
-            left: 50%;
+        /* ================= LOADING SCREEN ================= */
+        .heart-loader {
             width: 50px;
             height: 50px;
-            background: radial-gradient(circle, #fff 20%, #ff9e00 60%, #ff3300 100%);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            box-shadow: 0 0 40px #ff6a00, 0 0 80px #ff3300;
+            background: #ff4d6d;
+            transform: rotate(45deg);
+            animation: pulse 1s infinite alternate;
+            margin-bottom: 25px;
+            position: relative;
         }
-
-        .orbit {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            border: 1px dashed rgba(255,255,255,0.15);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            animation: orbit-rotation linear infinite;
-        }
-
-        .orbit-1 { width: 140px; height: 140px; animation-duration: 6s; }
-        .orbit-2 { width: 230px; height: 230px; animation-duration: 10s; }
-
-        .planet {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        .planet-regular {
-            width: 14px;
-            height: 14px;
-            background: linear-gradient(135deg, #00b4db, #0083b0);
-            box-shadow: 0 0 10px #00b4db;
-        }
-
-        .heart-planet {
-            width: 20px;
-            height: 20px;
-            background: #ff3366;
-            transform: translate(-50%, -50%) rotate(45deg);
-            box-shadow: 0 0 15px #ff3366;
-        }
-        .heart-planet::before, .heart-planet::after {
+        .heart-loader::before, .heart-loader::after {
             content: '';
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background: #ff3366;
+            width: 50px;
+            height: 50px;
+            background: #ff4d6d;
             border-radius: 50%;
+            position: absolute;
         }
-        .heart-planet::before { left: -10px; }
-        .heart-planet::after { top: -10px; }
+        .heart-loader::before { left: -25px; }
+        .heart-loader::after { top: -25px; }
 
-        @keyframes orbit-rotation {
-            100% { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-
-        /* --- COUNTER DISPLAY (PAGE 10) --- */
-        .counter-number {
-            font-size: 3rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #fff, var(--pink-primary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .progress-bar {
+            width: 200px;
+            height: 10px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            overflow: hidden;
             margin-bottom: 10px;
-            font-feature-settings: "tnum";
+        }
+        .progress {
+            width: 0%;
+            height: 100%;
+            background: #ff4d6d;
         }
 
-        /* --- GALLERY GRID (PAGE 11) --- */
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            width: 100%;
+        /* ================= UNIVERSE SCREEN ================= */
+        #universe-screen {
+            background: radial-gradient(circle, #2a085c 0%, #000 100%);
+        }
+        .glowing-hearts-zoom {
+            font-size: 4rem;
+            animation: float 3s ease-in-out infinite;
+            margin: 20px 0;
+        }
+
+        /* ================= FLOWER PAGE ================= */
+        .flower {
+            font-size: 6rem;
+            transition: filter 0.5s, transform 0.5s;
+            animation: pulse 2s infinite alternate;
+        }
+        .color-palette {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            max-width: 320px;
             margin-top: 20px;
         }
-
-        .gallery-item {
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid var(--glass-border);
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .gallery-item:hover {
-            transform: scale(1.08);
-            border-color: var(--pink-primary);
-        }
-
-        .gallery-item img {
-            width: 100%;
-            height: 140px;
-            object-fit: cover;
-        }
-
-        /* --- SCRATCH CARD (PAGE 13) --- */
-        .scratch-container {
-            position: relative;
-            width: 280px;
-            height: 160px;
-            margin: 20px auto 0;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-
-        .scratch-revealed-msg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #1a1525;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            text-align: center;
-            z-index: 1;
-        }
-
-        .scratch-canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 2;
-            cursor: pointer;
-        }
-
-        /* --- PREMIUM CSS ROSE (PAGE 15) --- */
-        .rose-stage {
-            position: relative;
-            width: 200px;
-            height: 250px;
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: center;
-        }
-
-        .rose-flower {
-            position: absolute;
-            top: 40px;
-            width: 60px;
-            height: 60px;
-            animation: rose-pulse 4s ease-in-out infinite;
-            z-index: 3;
-        }
-
-        .petal {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--rose-color);
-            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
-            box-shadow: inset 0 0 15px rgba(0,0,0,0.3), 0 0 20px var(--rose-glow);
-            transition: background 0.8s ease, box-shadow 0.8s ease, transform 1s cubic-bezier(0.16, 1, 0.3, 1);
-            transform-origin: bottom center;
-        }
-
-        /* Layer configuration for blooming simulation */
-        .p-1 { transform: scale(0.6); z-index: 5; }
-        .p-2 { transform: scale(0.75) rotate(45deg); z-index: 4; }
-        .p-3 { transform: scale(0.75) rotate(-45deg); z-index: 4; }
-        .p-4 { transform: scale(0.9) rotate(90deg); z-index: 3; }
-        .p-5 { transform: scale(0.9) rotate(-90deg); z-index: 3; }
-
-        .rose-stage.bloomed .p-1 { transform: scale(0.7) translateY(-2px); }
-        .rose-stage.bloomed .p-2 { transform: scale(0.9) rotate(55deg) translate(5px, -5px); }
-        .rose-stage.bloomed .p-3 { transform: scale(0.9) rotate(-55deg) translate(-5px, -5px); }
-        .rose-stage.bloomed .p-4 { transform: scale(1.05) rotate(105deg) translate(8px, 2px); }
-        .rose-stage.bloomed .p-5 { transform: scale(1.05) rotate(-105deg) translate(-8px, 2px); }
-
-        .stem {
-            position: absolute;
-            top: 95px;
-            left: 50%;
-            width: 4px;
-            height: 120px;
-            background: #2d6a4f;
-            transform: translateX(-50%);
-            box-shadow: 0 0 10px rgba(45, 106, 79, 0.4);
-            z-index: 2;
-            transition: background 0.8s ease, box-shadow 0.8s ease;
-        }
-
-        .leaf {
-            position: absolute;
-            width: 25px;
-            height: 15px;
-            background: #40916c;
-            border-radius: 100% 0% 100% 0% / 100% 0% 100% 0%;
-            z-index: 2;
-        }
-        .l-1 { top: 30px; left: 4px; transform: rotate(-15deg); }
-        .l-2 { top: 60px; right: 4px; transform: scaleX(-1) rotate(-15deg); }
-
-        .rose-controls {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
-            width: 100%;
-            max-width: 320px;
-        }
-
-        .color-palette-btn {
-            padding: 8px;
-            border: 1px solid rgba(255,255,255,0.2);
+        .color-palette button {
+            border: none;
+            padding: 8px 14px;
             border-radius: 8px;
-            font-size: 0.75rem;
-            color: white;
             cursor: pointer;
-            background: rgba(0,0,0,0.3);
-            transition: transform 0.2s;
-        }
-        .color-palette-btn:active { transform: scale(0.9); }
-
-        @keyframes rose-pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.03); }
+            font-weight: bold;
         }
 
-        /* --- CINEMATIC FULLSCREEN VIDEO SYSTEM (PAGE 16) --- */
-        .video-wrapper {
+        /* ================= THERMOMETER ================= */
+        .thermometer-container {
+            width: 40px;
+            height: 200px;
+            border: 3px solid #fff;
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        .thermometer-fill {
             position: absolute;
-            top: 0;
-            left: 0;
+            bottom: 0;
             width: 100%;
-            height: 100%;
-            background: #000;
+            height: 0%;
+            background: linear-gradient(to top, #ff0055, #ff758c);
+            transition: height 0.3s ease;
+        }
+
+        /* ================= TIMER GRID ================= */
+        .timer-grid {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        .timer-grid div {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 15px;
+            border-radius: 10px;
+            min-width: 65px;
+        }
+        .timer-grid span {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: block;
+        }
+
+        /* ================= TIC TAC TOE ================= */
+        .ttt-board {
+            display: grid;
+            grid-template-columns: repeat(3, 80px);
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .ttt-cell {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        /* ================= 50 REASONS GRID ================= */
+        .cards-grid {
+            display: flex;
+            overflow-x: auto;
+            gap: 15px;
+            width: 100%;
+            max-width: 90vw;
+            padding: 20px 0;
+        }
+        .card {
+            min-width: 160px;
+            height: 120px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        /* ================= TIMELINE ================= */
+        .timeline {
+            list-style: none;
+            text-align: left;
+            margin: 20px 0;
+            line-height: 2.2;
+            font-size: 1.2rem;
+        }
+
+        /* ================= GALLERIES & CINEMA ================= */
+        .gallery-slider img, .gif-carousel img {
+            width: 260px;
+            height: 260px;
+            object-fit: cover;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(255, 117, 140, 0.5);
+        }
+        .slider-controls {
+            margin-top: 15px;
+        }
+        .slider-controls button {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            padding: 8px 16px;
+            border-radius: 50%;
+            cursor: pointer;
+            margin: 0 5px;
+        }
+        .cinema-box video {
+            width: 90vw;
+            max-width: 600px;
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+        }
+
+        /* ================= FOOTER ================= */
+        footer {
+            position: fixed;
+            bottom: 10px;
+            width: 100%;
+            text-align: center;
+            font-size: 0.8rem;
+            opacity: 0.7;
             z-index: 10;
         }
 
-        .fullscreen-video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        /* ================= ANIMATIONS ================= */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-
-        .final-overlay-msg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 2rem;
-            font-weight: 300;
-            letter-spacing: 2px;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 2s ease;
-            z-index: 20;
-            color: var(--pink-primary);
-            text-shadow: 0 0 20px rgba(255,117,151,0.6);
+        @keyframes pulse {
+            from { transform: scale(1); }
+            to { transform: scale(1.1); }
         }
-
-        .final-overlay-msg.show {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        /* --- PARTICLES CANVAS RIPPLE CLICK --- */
-        .click-ripple {
-            position: fixed;
-            border: 2px solid var(--pink-primary);
-            border-radius: 50%;
-            pointer-events: none;
-            transform: translate(-50%, -50%);
-            animation: ripple-out 0.6s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
-            z-index: 9999;
-        }
-
-        @keyframes ripple-out {
-            0% { width: 0; height: 0; opacity: 1; }
-            100% { width: 80px; height: 80px; opacity: 0; }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
         }
     </style>
 </head>
 <body>
 
-    <div class="premium-header">CODED BY SIVASINGH ❤️</div>
-    <div class="aurora-bg"></div>
-    <canvas id="canvas-ambient"></canvas>
+    <audio id="bg-music" src="assets/tere-liye.mp3" loop preload="auto"></audio>
 
-    <div id="preloader">
-        <div class="loader-heart">💖</div>
+    <canvas id="particle-canvas"></canvas>
+
+    <div id="loading-screen" class="screen active">
+        <div class="heart-loader"></div>
+        <div class="progress-bar"><div id="progress" class="progress"></div></div>
+        <p id="progress-text">0%</p>
+        <p style="margin-top: 15px; opacity: 0.8;">Made with ❤️ by SIVASINGH</p>
     </div>
 
-    <audio id="bg-music" src="tere-liye.mp3" loop></audio>
-
-    <div class="page-container">
-
-        <div class="page active" id="page-1">
-            <div class="glass-card interactive-zone">
-                <h1>hey cutiee ✨</h1>
-                <p class="subtext">welcome to your own little digital magical place!</p>
-                <button class="btn-premium" onclick="navigateToPage(2, true)">let's enter 💖</button>
-            </div>
-        </div>
-
-        <div class="page" id="page-2">
-            <div class="tap-overlay" onclick="navigateToPage(3)"></div>
-            <div class="glass-card">
-                <div class="media-container">
-                    <img src="gif1.gif" alt="romantic graphic setup">
-                </div>
-                <p class="lowercase-msg">just look at this adorable setup for you 😊</p>
-            </div>
-        </div>
-
-        <div class="page" id="page-3" data-scene="sky">
-            <div class="tap-overlay" onclick="navigateToPage(4)"></div>
-            <div class="glass-card">
-                <p class="lowercase-msg type-writer" data-text="even if the sky gets dark and clouds roll by, your smile is all i need to brighten up my entire day ✨☁️"></p>
-            </div>
-        </div>
-
-        <div class="page" id="page-4">
-            <div class="tap-overlay" onclick="navigateToPage(5)"></div>
-            <div class="glass-card">
-                <div class="media-container">
-                    <img src="gif2.gif" alt="sparkle moments graphic">
-                </div>
-                <p class="lowercase-msg">every tiny moment spent with you sparkles 🥰</p>
-            </div>
-        </div>
-
-        <div class="page" id="page-5" data-scene="galaxy">
-            <div class="tap-overlay" onclick="navigateToPage(6)"></div>
-            <div class="universe-box">
-                <div class="sun"></div>
-                <div class="orbit orbit-1">
-                    <div class="planet planet-regular"></div>
-                </div>
-                <div class="orbit orbit-2">
-                    <div class="planet heart-planet"></div>
-                </div>
-            </div>
-            <div class="glass-card">
-                <p class="lowercase-msg">you are the center of my universe 🌌</p>
-            </div>
-        </div>
-
-        <div class="page" id="page-6">
-            <div class="tap-overlay" onclick="navigateToPage(7)"></div>
-            <div class="glass-card">
-                <p class="lowercase-msg type-writer" data-text="💖 mujhse &quot;pyar&quot; karne ki &quot;bhool&quot; kar..<br><br>✨ mere liye apne alag &quot;usool&quot; kar..<br><br>💫 main &quot;jaisa&quot; bhi hu tera hu..<br><br>🤍 tu meri ban mujhe qubool kar.."></p>
-            </div>
-        </div>
-
-        <div class="page" id="page-7" data-scene="deepnight">
-            <div class="tap-overlay" onclick="navigateToPage(8)"></div>
-            <div class="glass-card">
-                <p class="lowercase-msg">just like these big twinkling stars in the deep night sky, your presence shines brightest in my world ⭐🌌</p>
-            </div>
-        </div>
-
-        <div class="page" id="page-8">
-            <div class="tap-overlay" onclick="navigateToPage(9)"></div>
-            <div class="glass-card">
-                <div class="media-container">
-                    <img src="gif3.gif" alt="heart warming aesthetic asset">
-                </div>
-            </div>
-        </div>
-
-        <div class="page" id="page-9">
-            <div class="tap-overlay" onclick="navigateToPage(10)"></div>
-            <div class="glass-card">
-                <p class="lowercase-msg type-writer" data-text="ek raat ek baat likhunga 🌙<br><br>khud ko daag tujhe saaf likhunga 🤍<br><br>haqeeqat mein tu kabhi mila nahi<br><br>ek kitaab mein apni mulaqaat likhunga 📖<br><br>main woh chaaro din tere saath likhunga 🥰"></p>
-            </div>
-        </div>
-
-        <div class="page" id="page-10">
-            <div class="tap-overlay" onclick="navigateToPage(11)"></div>
-            <div class="glass-card">
-                <div class="counter-number" id="love-counter-digits">0000000</div>
-                <p class="lowercase-msg">moments of loving you endlessly architecture</p>
-            </div>
-        </div>
-
-        <div class="page" id="page-11">
-            <div class="tap-overlay" onclick="navigateToPage(12)"></div>
-            <div class="glass-card">
-                <p class="lowercase-msg">captured chapters</p>
-                <div class="gallery-grid interactive-zone">
-                    <div class="gallery-item"><img src="photo1.jpg" alt="memory layer one"></div>
-                    <div class="gallery-item"><img src="photo2.jpg" alt="memory layer two"></div>
-                    <div class="gallery-item"><img src="photo3.jpg" alt="memory layer three"></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="page" id="page-12">
-            <div class="tap-overlay" onclick="navigateToPage(13)"></div>
-            <div class="glass-card">
-                <div class="media-container">
-                    <img src="gif4.gif" alt="narrative asset tier four">
-                </div>
-            </div>
-        </div>
-
-        <div class="page" id="page-13">
-            <div class="glass-card interactive-zone">
-                <p class="lowercase-msg">scratch your little prize coupon below ✨</p>
-                <div class="scratch-container">
-                    <div class="scratch-revealed-msg">
-                        <p style="color: #ff7597; font-weight: 600;">✨ unlimited free hugs valid forever ❤️</p>
-                    </div>
-                    <canvas class="scratch-canvas" id="scratch-canvas-element"></canvas>
-                </div>
-                <button class="btn-premium" style="margin-top: 20px; padding: 10px 24px; font-size: 0.8rem;" onclick="navigateToPage(14)">continue 🤍</button>
-            </div>
-        </div>
-
-        <div class="page" id="page-14">
-            <div class="tap-overlay" onclick="navigateToPage(15)"></div>
-            <div class="glass-card">
-                <p class="lowercase-msg type-writer" data-text="you make my heart skip a beat effortlessly. thank you for simply being the wonderful human you are 💖"></p>
-            </div>
-        </div>
-
-        <div class="page" id="page-15">
-            <div class="rose-stage" id="rose-stage-wrapper">
-                <div class="rose-flower">
-                    <div class="petal p-1"></div>
-                    <div class="petal p-2"></div>
-                    <div class="petal p-3"></div>
-                    <div class="petal p-4"></div>
-                    <div class="petal p-5"></div>
-                </div>
-                <div class="stem" id="rose-stem-element">
-                    <div class="leaf l-1"></div>
-                    <div class="leaf l-2"></div>
-                </div>
-            </div>
-            <div class="rose-controls interactive-zone">
-                <button class="color-palette-btn" onclick="transformRoseColor('#ff3366', 'rgba(255,51,102,0.5)', '#2d6a4f')">pink</button>
-                <button class="color-palette-btn" onclick="transformRoseColor('#9d4edd', 'rgba(157,78,221,0.5)', '#3c096c')">purple</button>
-                <button class="color-palette-btn" onclick="transformRoseColor('#00b4db', 'rgba(0,180,219,0.5)', '#003566')">blue</button>
-                <button class="color-palette-btn" onclick="transformRoseColor('#d00000', 'rgba(208,0,0,0.5)', '#370617')">red</button>
-                <button class="color-palette-btn" onclick="transformRoseColor('#ffb703', 'rgba(255,183,3,0.5)', '#606c38')">golden</button>
-                <button class="color-palette-btn" onclick="transformRoseColor('linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet)', 'rgba(255,255,255,0.6)', '#4a5759')">rainbow</button>
-                <button class="color-palette-btn" onclick="transformRoseColor('#212529', 'rgba(33,37,41,0.8)', '#343a40')">black</button>
-                <button class="color-palette-btn" onclick="transformRoseColor('#f8f9fa', 'rgba(248,249,250,0.6)', '#e9ecef')">white</button>
-            </div>
-            <button class="btn-premium interactive-zone" style="margin-top: 25px;" onclick="navigateToPage(16)">our cinema 🎬</button>
-        </div>
-
-        <div class="page" id="page-16" style="padding:0;">
-            <div class="video-wrapper">
-                <video class="fullscreen-video" id="cinema-video-core" playsinline webkit-playsinline>
-                    <source src="video1.mp4" type="video/mp4">
-                </video>
-            </div>
-            <div class="final-overlay-msg" id="ultimate-end-card">forever yours ❤️</div>
-        </div>
-
+    <div id="universe-screen" class="screen hidden">
+        <h2 style="font-size: 2.5rem;">Welcome To Our Universe ✨</h2>
+        <div class="glowing-hearts-zoom">❤️ ❤️</div>
+        <button id="enter-universe-btn" class="glow-btn">Enter Our Universe ✨</button>
     </div>
+
+    <main id="app" class="hidden">
+
+        <section id="page-1" class="page active-page">
+            <h1 class="typewriter" id="welcome-title" style="font-size: 2.2rem; min-height: 80px;"></h1>
+            <button class="glow-btn" onclick="nextPage(2)">Open My Heart ❤️</button>
+        </section>
+
+        <section id="page-2" class="page">
+            <h2>Catch 5 Floating Hearts! 💖</h2>
+            <div id="heart-counter" style="margin-top: 10px;">Caught: <span id="caught-count">0</span>/5</div>
+            <div id="heart-game-area" style="position: relative; width: 100%; height: 300px;"></div>
+        </section>
+
+        <section id="page-3" class="page">
+            <h2>Our Magic Flower 🌸</h2>
+            <div id="magic-flower" class="flower">🌸</div>
+            <div class="color-palette">
+                <button style="background: #ff758c; color: white;" onclick="changeFlowerColor('pink')">Pink</button>
+                <button style="background: #a18cd1; color: white;" onclick="changeFlowerColor('purple')">Purple</button>
+                <button style="background: #68d8d6; color: black;" onclick="changeFlowerColor('blue')">Blue</button>
+                <button style="background: #ff4d6d; color: white;" onclick="changeFlowerColor('red')">Red</button>
+                <button style="background: #ffd700; color: black;" onclick="changeFlowerColor('gold')">Golden</button>
+                <button style="background: linear-gradient(45deg, red, yellow, blue); color: white;" onclick="changeFlowerColor('rainbow')">Rainbow</button>
+                <button style="background: #333; color: white;" onclick="changeFlowerColor('black')">Black</button>
+                <button style="background: #fff; color: black;" onclick="changeFlowerColor('white')">White</button>
+            </div>
+            <button class="glow-btn" onclick="nextPage(4)">Our Cinema 🎬</button>
+        </section>
+
+        <section id="page-4" class="page">
+            <div style="font-size: 5rem; animation: float 2s infinite ease-in-out;">🤙❤️</div>
+            <p class="promise-msg" style="font-size: 1.8rem; margin: 20px 0;">"No matter what happens, I promise to always care for you forever."</p>
+            <button class="glow-btn" onclick="nextPage(5)">I Promise Too ❤️</button>
+        </section>
+
+        <section id="page-5" class="page">
+            <h2>Love Thermometer 🌡️</h2>
+            <div class="thermometer-container">
+                <div id="thermometer-fill" class="thermometer-fill"></div>
+            </div>
+            <h3 id="thermo-val">0%</h3>
+            <p id="thermo-msg" class="hidden" style="margin-top: 10px; color: #ff758c; font-weight: bold;">"My Love Can Never Be Measured ❤️"</p>
+            <button class="glow-btn" onclick="nextPage(6)">Continue ❤️</button>
+        </section>
+
+        <section id="page-6" class="page">
+            <h2>Time We've Spent Together 💕</h2>
+            <div id="love-timer" class="timer-grid">
+                <div><span id="years">0</span><small>Years</small></div>
+                <div><span id="months">0</span><small>Months</small></div>
+                <div><span id="days">0</span><small>Days</small></div>
+                <div><span id="hours">0</span><small>Hours</small></div>
+                <div><span id="minutes">0</span><small>Mins</small></div>
+                <div><span id="seconds">0</span><small>Secs</small></div>
+            </div>
+            <button class="glow-btn" onclick="nextPage(7)">Next Memory ✨</button>
+        </section>
+
+        <section id="page-7" class="page">
+            <h2>Heart Tic Tac Toe ❌❤️</h2>
+            <div id="ttt-board" class="ttt-board"></div>
+            <p id="ttt-status">Your turn (❤️)</p>
+            <button class="glow-btn hidden" id="ttt-next" onclick="nextPage(8)">Continue 💕</button>
+        </section>
+
+        <section id="page-8" class="page">
+            <div class="glass-card" id="envelope-box" onclick="openLetter()" style="cursor: pointer; padding: 40px;">
+                <div style="font-size: 3rem;">✉️</div>
+                <p style="margin-top: 10px;">Touch to Open</p>
+            </div>
+            <div id="letter-content" class="glass-card hidden">
+                <p id="letter-text" style="white-space: pre-line; line-height: 1.6; text-align: left;"></p>
+                <button class="glow-btn" onclick="nextPage(9)">View Memories 📸</button>
+            </div>
+        </section>
+
+        <section id="page-9" class="page">
+            <h2>Our Memories 📸</h2>
+            <div class="gallery-slider">
+                <img id="gallery-img" src="assets/photo1.jpg" alt="Memory Photo">
+            </div>
+            <div class="slider-controls">
+                <button onclick="prevPhoto()">❮</button>
+                <button onclick="nextPhoto()">❯</button>
+            </div>
+            <button class="glow-btn" onclick="nextPage(10)">Next ✨</button>
+        </section>
+
+        <section id="page-10" class="page">
+            <h2>Cute Moments 💖</h2>
+            <div class="gif-carousel">
+                <img id="gif-img" src="assets/gif1.gif" alt="Cute GIF">
+            </div>
+            <div class="slider-controls">
+                <button onclick="prevGif()">❮</button>
+                <button onclick="nextGif()">❯</button>
+            </div>
+            <button class="glow-btn" onclick="nextPage(11)">50 Reasons Why 💕</button>
+        </section>
+
+        <section id="page-11" class="page">
+            <h2>50 Reasons I Love You 💕</h2>
+            <div class="cards-grid" id="reasons-grid"></div>
+            <button class="glow-btn" onclick="nextPage(12)">Our Journey 🌸</button>
+        </section>
+
+        <section id="page-12" class="page">
+            <h2>Our Journey 🌸</h2>
+            <ul class="timeline">
+                <li>First Meeting ❤️</li>
+                <li>First Smile 😊</li>
+                <li>Special Day 🌸</li>
+                <li>Today ❤️</li>
+                <li>Forever ♾️</li>
+            </ul>
+            <button class="glow-btn" onclick="nextPage(13)">A Quick Question ❓</button>
+        </section>
+
+        <section id="page-13" class="page">
+            <h2>Will You Always Stay With Me?</h2>
+            <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
+                <button class="glow-btn" onclick="nextPage(14)">YES ❤️</button>
+                <button class="glow-btn" onclick="nextPage(14)">OF COURSE ❤️</button>
+                <button class="glow-btn" onclick="nextPage(14)">ALWAYS ❤️</button>
+            </div>
+        </section>
+
+        <section id="page-14" class="page">
+            <h2 style="font-size: 2.5rem;">Feel the Love in the Air ✨</h2>
+            <button class="glow-btn" onclick="nextPage(15)">Step Into The Final Chapter 💖</button>
+        </section>
+
+        <section id="page-15" class="page">
+            <div style="font-size: 5rem; animation: pulse 1s infinite alternate;">💍</div>
+            <h2 style="font-size: 2.5rem; margin: 20px 0;">Will You Be Mine Forever? ❤️</h2>
+            <div style="display: flex; gap: 15px;">
+                <button class="glow-btn" style="padding: 15px 35px; font-size: 1.3rem;" onclick="acceptProposal()">YES ❤️</button>
+                <button class="glow-btn" style="padding: 15px 35px; font-size: 1.3rem;" onclick="acceptProposal()">FOREVER ❤️</button>
+            </div>
+        </section>
+
+        <section id="page-16" class="page">
+            <div class="cinema-box">
+                <video id="final-video" src="assets/video1.mp4" playsinline></video>
+            </div>
+            <h1 id="final-msg" class="hidden" style="margin-top: 20px; font-size: 3rem; color: #ff758c;">I Love You Forever ❤️</h1>
+        </section>
+
+        <footer>
+            <p>Made with ❤️ by SIVASINGH</p>
+        </footer>
+    </main>
 
     <script>
-        /* --- GLOBAL APPLICATION STATE CONTEXT --- */
-        let currentActivePage = 1;
-        const totalPagesCount = 16;
-        let ambientCanvas, ctx;
-        let globalParticlesArray = [];
-        let sceneStateContext = 'default';
+        // CONFIG & STATE MANAGEMENT
+        const START_DATE = new Date("2023-01-01T00:00:00"); // Relationship start date
+        let caughtHearts = 0;
+        let tttBoard = ["", "", "", "", "", "", "", "", ""];
+        let photoIdx = 0;
+        let gifIdx = 0;
 
-        // Initialize App Ecosystem
-        window.addEventListener('DOMContentLoaded', () => {
-            setupAmbientCanvas();
-            setTimeout(() => {
-                document.getElementById('preloader').style.opacity = '0';
-                setTimeout(() => document.getElementById('preloader').style.display = 'none', 1000);
-            }, 1200);
-            initGlobalClickTracker();
+        const photos = ["assets/photo1.jpg", "assets/photo2.jpg", "assets/photo3.jpg", "assets/photo4.jpg", "assets/photo5.jpg"];
+        const gifs = ["assets/gif1.gif", "assets/gif2.gif", "assets/gif3.gif", "assets/gif4.gif", "assets/gif5.gif"];
+
+        const bgMusic = document.getElementById("bg-music");
+
+        // 1. INITIALIZATION & LOADING SCREEN
+        window.addEventListener("DOMContentLoaded", () => {
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 5;
+                document.getElementById("progress").style.width = `${progress}%`;
+                document.getElementById("progress-text").innerText = `${progress}%`;
+                
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    document.getElementById("loading-screen").classList.add("hidden");
+                    document.getElementById("universe-screen").classList.remove("hidden");
+                }
+            }, 80);
+
+            initParticleCanvas();
+            init50Reasons();
+            initTTT();
+            startLoveTimer();
         });
 
-        /* --- NAVIGATION CONTROL MATRIX --- */
-        function navigateToPage(pageIndex, initialTrig = false) {
-            if (initialTrig) {
-                handleMusicAutoplayEngage();
-            }
-
-            // Teardown steps or specific page configurations
-            if(currentActivePage === 10) clearInterval(counterIntervalId);
-
-            document.getElementById(`page-${currentActivePage}`).classList.remove('active');
-            currentActivePage = pageIndex;
-            const targetPageElement = document.getElementById(`page-${currentActivePage}`);
-            targetPageElement.classList.add('active');
-
-            // Evaluation Context Per Page
-            const targetScene = targetPageElement.getAttribute('data-scene');
-            sceneStateContext = targetScene ? targetScene : 'default';
-
-            // Trigger Typewriters dynamically
-            const typewriterChild = targetPageElement.querySelector('.type-writer');
-            if(typewriterChild) {
-                executePremiumTypewriter(typewriterChild);
-            }
-
-            // Page 10 Custom Trigger
-            if(currentActivePage === 10) {
-                runLoveCounterDynamics();
-            }
-
-            // Page 13 Initialization Layer
-            if(currentActivePage === 13) {
-                initializeScratchCardSystem();
-            }
-
-            // Page 15 Interactive Bloom Engine Trigger
-            if(currentActivePage === 15) {
-                setTimeout(() => {
-                    document.getElementById('rose-stage-wrapper').classList.add('bloomed');
-                }, 400);
-            }
-
-            // Page 16 Core Player Launchpad
-            if(currentActivePage === 16) {
-                executeCinematicVideoSequence();
-            }
-        }
-
-        /* --- AUDIO MANAGEMENT --- */
-        function handleMusicAutoplayEngage() {
-            const musicInstance = document.getElementById('bg-music');
-            musicInstance.volume = 0;
-            musicInstance.play().then(() => {
-                let volFadeIn = setInterval(() => {
-                    if (musicInstance.volume < 0.8) {
-                        musicInstance.volume += 0.05;
-                    } else {
-                        clearInterval(volFadeIn);
-                    }
-                }, 100);
-            }).catch(err => console.log("User interaction constraint captured. Fluid resume structural protocol active."));
-        }
-
-        /* --- TYPEWRITER SYSTEM --- */
-        function executePremiumTypewriter(domTarget) {
-            const cleanTextSource = domTarget.getAttribute('data-text');
-            domTarget.innerHTML = '';
-            let loopIndex = 0;
+        // UNIVERSE ENTER BUTTON
+        document.getElementById("enter-universe-btn").addEventListener("click", () => {
+            document.getElementById("universe-screen").classList.add("hidden");
+            document.getElementById("app").classList.remove("hidden");
             
-            function printCharacter() {
-                if(loopIndex < cleanTextSource.length) {
-                    let character = cleanTextSource.charAt(loopIndex);
-                    if(cleanTextSource.substring(loopIndex, loopIndex+4) === '<br>') {
-                        character = '<br><br>';
-                        loopIndex += 3;
-                    }
-                    domTarget.innerHTML += character;
-                    loopIndex++;
-                    setTimeout(printCharacter, 45);
+            // Play Audio
+            bgMusic.play().catch(() => console.log("Autoplay interaction allowed."));
+            
+            // Start Typewriter
+            typeWriter("welcome-title", "I Made Something Special Just For You ❤️");
+        });
+
+        // PAGE NAVIGATION
+        function nextPage(pageNum) {
+            document.querySelectorAll(".page").forEach(page => page.classList.remove("active-page"));
+            const targetPage = document.getElementById(`page-${pageNum}`);
+            if (targetPage) {
+                targetPage.classList.add("active-page");
+            }
+
+            // Page Handlers
+            if (pageNum === 2) initHeartGame();
+            if (pageNum === 5) runThermometer();
+        }
+
+        // TYPEWRITER ANIMATION
+        function typeWriter(elementId, text, speed = 70) {
+            let i = 0;
+            const elem = document.getElementById(elementId);
+            elem.innerHTML = "";
+            function type() {
+                if (i < text.length) {
+                    elem.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
                 }
             }
-            printCharacter();
+            type();
         }
 
-        /* --- INCREMENTAL COUNTER ENGINE (PAGE 10) --- */
-        let counterIntervalId;
-        function runLoveCounterDynamics() {
-            const counterScreen = document.getElementById('love-counter-digits');
-            let baselineMetric = 9991205; 
-            counterIntervalId = setInterval(() => {
-                baselineMetric += Math.floor(Math.random() * 3) + 1;
-                counterScreen.innerText = baselineMetric.toLocaleString();
-            }, 60);
-        }
-
-        /* --- PROCEDURAL PROCEDURAL COLOR TRANSFORM (PAGE 15) --- */
-        function transformRoseColor(petalVal, glowVal, stemVal) {
-            const petalsList = document.querySelectorAll('.petal');
-            petalsList.forEach(p => {
-                p.style.background = petalVal;
-                p.style.boxShadow = `inset 0 0 15px rgba(0,0,0,0.3), 0 0 25px ${glowVal}`;
-            });
-            document.getElementById('rose-stem-element').style.background = stemVal;
-        }
-
-        /* --- SCRATCH CARD INTERACTIVE SCHEMATIC (PAGE 13) --- */
-        function initializeScratchCardSystem() {
-            const canvas = document.getElementById('scratch-canvas-element');
-            if(!canvas) return;
-            const sCtx = canvas.getContext('2d');
-            const boxWidth = canvas.width = 280;
-            const boxHeight = canvas.height = 160;
-
-            // Paint Scratch Layer Overlay Metallic Slate Grey
-            sCtx.fillStyle = '#495057';
-            sCtx.fillRect(0, 0, boxWidth, boxHeight);
-            
-            // Texture patterning
-            sCtx.fillStyle = '#343a40';
-            for (let i = 0; i < boxWidth; i += 8) {
-                for (let j = 0; j < boxHeight; j += 8) {
-                    if ((i + j) % 16 === 0) sCtx.fillRect(i, j, 4, 4);
-                }
-            }
-
-            let clientScratchedToken = false;
-
-            function scratchEffectExecute(e) {
-                const coordinates = canvas.getBoundingClientRect();
-                const currentX = (e.clientX || e.touches[0].clientX) - coordinates.left;
-                const currentY = (e.clientY || e.touches[0].clientY) - coordinates.top;
-
-                sCtx.globalCompositeOperation = 'destination-out';
-                sCtx.beginPath();
-                sCtx.arc(currentX, currentY, 18, 0, Math.PI * 2);
-                sCtx.fill();
-            }
-
-            canvas.addEventListener('mousemove', (e) => { if(e.buttons === 1) scratchEffectExecute(e); });
-            canvas.addEventListener('touchmove', (e) => { scratchEffectExecute(e); });
-        }
-
-        /* --- CINEMATIC SEQUENCE PLAYER COUPLING (PAGE 16) --- */
-        function executeCinematicVideoSequence() {
-            const coreVideo = document.getElementById('cinema-video-core');
-            const ambientMusic = document.getElementById('bg-music');
-
-            // Smooth linear volume diminution architecture
-            if(ambientMusic) {
-                let volFadeOut = setInterval(() => {
-                    if (ambientMusic.volume > 0.05) {
-                        ambientMusic.volume -= 0.05;
-                    } else {
-                        ambientMusic.pause();
-                        clearInterval(volFadeOut);
+        // PAGE 2: HEART GAME
+        function initHeartGame() {
+            const area = document.getElementById("heart-game-area");
+            area.innerHTML = "";
+            for (let i = 0; i < 5; i++) {
+                const heart = document.createElement("div");
+                heart.innerHTML = "💖";
+                heart.style.position = "absolute";
+                heart.style.left = `${Math.random() * 80 + 10}%`;
+                heart.style.top = `${Math.random() * 60 + 20}%`;
+                heart.style.fontSize = "2rem";
+                heart.style.cursor = "pointer";
+                heart.onclick = () => {
+                    heart.remove();
+                    caughtHearts++;
+                    document.getElementById("caught-count").innerText = caughtHearts;
+                    if (caughtHearts >= 5) {
+                        setTimeout(() => nextPage(3), 400);
                     }
-                }, 100);
+                };
+                area.appendChild(heart);
+            }
+        }
+
+        // PAGE 3: MAGIC FLOWER COLOR CHANGE
+        function changeFlowerColor(color) {
+            const flower = document.getElementById("magic-flower");
+            const colors = {
+                pink: "#ff758c", purple: "#a18cd1", blue: "#68d8d6", red: "#ff4d6d",
+                gold: "#ffd700", rainbow: "#ff758c", black: "#333", white: "#fff"
+            };
+            flower.style.filter = `drop-shadow(0 0 25px ${colors[color] || '#ff758c'})`;
+        }
+
+        // PAGE 5: THERMOMETER
+        function runThermometer() {
+            const fill = document.getElementById("thermometer-fill");
+            const label = document.getElementById("thermo-val");
+            let val = 0;
+            const timer = setInterval(() => {
+                val += 5;
+                fill.style.height = `${Math.min(val, 100)}%`;
+                
+                if (val <= 100) label.innerText = `${val}%`;
+                else if (val === 500) label.innerText = "500%";
+                else if (val === 1000) label.innerText = "1000%";
+                
+                if (val > 1000) {
+                    clearInterval(timer);
+                    label.innerText = "Infinity ♾️";
+                    document.getElementById("thermo-msg").classList.remove("hidden");
+                }
+            }, 40);
+        }
+
+        // PAGE 6: COUNTER
+        function startLoveTimer() {
+            setInterval(() => {
+                const now = new Date();
+                const diff = now - START_DATE;
+
+                const seconds = Math.floor((diff / 1000) % 60);
+                const minutes = Math.floor((diff / (1000 * 60)) % 60);
+                const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+                const days = Math.floor((diff / (1000 * 60 * 60 * 24)) % 30);
+                const months = Math.floor((diff / (1000 * 60 * 60 * 24 * 30.4375)) % 12);
+                const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
+
+                document.getElementById("years").innerText = years;
+                document.getElementById("months").innerText = months;
+                document.getElementById("days").innerText = days;
+                document.getElementById("hours").innerText = hours;
+                document.getElementById("minutes").innerText = minutes;
+                document.getElementById("seconds").innerText = seconds;
+            }, 1000);
+        }
+
+        // PAGE 7: TIC TAC TOE
+        function initTTT() {
+            const board = document.getElementById("ttt-board");
+            board.innerHTML = "";
+            tttBoard = ["", "", "", "", "", "", "", "", ""];
+            for (let i = 0; i < 9; i++) {
+                const cell = document.createElement("div");
+                cell.className = "ttt-cell";
+                cell.onclick = () => makeMove(i);
+                board.appendChild(cell);
+            }
+        }
+
+        function makeMove(idx) {
+            if (tttBoard[idx] !== "") return;
+            tttBoard[idx] = "❤️";
+            updateTTTBoard();
+            
+            if (checkWin("❤️")) {
+                document.getElementById("ttt-status").innerText = "You Already Won My Heart ❤️";
+                document.getElementById("ttt-next").classList.remove("hidden");
+                return;
             }
 
-            coreVideo.play();
-            coreVideo.onended = () => {
-                document.getElementById('ultimate-end-card').classList.add('show');
+            const emptyIndices = tttBoard.map((val, index) => val === "" ? index : null).filter(val => val !== null);
+            if (emptyIndices.length > 0) {
+                const botMove = emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
+                tttBoard[botMove] = "✖️";
+                updateTTTBoard();
+            }
+        }
+
+        function updateTTTBoard() {
+            const cells = document.querySelectorAll(".ttt-cell");
+            cells.forEach((cell, i) => cell.innerText = tttBoard[i]);
+        }
+
+        function checkWin(player) {
+            const wins = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+            return wins.some(combination => combination.every(i => tttBoard[i] === player));
+        }
+
+        // PAGE 8: LOVE LETTER
+        function openLetter() {
+            document.getElementById("envelope-box").classList.add("hidden");
+            document.getElementById("letter-content").classList.remove("hidden");
+            typeWriter("letter-text", "My Dearest,\n\nFrom the moment you entered my life, every single day has felt brighter and full of magic. Thank you for being my happiness, my smile, and my home.\n\nForever Yours.");
+        }
+
+        // GALLERIES
+        function nextPhoto() { photoIdx = (photoIdx + 1) % photos.length; document.getElementById("gallery-img").src = photos[photoIdx]; }
+        function prevPhoto() { photoIdx = (photoIdx - 1 + photos.length) % photos.length; document.getElementById("gallery-img").src = photos[photoIdx]; }
+
+        function nextGif() { gifIdx = (gifIdx + 1) % gifs.length; document.getElementById("gif-img").src = gifs[gifIdx]; }
+        function prevGif() { gifIdx = (gifIdx - 1 + gifs.length) % gifs.length; document.getElementById("gif-img").src = gifs[gifIdx]; }
+
+        // PAGE 11: 50 REASONS
+        function init50Reasons() {
+            const grid = document.getElementById("reasons-grid");
+            for (let i = 1; i <= 50; i++) {
+                const card = document.createElement("div");
+                card.className = "card";
+                card.innerText = `Reason #${i}: You bring magic into my world. ✨`;
+                grid.appendChild(card);
+            }
+        }
+
+        // FINAL ACCEPTANCE
+        function acceptProposal() {
+            nextPage(16);
+            bgMusic.pause();
+            
+            const video = document.getElementById("final-video");
+            video.play();
+            
+            video.onended = () => {
+                document.getElementById("final-msg").classList.remove("hidden");
             };
         }
 
-        /* --- PARTICLE ANIMATION MATRIX FOUNDATION (60FPS CANVAS ENGINE) --- */
-        function setupAmbientCanvas() {
-            ambientCanvas = document.getElementById('canvas-ambient');
-            ctx = ambientCanvas.getContext('2d');
-            resizeAmbientCanvasContext();
-            window.addEventListener('resize', resizeAmbientCanvasContext);
-
-            // Populate system particle reserves initially
-            for(let i=0; i<65; i++) {
-                globalParticlesArray.push(createNewParticleUnit());
+        // PARTICLES ANIMATION
+        function initParticleCanvas() {
+            const canvas = document.getElementById("particle-canvas");
+            const ctx = canvas.getContext("2d");
+            
+            function resize() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
             }
-            renderEcosystemLoop();
-        }
+            resize();
+            window.addEventListener("resize", resize);
 
-        function resizeAmbientCanvasContext() {
-            ambientCanvas.width = window.innerWidth;
-            ambientCanvas.height = window.innerHeight;
-        }
+            const particles = Array.from({ length: 35 }, () => ({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: Math.random() * 14 + 10,
+                speedY: Math.random() * 1 + 0.5,
+                symbol: ["❤️", "✨", "🦋", "⭐", "🌹"][Math.floor(Math.random() * 5)]
+            }));
 
-        function createNewParticleUnit() {
-            return {
-                x: Math.random() * window.innerWidth,
-                y: Math.random() * window.innerHeight + window.innerHeight,
-                size: Math.random() * 3 + 1,
-                speedY: Math.random() * 1.2 + 0.4,
-                speedX: Math.sin(Math.random() * 2) * 0.3,
-                opacity: Math.random() * 0.6 + 0.2,
-                variant: Math.floor(Math.random() * 3) // 0: Star/Dust, 1: Heart, 2: Petal
-            };
-        }
-
-        function renderEcosystemLoop() {
-            ctx.clearRect(0, 0, ambientCanvas.width, ambientCanvas.height);
-
-            // Conditional adjustments built into ambient canvas parameters depending on programmatic scene tags
-            if (sceneStateContext === 'sky') {
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.08)';
-                ctx.beginPath();
-                ctx.arc(ambientCanvas.width * 0.8, 120, 35, 0, Math.PI*2);
-                ctx.fill();
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => {
+                    p.y -= p.speedY;
+                    if (p.y < -20) p.y = canvas.height + 20;
+                    ctx.font = `${p.size}px serif`;
+                    ctx.fillText(p.symbol, p.x, p.y);
+                });
+                requestAnimationFrame(animate);
             }
-
-            globalParticlesArray.forEach((part, idx) => {
-                part.y -= part.speedY;
-                part.x += part.speedX;
-
-                if (part.y < -20) {
-                    globalParticlesArray[idx] = createNewParticleUnit();
-                    globalParticlesArray[idx].y = ambientCanvas.height + 10;
-                }
-
-                ctx.save();
-                ctx.globalAlpha = part.opacity;
-
-                if (part.variant === 1 || sceneStateContext === 'default') {
-                    // Render Vector Procedural Romantic Heart Object
-                    ctx.fillStyle = '#ff7597';
-                    ctx.beginPath();
-                    ctx.moveTo(part.x, part.y);
-                    ctx.bezierCurveTo(part.x - part.size, part.y - part.size, part.x - part.size*1.5, part.y + part.size*0.5, part.x, part.y + part.size*2);
-                    ctx.bezierCurveTo(part.x + part.size*1.5, part.y + part.size*0.5, part.x + part.size, part.y - part.size, part.x, part.y);
-                    ctx.fill();
-                } else {
-                    // Render Natural Celestial Starfield Particle Point
-                    ctx.fillStyle = sceneStateContext === 'deepnight' ? '#fff' : '#ffe3ec';
-                    ctx.beginPath();
-                    ctx.arc(part.x, part.y, part.size, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-                ctx.restore();
-            });
-
-            requestAnimationFrame(renderEcosystemLoop);
-        }
-
-        /* --- CLICK RIPPLE ENGAGEMENT ENGINE --- */
-        function initGlobalClickTracker() {
-            window.addEventListener('click', (e) => {
-                const ripple = document.createElement('div');
-                ripple.className = 'click-ripple';
-                ripple.style.left = `${e.clientX}px`;
-                ripple.style.top = `${e.clientY}px`;
-                document.body.appendChild(ripple);
-                setTimeout(() => ripple.remove(), 600);
-            });
+            animate();
         }
     </script>
 </body>
-             </html>
+                </html>
