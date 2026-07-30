@@ -5,22 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Happy Birthday RIMI! 🎂</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <audio id="bg-music" src="assets/birthday-song.mp3" loop></audio>
+    <audio id="bg-music" src="assets/birthday-song.mp3" loop preload="auto"></audio>
+
+    <div id="audio-enable-overlay" class="audio-overlay" onclick="enableAudio()">
+        <p>🎵 Tap anywhere to start the Magic & Sound! ✨</p>
+    </div>
 
     <canvas id="particle-canvas"></canvas>
 
     <div id="loader" class="screen active">
         <div class="loader-content">
             <div class="cake-loader">🎂</div>
-            <h2>🎂 Loading Birthday Surprise...</h2>
+            <h2 class="loader-title">🎂 Loading Birthday Surprise...</h2>
             <div class="progress-bar">
                 <div class="progress-fill" id="progress-fill"></div>
             </div>
-            <p id="progress-text">0%</p>
+            <p id="progress-text" class="progress-text">0%</p>
             <p class="credit">Made with ❤️ by SIVASINGH</p>
         </div>
     </div>
@@ -30,7 +34,7 @@
             <div class="moon"></div>
             <div id="opening-balloons-container"></div>
             <div id="opening-text" class="hidden">
-                <h1>🎉 HAPPY BIRTHDAY RIMI 🎉</h1>
+                <h1 class="grand-heading">🎉 HAPPY BIRTHDAY RIMI 🎉</h1>
             </div>
         </div>
     </div>
@@ -40,107 +44,107 @@
         <section id="page-1" class="page active">
             <div class="glass-card">
                 <h1 class="glow-text">🎂 Happy Birthday Rimi 🎂</h1>
-                <p id="typing-text" class="typewriter"></p>
-                <button class="btn" onclick="nextPage(2)">🎁 Open Your Birthday Surprise</button>
+                <p id="typing-text" class="typewriter-text"></p>
+                <button class="btn primary-btn" onclick="nextPage(2)">🎁 Open Your Birthday Surprise</button>
             </div>
         </section>
 
         <section id="page-2" class="page">
             <div class="glass-card">
-                <h2>Catch The Birthday Gifts! 🎁</h2>
-                <p>Catch 5 gifts to unlock the next level!</p>
-                <div class="counter">Collected: <span id="gift-count">0</span>/5</div>
+                <h2 class="card-title">Catch The Birthday Gifts! 🎁</h2>
+                <p class="sub-text">Catch 5 gifts to unlock the next level!</p>
+                <div class="counter-badge">Collected: <span id="gift-count">0</span>/5</div>
                 <div id="game-area"></div>
             </div>
         </section>
 
         <section id="page-3" class="page">
             <div class="glass-card">
-                <h2>Make a Wish & Blow The Candles! 🎂</h2>
+                <h2 class="card-title">Make a Wish & Blow The Candles! 🎂</h2>
                 <div id="cake-container" class="cake-3d" onclick="blowCandles()">
                     <div class="candles" id="candles">🔥 🔥 🔥</div>
                     <div class="cake-body">🎂</div>
                 </div>
-                <button id="cut-cake-btn" class="btn disabled" onclick="cutCake()">🎂 Cut The Cake</button>
+                <button id="cut-cake-btn" class="btn primary-btn disabled" onclick="cutCake()">🎂 Cut The Cake</button>
             </div>
         </section>
 
         <section id="page-4" class="page">
             <div class="glass-card">
-                <h2>A Special Message For My Bestie ❤️</h2>
+                <h2 class="card-title">A Special Message For My Bestie ❤️</h2>
                 <div class="handwriting-box">
                     <p id="wishes-text"></p>
                 </div>
-                <button class="btn" onclick="nextPage(5)">Continue ✨</button>
+                <button class="btn primary-btn" onclick="nextPage(5)">Continue ✨</button>
             </div>
         </section>
 
         <section id="page-5" class="page">
             <div class="glass-card">
-                <h2>🎉 Today is Rimi's Birthday 🎂</h2>
+                <h2 class="card-title">🎉 Today is Rimi's Birthday 🎂</h2>
                 <div class="calendar-card">
                     <div class="calendar-header">TODAY</div>
                     <div class="calendar-body" id="today-date">--</div>
                 </div>
-                <button class="btn" onclick="nextPage(6)">Check Love Meter 💕</button>
+                <button class="btn primary-btn" onclick="nextPage(6)">Check Love Meter 💕</button>
             </div>
         </section>
 
         <section id="page-6" class="page">
             <div class="glass-card">
-                <h2>My Bestie Happiness Level ❤️</h2>
+                <h2 class="card-title">My Bestie Happiness Level ❤️</h2>
                 <div class="thermometer-container">
                     <div class="thermometer-fill" id="love-fill"></div>
                 </div>
                 <div class="meter-text" id="meter-text">0%</div>
-                <button class="btn" onclick="startLoveMeter()">Start Measuring 💖</button>
-                <button id="love-next-btn" class="btn hidden" onclick="nextPage(7)">View Gallery 📸</button>
+                <button class="btn primary-btn" onclick="startLoveMeter()">Start Measuring 💖</button>
+                <button id="love-next-btn" class="btn primary-btn hidden" onclick="nextPage(7)">View Gallery 📸</button>
             </div>
         </section>
 
         <section id="page-7" class="page">
             <div class="glass-card">
-                <h2>Memory Gallery 📸</h2>
-                <div class="slider-container">
-                    <img id="gallery-img" src="assets/photo1.jpg" alt="Bestie Memory" class="gallery-photo">
+                <h2 class="card-title">Memory Gallery 📸</h2>
+                <div class="media-frame">
+                    <img id="gallery-img" src="assets/photo1.jpg" alt="Bestie Memory" class="gallery-photo" onerror="this.onerror=null; this.src='https://via.placeholder.com/500x350/ff3399/ffffff?text=Photo+1';">
                 </div>
                 <div class="slider-controls">
                     <button class="btn-small" onclick="prevPhoto()">❮ Prev</button>
                     <button class="btn-small" onclick="nextPhoto()">Next ❯</button>
                 </div>
-                <button class="btn margin-top" onclick="nextPage(8)">View Cute GIFs 🎬</button>
+                <button class="btn primary-btn margin-top" onclick="nextPage(8)">View Cute GIFs 🎬</button>
             </div>
         </section>
 
         <section id="page-8" class="page">
             <div class="glass-card">
-                <h2>Cute GIF Gallery 🎬</h2>
-                <div class="gif-container">
-                    <img id="gif-display" src="assets/gif1.gif" alt="Cute GIF" class="gif-photo">
+                <h2 class="card-title">Cute GIF Gallery 🎬</h2>
+                <div class="media-frame">
+                    <img id="gif-display" src="assets/gif1.gif" alt="Cute GIF" class="gif-photo" onerror="this.onerror=null; this.src='https://via.placeholder.com/500x350/9933ff/ffffff?text=GIF+1';">
                 </div>
                 <div class="slider-controls">
                     <button class="btn-small" onclick="prevGif()">❮ Prev</button>
                     <button class="btn-small" onclick="nextGif()">Next ❯</button>
                 </div>
-                <button class="btn margin-top" onclick="nextPage(9)">50 Reasons Why You're Amazing 💖</button>
+                <button class="btn primary-btn margin-top" onclick="nextPage(9)">50 Reasons Why You're Amazing 💖</button>
             </div>
         </section>
 
         <section id="page-9" class="page">
             <div class="glass-card">
-                <h2>Reasons Why You're An Amazing Bestie ✨</h2>
+                <h2 class="card-title">Reasons Why You're Amazing ✨</h2>
                 <div id="reasons-container" class="reasons-grid"></div>
-                <button class="btn margin-top" onclick="nextPage(10)">Spin The Lucky Wheel 🎡</button>
+                <button class="btn primary-btn margin-top" onclick="nextPage(10)">Spin The Lucky Wheel 🎡</button>
             </div>
         </section>
 
         <section id="page-10" class="page">
             <div class="glass-card">
-                <h2>Lucky Birthday Wheel 🎡</h2>
+                <h2 class="card-title">Lucky Birthday Wheel 🎡</h2>
                 <div class="wheel-container">
                     <div id="wheel" class="wheel">
                         <div class="wheel-section">🎁 Hug</div>
-                        <div class="wheel-section">🍫 Chocolate</div>
+                        <div class="wheel-section">🍫 Choco</div>
                         <div class="wheel-section">🌹 Rose</div>
                         <div class="wheel-section">🎂 Cake</div>
                         <div class="wheel-section">💝 Gift</div>
@@ -148,34 +152,34 @@
                     </div>
                     <div class="pointer">▼</div>
                 </div>
-                <button class="btn margin-top" onclick="spinWheel()">SPIN! 🎉</button>
+                <button class="btn primary-btn margin-top" onclick="spinWheel()">SPIN! 🎉</button>
                 <div id="wheel-result" class="result-text"></div>
-                <button id="wheel-next" class="btn hidden" onclick="nextPage(11)">Pop Some Balloons 🎈</button>
+                <button id="wheel-next" class="btn primary-btn hidden margin-top" onclick="nextPage(11)">Pop Some Balloons 🎈</button>
             </div>
         </section>
 
         <section id="page-11" class="page">
             <div class="glass-card">
-                <h2>Pop Rimi's Balloons! 🎈</h2>
-                <p>Tap balloons to reveal sweet birthday wishes!</p>
+                <h2 class="card-title">Pop Rimi's Balloons! 🎈</h2>
+                <p class="sub-text">Tap balloons to reveal sweet birthday wishes!</p>
                 <div id="balloon-pop-area"></div>
                 <div id="balloon-wish-display" class="wish-popup"></div>
-                <button class="btn margin-top" onclick="nextPage(12)">Watch Fireworks 🎆</button>
+                <button class="btn primary-btn margin-top" onclick="nextPage(12)">Watch Fireworks 🎆</button>
             </div>
         </section>
 
         <section id="page-12" class="page">
             <div class="glass-card">
-                <h2>Grand Fireworks Show 🎆</h2>
-                <p>A grand show dedicated to the sweetest bestie!</p>
-                <button class="btn margin-top" onclick="triggerFireworksShow()">Launch Extra Fireworks 💥</button>
-                <button class="btn margin-top" onclick="nextPage(13)">Open Gift Boxes 🎁</button>
+                <h2 class="card-title">Grand Fireworks Show 🎆</h2>
+                <p class="sub-text">A grand show dedicated to the sweetest bestie!</p>
+                <button class="btn primary-btn margin-top" onclick="triggerFireworksShow()">Launch Extra Fireworks 💥</button>
+                <button class="btn primary-btn margin-top" onclick="nextPage(13)">Open Gift Boxes 🎁</button>
             </div>
         </section>
 
         <section id="page-13" class="page">
             <div class="glass-card">
-                <h2>Pick Your Special Surprise 🎁</h2>
+                <h2 class="card-title">Pick Your Special Surprise 🎁</h2>
                 <div class="boxes-container">
                     <div class="gift-box" onclick="openGiftBox(1)">🎁<br><span>Box 1</span></div>
                     <div class="gift-box" onclick="openGiftBox(2)">🎁<br><span>Box 2</span></div>
@@ -184,21 +188,21 @@
                 <div id="gift-modal" class="modal hidden">
                     <div class="modal-content">
                         <p id="gift-modal-text"></p>
-                        <button class="btn-small" onclick="closeGiftModal()">Close</button>
+                        <button class="btn-small margin-top" onclick="closeGiftModal()">Close</button>
                     </div>
                 </div>
-                <button class="btn margin-top" onclick="nextPage(14)">Take Bestie Quiz 📝</button>
+                <button class="btn primary-btn margin-top" onclick="nextPage(14)">Take Bestie Quiz 📝</button>
             </div>
         </section>
 
         <section id="page-14" class="page">
             <div class="glass-card">
-                <h2>Bestie Birthday Quiz 📝</h2>
-                <p>Are you ready for the best year ahead?</p>
+                <h2 class="card-title">Bestie Birthday Quiz 📝</h2>
+                <p class="sub-text">Are you ready for the best year ahead?</p>
                 <div class="quiz-options">
-                    <button class="btn" onclick="nextPage(15)">YES 😄</button>
-                    <button class="btn" onclick="nextPage(15)">ABSOLUTELY ❤️</button>
-                    <button class="btn" onclick="nextPage(15)">100% 🎂</button>
+                    <button class="btn primary-btn" onclick="nextPage(15)">YES 😄</button>
+                    <button class="btn primary-btn" onclick="nextPage(15)">ABSOLUTELY ❤️</button>
+                    <button class="btn primary-btn" onclick="nextPage(15)">100% 🎂</button>
                 </div>
             </div>
         </section>
@@ -209,17 +213,17 @@
                 <blockquote class="grand-message">
                     "Wishing You Endless Happiness, Success, Smiles and Beautiful Memories. Thank You For Being My Amazing Bestie ❤️"
                 </blockquote>
-                <button class="btn pulse" onclick="goToCinema()">🎥 Watch Your Birthday Surprise</button>
+                <button class="btn primary-btn pulse" onclick="goToCinema()">🎥 Watch Your Birthday Surprise</button>
             </div>
         </section>
 
         <section id="page-16" class="page">
             <div class="cinema-container">
-                <video id="birthday-video" src="assets/video1.mp4" playsinline></video>
+                <video id="birthday-video" src="assets/video1.mp4" playsinline controls preload="auto"></video>
                 <div id="video-end-card" class="glass-card hidden">
-                    <h2>🎂 Once Again...</h2>
-                    <h1>🎉 HAPPY BIRTHDAY RIMI 🎉</h1>
-                    <p>❤️ Stay Happy Always Bestie ❤️</p>
+                    <h2 class="card-title">🎂 Once Again...</h2>
+                    <h1 class="glow-text">🎉 HAPPY BIRTHDAY RIMI 🎉</h1>
+                    <p class="sub-text">❤️ Stay Happy Always Bestie ❤️</p>
                 </div>
             </div>
         </section>
@@ -230,4 +234,4 @@
 
     <script src="script.js"></script>
 </body>
-    </html>
+                    </html>
