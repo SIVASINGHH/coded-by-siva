@@ -3,740 +3,231 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forever With You ❤️</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    
-    <style>
-        /* ================= RESET & BASE STYLES ================= */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            user-select: none;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: #0f021a;
-            color: #fff;
-            overflow-x: hidden;
-            min-height: 100vh;
-        }
-
-        h1, h2, .promise-msg {
-            font-family: 'Dancing Script', cursive;
-            text-shadow: 0 0 10px rgba(255, 105, 180, 0.8);
-        }
-
-        canvas#particle-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        /* ================= UTILITY & LAYOUT ================= */
-        .screen, .page {
-            position: relative;
-            z-index: 2;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            padding: 20px;
-            text-align: center;
-        }
-
-        .page {
-            display: none;
-            animation: fadeIn 0.8s ease-in-out forwards;
-        }
-
-        .page.active-page {
-            display: flex;
-        }
-
-        .hidden { display: none !important; }
-
-        /* Glassmorphism Cards */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 192, 203, 0.2);
-            border-radius: 20px;
-            padding: 20px;
-            box-shadow: 0 8px 32px 0 rgba(235, 87, 87, 0.3);
-            max-width: 90vw;
-        }
-
-        /* Glow Buttons */
-        .glow-btn {
-            background: linear-gradient(135deg, #ff758c, #ff7eb3);
-            border: none;
-            color: white;
-            padding: 12px 28px;
-            font-size: 1.1rem;
-            border-radius: 50px;
-            cursor: pointer;
-            margin-top: 20px;
-            box-shadow: 0 0 15px #ff758c;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .glow-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 25px #ff7eb3;
-        }
-
-        /* ================= LOADING SCREEN ================= */
-        .heart-loader {
-            width: 50px;
-            height: 50px;
-            background: #ff4d6d;
-            transform: rotate(45deg);
-            animation: pulse 1s infinite alternate;
-            margin-bottom: 25px;
-            position: relative;
-        }
-        .heart-loader::before, .heart-loader::after {
-            content: '';
-            width: 50px;
-            height: 50px;
-            background: #ff4d6d;
-            border-radius: 50%;
-            position: absolute;
-        }
-        .heart-loader::before { left: -25px; }
-        .heart-loader::after { top: -25px; }
-
-        .progress-bar {
-            width: 200px;
-            height: 10px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 10px;
-            overflow: hidden;
-            margin-bottom: 10px;
-        }
-        .progress {
-            width: 0%;
-            height: 100%;
-            background: #ff4d6d;
-        }
-
-        /* ================= UNIVERSE SCREEN ================= */
-        #universe-screen {
-            background: radial-gradient(circle, #2a085c 0%, #000 100%);
-        }
-        .glowing-hearts-zoom {
-            font-size: 4rem;
-            animation: float 3s ease-in-out infinite;
-            margin: 20px 0;
-        }
-
-        /* ================= FLOWER PAGE ================= */
-        .flower {
-            font-size: 6rem;
-            transition: filter 0.5s, transform 0.5s;
-            animation: pulse 2s infinite alternate;
-        }
-        .color-palette {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: center;
-            max-width: 320px;
-            margin-top: 20px;
-        }
-        .color-palette button {
-            border: none;
-            padding: 8px 14px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        /* ================= THERMOMETER ================= */
-        .thermometer-container {
-            width: 40px;
-            height: 200px;
-            border: 3px solid #fff;
-            border-radius: 20px;
-            position: relative;
-            overflow: hidden;
-            margin: 20px 0;
-        }
-        .thermometer-fill {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            height: 0%;
-            background: linear-gradient(to top, #ff0055, #ff758c);
-            transition: height 0.3s ease;
-        }
-
-        /* ================= TIMER GRID ================= */
-        .timer-grid {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-top: 15px;
-        }
-        .timer-grid div {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 10px 15px;
-            border-radius: 10px;
-            min-width: 65px;
-        }
-        .timer-grid span {
-            font-size: 1.5rem;
-            font-weight: bold;
-            display: block;
-        }
-
-        /* ================= TIC TAC TOE ================= */
-        .ttt-board {
-            display: grid;
-            grid-template-columns: repeat(3, 80px);
-            gap: 10px;
-            margin: 20px 0;
-        }
-        .ttt-cell {
-            width: 80px;
-            height: 80px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            font-size: 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-
-        /* ================= 50 REASONS GRID ================= */
-        .cards-grid {
-            display: flex;
-            overflow-x: auto;
-            gap: 15px;
-            width: 100%;
-            max-width: 90vw;
-            padding: 20px 0;
-        }
-        .card {
-            min-width: 160px;
-            height: 120px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 12px;
-            font-size: 0.9rem;
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-
-        /* ================= TIMELINE ================= */
-        .timeline {
-            list-style: none;
-            text-align: left;
-            margin: 20px 0;
-            line-height: 2.2;
-            font-size: 1.2rem;
-        }
-
-        /* ================= GALLERIES & CINEMA ================= */
-        .gallery-slider img, .gif-carousel img {
-            width: 260px;
-            height: 260px;
-            object-fit: cover;
-            border-radius: 20px;
-            box-shadow: 0 0 20px rgba(255, 117, 140, 0.5);
-        }
-        .slider-controls {
-            margin-top: 15px;
-        }
-        .slider-controls button {
-            background: rgba(255,255,255,0.2);
-            border: none;
-            color: white;
-            font-size: 1.2rem;
-            padding: 8px 16px;
-            border-radius: 50%;
-            cursor: pointer;
-            margin: 0 5px;
-        }
-        .cinema-box video {
-            width: 90vw;
-            max-width: 600px;
-            border-radius: 20px;
-            box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
-        }
-
-        /* ================= FOOTER ================= */
-        footer {
-            position: fixed;
-            bottom: 10px;
-            width: 100%;
-            text-align: center;
-            font-size: 0.8rem;
-            opacity: 0.7;
-            z-index: 10;
-        }
-
-        /* ================= ANIMATIONS ================= */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes pulse {
-            from { transform: scale(1); }
-            to { transform: scale(1.1); }
-        }
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-        }
-    </style>
+    <title>Happy Birthday RIMI! 🎂</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <audio id="bg-music" src="assets/tere-liye.mp3" loop preload="auto"></audio>
+    <audio id="bg-music" src="assets/birthday-song.mp3" loop></audio>
 
     <canvas id="particle-canvas"></canvas>
 
-    <div id="loading-screen" class="screen active">
-        <div class="heart-loader"></div>
-        <div class="progress-bar"><div id="progress" class="progress"></div></div>
-        <p id="progress-text">0%</p>
-        <p style="margin-top: 15px; opacity: 0.8;">Made with ❤️ by SIVASINGH</p>
+    <div id="loader" class="screen active">
+        <div class="loader-content">
+            <div class="cake-loader">🎂</div>
+            <h2>🎂 Loading Birthday Surprise...</h2>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            <p id="progress-text">0%</p>
+            <p class="credit">Made with ❤️ by SIVASINGH</p>
+        </div>
     </div>
 
-    <div id="universe-screen" class="screen hidden">
-        <h2 style="font-size: 2.5rem;">Welcome To Our Universe ✨</h2>
-        <div class="glowing-hearts-zoom">❤️ ❤️</div>
-        <button id="enter-universe-btn" class="glow-btn">Enter Our Universe ✨</button>
+    <div id="opening" class="screen">
+        <div class="night-sky">
+            <div class="moon"></div>
+            <div id="opening-balloons-container"></div>
+            <div id="opening-text" class="hidden">
+                <h1>🎉 HAPPY BIRTHDAY RIMI 🎉</h1>
+            </div>
+        </div>
     </div>
 
-    <main id="app" class="hidden">
+    <main id="app-container" class="hidden">
 
-        <section id="page-1" class="page active-page">
-            <h1 class="typewriter" id="welcome-title" style="font-size: 2.2rem; min-height: 80px;"></h1>
-            <button class="glow-btn" onclick="nextPage(2)">Open My Heart ❤️</button>
+        <section id="page-1" class="page active">
+            <div class="glass-card">
+                <h1 class="glow-text">🎂 Happy Birthday Rimi 🎂</h1>
+                <p id="typing-text" class="typewriter"></p>
+                <button class="btn" onclick="nextPage(2)">🎁 Open Your Birthday Surprise</button>
+            </div>
         </section>
 
         <section id="page-2" class="page">
-            <h2>Catch 5 Floating Hearts! 💖</h2>
-            <div id="heart-counter" style="margin-top: 10px;">Caught: <span id="caught-count">0</span>/5</div>
-            <div id="heart-game-area" style="position: relative; width: 100%; height: 300px;"></div>
+            <div class="glass-card">
+                <h2>Catch The Birthday Gifts! 🎁</h2>
+                <p>Catch 5 gifts to unlock the next level!</p>
+                <div class="counter">Collected: <span id="gift-count">0</span>/5</div>
+                <div id="game-area"></div>
+            </div>
         </section>
 
         <section id="page-3" class="page">
-            <h2>Our Magic Flower 🌸</h2>
-            <div id="magic-flower" class="flower">🌸</div>
-            <div class="color-palette">
-                <button style="background: #ff758c; color: white;" onclick="changeFlowerColor('pink')">Pink</button>
-                <button style="background: #a18cd1; color: white;" onclick="changeFlowerColor('purple')">Purple</button>
-                <button style="background: #68d8d6; color: black;" onclick="changeFlowerColor('blue')">Blue</button>
-                <button style="background: #ff4d6d; color: white;" onclick="changeFlowerColor('red')">Red</button>
-                <button style="background: #ffd700; color: black;" onclick="changeFlowerColor('gold')">Golden</button>
-                <button style="background: linear-gradient(45deg, red, yellow, blue); color: white;" onclick="changeFlowerColor('rainbow')">Rainbow</button>
-                <button style="background: #333; color: white;" onclick="changeFlowerColor('black')">Black</button>
-                <button style="background: #fff; color: black;" onclick="changeFlowerColor('white')">White</button>
+            <div class="glass-card">
+                <h2>Make a Wish & Blow The Candles! 🎂</h2>
+                <div id="cake-container" class="cake-3d" onclick="blowCandles()">
+                    <div class="candles" id="candles">🔥 🔥 🔥</div>
+                    <div class="cake-body">🎂</div>
+                </div>
+                <button id="cut-cake-btn" class="btn disabled" onclick="cutCake()">🎂 Cut The Cake</button>
             </div>
-            <button class="glow-btn" onclick="nextPage(4)">Our Cinema 🎬</button>
         </section>
 
         <section id="page-4" class="page">
-            <div style="font-size: 5rem; animation: float 2s infinite ease-in-out;">🤙❤️</div>
-            <p class="promise-msg" style="font-size: 1.8rem; margin: 20px 0;">"No matter what happens, I promise to always care for you forever."</p>
-            <button class="glow-btn" onclick="nextPage(5)">I Promise Too ❤️</button>
+            <div class="glass-card">
+                <h2>A Special Message For My Bestie ❤️</h2>
+                <div class="handwriting-box">
+                    <p id="wishes-text"></p>
+                </div>
+                <button class="btn" onclick="nextPage(5)">Continue ✨</button>
+            </div>
         </section>
 
         <section id="page-5" class="page">
-            <h2>Love Thermometer 🌡️</h2>
-            <div class="thermometer-container">
-                <div id="thermometer-fill" class="thermometer-fill"></div>
+            <div class="glass-card">
+                <h2>🎉 Today is Rimi's Birthday 🎂</h2>
+                <div class="calendar-card">
+                    <div class="calendar-header">TODAY</div>
+                    <div class="calendar-body" id="today-date">--</div>
+                </div>
+                <button class="btn" onclick="nextPage(6)">Check Love Meter 💕</button>
             </div>
-            <h3 id="thermo-val">0%</h3>
-            <p id="thermo-msg" class="hidden" style="margin-top: 10px; color: #ff758c; font-weight: bold;">"My Love Can Never Be Measured ❤️"</p>
-            <button class="glow-btn" onclick="nextPage(6)">Continue ❤️</button>
         </section>
 
         <section id="page-6" class="page">
-            <h2>Time We've Spent Together 💕</h2>
-            <div id="love-timer" class="timer-grid">
-                <div><span id="years">0</span><small>Years</small></div>
-                <div><span id="months">0</span><small>Months</small></div>
-                <div><span id="days">0</span><small>Days</small></div>
-                <div><span id="hours">0</span><small>Hours</small></div>
-                <div><span id="minutes">0</span><small>Mins</small></div>
-                <div><span id="seconds">0</span><small>Secs</small></div>
+            <div class="glass-card">
+                <h2>My Bestie Happiness Level ❤️</h2>
+                <div class="thermometer-container">
+                    <div class="thermometer-fill" id="love-fill"></div>
+                </div>
+                <div class="meter-text" id="meter-text">0%</div>
+                <button class="btn" onclick="startLoveMeter()">Start Measuring 💖</button>
+                <button id="love-next-btn" class="btn hidden" onclick="nextPage(7)">View Gallery 📸</button>
             </div>
-            <button class="glow-btn" onclick="nextPage(7)">Next Memory ✨</button>
         </section>
 
         <section id="page-7" class="page">
-            <h2>Heart Tic Tac Toe ❌❤️</h2>
-            <div id="ttt-board" class="ttt-board"></div>
-            <p id="ttt-status">Your turn (❤️)</p>
-            <button class="glow-btn hidden" id="ttt-next" onclick="nextPage(8)">Continue 💕</button>
+            <div class="glass-card">
+                <h2>Memory Gallery 📸</h2>
+                <div class="slider-container">
+                    <img id="gallery-img" src="assets/photo1.jpg" alt="Bestie Memory" class="gallery-photo">
+                </div>
+                <div class="slider-controls">
+                    <button class="btn-small" onclick="prevPhoto()">❮ Prev</button>
+                    <button class="btn-small" onclick="nextPhoto()">Next ❯</button>
+                </div>
+                <button class="btn margin-top" onclick="nextPage(8)">View Cute GIFs 🎬</button>
+            </div>
         </section>
 
         <section id="page-8" class="page">
-            <div class="glass-card" id="envelope-box" onclick="openLetter()" style="cursor: pointer; padding: 40px;">
-                <div style="font-size: 3rem;">✉️</div>
-                <p style="margin-top: 10px;">Touch to Open</p>
-            </div>
-            <div id="letter-content" class="glass-card hidden">
-                <p id="letter-text" style="white-space: pre-line; line-height: 1.6; text-align: left;"></p>
-                <button class="glow-btn" onclick="nextPage(9)">View Memories 📸</button>
+            <div class="glass-card">
+                <h2>Cute GIF Gallery 🎬</h2>
+                <div class="gif-container">
+                    <img id="gif-display" src="assets/gif1.gif" alt="Cute GIF" class="gif-photo">
+                </div>
+                <div class="slider-controls">
+                    <button class="btn-small" onclick="prevGif()">❮ Prev</button>
+                    <button class="btn-small" onclick="nextGif()">Next ❯</button>
+                </div>
+                <button class="btn margin-top" onclick="nextPage(9)">50 Reasons Why You're Amazing 💖</button>
             </div>
         </section>
 
         <section id="page-9" class="page">
-            <h2>Our Memories 📸</h2>
-            <div class="gallery-slider">
-                <img id="gallery-img" src="assets/photo1.jpg" alt="Memory Photo">
+            <div class="glass-card">
+                <h2>Reasons Why You're An Amazing Bestie ✨</h2>
+                <div id="reasons-container" class="reasons-grid"></div>
+                <button class="btn margin-top" onclick="nextPage(10)">Spin The Lucky Wheel 🎡</button>
             </div>
-            <div class="slider-controls">
-                <button onclick="prevPhoto()">❮</button>
-                <button onclick="nextPhoto()">❯</button>
-            </div>
-            <button class="glow-btn" onclick="nextPage(10)">Next ✨</button>
         </section>
 
         <section id="page-10" class="page">
-            <h2>Cute Moments 💖</h2>
-            <div class="gif-carousel">
-                <img id="gif-img" src="assets/gif1.gif" alt="Cute GIF">
+            <div class="glass-card">
+                <h2>Lucky Birthday Wheel 🎡</h2>
+                <div class="wheel-container">
+                    <div id="wheel" class="wheel">
+                        <div class="wheel-section">🎁 Hug</div>
+                        <div class="wheel-section">🍫 Chocolate</div>
+                        <div class="wheel-section">🌹 Rose</div>
+                        <div class="wheel-section">🎂 Cake</div>
+                        <div class="wheel-section">💝 Gift</div>
+                        <div class="wheel-section">💖 BFF</div>
+                    </div>
+                    <div class="pointer">▼</div>
+                </div>
+                <button class="btn margin-top" onclick="spinWheel()">SPIN! 🎉</button>
+                <div id="wheel-result" class="result-text"></div>
+                <button id="wheel-next" class="btn hidden" onclick="nextPage(11)">Pop Some Balloons 🎈</button>
             </div>
-            <div class="slider-controls">
-                <button onclick="prevGif()">❮</button>
-                <button onclick="nextGif()">❯</button>
-            </div>
-            <button class="glow-btn" onclick="nextPage(11)">50 Reasons Why 💕</button>
         </section>
 
         <section id="page-11" class="page">
-            <h2>50 Reasons I Love You 💕</h2>
-            <div class="cards-grid" id="reasons-grid"></div>
-            <button class="glow-btn" onclick="nextPage(12)">Our Journey 🌸</button>
+            <div class="glass-card">
+                <h2>Pop Rimi's Balloons! 🎈</h2>
+                <p>Tap balloons to reveal sweet birthday wishes!</p>
+                <div id="balloon-pop-area"></div>
+                <div id="balloon-wish-display" class="wish-popup"></div>
+                <button class="btn margin-top" onclick="nextPage(12)">Watch Fireworks 🎆</button>
+            </div>
         </section>
 
         <section id="page-12" class="page">
-            <h2>Our Journey 🌸</h2>
-            <ul class="timeline">
-                <li>First Meeting ❤️</li>
-                <li>First Smile 😊</li>
-                <li>Special Day 🌸</li>
-                <li>Today ❤️</li>
-                <li>Forever ♾️</li>
-            </ul>
-            <button class="glow-btn" onclick="nextPage(13)">A Quick Question ❓</button>
+            <div class="glass-card">
+                <h2>Grand Fireworks Show 🎆</h2>
+                <p>A grand show dedicated to the sweetest bestie!</p>
+                <button class="btn margin-top" onclick="triggerFireworksShow()">Launch Extra Fireworks 💥</button>
+                <button class="btn margin-top" onclick="nextPage(13)">Open Gift Boxes 🎁</button>
+            </div>
         </section>
 
         <section id="page-13" class="page">
-            <h2>Will You Always Stay With Me?</h2>
-            <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
-                <button class="glow-btn" onclick="nextPage(14)">YES ❤️</button>
-                <button class="glow-btn" onclick="nextPage(14)">OF COURSE ❤️</button>
-                <button class="glow-btn" onclick="nextPage(14)">ALWAYS ❤️</button>
+            <div class="glass-card">
+                <h2>Pick Your Special Surprise 🎁</h2>
+                <div class="boxes-container">
+                    <div class="gift-box" onclick="openGiftBox(1)">🎁<br><span>Box 1</span></div>
+                    <div class="gift-box" onclick="openGiftBox(2)">🎁<br><span>Box 2</span></div>
+                    <div class="gift-box" onclick="openGiftBox(3)">🎁<br><span>Box 3</span></div>
+                </div>
+                <div id="gift-modal" class="modal hidden">
+                    <div class="modal-content">
+                        <p id="gift-modal-text"></p>
+                        <button class="btn-small" onclick="closeGiftModal()">Close</button>
+                    </div>
+                </div>
+                <button class="btn margin-top" onclick="nextPage(14)">Take Bestie Quiz 📝</button>
             </div>
         </section>
 
         <section id="page-14" class="page">
-            <h2 style="font-size: 2.5rem;">Feel the Love in the Air ✨</h2>
-            <button class="glow-btn" onclick="nextPage(15)">Step Into The Final Chapter 💖</button>
+            <div class="glass-card">
+                <h2>Bestie Birthday Quiz 📝</h2>
+                <p>Are you ready for the best year ahead?</p>
+                <div class="quiz-options">
+                    <button class="btn" onclick="nextPage(15)">YES 😄</button>
+                    <button class="btn" onclick="nextPage(15)">ABSOLUTELY ❤️</button>
+                    <button class="btn" onclick="nextPage(15)">100% 🎂</button>
+                </div>
+            </div>
         </section>
 
         <section id="page-15" class="page">
-            <div style="font-size: 5rem; animation: pulse 1s infinite alternate;">💍</div>
-            <h2 style="font-size: 2.5rem; margin: 20px 0;">Will You Be Mine Forever? ❤️</h2>
-            <div style="display: flex; gap: 15px;">
-                <button class="glow-btn" style="padding: 15px 35px; font-size: 1.3rem;" onclick="acceptProposal()">YES ❤️</button>
-                <button class="glow-btn" style="padding: 15px 35px; font-size: 1.3rem;" onclick="acceptProposal()">FOREVER ❤️</button>
+            <div class="glass-card">
+                <h1 class="glow-text">🎉 HAPPY BIRTHDAY RIMI 🎂</h1>
+                <blockquote class="grand-message">
+                    "Wishing You Endless Happiness, Success, Smiles and Beautiful Memories. Thank You For Being My Amazing Bestie ❤️"
+                </blockquote>
+                <button class="btn pulse" onclick="goToCinema()">🎥 Watch Your Birthday Surprise</button>
             </div>
         </section>
 
         <section id="page-16" class="page">
-            <div class="cinema-box">
-                <video id="final-video" src="assets/video1.mp4" playsinline></video>
+            <div class="cinema-container">
+                <video id="birthday-video" src="assets/video1.mp4" playsinline></video>
+                <div id="video-end-card" class="glass-card hidden">
+                    <h2>🎂 Once Again...</h2>
+                    <h1>🎉 HAPPY BIRTHDAY RIMI 🎉</h1>
+                    <p>❤️ Stay Happy Always Bestie ❤️</p>
+                </div>
             </div>
-            <h1 id="final-msg" class="hidden" style="margin-top: 20px; font-size: 3rem; color: #ff758c;">I Love You Forever ❤️</h1>
         </section>
 
-        <footer>
-            <p>Made with ❤️ by SIVASINGH</p>
-        </footer>
     </main>
 
-    <script>
-        // CONFIG & STATE MANAGEMENT
-        const START_DATE = new Date("2023-01-01T00:00:00"); // Relationship start date
-        let caughtHearts = 0;
-        let tttBoard = ["", "", "", "", "", "", "", "", ""];
-        let photoIdx = 0;
-        let gifIdx = 0;
+    <footer id="footer">Made with ❤️ by SIVASINGH</footer>
 
-        const photos = ["assets/photo1.jpg", "assets/photo2.jpg", "assets/photo3.jpg", "assets/photo4.jpg", "assets/photo5.jpg"];
-        const gifs = ["assets/gif1.gif", "assets/gif2.gif", "assets/gif3.gif", "assets/gif4.gif", "assets/gif5.gif"];
-
-        const bgMusic = document.getElementById("bg-music");
-
-        // 1. INITIALIZATION & LOADING SCREEN
-        window.addEventListener("DOMContentLoaded", () => {
-            let progress = 0;
-            const interval = setInterval(() => {
-                progress += 5;
-                document.getElementById("progress").style.width = `${progress}%`;
-                document.getElementById("progress-text").innerText = `${progress}%`;
-                
-                if (progress >= 100) {
-                    clearInterval(interval);
-                    document.getElementById("loading-screen").classList.add("hidden");
-                    document.getElementById("universe-screen").classList.remove("hidden");
-                }
-            }, 80);
-
-            initParticleCanvas();
-            init50Reasons();
-            initTTT();
-            startLoveTimer();
-        });
-
-        // UNIVERSE ENTER BUTTON
-        document.getElementById("enter-universe-btn").addEventListener("click", () => {
-            document.getElementById("universe-screen").classList.add("hidden");
-            document.getElementById("app").classList.remove("hidden");
-            
-            // Play Audio
-            bgMusic.play().catch(() => console.log("Autoplay interaction allowed."));
-            
-            // Start Typewriter
-            typeWriter("welcome-title", "I Made Something Special Just For You ❤️");
-        });
-
-        // PAGE NAVIGATION
-        function nextPage(pageNum) {
-            document.querySelectorAll(".page").forEach(page => page.classList.remove("active-page"));
-            const targetPage = document.getElementById(`page-${pageNum}`);
-            if (targetPage) {
-                targetPage.classList.add("active-page");
-            }
-
-            // Page Handlers
-            if (pageNum === 2) initHeartGame();
-            if (pageNum === 5) runThermometer();
-        }
-
-        // TYPEWRITER ANIMATION
-        function typeWriter(elementId, text, speed = 70) {
-            let i = 0;
-            const elem = document.getElementById(elementId);
-            elem.innerHTML = "";
-            function type() {
-                if (i < text.length) {
-                    elem.innerHTML += text.charAt(i);
-                    i++;
-                    setTimeout(type, speed);
-                }
-            }
-            type();
-        }
-
-        // PAGE 2: HEART GAME
-        function initHeartGame() {
-            const area = document.getElementById("heart-game-area");
-            area.innerHTML = "";
-            for (let i = 0; i < 5; i++) {
-                const heart = document.createElement("div");
-                heart.innerHTML = "💖";
-                heart.style.position = "absolute";
-                heart.style.left = `${Math.random() * 80 + 10}%`;
-                heart.style.top = `${Math.random() * 60 + 20}%`;
-                heart.style.fontSize = "2rem";
-                heart.style.cursor = "pointer";
-                heart.onclick = () => {
-                    heart.remove();
-                    caughtHearts++;
-                    document.getElementById("caught-count").innerText = caughtHearts;
-                    if (caughtHearts >= 5) {
-                        setTimeout(() => nextPage(3), 400);
-                    }
-                };
-                area.appendChild(heart);
-            }
-        }
-
-        // PAGE 3: MAGIC FLOWER COLOR CHANGE
-        function changeFlowerColor(color) {
-            const flower = document.getElementById("magic-flower");
-            const colors = {
-                pink: "#ff758c", purple: "#a18cd1", blue: "#68d8d6", red: "#ff4d6d",
-                gold: "#ffd700", rainbow: "#ff758c", black: "#333", white: "#fff"
-            };
-            flower.style.filter = `drop-shadow(0 0 25px ${colors[color] || '#ff758c'})`;
-        }
-
-        // PAGE 5: THERMOMETER
-        function runThermometer() {
-            const fill = document.getElementById("thermometer-fill");
-            const label = document.getElementById("thermo-val");
-            let val = 0;
-            const timer = setInterval(() => {
-                val += 5;
-                fill.style.height = `${Math.min(val, 100)}%`;
-                
-                if (val <= 100) label.innerText = `${val}%`;
-                else if (val === 500) label.innerText = "500%";
-                else if (val === 1000) label.innerText = "1000%";
-                
-                if (val > 1000) {
-                    clearInterval(timer);
-                    label.innerText = "Infinity ♾️";
-                    document.getElementById("thermo-msg").classList.remove("hidden");
-                }
-            }, 40);
-        }
-
-        // PAGE 6: COUNTER
-        function startLoveTimer() {
-            setInterval(() => {
-                const now = new Date();
-                const diff = now - START_DATE;
-
-                const seconds = Math.floor((diff / 1000) % 60);
-                const minutes = Math.floor((diff / (1000 * 60)) % 60);
-                const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-                const days = Math.floor((diff / (1000 * 60 * 60 * 24)) % 30);
-                const months = Math.floor((diff / (1000 * 60 * 60 * 24 * 30.4375)) % 12);
-                const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
-
-                document.getElementById("years").innerText = years;
-                document.getElementById("months").innerText = months;
-                document.getElementById("days").innerText = days;
-                document.getElementById("hours").innerText = hours;
-                document.getElementById("minutes").innerText = minutes;
-                document.getElementById("seconds").innerText = seconds;
-            }, 1000);
-        }
-
-        // PAGE 7: TIC TAC TOE
-        function initTTT() {
-            const board = document.getElementById("ttt-board");
-            board.innerHTML = "";
-            tttBoard = ["", "", "", "", "", "", "", "", ""];
-            for (let i = 0; i < 9; i++) {
-                const cell = document.createElement("div");
-                cell.className = "ttt-cell";
-                cell.onclick = () => makeMove(i);
-                board.appendChild(cell);
-            }
-        }
-
-        function makeMove(idx) {
-            if (tttBoard[idx] !== "") return;
-            tttBoard[idx] = "❤️";
-            updateTTTBoard();
-            
-            if (checkWin("❤️")) {
-                document.getElementById("ttt-status").innerText = "You Already Won My Heart ❤️";
-                document.getElementById("ttt-next").classList.remove("hidden");
-                return;
-            }
-
-            const emptyIndices = tttBoard.map((val, index) => val === "" ? index : null).filter(val => val !== null);
-            if (emptyIndices.length > 0) {
-                const botMove = emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
-                tttBoard[botMove] = "✖️";
-                updateTTTBoard();
-            }
-        }
-
-        function updateTTTBoard() {
-            const cells = document.querySelectorAll(".ttt-cell");
-            cells.forEach((cell, i) => cell.innerText = tttBoard[i]);
-        }
-
-        function checkWin(player) {
-            const wins = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
-            return wins.some(combination => combination.every(i => tttBoard[i] === player));
-        }
-
-        // PAGE 8: LOVE LETTER
-        function openLetter() {
-            document.getElementById("envelope-box").classList.add("hidden");
-            document.getElementById("letter-content").classList.remove("hidden");
-            typeWriter("letter-text", "My Dearest,\n\nFrom the moment you entered my life, every single day has felt brighter and full of magic. Thank you for being my happiness, my smile, and my home.\n\nForever Yours.");
-        }
-
-        // GALLERIES
-        function nextPhoto() { photoIdx = (photoIdx + 1) % photos.length; document.getElementById("gallery-img").src = photos[photoIdx]; }
-        function prevPhoto() { photoIdx = (photoIdx - 1 + photos.length) % photos.length; document.getElementById("gallery-img").src = photos[photoIdx]; }
-
-        function nextGif() { gifIdx = (gifIdx + 1) % gifs.length; document.getElementById("gif-img").src = gifs[gifIdx]; }
-        function prevGif() { gifIdx = (gifIdx - 1 + gifs.length) % gifs.length; document.getElementById("gif-img").src = gifs[gifIdx]; }
-
-        // PAGE 11: 50 REASONS
-        function init50Reasons() {
-            const grid = document.getElementById("reasons-grid");
-            for (let i = 1; i <= 50; i++) {
-                const card = document.createElement("div");
-                card.className = "card";
-                card.innerText = `Reason #${i}: You bring magic into my world. ✨`;
-                grid.appendChild(card);
-            }
-        }
-
-        // FINAL ACCEPTANCE
-        function acceptProposal() {
-            nextPage(16);
-            bgMusic.pause();
-            
-            const video = document.getElementById("final-video");
-            video.play();
-            
-            video.onended = () => {
-                document.getElementById("final-msg").classList.remove("hidden");
-            };
-        }
-
-        // PARTICLES ANIMATION
-        function initParticleCanvas() {
-            const canvas = document.getElementById("particle-canvas");
-            const ctx = canvas.getContext("2d");
-            
-            function resize() {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-            }
-            resize();
-            window.addEventListener("resize", resize);
-
-            const particles = Array.from({ length: 35 }, () => ({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                size: Math.random() * 14 + 10,
-                speedY: Math.random() * 1 + 0.5,
-                symbol: ["❤️", "✨", "🦋", "⭐", "🌹"][Math.floor(Math.random() * 5)]
-            }));
-
-            function animate() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                particles.forEach(p => {
-                    p.y -= p.speedY;
-                    if (p.y < -20) p.y = canvas.height + 20;
-                    ctx.font = `${p.size}px serif`;
-                    ctx.fillText(p.symbol, p.x, p.y);
-                });
-                requestAnimationFrame(animate);
-            }
-            animate();
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
-                </html>
+    </html>
