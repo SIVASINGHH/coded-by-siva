@@ -1,18 +1,277 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Happy Birthday RIMI! 🎂</title>
-    <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: radial-gradient(circle at center, #2e0854, #120024, #05000a);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            cursor: crosshair;
+        }
+
+        /* Particles Canvas */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Audio Autoplay Fix Overlay */
+        .audio-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: opacity 0.5s ease;
+        }
+
+        .audio-overlay p {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #ffe600;
+            background: rgba(255, 51, 153, 0.4);
+            padding: 20px 30px;
+            border-radius: 40px;
+            border: 2px solid #ff3399;
+            box-shadow: 0 0 25px #ff3399;
+            animation: pulse 1.5s infinite;
+            text-align: center;
+        }
+
+        /* Screen Wrappers */
+        .screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            background: rgba(5, 0, 15, 0.95);
+            transition: opacity 0.8s ease;
+        }
+
+        .hidden { display: none !important; }
+
+        /* Clear High-Contrast Glassmorphism UI */
+        .glass-card {
+            background: rgba(25, 5, 45, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 128, 200, 0.5);
+            box-shadow: 0 10px 40px rgba(255, 51, 153, 0.5), inset 0 0 15px rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 30px 25px;
+            max-width: 90%;
+            width: 480px;
+            text-align: center;
+            position: relative;
+            z-index: 5;
+            animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Typography Fixes */
+        .glow-text {
+            font-family: 'Caveat', cursive;
+            font-size: 2.8rem;
+            color: #ffffff;
+            text-shadow: 0 0 10px #ff3399, 0 0 20px #ff0066, 0 0 30px #ff0066;
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+
+        .card-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #ffffff;
+            text-shadow: 0 0 8px #ff66cc;
+            margin-bottom: 10px;
+        }
+
+        .sub-text {
+            font-size: 1rem;
+            color: #f3e6ff;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .typewriter-text {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #ffd700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+            min-height: 50px;
+            margin: 15px 0;
+        }
+
+        /* Loader Component */
+        .loader-content { text-align: center; width: 85%; max-width: 380px; }
+        .cake-loader { font-size: 80px; animation: bounce 0.8s ease infinite alternate; }
+        .loader-title { color: #ffffff; font-size: 1.4rem; font-weight: 700; margin-top: 10px; }
+        .progress-bar { width: 100%; height: 16px; background: rgba(255, 255, 255, 0.15); border-radius: 10px; margin: 20px 0; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.3); }
+        .progress-fill { width: 0%; height: 100%; background: linear-gradient(90deg, #ff3399, #00ffff, #ffe600); transition: width 0.1s linear; }
+        .progress-text { font-size: 1.2rem; font-weight: 800; color: #00ffff; }
+        .credit { margin-top: 15px; font-size: 1rem; font-weight: 700; color: #ffd700; text-shadow: 0 0 8px #ff3399; }
+
+        /* Premium Buttons */
+        .btn {
+            border: none;
+            padding: 14px 28px;
+            color: #ffffff;
+            font-size: 1.05rem;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            outline: none;
+            letter-spacing: 0.5px;
+            display: inline-block;
+        }
+
+        .primary-btn {
+            background: linear-gradient(45deg, #ff007f, #7f00ff);
+            box-shadow: 0 0 20px rgba(255, 0, 127, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 0 30px rgba(255, 0, 127, 1);
+        }
+
+        .btn-small {
+            padding: 8px 18px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid #ffffff;
+            color: #ffffff;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+        }
+
+        .disabled { opacity: 0.4; pointer-events: none; filter: grayscale(1); }
+        .margin-top { margin-top: 15px; }
+
+        /* Layout Page Structure */
+        main { display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px 0; }
+        .page { display: none; width: 100%; justify-content: center; align-items: center; }
+        .page.active { display: flex; }
+
+        /* Night Sky Screen */
+        .night-sky { position: absolute; width: 100%; height: 100%; background: radial-gradient(circle, #1a0033 0%, #030008 100%); overflow: hidden; display: flex; justify-content: center; align-items: center; }
+        .moon { position: absolute; top: 40px; right: 50px; width: 90px; height: 90px; background: #fffed0; border-radius: 50%; box-shadow: 0 0 40px #fffed0, 0 0 80px #ffcc00; }
+        .grand-heading { font-size: 2.5rem; color: #ffffff; text-shadow: 0 0 15px #ff007f, 0 0 30px #ff007f; text-align: center; }
+
+        /* Page 2: Catch Gifts */
+        #game-area { width: 100%; height: 220px; position: relative; border: 2px dashed rgba(255, 255, 255, 0.4); border-radius: 15px; margin-top: 15px; overflow: hidden; background: rgba(0, 0, 0, 0.3); }
+        .counter-badge { font-size: 1.1rem; font-weight: 700; color: #ffd700; background: rgba(255,255,255,0.15); padding: 6px 16px; border-radius: 15px; display: inline-block; }
+        .falling-item { position: absolute; font-size: 38px; cursor: pointer; animation: fall 3s linear infinite; filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.9)); }
+
+        /* Page 3: Cake */
+        .cake-3d { font-size: 110px; cursor: pointer; margin: 15px 0; transition: transform 0.3s; filter: drop-shadow(0 0 15px rgba(255, 105, 180, 0.6)); }
+        .cake-3d:hover { transform: scale(1.08); }
+        .candles { font-size: 32px; margin-bottom: -25px; text-shadow: 0 0 10px #ff9900; }
+
+        /* Page 4: Message */
+        .handwriting-box { font-family: 'Caveat', cursive; font-size: 1.8rem; line-height: 1.5; color: #ffffff; min-height: 160px; text-shadow: 0 0 8px #ff3399; background: rgba(0,0,0,0.3); padding: 15px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.2); }
+
+        /* Page 5: Calendar */
+        .calendar-card { width: 130px; height: 130px; background: #ffffff; color: #333; border-radius: 18px; margin: 20px auto; overflow: hidden; box-shadow: 0 0 30px rgba(255, 255, 255, 0.8); }
+        .calendar-header { background: #ff007f; color: #ffffff; font-weight: 800; padding: 6px; font-size: 1.1rem; }
+        .calendar-body { font-size: 1.25rem; font-weight: 800; padding-top: 22px; color: #2e0854; }
+
+        /* Page 6: Thermometer */
+        .thermometer-container { width: 85%; height: 28px; background: rgba(255,255,255,0.2); border-radius: 20px; margin: 20px auto; overflow: hidden; border: 2px solid #ffffff; }
+        .thermometer-fill { width: 0%; height: 100%; background: linear-gradient(90deg, #ff007f, #ff9900, #00ffff); transition: width 0.2s ease; }
+        .meter-text { font-size: 2rem; font-weight: 800; color: #ffd700; text-shadow: 0 0 10px #ff007f; }
+
+        /* Page 7 & 8: Media Frame */
+        .media-frame { width: 100%; height: 250px; border-radius: 16px; overflow: hidden; border: 2px solid rgba(255, 255, 255, 0.7); box-shadow: 0 0 25px rgba(255, 51, 153, 0.6); background: #000; display: flex; justify-content: center; align-items: center; }
+        .gallery-photo, .gif-photo { width: 100%; height: 100%; object-fit: cover; }
+        .slider-controls { display: flex; justify-content: space-between; margin-top: 15px; }
+
+        /* Page 9: 50 Reasons */
+        .reasons-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(85px, 1fr)); gap: 10px; max-height: 240px; overflow-y: auto; padding: 8px; }
+        .reason-card { background: rgba(255, 255, 255, 0.2); border-radius: 12px; padding: 12px 6px; font-size: 0.85rem; font-weight: 700; color: #ffffff; cursor: pointer; transition: transform 0.2s, background 0.2s; border: 1px solid rgba(255, 255, 255, 0.4); text-shadow: 0 0 4px #000; }
+        .reason-card:hover { transform: scale(1.05); background: rgba(255, 0, 127, 0.7); }
+
+        /* Page 10: Wheel */
+        .wheel-container { position: relative; width: 190px; height: 190px; margin: 15px auto; }
+        .wheel { width: 100%; height: 100%; border-radius: 50%; border: 4px solid #ffd700; position: relative; overflow: hidden; transition: transform 4s cubic-bezier(0.15, 0.99, 0.18, 1); background: conic-gradient(#ff007f 0 60deg, #7f00ff 60deg 120deg, #00ffff 120deg 180deg, #ffe600 180deg 240deg, #ff3366 240deg 300deg, #33cc33 300deg 360deg); box-shadow: 0 0 25px #ffd700; }
+        .pointer { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); font-size: 24px; color: #ffd700; z-index: 2; text-shadow: 0 0 5px #000; }
+        .result-text { margin-top: 10px; font-size: 1.15rem; color: #00ffff; font-weight: 700; text-shadow: 0 0 8px #00ffff; }
+
+        /* Page 11: Balloons */
+        #balloon-pop-area { width: 100%; height: 180px; position: relative; overflow: hidden; border: 2px dashed rgba(255,255,255,0.4); border-radius: 15px; margin-top: 10px; background: rgba(0, 0, 0, 0.3); }
+        .floating-balloon { position: absolute; bottom: -50px; font-size: 38px; cursor: pointer; animation: floatUp 4s linear infinite; filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.7)); }
+        .wish-popup { font-size: 1.1rem; color: #ffd700; min-height: 30px; margin-top: 8px; font-weight: 800; text-shadow: 0 0 8px #ff007f; }
+
+        /* Page 13: Gift Boxes */
+        .boxes-container { display: flex; justify-content: space-around; margin-top: 20px; }
+        .gift-box { font-size: 45px; cursor: pointer; transition: transform 0.3s ease; filter: drop-shadow(0 0 10px #ff3399); }
+        .gift-box:hover { transform: scale(1.2); }
+        .gift-box span { font-size: 0.85rem; display: block; color: #ffffff; font-weight: 700; }
+        .modal { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); display: flex; justify-content: center; align-items: center; border-radius: 24px; z-index: 20; }
+        .modal-content { background: #2e0854; padding: 25px; border-radius: 20px; border: 2px solid #ff007f; box-shadow: 0 0 30px #ff007f; color: #ffffff; font-size: 1.1rem; font-weight: 600; }
+
+        /* Page 14: Quiz */
+        .quiz-options { display: flex; flex-direction: column; gap: 12px; margin-top: 15px; }
+
+        /* Page 15: Final Message */
+        .grand-message { font-family: 'Caveat', cursive; font-size: 1.9rem; color: #ffe6ff; line-height: 1.4; text-shadow: 0 0 12px #ff007f; margin: 15px 0; }
+
+        /* Page 16: Birthday Cinema */
+        .cinema-container { width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center; background: #000000; position: relative; }
+        #birthday-video { width: 100%; height: 100%; max-width: 900px; max-height: 100vh; object-fit: contain; box-shadow: 0 0 50px rgba(255, 0, 127, 0.5); }
+
+        /* Footer */
+        footer { position: fixed; bottom: 10px; width: 100%; text-align: center; font-size: 0.85rem; font-weight: 600; color: rgba(255, 255, 255, 0.8); pointer-events: none; z-index: 10; text-shadow: 0 0 5px #000; }
+
+        /* Keyframes */
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-18px); } }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        @keyframes fall { 0% { top: -40px; } 100% { top: 220px; } }
+        @keyframes floatUp { 0% { bottom: -50px; } 100% { bottom: 200px; } }
+    </style>
 </head>
 <body>
 
     <audio id="bg-music" src="assets/birthday-song.mp3" loop preload="auto"></audio>
 
     <div id="audio-enable-overlay" class="audio-overlay" onclick="enableAudio()">
-        <p>🎵 Tap anywhere to start the Magic & Sound! ✨</p>
+        <p>🎵 Tap anywhere to start Music & Experience! ✨</p>
     </div>
 
     <canvas id="particle-canvas"></canvas>
@@ -75,7 +334,7 @@
                 <div class="handwriting-box">
                     <p id="wishes-text"></p>
                 </div>
-                <button class="btn primary-btn" onclick="nextPage(5)">Continue ✨</button>
+                <button class="btn primary-btn margin-top" onclick="nextPage(5)">Continue ✨</button>
             </div>
         </section>
 
@@ -97,8 +356,8 @@
                     <div class="thermometer-fill" id="love-fill"></div>
                 </div>
                 <div class="meter-text" id="meter-text">0%</div>
-                <button class="btn primary-btn" onclick="startLoveMeter()">Start Measuring 💖</button>
-                <button id="love-next-btn" class="btn primary-btn hidden" onclick="nextPage(7)">View Gallery 📸</button>
+                <button class="btn primary-btn margin-top" onclick="startLoveMeter()">Start Measuring 💖</button>
+                <button id="love-next-btn" class="btn primary-btn hidden margin-top" onclick="nextPage(7)">View Gallery 📸</button>
             </div>
         </section>
 
@@ -106,7 +365,7 @@
             <div class="glass-card">
                 <h2 class="card-title">Memory Gallery 📸</h2>
                 <div class="media-frame">
-                    <img id="gallery-img" src="assets/photo1.jpg" alt="Bestie Memory" class="gallery-photo" onerror="this.onerror=null; this.src='https://via.placeholder.com/500x350/ff3399/ffffff?text=Photo+1';">
+                    <img id="gallery-img" src="assets/photo1.jpg" alt="Bestie Memory" class="gallery-photo" onerror="this.onerror=null; this.src='https://picsum.photos/500/350?random=1';">
                 </div>
                 <div class="slider-controls">
                     <button class="btn-small" onclick="prevPhoto()">❮ Prev</button>
@@ -120,7 +379,7 @@
             <div class="glass-card">
                 <h2 class="card-title">Cute GIF Gallery 🎬</h2>
                 <div class="media-frame">
-                    <img id="gif-display" src="assets/gif1.gif" alt="Cute GIF" class="gif-photo" onerror="this.onerror=null; this.src='https://via.placeholder.com/500x350/9933ff/ffffff?text=GIF+1';">
+                    <img id="gif-display" src="assets/gif1.gif" alt="Cute GIF" class="gif-photo" onerror="this.onerror=null; this.src='https://picsum.photos/500/350?random=2';">
                 </div>
                 <div class="slider-controls">
                     <button class="btn-small" onclick="prevGif()">❮ Prev</button>
@@ -232,6 +491,402 @@
 
     <footer id="footer">Made with ❤️ by SIVASINGH</footer>
 
-    <script src="script.js"></script>
+    <script>
+        // --- STATE MANAGEMENT ---
+        let currentPage = 1;
+        let collectedGifts = 0;
+        let candlesBlown = false;
+        let photoIndex = 0;
+        let gifIndex = 0;
+
+        const photos = [
+            'assets/photo1.jpg',
+            'assets/photo2.jpg',
+            'assets/photo3.jpg',
+            'assets/photo4.jpg',
+            'assets/photo5.jpg'
+        ];
+
+        const gifs = [
+            'assets/gif1.gif',
+            'assets/gif2.gif',
+            'assets/gif3.gif',
+            'assets/gif4.gif',
+            'assets/gif5.gif'
+        ];
+
+        // --- AUDIO MANAGEMENT ---
+        const bgMusic = document.getElementById('bg-music');
+
+        function enableAudio() {
+            bgMusic.play().then(() => {
+                document.getElementById('audio-enable-overlay').classList.add('hidden');
+            }).catch((err) => {
+                console.log("Audio waiting for user gesture:", err);
+                document.getElementById('audio-enable-overlay').classList.add('hidden');
+            });
+        }
+
+        // --- INITIALIZATION & LOADER ---
+        window.addEventListener('DOMContentLoaded', () => {
+            let progress = 0;
+            const fill = document.getElementById('progress-fill');
+            const text = document.getElementById('progress-text');
+
+            const loaderInterval = setInterval(() => {
+                progress += 2;
+                fill.style.width = progress + '%';
+                text.innerText = progress + '%';
+
+                if (progress >= 100) {
+                    clearInterval(loaderInterval);
+                    document.getElementById('loader').classList.add('hidden');
+                    startOpeningAnimation();
+                }
+            }, 35);
+
+            initParticles();
+        });
+
+        // --- OPENING ANIMATION ---
+        function startOpeningAnimation() {
+            enableAudio();
+            const openingScreen = document.getElementById('opening');
+            const balloonsContainer = document.getElementById('opening-balloons-container');
+            
+            for (let i = 0; i < 8; i++) {
+                let b = document.createElement('div');
+                b.innerHTML = '🎈 RIMI';
+                b.style.position = 'absolute';
+                b.style.left = (8 + i * 11) + '%';
+                b.style.bottom = '-60px';
+                b.style.fontSize = '26px';
+                b.style.fontWeight = 'bold';
+                b.style.transition = 'all 3.5s cubic-bezier(0.25, 1, 0.5, 1)';
+                balloonsContainer.appendChild(b);
+
+                setTimeout(() => {
+                    b.style.bottom = '50%';
+                    b.style.transform = 'scale(1.2)';
+                }, i * 250);
+
+                setTimeout(() => {
+                    b.style.opacity = '0';
+                }, 3600 + (i * 200));
+            }
+
+            setTimeout(() => {
+                document.getElementById('opening-text').classList.remove('hidden');
+            }, 5200);
+
+            setTimeout(() => {
+                openingScreen.style.opacity = '0';
+                setTimeout(() => {
+                    openingScreen.classList.add('hidden');
+                    document.getElementById('app-container').classList.remove('hidden');
+                    initPage1();
+                }, 800);
+            }, 8000);
+        }
+
+        // --- PAGE NAVIGATION ---
+        function nextPage(pageNumber) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            const targetPage = document.getElementById(`page-${pageNumber}`);
+            if (targetPage) {
+                targetPage.classList.add('active');
+                currentPage = pageNumber;
+                triggerPageSpecificLogic(pageNumber);
+            }
+        }
+
+        function triggerPageSpecificLogic(page) {
+            if (page === 2) initGame();
+            if (page === 4) initWishes();
+            if (page === 5) initCalendar();
+            if (page === 9) initReasons();
+            if (page === 11) initBalloonsPage();
+            if (page === 12) triggerFireworksShow();
+        }
+
+        // --- PAGE 1: TYPEWRITER ---
+        function initPage1() {
+            const text = "This surprise is specially made for the world's cutest bestie ❤️";
+            let index = 0;
+            const el = document.getElementById('typing-text');
+            el.innerText = '';
+            const timer = setInterval(() => {
+                el.innerText += text[index];
+                index++;
+                if (index >= text.length) clearInterval(timer);
+            }, 45);
+        }
+
+        // --- PAGE 2: GAME ---
+        function initGame() {
+            const area = document.getElementById('game-area');
+            area.innerHTML = '';
+            collectedGifts = 0;
+            document.getElementById('gift-count').innerText = collectedGifts;
+
+            const items = ['🎁', '🎂', '⭐', '🍬'];
+            
+            const spawnInterval = setInterval(() => {
+                if (collectedGifts >= 5) {
+                    clearInterval(spawnInterval);
+                    return;
+                }
+                let item = document.createElement('div');
+                item.className = 'falling-item';
+                item.innerText = items[Math.floor(Math.random() * items.length)];
+                item.style.left = Math.random() * 80 + 10 + '%';
+                
+                item.onclick = () => {
+                    collectedGifts++;
+                    document.getElementById('gift-count').innerText = collectedGifts;
+                    item.remove();
+                    if (collectedGifts >= 5) {
+                        setTimeout(() => nextPage(3), 600);
+                    }
+                };
+
+                area.appendChild(item);
+                setTimeout(() => { if(item.parentNode) item.remove(); }, 3000);
+            }, 700);
+        }
+
+        // --- PAGE 3: CAKE ---
+        function blowCandles() {
+            document.getElementById('candles').innerText = '💨';
+            candlesBlown = true;
+            document.getElementById('cut-cake-btn').classList.remove('disabled');
+        }
+
+        function cutCake() {
+            if (!candlesBlown) return;
+            document.getElementById('cake-container').innerHTML = '🍰✨';
+            setTimeout(() => nextPage(4), 800);
+        }
+
+        // --- PAGE 4: WISHES ---
+        function initWishes() {
+            const msg = "Dear Rimi,\n\nOn this wonderful day, I want to remind you how deeply special you are to me. Having you as my bestie is a true blessing. May your year ahead be filled with unlimited laughter, pure joy, and infinite success.\n\nKeep shining bright always! ✨❤️";
+            let idx = 0;
+            const box = document.getElementById('wishes-text');
+            box.innerText = '';
+            const timer = setInterval(() => {
+                box.innerText += msg[idx];
+                idx++;
+                if (idx >= msg.length) clearInterval(timer);
+            }, 35);
+        }
+
+        // --- PAGE 5: CALENDAR ---
+        function initCalendar() {
+            const now = new Date();
+            const options = { month: 'short', day: 'numeric', year: 'numeric' };
+            document.getElementById('today-date').innerText = now.toLocaleDateString('en-US', options);
+        }
+
+        // --- PAGE 6: LOVE METER ---
+        function startLoveMeter() {
+            const fill = document.getElementById('love-fill');
+            const text = document.getElementById('meter-text');
+            const values = ['25%', '50%', '75%', '100%', '500%', '1000%', 'Infinity ♾️'];
+            let idx = 0;
+
+            const interval = setInterval(() => {
+                text.innerText = values[idx];
+                fill.style.width = ((idx + 1) * 14.2) + '%';
+                idx++;
+                if (idx >= values.length) {
+                    clearInterval(interval);
+                    document.getElementById('love-next-btn').classList.remove('hidden');
+                }
+            }, 350);
+        }
+
+        // --- PAGE 7 & 8: GALLERIES ---
+        function nextPhoto() {
+            photoIndex = (photoIndex + 1) % photos.length;
+            document.getElementById('gallery-img').src = photos[photoIndex];
+        }
+        function prevPhoto() {
+            photoIndex = (photoIndex - 1 + photos.length) % photos.length;
+            document.getElementById('gallery-img').src = photos[photoIndex];
+        }
+
+        function nextGif() {
+            gifIndex = (gifIndex + 1) % gifs.length;
+            document.getElementById('gif-display').src = gifs[gifIndex];
+        }
+        function prevGif() {
+            gifIndex = (gifIndex - 1 + gifs.length) % gifs.length;
+            document.getElementById('gif-display').src = gifs[gifIndex];
+        }
+
+        // --- PAGE 9: 50 REASONS ---
+        function initReasons() {
+            const container = document.getElementById('reasons-container');
+            if (container.children.length > 0) return;
+            
+            for (let i = 1; i <= 50; i++) {
+                let card = document.createElement('div');
+                card.className = 'reason-card';
+                card.innerText = `#${i} Reason ❤️`;
+                card.onclick = () => {
+                    card.innerText = getSweetReason(i);
+                };
+                container.appendChild(card);
+            }
+        }
+
+        function getSweetReason(num) {
+            const reasons = [
+                "Always caring!", "Cute smile 😊", "Best listener 🎧", 
+                "Super kind 💕", "Pure heart 💖", "Makes me laugh 😂", 
+                "Always supportive ✨", "Truly honest 🌟", "So stylish 👗", "Pure gold 💛"
+            ];
+            return reasons[num % reasons.length];
+        }
+
+        // --- PAGE 10: WHEEL ---
+        function spinWheel() {
+            const wheel = document.getElementById('wheel');
+            const randDeg = Math.floor(3600 + Math.random() * 360);
+            wheel.style.transform = `rotate(${randDeg}deg)`;
+            
+            setTimeout(() => {
+                document.getElementById('wheel-result').innerText = "Result: 🎉 Best Friend Forever! 💖";
+                document.getElementById('wheel-next').classList.remove('hidden');
+            }, 4000);
+        }
+
+        // --- PAGE 11: BALLOONS ---
+        function initBalloonsPage() {
+            const area = document.getElementById('balloon-pop-area');
+            area.innerHTML = '';
+            const wishes = [
+                "Happy Birthday Rimi ❤️", "Stay Blessed 🎂", 
+                "Bestie Forever 💕", "Smile Always 😊", "Have a Wonderful Life ✨"
+            ];
+
+            for (let i = 0; i < 5; i++) {
+                let balloon = document.createElement('div');
+                balloon.className = 'floating-balloon';
+                balloon.innerText = '🎈 RIMI';
+                balloon.style.left = (i * 18 + 5) + '%';
+                balloon.onclick = () => {
+                    balloon.style.display = 'none';
+                    document.getElementById('balloon-wish-display').innerText = wishes[i % wishes.length];
+                };
+                area.appendChild(balloon);
+            }
+        }
+
+        // --- PAGE 12: FIREWORKS ---
+        function triggerFireworksShow() {
+            for (let i = 0; i < 40; i++) {
+                setTimeout(() => {
+                    createParticle(
+                        Math.random() * window.innerWidth, 
+                        Math.random() * window.innerHeight * 0.6
+                    );
+                }, i * 50);
+            }
+        }
+
+        // --- PAGE 13: GIFT BOXES ---
+        function openGiftBox(num) {
+            const messages = {
+                1: "💌 Birthday Letter: You deserve all the happiness, laughter, and success in the world!",
+                2: "📸 Birthday Memories: Every single moment spent with you is unforgettable!",
+                3: "🎁 Special Surprise: You are officially crowned the Best Bestie in the Universe!"
+            };
+            document.getElementById('gift-modal-text').innerText = messages[num];
+            document.getElementById('gift-modal').classList.remove('hidden');
+        }
+
+        function closeGiftModal() {
+            document.getElementById('gift-modal').classList.add('hidden');
+        }
+
+        // --- PAGE 16: CINEMA ---
+        function goToCinema() {
+            nextPage(16);
+            bgMusic.pause();
+            bgMusic.currentTime = 0;
+
+            const video = document.getElementById('birthday-video');
+            video.play().catch(err => console.log("Video play error:", err));
+
+            video.onended = () => {
+                document.getElementById('video-end-card').classList.remove('hidden');
+            };
+        }
+
+        // --- CANVAS PARTICLE ENGINE ---
+        let particles = [];
+        function initParticles() {
+            const canvas = document.getElementById('particle-canvas');
+            const ctx = canvas.getContext('2d');
+            
+            function resize() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            class Particle {
+                constructor(x, y) {
+                    this.x = x || Math.random() * canvas.width;
+                    this.y = y || Math.random() * canvas.height;
+                    this.size = Math.random() * 5 + 2;
+                    this.speedX = Math.random() * 4 - 2;
+                    this.speedY = Math.random() * 4 - 2;
+                    this.color = `hsl(${Math.random() * 360}, 100%, 70%)`;
+                }
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                    if (this.size > 0.2) this.size -= 0.05;
+                }
+                draw() {
+                    ctx.fillStyle = this.color;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            window.addEventListener('click', (e) => {
+                for (let i = 0; i < 12; i++) {
+                    particles.push(new Particle(e.clientX, e.clientY));
+                }
+            });
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                if (particles.length < 30) {
+                    particles.push(new Particle());
+                }
+                for (let i = 0; i < particles.length; i++) {
+                    particles[i].update();
+                    particles[i].draw();
+                    if (particles[i].size <= 0.2) {
+                        particles.splice(i, 1);
+                        i--;
+                    }
+                }
+                requestAnimationFrame(animate);
+            }
+            animate();
+        }
+
+        function createParticle(x, y) {
+            window.dispatchEvent(new MouseEvent('click', { clientX: x, clientY: y }));
+        }
+    </script>
 </body>
-                    </html>
+                        </html>
