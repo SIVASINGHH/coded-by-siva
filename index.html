@@ -1,892 +1,896 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Birthday RIMI! 🎂</title>
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
-    
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Poppins', sans-serif;
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>🎂 Happy Birthday Rimi 🎂</title>
+<style>
+/* ========== RESET & BASE ========== */
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html, body { height:100%; overflow:hidden; font-family:'Segoe UI', system-ui, sans-serif; background:#0a0015; color:#fff; cursor:default; }
+button { font-family:inherit; cursor:pointer; border:none; outline:none; }
 
-        body {
-            background: radial-gradient(circle at center, #2e0854, #120024, #05000a);
-            color: #ffffff;
-            min-height: 100vh;
-            overflow-x: hidden;
-            cursor: crosshair;
-        }
+.page { 
+  position:fixed; 
+  inset:0; 
+  display:none; 
+  flex-direction:column; 
+  align-items:center; 
+  justify-content:center; 
+  padding:20px; 
+  overflow:hidden; 
+  opacity:0;
+  transform:scale(0.98);
+  transition:opacity .5s ease, transform .5s ease; 
+  will-change: opacity, transform;
+}
+.page.active { display:flex; opacity:1; transform:scale(1); }
+.page.exit { opacity:0; transform:scale(.95); }
 
-        /* Particles Canvas */
-        #particle-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            pointer-events: none;
-            z-index: 1;
-        }
+/* ========== GLASS & GLOW ========== */
+.glass { 
+  background:rgba(255,255,255,.12); 
+  backdrop-filter:blur(10px); 
+  -webkit-backdrop-filter:blur(10px); 
+  border:1px solid rgba(255,255,255,.25); 
+  border-radius:24px; 
+  box-shadow:0 8px 32px rgba(255,105,180,.25); 
+}
+.glow-text { text-shadow:0 0 10px #ff69b4, 0 0 20px #da70d6; }
+.btn { 
+  background:linear-gradient(135deg,#ff69b4,#da70d6,#87ceeb); 
+  color:#fff; 
+  font-size:1.15rem; 
+  font-weight:700; 
+  padding:16px 36px; 
+  border-radius:50px; 
+  box-shadow:0 6px 25px rgba(255,105,180,.5); 
+  transition:transform .2s, box-shadow .2s; 
+  letter-spacing:.5px; 
+  touch-action: manipulation;
+}
+.btn:active { transform:scale(0.95); box-shadow:0 4px 15px rgba(255,105,180,.7); }
 
-        /* Audio Autoplay Fix Overlay */
-        .audio-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(10px);
-            z-index: 999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            transition: opacity 0.5s ease;
-        }
+/* ========== LOADING ========== */
+#loading { background:radial-gradient(ellipse at center,#1a0033 0%,#0a0015 70%); z-index:9999; }
+.cake-loader { font-size:5rem; animation:bounce 1.2s infinite; }
+@keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-18px)} }
+.progress-bar { width:min(280px,80vw); height:12px; background:rgba(255,255,255,.15); border-radius:20px; overflow:hidden; margin:25px 0 15px; }
+.progress-fill { height:100%; width:0%; background:linear-gradient(90deg,#ff69b4,#da70d6,#87ceeb,#ffd700); border-radius:20px; transition:width .15s; }
+.loading-text { font-size:1.2rem; margin-top:10px; color:#ffb6c1; }
+.credit { position:absolute; bottom:25px; font-size:.9rem; opacity:.7; }
 
-        .audio-overlay p {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #ffe600;
-            background: rgba(255, 51, 153, 0.4);
-            padding: 20px 30px;
-            border-radius: 40px;
-            border: 2px solid #ff3399;
-            box-shadow: 0 0 25px #ff3399;
-            animation: pulse 1.5s infinite;
-            text-align: center;
-        }
+/* ========== OPENING ========== */
+#opening { background:radial-gradient(ellipse at bottom,#0d1b2a 0%,#000 80%); z-index:9000; }
+#stars, #fireflies, #fireworks, #fw-canvas { position:absolute; inset:0; pointer-events:none; }
+.balloon { 
+  position:absolute; 
+  width:70px; 
+  height:90px; 
+  border-radius:50% 50% 50% 50% / 60% 60% 40% 40%; 
+  display:flex; 
+  align-items:center; 
+  justify-content:center; 
+  font-weight:800; 
+  font-size:.85rem; 
+  color:#fff; 
+  text-shadow:0 1px 3px rgba(0,0,0,.4); 
+  animation:floatUp 8s linear forwards; 
+  cursor:pointer; 
+  will-change: transform;
+}
+.balloon::after { content:''; position:absolute; bottom:-40px; left:50%; width:2px; height:40px; background:rgba(255,255,255,.5); }
+@keyframes floatUp { to { transform:translateY(-120vh) rotate(15deg); opacity:0; } }
+.happy-title { font-size:clamp(1.8rem,6vw,3.5rem); font-weight:900; text-align:center; opacity:0; transform:scale(.5); transition:all 1.2s cubic-bezier(.34,1.56,.64,1); }
+.happy-title.show { opacity:1; transform:scale(1); }
 
-        /* Screen Wrappers */
-        .screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10;
-            background: rgba(5, 0, 15, 0.95);
-            transition: opacity 0.8s ease;
-        }
+/* ========== PAGE 1 WELCOME ========== */
+#page1 { background:linear-gradient(135deg,#1a0033,#2d0055,#0d1b2a); }
+.typing { font-size:1.15rem; max-width:90%; text-align:center; min-height:3.5em; color:#ffb6c1; margin:25px 0 40px; line-height:1.6; }
 
-        .hidden { display: none !important; }
+/* ========== PAGE 2 GAME ========== */
+#page2 { background:linear-gradient(160deg,#2a0a4a,#1a0033); }
+.game-area { position:relative; width:100%; height:60vh; max-width:500px; overflow:hidden; border-radius:20px; }
+.gift-item { position:absolute; font-size:2.4rem; cursor:pointer; animation:floatGift 3s ease-in-out infinite; transition:transform .2s; user-select:none; will-change: transform; }
+.gift-item:active { transform:scale(1.3); }
+@keyframes floatGift { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-15px)} }
+.counter { font-size:1.6rem; font-weight:800; margin:15px 0; color:#ffd700; }
 
-        /* Clear High-Contrast Glassmorphism UI */
-        .glass-card {
-            background: rgba(25, 5, 45, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 2px solid rgba(255, 128, 200, 0.5);
-            box-shadow: 0 10px 40px rgba(255, 51, 153, 0.5), inset 0 0 15px rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
-            padding: 30px 25px;
-            max-width: 90%;
-            width: 480px;
-            text-align: center;
-            position: relative;
-            z-index: 5;
-            animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
+/* ========== PAGE 3 CAKE ========== */
+#page3 { background:radial-gradient(circle at 50% 30%,#3a1050,#0a0015); }
+.cake-3d { position:relative; width:200px; height:180px; margin:20px auto; cursor:pointer; }
+.cake-layer { position:absolute; left:50%; transform:translateX(-50%); border-radius:8px; }
+.layer1 { bottom:0; width:180px; height:45px; background:linear-gradient(90deg,#ff69b4,#ff1493); box-shadow:0 8px 20px rgba(0,0,0,.4); }
+.layer2 { bottom:40px; width:140px; height:40px; background:linear-gradient(90deg,#da70d6,#ba55d3); }
+.layer3 { bottom:75px; width:100px; height:35px; background:linear-gradient(90deg,#87ceeb,#00bfff); }
+.candle { position:absolute; width:8px; height:35px; background:#fff; border-radius:2px; left:50%; transform:translateX(-50%); bottom:105px; }
+.flame { position:absolute; top:-18px; left:50%; transform:translateX(-50%); width:14px; height:20px; background:radial-gradient(ellipse at bottom,#ff0,#f80); border-radius:50% 50% 20% 20%; animation:flicker .3s infinite alternate; }
+@keyframes flicker { to { transform:translateX(-50%) scale(1.15); opacity:.85; } }
+.cake-msg { margin:15px 0; font-size:1.2rem; color:#ffb6c1; }
 
-        /* Typography Fixes */
-        .glow-text {
-            font-family: 'Caveat', cursive;
-            font-size: 2.8rem;
-            color: #ffffff;
-            text-shadow: 0 0 10px #ff3399, 0 0 20px #ff0066, 0 0 30px #ff0066;
-            margin-bottom: 15px;
-            line-height: 1.2;
-        }
+/* ========== PAGE 4 WISHES ========== */
+#page4 { background:linear-gradient(180deg,#1a0033,#2d1b4e); }
+.wish-box { max-width:600px; width:95%; padding:30px 25px; font-family:'Segoe UI',cursive; font-size:1.15rem; line-height:1.8; text-align:center; color:#ffe4e1; min-height:280px; }
 
-        .card-title {
-            font-size: 1.6rem;
-            font-weight: 700;
-            color: #ffffff;
-            text-shadow: 0 0 8px #ff66cc;
-            margin-bottom: 10px;
-        }
+/* ========== PAGE 5 COUNTDOWN ========== */
+#page5 { background:radial-gradient(ellipse,#1e0038,#0a0015); }
+.calendar { background:rgba(255,255,255,.1); border-radius:20px; padding:25px 40px; text-align:center; margin:20px 0; }
+.cal-day { font-size:3.5rem; font-weight:900; color:#ffd700; }
+.cal-date { font-size:1.3rem; margin-top:5px; color:#ffb6c1; }
 
-        .sub-text {
-            font-size: 1rem;
-            color: #f3e6ff;
-            margin-bottom: 15px;
-            font-weight: 500;
-        }
+/* ========== PAGE 6 LOVE METER ========== */
+#page6 { background:linear-gradient(160deg,#2a0a4a,#0d0221); }
+.meter-container { width:80px; height:320px; background:rgba(255,255,255,.1); border-radius:40px; position:relative; overflow:hidden; border:3px solid rgba(255,255,255,.3); margin:20px 0; }
+.meter-fill { position:absolute; bottom:0; width:100%; height:0%; background:linear-gradient(to top,#ff69b4,#ff1493,#da70d6,#ffd700); transition:height .8s ease-out; border-radius:0 0 37px 37px; }
+.meter-label { font-size:1.4rem; font-weight:800; margin-top:15px; color:#ff69b4; }
 
-        .typewriter-text {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #ffd700;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
-            min-height: 50px;
-            margin: 15px 0;
-        }
+/* ========== PAGE 7 & 8 GALLERY ========== */
+#page7, #page8 { background:linear-gradient(135deg,#1a0033,#0d1b2a); }
+.slider { position:relative; width:min(340px,90vw); height:340px; overflow:hidden; border-radius:20px; }
+.slide { position:absolute; inset:0; opacity:0; transition:opacity .4s ease, transform .4s ease; transform:scale(.95); display:flex; align-items:center; justify-content:center; }
+.slide.active { opacity:1; transform:scale(1); }
+.placeholder { width:100%; height:100%; background:linear-gradient(135deg,#ff69b4,#da70d6); display:flex; align-items:center; justify-content:center; font-size:4rem; border-radius:18px; }
+.dots { display:flex; gap:10px; margin-top:18px; }
+.dot { width:12px; height:12px; border-radius:50%; background:rgba(255,255,255,.3); cursor:pointer; transition:.3s; }
+.dot.active { background:#ff69b4; transform:scale(1.3); }
 
-        /* Loader Component */
-        .loader-content { text-align: center; width: 85%; max-width: 380px; }
-        .cake-loader { font-size: 80px; animation: bounce 0.8s ease infinite alternate; }
-        .loader-title { color: #ffffff; font-size: 1.4rem; font-weight: 700; margin-top: 10px; }
-        .progress-bar { width: 100%; height: 16px; background: rgba(255, 255, 255, 0.15); border-radius: 10px; margin: 20px 0; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.3); }
-        .progress-fill { width: 0%; height: 100%; background: linear-gradient(90deg, #ff3399, #00ffff, #ffe600); transition: width 0.1s linear; }
-        .progress-text { font-size: 1.2rem; font-weight: 800; color: #00ffff; }
-        .credit { margin-top: 15px; font-size: 1rem; font-weight: 700; color: #ffd700; text-shadow: 0 0 8px #ff3399; }
+/* ========== PAGE 9 REASONS ========== */
+#page9 { background:radial-gradient(circle,#2a0a4a,#0a0015); }
+.reasons-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(130px,1fr)); gap:12px; max-width:700px; width:95%; max-height:60vh; overflow-y:auto; padding:10px; }
+.flip-card { height:100px; perspective:800px; cursor:pointer; }
+.flip-inner { position:relative; width:100%; height:100%; transition:transform .6s; transform-style:preserve-3d; }
+.flip-card.flipped .flip-inner { transform:rotateY(180deg); }
+.flip-front, .flip-back { position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden; border-radius:16px; display:flex; align-items:center; justify-content:center; padding:10px; text-align:center; font-size:.85rem; font-weight:600; }
+.flip-front { background:linear-gradient(135deg,#ff69b4,#da70d6); }
+.flip-back { background:linear-gradient(135deg,#87ceeb,#00bfff); transform:rotateY(180deg); color:#1a0033; }
 
-        /* Premium Buttons */
-        .btn {
-            border: none;
-            padding: 14px 28px;
-            color: #ffffff;
-            font-size: 1.05rem;
-            font-weight: 700;
-            border-radius: 50px;
-            cursor: pointer;
-            outline: none;
-            letter-spacing: 0.5px;
-            display: inline-block;
-        }
+/* ========== PAGE 10 WHEEL ========== */
+#page10 { background:linear-gradient(160deg,#1a0033,#2d0055); }
+.wheel-wrap { position:relative; width:260px; height:260px; margin:20px auto; }
+.wheel { width:100%; height:100%; border-radius:50%; border:8px solid #ffd700; background:conic-gradient(#ff69b4 0deg 60deg,#da70d6 60deg 120deg,#87ceeb 120deg 180deg,#ffd700 180deg 240deg,#ff1493 240deg 300deg,#ba55d3 300deg 360deg); transition:transform 3s cubic-bezier(.17,.67,.12,.99); box-shadow:0 0 30px rgba(255,105,180,.5); }
+.wheel-pointer { position:absolute; top:-18px; left:50%; transform:translateX(-50%); font-size:2rem; z-index:5; }
+.wheel-result { font-size:1.4rem; font-weight:800; margin-top:20px; min-height:2em; color:#ffd700; }
 
-        .primary-btn {
-            background: linear-gradient(45deg, #ff007f, #7f00ff);
-            box-shadow: 0 0 20px rgba(255, 0, 127, 0.7);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
+/* ========== PAGE 11 BALLOONS ========== */
+#page11 { background:radial-gradient(ellipse at bottom,#0d1b2a,#000); }
+.balloon-field { position:absolute; inset:0; overflow:hidden; pointer-events:none; }
+.rimi-balloon { position:absolute; width:60px; height:78px; border-radius:50% 50% 50% 50%/60% 60% 40% 40%; display:flex; align-items:center; justify-content:center; font-size:.7rem; font-weight:800; color:#fff; cursor:pointer; pointer-events:auto; animation:rise 6s linear forwards; will-change: transform; }
+@keyframes rise { to { transform:translateY(-120vh); } }
+.wish-popup { position:fixed; top:50%; left:50%; transform:translate(-50%,-50%) scale(0); background:rgba(255,105,180,.95); padding:18px 30px; border-radius:50px; font-size:1.2rem; font-weight:700; z-index:100; transition:transform .3s cubic-bezier(.34,1.56,.64,1); pointer-events:none; text-align:center;}
+.wish-popup.show { transform:translate(-50%,-50%) scale(1); }
 
-        .primary-btn:hover {
-            transform: translateY(-2px) scale(1.03);
-            box-shadow: 0 0 30px rgba(255, 0, 127, 1);
-        }
+/* ========== PAGE 12 FIREWORKS ========== */
+#page12 { background:#000; }
 
-        .btn-small {
-            padding: 8px 18px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            border-radius: 20px;
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid #ffffff;
-            color: #ffffff;
-            cursor: pointer;
-            backdrop-filter: blur(5px);
-        }
+/* ========== PAGE 13 GIFTS ========== */
+#page13 { background:linear-gradient(135deg,#1a0033,#2d1b4e); }
+.gift-boxes { display:flex; gap:15px; flex-wrap:wrap; justify-content:center; margin:20px 0; }
+.gift-box { width:100px; height:100px; background:linear-gradient(135deg,#ff69b4,#da70d6); border-radius:16px; display:flex; flex-direction:column; align-items:center; justify-content:center; font-size:2.2rem; cursor:pointer; transition:transform .2s; box-shadow:0 8px 25px rgba(255,105,180,.4); }
+.gift-box:active { transform:scale(0.95); }
+.gift-box span { font-size:.75rem; margin-top:4px; font-weight:700; }
+.gift-content { max-width:500px; width:95%; padding:20px; text-align:center; display:none; margin-top:15px; font-size: 1.05rem; line-height: 1.5; }
+.gift-content.show { display:block; animation:fadeIn .4s; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:none} }
 
-        .disabled { opacity: 0.4; pointer-events: none; filter: grayscale(1); }
-        .margin-top { margin-top: 15px; }
+/* ========== PAGE 14 QUIZ ========== */
+#page14 { background:radial-gradient(circle,#2a0a4a,#0a0015); }
+.quiz-q { font-size:1.3rem; text-align:center; max-width:90%; margin-bottom:25px; line-height:1.4; }
+.quiz-btns { display:flex; flex-direction:column; gap:12px; width:min(280px,90%); }
+.quiz-btns button { font-size:1.1rem; padding:14px; border-radius:50px; background:rgba(255,255,255,.15); color:#fff; border:2px solid rgba(255,255,255,.3); transition:.2s; }
+.quiz-btns button:active { background:linear-gradient(135deg,#ff69b4,#da70d6); transform:scale(0.98); }
 
-        /* Layout Page Structure */
-        main { display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px 0; }
-        .page { display: none; width: 100%; justify-content: center; align-items: center; }
-        .page.active { display: flex; }
+/* ========== PAGE 15 FINAL ========== */
+#page15 { background:radial-gradient(ellipse at center,#1a0033,#000); }
+.final-msg { font-size:clamp(1.6rem,5vw,2.8rem); font-weight:900; text-align:center; margin-bottom:15px; }
+.final-sub { max-width:500px; text-align:center; font-size:1.1rem; line-height:1.7; color:#ffb6c1; margin-bottom:35px; }
 
-        /* Night Sky Screen */
-        .night-sky { position: absolute; width: 100%; height: 100%; background: radial-gradient(circle, #1a0033 0%, #030008 100%); overflow: hidden; display: flex; justify-content: center; align-items: center; }
-        .moon { position: absolute; top: 40px; right: 50px; width: 90px; height: 90px; background: #fffed0; border-radius: 50%; box-shadow: 0 0 40px #fffed0, 0 0 80px #ffcc00; }
-        .grand-heading { font-size: 2.5rem; color: #ffffff; text-shadow: 0 0 15px #ff007f, 0 0 30px #ff007f; text-align: center; }
+/* ========== PAGE 16 CINEMA ========== */
+#page16 { background:#000; }
+.cinema { width:min(900px,95vw); aspect-ratio:16/9; background:#111; border-radius:12px; overflow:hidden; box-shadow:0 0 60px rgba(255,105,180,.3); position:relative; }
+.cinema video { width:100%; height:100%; object-fit:contain; }
+.cinema-end { position:absolute; inset:0; background:rgba(0,0,0,.85); display:none; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:20px; }
+.cinema-end.show { display:flex; }
 
-        /* Page 2: Catch Gifts */
-        #game-area { width: 100%; height: 220px; position: relative; border: 2px dashed rgba(255, 255, 255, 0.4); border-radius: 15px; margin-top: 15px; overflow: hidden; background: rgba(0, 0, 0, 0.3); }
-        .counter-badge { font-size: 1.1rem; font-weight: 700; color: #ffd700; background: rgba(255,255,255,0.15); padding: 6px 16px; border-radius: 15px; display: inline-block; }
-        .falling-item { position: absolute; font-size: 38px; cursor: pointer; animation: fall 3s linear infinite; filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.9)); }
+/* ========== FLOATING EFFECTS ========== */
+.float-container { position:fixed; inset:0; pointer-events:none; z-index:5; overflow:hidden; }
+.float-item { position:absolute; font-size:1.4rem; opacity:.7; animation:floatAround 10s linear forwards; will-change: transform; }
+@keyframes floatAround { 0%{transform:translateY(105vh) rotate(0deg);opacity:0} 10%{opacity:.7} 90%{opacity:.7} 100%{transform:translateY(-10vh) rotate(360deg);opacity:0} }
 
-        /* Page 3: Cake */
-        .cake-3d { font-size: 110px; cursor: pointer; margin: 15px 0; transition: transform 0.3s; filter: drop-shadow(0 0 15px rgba(255, 105, 180, 0.6)); }
-        .cake-3d:hover { transform: scale(1.08); }
-        .candles { font-size: 32px; margin-bottom: -25px; text-shadow: 0 0 10px #ff9900; }
+/* ========== CANVAS CONFETTI ========== */
+#confetti-canvas { position:fixed; inset:0; pointer-events:none; z-index:9999; }
 
-        /* Page 4: Message */
-        .handwriting-box { font-family: 'Caveat', cursive; font-size: 1.8rem; line-height: 1.5; color: #ffffff; min-height: 160px; text-shadow: 0 0 8px #ff3399; background: rgba(0,0,0,0.3); padding: 15px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.2); }
-
-        /* Page 5: Calendar */
-        .calendar-card { width: 130px; height: 130px; background: #ffffff; color: #333; border-radius: 18px; margin: 20px auto; overflow: hidden; box-shadow: 0 0 30px rgba(255, 255, 255, 0.8); }
-        .calendar-header { background: #ff007f; color: #ffffff; font-weight: 800; padding: 6px; font-size: 1.1rem; }
-        .calendar-body { font-size: 1.25rem; font-weight: 800; padding-top: 22px; color: #2e0854; }
-
-        /* Page 6: Thermometer */
-        .thermometer-container { width: 85%; height: 28px; background: rgba(255,255,255,0.2); border-radius: 20px; margin: 20px auto; overflow: hidden; border: 2px solid #ffffff; }
-        .thermometer-fill { width: 0%; height: 100%; background: linear-gradient(90deg, #ff007f, #ff9900, #00ffff); transition: width 0.2s ease; }
-        .meter-text { font-size: 2rem; font-weight: 800; color: #ffd700; text-shadow: 0 0 10px #ff007f; }
-
-        /* Page 7 & 8: Media Frame */
-        .media-frame { width: 100%; height: 250px; border-radius: 16px; overflow: hidden; border: 2px solid rgba(255, 255, 255, 0.7); box-shadow: 0 0 25px rgba(255, 51, 153, 0.6); background: #000; display: flex; justify-content: center; align-items: center; }
-        .gallery-photo, .gif-photo { width: 100%; height: 100%; object-fit: cover; }
-        .slider-controls { display: flex; justify-content: space-between; margin-top: 15px; }
-
-        /* Page 9: 50 Reasons */
-        .reasons-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(85px, 1fr)); gap: 10px; max-height: 240px; overflow-y: auto; padding: 8px; }
-        .reason-card { background: rgba(255, 255, 255, 0.2); border-radius: 12px; padding: 12px 6px; font-size: 0.85rem; font-weight: 700; color: #ffffff; cursor: pointer; transition: transform 0.2s, background 0.2s; border: 1px solid rgba(255, 255, 255, 0.4); text-shadow: 0 0 4px #000; }
-        .reason-card:hover { transform: scale(1.05); background: rgba(255, 0, 127, 0.7); }
-
-        /* Page 10: Wheel */
-        .wheel-container { position: relative; width: 190px; height: 190px; margin: 15px auto; }
-        .wheel { width: 100%; height: 100%; border-radius: 50%; border: 4px solid #ffd700; position: relative; overflow: hidden; transition: transform 4s cubic-bezier(0.15, 0.99, 0.18, 1); background: conic-gradient(#ff007f 0 60deg, #7f00ff 60deg 120deg, #00ffff 120deg 180deg, #ffe600 180deg 240deg, #ff3366 240deg 300deg, #33cc33 300deg 360deg); box-shadow: 0 0 25px #ffd700; }
-        .pointer { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); font-size: 24px; color: #ffd700; z-index: 2; text-shadow: 0 0 5px #000; }
-        .result-text { margin-top: 10px; font-size: 1.15rem; color: #00ffff; font-weight: 700; text-shadow: 0 0 8px #00ffff; }
-
-        /* Page 11: Balloons */
-        #balloon-pop-area { width: 100%; height: 180px; position: relative; overflow: hidden; border: 2px dashed rgba(255,255,255,0.4); border-radius: 15px; margin-top: 10px; background: rgba(0, 0, 0, 0.3); }
-        .floating-balloon { position: absolute; bottom: -50px; font-size: 38px; cursor: pointer; animation: floatUp 4s linear infinite; filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.7)); }
-        .wish-popup { font-size: 1.1rem; color: #ffd700; min-height: 30px; margin-top: 8px; font-weight: 800; text-shadow: 0 0 8px #ff007f; }
-
-        /* Page 13: Gift Boxes */
-        .boxes-container { display: flex; justify-content: space-around; margin-top: 20px; }
-        .gift-box { font-size: 45px; cursor: pointer; transition: transform 0.3s ease; filter: drop-shadow(0 0 10px #ff3399); }
-        .gift-box:hover { transform: scale(1.2); }
-        .gift-box span { font-size: 0.85rem; display: block; color: #ffffff; font-weight: 700; }
-        .modal { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); display: flex; justify-content: center; align-items: center; border-radius: 24px; z-index: 20; }
-        .modal-content { background: #2e0854; padding: 25px; border-radius: 20px; border: 2px solid #ff007f; box-shadow: 0 0 30px #ff007f; color: #ffffff; font-size: 1.1rem; font-weight: 600; }
-
-        /* Page 14: Quiz */
-        .quiz-options { display: flex; flex-direction: column; gap: 12px; margin-top: 15px; }
-
-        /* Page 15: Final Message */
-        .grand-message { font-family: 'Caveat', cursive; font-size: 1.9rem; color: #ffe6ff; line-height: 1.4; text-shadow: 0 0 12px #ff007f; margin: 15px 0; }
-
-        /* Page 16: Birthday Cinema */
-        .cinema-container { width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center; background: #000000; position: relative; }
-        #birthday-video { width: 100%; height: 100%; max-width: 900px; max-height: 100vh; object-fit: contain; box-shadow: 0 0 50px rgba(255, 0, 127, 0.5); }
-
-        /* Footer */
-        footer { position: fixed; bottom: 10px; width: 100%; text-align: center; font-size: 0.85rem; font-weight: 600; color: rgba(255, 255, 255, 0.8); pointer-events: none; z-index: 10; text-shadow: 0 0 5px #000; }
-
-        /* Keyframes */
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-18px); } }
-        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-        @keyframes fall { 0% { top: -40px; } 100% { top: 220px; } }
-        @keyframes floatUp { 0% { bottom: -50px; } 100% { bottom: 200px; } }
-    </style>
+/* ========== RESPONSIVE ========== */
+@media (max-width:480px) {
+  .btn { font-size:1rem; padding:12px 24px; }
+  .reasons-grid { grid-template-columns:repeat(2,1fr); }
+  .gift-boxes { gap:10px; }
+  .gift-box { width:90px; height:90px; font-size:1.8rem; }
+}
+</style>
 </head>
 <body>
 
-    <audio id="bg-music" src="assets/birthday-song.mp3" loop preload="auto"></audio>
+<canvas id="confetti-canvas"></canvas>
 
-    <div id="audio-enable-overlay" class="audio-overlay" onclick="enableAudio()">
-        <p>🎵 Tap anywhere to start Music & Experience! ✨</p>
+<audio id="bgMusic" src="birthday-song.mp3" loop preload="auto"></audio>
+
+<div id="loading" class="page active">
+  <div class="cake-loader">🎂</div>
+  <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+  <div class="loading-text">🎂 Loading Birthday Surprise...</div>
+  <div class="credit">Made with ❤️ by SIVASINGH</div>
+</div>
+
+<div id="opening" class="page">
+  <canvas id="stars"></canvas>
+  <canvas id="fireflies"></canvas>
+  <div id="balloon-container"></div>
+  <div class="happy-title" id="happyTitle">🎉 HAPPY BIRTHDAY RIMI 🎉</div>
+</div>
+
+<div id="page1" class="page">
+  <h1 class="glow-text" style="font-size:clamp(1.8rem,7vw,3.2rem);text-align:center;margin-bottom:10px;">🎂 Happy Birthday Rimi 🎂</h1>
+  <div class="typing" id="typing1"></div>
+  <button class="btn" onclick="goTo(2)">🎁 Open Your Birthday Surprise</button>
+</div>
+
+<div id="page2" class="page">
+  <h2 class="glow-text" style="margin-bottom:10px;">Catch The Birthday Gifts</h2>
+  <div class="counter" id="giftCounter">0 / 5</div>
+  <div class="game-area" id="gameArea"></div>
+  <p style="margin-top:15px;opacity:.8;font-size:.95rem;">Tap the floating gifts 🎁</p>
+</div>
+
+<div id="page3" class="page">
+  <h2 class="glow-text">Birthday Cake</h2>
+  <div class="cake-3d" id="cake" onclick="blowCandles()">
+    <div class="cake-layer layer1"></div>
+    <div class="cake-layer layer2"></div>
+    <div class="cake-layer layer3"></div>
+    <div class="candle"><div class="flame" id="flame"></div></div>
+  </div>
+  <div class="cake-msg" id="cakeMsg">Tap the cake to blow the candles ✨</div>
+  <button class="btn" id="cutBtn" style="display:none;margin-top:15px;" onclick="cutCake()">🎂 Cut The Cake</button>
+</div>
+
+<div id="page4" class="page">
+  <h2 class="glow-text" style="margin-bottom:20px;">Birthday Wishes</h2>
+  <div class="glass wish-box" id="wishText"></div>
+  <button class="btn" style="margin-top:25px;" onclick="goTo(5)">Next ✨</button>
+</div>
+
+<div id="page5" class="page">
+  <h2 class="glow-text">Birthday Countdown</h2>
+  <div class="calendar glass">
+    <div class="cal-day" id="calDay"></div>
+    <div class="cal-date" id="calDate"></div>
+  </div>
+  <p class="glow-text" style="font-size:1.4rem;margin:20px 0;">🎉 Today is Rimi's Birthday 🎂</p>
+  <button class="btn" onclick="goTo(6)">Continue 💖</button>
+</div>
+
+<div id="page6" class="page">
+  <h2 class="glow-text">Birthday Love Meter</h2>
+  <p style="margin:10px 0 5px;color:#ffb6c1;">My Bestie Happiness Level ❤️</p>
+  <div class="meter-container"><div class="meter-fill" id="meterFill"></div></div>
+  <div class="meter-label" id="meterLabel">0%</div>
+  <button class="btn" style="margin-top:25px;display:none;" id="meterNext" onclick="goTo(7)">Next ✨</button>
+</div>
+
+<div id="page7" class="page">
+  <h2 class="glow-text" style="margin-bottom:15px;">Memory Gallery</h2>
+  <div class="slider glass" id="photoSlider">
+    <div class="slide active"><div class="placeholder">📸 photo1</div></div>
+    <div class="slide"><div class="placeholder">📸 photo2</div></div>
+    <div class="slide"><div class="placeholder">📸 photo3</div></div>
+    <div class="slide"><div class="placeholder">📸 photo4</div></div>
+    <div class="slide"><div class="placeholder">📸 photo5</div></div>
+  </div>
+  <div class="dots" id="photoDots"></div>
+  <button class="btn" style="margin-top:25px;" onclick="goTo(8)">Next ✨</button>
+</div>
+
+<div id="page8" class="page">
+  <h2 class="glow-text" style="margin-bottom:15px;">Cute GIF Gallery</h2>
+  <div class="slider glass" id="gifSlider">
+    <div class="slide active"><div class="placeholder">🎀 gif1</div></div>
+    <div class="slide"><div class="placeholder">🎀 gif2</div></div>
+    <div class="slide"><div class="placeholder">🎀 gif3</div></div>
+    <div class="slide"><div class="placeholder">🎀 gif4</div></div>
+    <div class="slide"><div class="placeholder">🎀 gif5</div></div>
+  </div>
+  <div class="dots" id="gifDots"></div>
+  <button class="btn" style="margin-top:25px;" onclick="goTo(9)">Next ✨</button>
+</div>
+
+<div id="page9" class="page">
+  <h2 class="glow-text" style="margin-bottom:15px;">50 Reasons Why You're Amazing</h2>
+  <div class="reasons-grid" id="reasonsGrid"></div>
+  <button class="btn" style="margin:20px 0;" onclick="goTo(10)">Next ✨</button>
+</div>
+
+<div id="page10" class="page">
+  <h2 class="glow-text">Birthday Wheel</h2>
+  <div class="wheel-wrap">
+    <div class="wheel-pointer">▼</div>
+    <div class="wheel" id="wheel"></div>
+  </div>
+  <div class="wheel-result" id="wheelResult">Spin for a surprise!</div>
+  <button class="btn" id="spinBtn" onclick="spinWheel()">🎰 Spin</button>
+  <button class="btn" style="margin-top:15px;display:none;" id="wheelNext" onclick="goTo(11)">Next ✨</button>
+</div>
+
+<div id="page11" class="page">
+  <h2 class="glow-text" style="position:relative;z-index:10;">Birthday Balloons</h2>
+  <p style="position:relative;z-index:10;margin:10px 0 20px;opacity:.8;">Tap balloons to burst them ✨</p>
+  <div class="balloon-field" id="balloonField"></div>
+  <div class="wish-popup" id="wishPopup"></div>
+  <button class="btn" style="position:relative;z-index:10;margin-top:auto;" onclick="goTo(12)">Next ✨</button>
+</div>
+
+<div id="page12" class="page">
+  <canvas id="fw-canvas"></canvas>
+  <h2 class="glow-text" style="position:relative;z-index:10;">Birthday Fireworks Show</h2>
+  <button class="btn" style="position:relative;z-index:10;margin-top:40px;" onclick="goTo(13)">Continue 🎆</button>
+</div>
+
+<div id="page13" class="page">
+  <h2 class="glow-text">Gift Boxes</h2>
+  <div class="gift-boxes">
+    <div class="gift-box" onclick="openGift(1)">🎁<span>Letter</span></div>
+    <div class="gift-box" onclick="openGift(2)">🎁<span>Memories</span></div>
+    <div class="gift-box" onclick="openGift(3)">🎁<span>Surprise</span></div>
+  </div>
+  <div class="glass gift-content" id="giftContent"></div>
+  <button class="btn" style="margin-top:25px;" onclick="goTo(14)">Next ✨</button>
+</div>
+
+<div id="page14" class="page">
+  <h2 class="glow-text" style="margin-bottom:20px;">Birthday Quiz</h2>
+  <div class="quiz-q" id="quizQ"></div>
+  <div class="quiz-btns" id="quizBtns"></div>
+</div>
+
+<div id="page15" class="page">
+  <div class="final-msg glow-text">🎉 HAPPY BIRTHDAY RIMI 🎂</div>
+  <div class="final-sub">Wishing You Endless Happiness, Success, Smiles and Beautiful Memories.<br>Thank You For Being My Amazing Bestie ❤️</div>
+  <button class="btn" onclick="goTo(16)">🎥 Watch Your Birthday Surprise</button>
+</div>
+
+<div id="page16" class="page">
+  <div class="cinema">
+    <video id="bdayVideo" src="video1.mp4" playsinline></video>
+    <div class="cinema-end" id="cinemaEnd">
+      <div style="font-size:1.8rem;margin-bottom:10px;">🎂 Once Again...</div>
+      <div class="glow-text" style="font-size:2rem;margin-bottom:15px;">🎉 HAPPY BIRTHDAY RIMI 🎉</div>
+      <div style="font-size:1.2rem;color:#ffb6c1;">❤️ Stay Happy Always Bestie ❤️</div>
     </div>
+  </div>
+</div>
 
-    <canvas id="particle-canvas"></canvas>
+<div class="float-container" id="floatLayer"></div>
 
-    <div id="loader" class="screen active">
-        <div class="loader-content">
-            <div class="cake-loader">🎂</div>
-            <h2 class="loader-title">🎂 Loading Birthday Surprise...</h2>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progress-fill"></div>
-            </div>
-            <p id="progress-text" class="progress-text">0%</p>
-            <p class="credit">Made with ❤️ by SIVASINGH</p>
-        </div>
-    </div>
+<script>
+/* ========== GLOBAL ========== */
+const music = document.getElementById('bgMusic');
+let currentPage = 0;
+let giftsCollected = 0;
+let activeIntervals = [];
+let activeTimeouts = [];
 
-    <div id="opening" class="screen">
-        <div class="night-sky">
-            <div class="moon"></div>
-            <div id="opening-balloons-container"></div>
-            <div id="opening-text" class="hidden">
-                <h1 class="grand-heading">🎉 HAPPY BIRTHDAY RIMI 🎉</h1>
-            </div>
-        </div>
-    </div>
+const reasons = [
+  "You always make me smile 😊","Your laugh is contagious 😂","Best listener ever 👂","You get my weird jokes 🤪",
+  "Always there when I need you 🤗","You make ordinary days special ✨","Your positivity is magnetic ☀️",
+  "You remember the little things 💌","Best adventure buddy 🗺️","You believe in me more than I do 💪",
+  "Your hugs feel like home 🏠","You make the best recommendations 🎬","Never judge, always support 🫶",
+  "You turn boring into fun 🎉","Your energy is unmatched ⚡","You share your snacks 🍫","Loyal to the core 🔒",
+  "You celebrate my wins like yours 🏆","You drag me out of my comfort zone 🚀","Best late-night talks 🌙",
+  "You make me feel understood 💭","Your kindness is endless 🌸","You forgive so easily 💖","Funny even when sad 😅",
+  "You remember my coffee order ☕","Best travel partner ✈️","You send the best memes 📱","Always honest with me 🗣️",
+  "You make me a better person 🌱","Your random texts brighten my day 💫","You never let me feel alone 🫂",
+  "Best cheerleader 📣","You know when I need silence 🤫","You push me to dream bigger 🌠","Your smile is pure magic ✨",
+  "You make birthdays special 🎂","Best secret keeper 🤐","You dance like nobody's watching 💃","Always up for spontaneous plans 🚗",
+  "You make me feel safe 🛡️","Your advice is gold 🥇","You celebrate the small wins too 🎊","Best partner in crime 😎",
+  "You make every moment memorable 📸","Your heart is pure gold 💛","You never give up on people 🔥",
+  "You are my favorite notification 📩","Life is better with you in it 🌈","You are simply irreplaceable 💎","Happy Birthday, my bestie ❤️"
+];
 
-    <main id="app-container" class="hidden">
+const quizQuestions = [
+  { q: "Is Rimi the cutest bestie in the world?", a: ["Yes, absolutely! 😍", "1000% YES! ✨"] },
+  { q: "Does Rimi deserve all the happiness?", a: ["Without a doubt! 💖", "Yes, every bit of it! 🎉"] },
+  { q: "Is today the best day to celebrate Rimi?", a: ["YESSS! Birthday Time! 🎂", "Best day of the year! 🥳"] },
+  { q: "Will you always be there for Rimi?", a: ["Always & Forever 🫶", "No matter what! 🔒"] },
+  { q: "Is Rimi absolutely amazing?", a: ["Beyond amazing! 💎", "The absolute best! ❤️"] }
+];
 
-        <section id="page-1" class="page active">
-            <div class="glass-card">
-                <h1 class="glow-text">🎂 Happy Birthday Rimi 🎂</h1>
-                <p id="typing-text" class="typewriter-text"></p>
-                <button class="btn primary-btn" onclick="nextPage(2)">🎁 Open Your Birthday Surprise</button>
-            </div>
-        </section>
+const wheelPrizes = ["🎁 Free Hug","🍫 Chocolate","🌹 Rose","🎂 Cake","💝 Gift","💖 Best Friend Forever"];
+const balloonWishes = ["Happy Birthday Rimi ❤️","Stay Blessed 🎂","Bestie Forever 💕","Smile Always 😊","Have a Wonderful Life ✨"];
 
-        <section id="page-2" class="page">
-            <div class="glass-card">
-                <h2 class="card-title">Catch The Birthday Gifts! 🎁</h2>
-                <p class="sub-text">Catch 5 gifts to unlock the next level!</p>
-                <div class="counter-badge">Collected: <span id="gift-count">0</span>/5</div>
-                <div id="game-area"></div>
-            </div>
-        </section>
+function clearAllTimers() {
+  activeIntervals.forEach(clearInterval);
+  activeTimeouts.forEach(clearTimeout);
+  activeIntervals = [];
+  activeTimeouts = [];
+}
 
-        <section id="page-3" class="page">
-            <div class="glass-card">
-                <h2 class="card-title">Make a Wish & Blow The Candles! 🎂</h2>
-                <div id="cake-container" class="cake-3d" onclick="blowCandles()">
-                    <div class="candles" id="candles">🔥 🔥 🔥</div>
-                    <div class="cake-body">🎂</div>
-                </div>
-                <button id="cut-cake-btn" class="btn primary-btn disabled" onclick="cutCake()">🎂 Cut The Cake</button>
-            </div>
-        </section>
+/* ========== CONFETTI ENGINE ========== */
+const cCanvas = document.getElementById('confetti-canvas');
+const cCtx = cCanvas.getContext('2d');
+let confettiParticles = [];
 
-        <section id="page-4" class="page">
-            <div class="glass-card">
-                <h2 class="card-title">A Special Message For My Bestie ❤️</h2>
-                <div class="handwriting-box">
-                    <p id="wishes-text"></p>
-                </div>
-                <button class="btn primary-btn margin-top" onclick="nextPage(5)">Continue ✨</button>
-            </div>
-        </section>
+function resizeConfetti() {
+  cCanvas.width = window.innerWidth;
+  cCanvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resizeConfetti);
+resizeConfetti();
 
-        <section id="page-5" class="page">
-            <div class="glass-card">
-                <h2 class="card-title">🎉 Today is Rimi's Birthday 🎂</h2>
-                <div class="calendar-card">
-                    <div class="calendar-header">TODAY</div>
-                    <div class="calendar-body" id="today-date">--</div>
-                </div>
-                <button class="btn primary-btn" onclick="nextPage(6)">Check Love Meter 💕</button>
-            </div>
-        </section>
+function createConfetti(x, y, count = 30) {
+  const colors = ['#ff69b4', '#da70d6', '#87ceeb', '#ffd700', '#ff1493'];
+  for (let i = 0; i < count; i++) {
+    confettiParticles.push({
+      x: x,
+      y: y,
+      vx: (Math.random() - 0.5) * 10,
+      vy: (Math.random() - 0.5) * 10 - 3,
+      size: Math.random() * 6 + 4,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      alpha: 1,
+      decay: Math.random() * 0.02 + 0.015
+    });
+  }
+}
 
-        <section id="page-6" class="page">
-            <div class="glass-card">
-                <h2 class="card-title">My Bestie Happiness Level ❤️</h2>
-                <div class="thermometer-container">
-                    <div class="thermometer-fill" id="love-fill"></div>
-                </div>
-                <div class="meter-text" id="meter-text">0%</div>
-                <button class="btn primary-btn margin-top" onclick="startLoveMeter()">Start Measuring 💖</button>
-                <button id="love-next-btn" class="btn primary-btn hidden margin-top" onclick="nextPage(7)">View Gallery 📸</button>
-            </div>
-        </section>
+function updateConfetti() {
+  cCtx.clearRect(0, 0, cCanvas.width, cCanvas.height);
+  for (let i = confettiParticles.length - 1; i >= 0; i--) {
+    let p = confettiParticles[i];
+    p.x += p.vx;
+    p.y += p.vy;
+    p.vy += 0.2; // gravity
+    p.alpha -= p.decay;
+    if (p.alpha <= 0) {
+      confettiParticles.splice(i, 1);
+    } else {
+      cCtx.globalAlpha = p.alpha;
+      cCtx.fillStyle = p.color;
+      cCtx.fillRect(p.x, p.y, p.size, p.size);
+    }
+  }
+  cCtx.globalAlpha = 1;
+  requestAnimationFrame(updateConfetti);
+}
+updateConfetti();
 
-        <section id="page-7" class="page">
-            <div class="glass-card">
-                <h2 class="card-title">Memory Gallery 📸</h2>
-                <div class="media-frame">
-                    <img id="gallery-img" src="assets/photo1.jpg" alt="Bestie Memory" class="gallery-photo" onerror="this.onerror=null; this.src='https://picsum.photos/500/350?random=1';">
-                </div>
-                <div class="slider-controls">
-                    <button class="btn-small" onclick="prevPhoto()">❮ Prev</button>
-                    <button class="btn-small" onclick="nextPhoto()">Next ❯</button>
-                </div>
-                <button class="btn primary-btn margin-top" onclick="nextPage(8)">View Cute GIFs 🎬</button>
-            </div>
-        </section>
+/* ========== LOADING & INIT ========== */
+window.addEventListener('load', () => {
+  startLoading();
+});
 
-        <section id="page-8" class="page">
-            <div class="glass-card">
-                <h2 class="card-title">Cute GIF Gallery 🎬</h2>
-                <div class="media-frame">
-                    <img id="gif-display" src="assets/gif1.gif" alt="Cute GIF" class="gif-photo" onerror="this.onerror=null; this.src='https://picsum.photos/500/350?random=2';">
-                </div>
-                <div class="slider-controls">
-                    <button class="btn-small" onclick="prevGif()">❮ Prev</button>
-                    <button class="btn-small" onclick="nextGif()">Next ❯</button>
-                </div>
-                <button class="btn primary-btn margin-top" onclick="nextPage(9)">50 Reasons Why You're Amazing 💖</button>
-            </div>
-        </section>
+function startLoading() {
+  let p = 0;
+  const fill = document.getElementById('progress');
+  const interval = setInterval(() => {
+    p += Math.random() * 12 + 5;
+    if (p >= 100) { 
+      p = 100; 
+      clearInterval(interval); 
+      setTimeout(finishLoading, 300); 
+    }
+    fill.style.width = p + '%';
+  }, 100);
+}
 
-        <section id="page-9" class="page">
-            <div class="glass-card">
-                <h2 class="card-title">Reasons Why You're Amazing ✨</h2>
-                <div id="reasons-container" class="reasons-grid"></div>
-                <button class="btn primary-btn margin-top" onclick="nextPage(10)">Spin The Lucky Wheel 🎡</button>
-            </div>
-        </section>
+function finishLoading() {
+  document.getElementById('loading').classList.remove('active');
+  document.getElementById('opening').classList.add('active');
+  startOpening();
+}
 
-        <section id="page-10" class="page">
-            <div class="glass-card">
-                <h2 class="card-title">Lucky Birthday Wheel 🎡</h2>
-                <div class="wheel-container">
-                    <div id="wheel" class="wheel">
-                        <div class="wheel-section">🎁 Hug</div>
-                        <div class="wheel-section">🍫 Choco</div>
-                        <div class="wheel-section">🌹 Rose</div>
-                        <div class="wheel-section">🎂 Cake</div>
-                        <div class="wheel-section">💝 Gift</div>
-                        <div class="wheel-section">💖 BFF</div>
-                    </div>
-                    <div class="pointer">▼</div>
-                </div>
-                <button class="btn primary-btn margin-top" onclick="spinWheel()">SPIN! 🎉</button>
-                <div id="wheel-result" class="result-text"></div>
-                <button id="wheel-next" class="btn primary-btn hidden margin-top" onclick="nextPage(11)">Pop Some Balloons 🎈</button>
-            </div>
-        </section>
+/* ========== OPENING ========== */
+function startOpening() {
+  music.volume = 0.5;
+  music.play().catch(()=>{});
 
-        <section id="page-11" class="page">
-            <div class="glass-card">
-                <h2 class="card-title">Pop Rimi's Balloons! 🎈</h2>
-                <p class="sub-text">Tap balloons to reveal sweet birthday wishes!</p>
-                <div id="balloon-pop-area"></div>
-                <div id="balloon-wish-display" class="wish-popup"></div>
-                <button class="btn primary-btn margin-top" onclick="nextPage(12)">Watch Fireworks 🎆</button>
-            </div>
-        </section>
+  // Stars Canvas
+  const sc = document.getElementById('stars');
+  sc.width = innerWidth; sc.height = innerHeight;
+  const sctx = sc.getContext('2d');
+  const stars = Array.from({length:60},()=>({x:Math.random()*sc.width,y:Math.random()*sc.height,r:Math.random()*1.5,a:Math.random()}));
+  
+  function drawStars() {
+    if(currentPage !== 'opening') return;
+    sctx.clearRect(0,0,sc.width,sc.height);
+    stars.forEach(s=>{ s.a += 0.03; sctx.beginPath(); sctx.arc(s.x,s.y,s.r,0,Math.PI*2); sctx.fillStyle=`rgba(255,255,255,${0.5+0.5*Math.sin(s.a)})`; sctx.fill(); });
+    requestAnimationFrame(drawStars);
+  }
+  currentPage = 'opening';
+  drawStars();
 
-        <section id="page-12" class="page">
-            <div class="glass-card">
-                <h2 class="card-title">Grand Fireworks Show 🎆</h2>
-                <p class="sub-text">A grand show dedicated to the sweetest bestie!</p>
-                <button class="btn primary-btn margin-top" onclick="triggerFireworksShow()">Launch Extra Fireworks 💥</button>
-                <button class="btn primary-btn margin-top" onclick="nextPage(13)">Open Gift Boxes 🎁</button>
-            </div>
-        </section>
-
-        <section id="page-13" class="page">
-            <div class="glass-card">
-                <h2 class="card-title">Pick Your Special Surprise 🎁</h2>
-                <div class="boxes-container">
-                    <div class="gift-box" onclick="openGiftBox(1)">🎁<br><span>Box 1</span></div>
-                    <div class="gift-box" onclick="openGiftBox(2)">🎁<br><span>Box 2</span></div>
-                    <div class="gift-box" onclick="openGiftBox(3)">🎁<br><span>Box 3</span></div>
-                </div>
-                <div id="gift-modal" class="modal hidden">
-                    <div class="modal-content">
-                        <p id="gift-modal-text"></p>
-                        <button class="btn-small margin-top" onclick="closeGiftModal()">Close</button>
-                    </div>
-                </div>
-                <button class="btn primary-btn margin-top" onclick="nextPage(14)">Take Bestie Quiz 📝</button>
-            </div>
-        </section>
-
-        <section id="page-14" class="page">
-            <div class="glass-card">
-                <h2 class="card-title">Bestie Birthday Quiz 📝</h2>
-                <p class="sub-text">Are you ready for the best year ahead?</p>
-                <div class="quiz-options">
-                    <button class="btn primary-btn" onclick="nextPage(15)">YES 😄</button>
-                    <button class="btn primary-btn" onclick="nextPage(15)">ABSOLUTELY ❤️</button>
-                    <button class="btn primary-btn" onclick="nextPage(15)">100% 🎂</button>
-                </div>
-            </div>
-        </section>
-
-        <section id="page-15" class="page">
-            <div class="glass-card">
-                <h1 class="glow-text">🎉 HAPPY BIRTHDAY RIMI 🎂</h1>
-                <blockquote class="grand-message">
-                    "Wishing You Endless Happiness, Success, Smiles and Beautiful Memories. Thank You For Being My Amazing Bestie ❤️"
-                </blockquote>
-                <button class="btn primary-btn pulse" onclick="goToCinema()">🎥 Watch Your Birthday Surprise</button>
-            </div>
-        </section>
-
-        <section id="page-16" class="page">
-            <div class="cinema-container">
-                <video id="birthday-video" src="assets/video1.mp4" playsinline controls preload="auto"></video>
-                <div id="video-end-card" class="glass-card hidden">
-                    <h2 class="card-title">🎂 Once Again...</h2>
-                    <h1 class="glow-text">🎉 HAPPY BIRTHDAY RIMI 🎉</h1>
-                    <p class="sub-text">❤️ Stay Happy Always Bestie ❤️</p>
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <footer id="footer">Made with ❤️ by SIVASINGH</footer>
-
-    <script>
-        // --- STATE MANAGEMENT ---
-        let currentPage = 1;
-        let collectedGifts = 0;
-        let candlesBlown = false;
-        let photoIndex = 0;
-        let gifIndex = 0;
-
-        const photos = [
-            'assets/photo1.jpg',
-            'assets/photo2.jpg',
-            'assets/photo3.jpg',
-            'assets/photo4.jpg',
-            'assets/photo5.jpg'
-        ];
-
-        const gifs = [
-            'assets/gif1.gif',
-            'assets/gif2.gif',
-            'assets/gif3.gif',
-            'assets/gif4.gif',
-            'assets/gif5.gif'
-        ];
-
-        // --- AUDIO MANAGEMENT ---
-        const bgMusic = document.getElementById('bg-music');
-
-        function enableAudio() {
-            bgMusic.play().then(() => {
-                document.getElementById('audio-enable-overlay').classList.add('hidden');
-            }).catch((err) => {
-                console.log("Audio waiting for user gesture:", err);
-                document.getElementById('audio-enable-overlay').classList.add('hidden');
-            });
+  // Balloons with RIMI
+  const colors = ['#ff69b4','#da70d6','#87ceeb','#ffd700','#ff1493'];
+  const container = document.getElementById('balloon-container');
+  let burstCount = 0;
+  
+  for(let i=0; i<8; i++){
+    let t = setTimeout(()=>{
+      const b = document.createElement('div');
+      b.className = 'balloon';
+      b.style.left = Math.random()*75 + 10 + '%';
+      b.style.bottom = '-100px';
+      b.style.background = colors[i%colors.length];
+      b.style.animationDuration = (6+Math.random()*3)+'s';
+      b.textContent = 'RIMI';
+      
+      const burst = (e) => {
+        if(b.dataset.burst) return;
+        b.dataset.burst = "1";
+        const rect = b.getBoundingClientRect();
+        createConfetti(rect.left + rect.width/2, rect.top + rect.height/2, 25);
+        b.remove();
+        burstCount++;
+        if(burstCount >= 5){
+          document.getElementById('happyTitle').classList.add('show');
+          setTimeout(()=>{ goTo(1); }, 2200);
         }
+      };
 
-        // --- INITIALIZATION & LOADER ---
-        window.addEventListener('DOMContentLoaded', () => {
-            let progress = 0;
-            const fill = document.getElementById('progress-fill');
-            const text = document.getElementById('progress-text');
+      b.onclick = burst;
+      container.appendChild(b);
+      let autoB = setTimeout(()=>burst(), 4000+Math.random()*2000);
+      activeTimeouts.push(autoB);
+    }, i*400);
+    activeTimeouts.push(t);
+  }
+}
 
-            const loaderInterval = setInterval(() => {
-                progress += 2;
-                fill.style.width = progress + '%';
-                text.innerText = progress + '%';
+/* ========== NAVIGATION ========== */
+function goTo(n) {
+  clearAllTimers();
+  const pages = document.querySelectorAll('.page');
+  pages.forEach(p=>{ p.classList.remove('active'); p.classList.add('exit'); });
+  
+  setTimeout(()=>{
+    pages.forEach(p=>p.classList.remove('exit'));
+    const target = document.getElementById(n===0?'loading': n==='opening'?'opening' : 'page'+n);
+    if(target) target.classList.add('active');
+    currentPage = n;
+    onPageEnter(n);
+  }, 300);
+}
 
-                if (progress >= 100) {
-                    clearInterval(loaderInterval);
-                    document.getElementById('loader').classList.add('hidden');
-                    startOpeningAnimation();
-                }
-            }, 35);
+function onPageEnter(n) {
+  if(n===1) startTyping('typing1', "This surprise is specially made for the world's cutest bestie ❤️", 35);
+  if(n===2) startGame();
+  if(n===4) startTyping('wishText', `Dear Rimi,\n\nHappy Birthday my dearest bestie! 🎂\n\nYou are the most beautiful soul I know — kind, funny, strong, and full of light. Every moment with you feels special. Thank you for being the best friend anyone could ask for.\n\nMay this year bring you endless happiness, success, love, and all the dreams your heart desires. Stay the amazing person you are!\n\nWith all my love,\nYour Bestie ❤️`, 20);
+  if(n===5) showDate();
+  if(n===6) animateMeter();
+  if(n===7) initSlider('photoSlider','photoDots');
+  if(n===8) initSlider('gifSlider','gifDots');
+  if(n===9) buildReasons();
+  if(n===11) spawnRimiBalloons();
+  if(n===12) startFireworks();
+  if(n===14) startQuiz();
+  if(n===16) playVideo();
+  if(n>=1 && n<=15) spawnFloaters();
+}
 
-            initParticles();
-        });
+/* ========== TYPING ========== */
+function startTyping(id, text, speed=30) {
+  const el = document.getElementById(id);
+  el.innerHTML = '';
+  let i=0;
+  function type() {
+    if(i<text.length && currentPage){
+      if(text[i]==='\n') el.innerHTML += '<br>';
+      else el.innerHTML += text[i];
+      i++;
+      let t = setTimeout(type, speed);
+      activeTimeouts.push(t);
+    }
+  }
+  type();
+}
 
-        // --- OPENING ANIMATION ---
-        function startOpeningAnimation() {
-            enableAudio();
-            const openingScreen = document.getElementById('opening');
-            const balloonsContainer = document.getElementById('opening-balloons-container');
-            
-            for (let i = 0; i < 8; i++) {
-                let b = document.createElement('div');
-                b.innerHTML = '🎈 RIMI';
-                b.style.position = 'absolute';
-                b.style.left = (8 + i * 11) + '%';
-                b.style.bottom = '-60px';
-                b.style.fontSize = '26px';
-                b.style.fontWeight = 'bold';
-                b.style.transition = 'all 3.5s cubic-bezier(0.25, 1, 0.5, 1)';
-                balloonsContainer.appendChild(b);
+/* ========== GAME ========== */
+function startGame() {
+  giftsCollected = 0;
+  document.getElementById('giftCounter').textContent = '0 / 5';
+  const area = document.getElementById('gameArea');
+  area.innerHTML = '';
+  const items = ['🎁','🎂','⭐','🍬','🎈','🎀','💝','✨'];
+  
+  for(let i=0; i<8; i++){
+    const g = document.createElement('div');
+    g.className = 'gift-item';
+    g.textContent = items[i%items.length];
+    g.style.left = Math.random()*80 + '%';
+    g.style.top = Math.random()*70 + '%';
+    g.style.animationDelay = Math.random()*2 + 's';
+    
+    g.onclick = (e)=>{
+      if(g.dataset.got) return;
+      g.dataset.got = "1";
+      g.style.transform = 'scale(0)';
+      giftsCollected++;
+      document.getElementById('giftCounter').textContent = giftsCollected + ' / 5';
+      const rect = g.getBoundingClientRect();
+      createConfetti(rect.left + rect.width/2, rect.top + rect.height/2, 15);
+      
+      if(giftsCollected >= 5){
+        setTimeout(()=>{
+          createConfetti(innerWidth/2, innerHeight/2, 60);
+          setTimeout(()=>goTo(3), 1200);
+        }, 300);
+      }
+    };
+    area.appendChild(g);
+  }
+}
 
-                setTimeout(() => {
-                    b.style.bottom = '50%';
-                    b.style.transform = 'scale(1.2)';
-                }, i * 250);
+/* ========== CAKE ========== */
+function blowCandles() {
+  const flame = document.getElementById('flame');
+  if(!flame || flame.style.display === 'none') return;
+  flame.style.display = 'none';
+  document.getElementById('cakeMsg').textContent = 'Candles blown! Cake is glowing ✨';
+  document.getElementById('cake').style.filter = 'drop-shadow(0 0 20px #ff69b4)';
+  createConfetti(innerWidth/2, innerHeight/2-30, 40);
+  document.getElementById('cutBtn').style.display = 'inline-block';
+}
 
-                setTimeout(() => {
-                    b.style.opacity = '0';
-                }, 3600 + (i * 200));
-            }
+function cutCake() {
+  document.getElementById('cakeMsg').textContent = 'Yay! Cake is cut 🍰';
+  createConfetti(innerWidth/2, innerHeight/2, 50);
+  setTimeout(()=>goTo(4), 1200);
+}
 
-            setTimeout(() => {
-                document.getElementById('opening-text').classList.remove('hidden');
-            }, 5200);
+/* ========== DATE ========== */
+function showDate() {
+  const d = new Date();
+  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  document.getElementById('calDay').textContent = d.getDate();
+  document.getElementById('calDate').textContent = `${days[d.getDay()]}, ${months[d.getMonth()]} ${d.getFullYear()}`;
+}
 
-            setTimeout(() => {
-                openingScreen.style.opacity = '0';
-                setTimeout(() => {
-                    openingScreen.classList.add('hidden');
-                    document.getElementById('app-container').classList.remove('hidden');
-                    initPage1();
-                }, 800);
-            }, 8000);
-        }
+/* ========== METER ========== */
+function animateMeter() {
+  const levels = [25, 50, 75, 100, '∞'];
+  const fill = document.getElementById('meterFill');
+  const label = document.getElementById('meterLabel');
+  let i=0;
+  
+  function next() {
+    if(i >= levels.length){ 
+      document.getElementById('meterNext').style.display='inline-block'; 
+      return; 
+    }
+    const v = levels[i];
+    fill.style.height = (typeof v==='number' ? v : 100) + '%';
+    label.textContent = v + (typeof v==='number'?'%':'');
+    if(v==='∞') fill.style.background = 'linear-gradient(to top,#ff69b4,#ffd700,#fff)';
+    i++;
+    let t = setTimeout(next, 800);
+    activeTimeouts.push(t);
+  }
+  let t = setTimeout(next, 400);
+  activeTimeouts.push(t);
+}
 
-        // --- PAGE NAVIGATION ---
-        function nextPage(pageNumber) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            const targetPage = document.getElementById(`page-${pageNumber}`);
-            if (targetPage) {
-                targetPage.classList.add('active');
-                currentPage = pageNumber;
-                triggerPageSpecificLogic(pageNumber);
-            }
-        }
+/* ========== SLIDER ========== */
+let sliderIndices = {};
+function initSlider(sliderId, dotsId) {
+  const slides = document.querySelectorAll(`#${sliderId} .slide`);
+  const dotsC = document.getElementById(dotsId);
+  dotsC.innerHTML = '';
+  sliderIndices[sliderId] = 0;
+  
+  slides.forEach((_,i)=>{
+    const d = document.createElement('div');
+    d.className = 'dot' + (i===0?' active':'');
+    d.onclick = ()=>showSlide(sliderId, dotsId, i);
+    dotsC.appendChild(d);
+  });
+}
 
-        function triggerPageSpecificLogic(page) {
-            if (page === 2) initGame();
-            if (page === 4) initWishes();
-            if (page === 5) initCalendar();
-            if (page === 9) initReasons();
-            if (page === 11) initBalloonsPage();
-            if (page === 12) triggerFireworksShow();
-        }
+function showSlide(sliderId, dotsId, i) {
+  const slides = document.querySelectorAll(`#${sliderId} .slide`);
+  const dots = document.querySelectorAll(`#${dotsId} .dot`);
+  let idx = sliderIndices[sliderId];
+  
+  slides[idx].classList.remove('active');
+  if(dots[idx]) dots[idx].classList.remove('active');
+  
+  sliderIndices[sliderId] = i;
+  slides[i].classList.add('active');
+  if(dots[i]) dots[i].classList.add('active');
+}
 
-        // --- PAGE 1: TYPEWRITER ---
-        function initPage1() {
-            const text = "This surprise is specially made for the world's cutest bestie ❤️";
-            let index = 0;
-            const el = document.getElementById('typing-text');
-            el.innerText = '';
-            const timer = setInterval(() => {
-                el.innerText += text[index];
-                index++;
-                if (index >= text.length) clearInterval(timer);
-            }, 45);
-        }
+/* ========== REASONS ========== */
+function buildReasons() {
+  const grid = document.getElementById('reasonsGrid');
+  grid.innerHTML = '';
+  // Fragment for fast rendering without DOM lag
+  const frag = document.createDocumentFragment();
+  
+  reasons.slice(0, 20).forEach((r, idx)=>{ // Render 20 top reasons for smooth mobile perf
+    const card = document.createElement('div');
+    card.className = 'flip-card';
+    card.innerHTML = `
+      <div class="flip-inner">
+        <div class="flip-front">Reason #${idx+1} ✨</div>
+        <div class="flip-back">${r}</div>
+      </div>
+    `;
+    card.onclick = () => card.classList.toggle('flipped');
+    frag.appendChild(card);
+  });
+  grid.appendChild(frag);
+}
 
-        // --- PAGE 2: GAME ---
-        function initGame() {
-            const area = document.getElementById('game-area');
-            area.innerHTML = '';
-            collectedGifts = 0;
-            document.getElementById('gift-count').innerText = collectedGifts;
+/* ========== WHEEL ========== */
+let spun = false;
+function spinWheel() {
+  if(spun) return;
+  spun = true;
+  const wheel = document.getElementById('wheel');
+  const deg = 1800 + Math.floor(Math.random() * 360);
+  wheel.style.transform = `rotate(${deg}deg)`;
+  
+  setTimeout(()=>{
+    const prize = wheelPrizes[Math.floor(Math.random() * wheelPrizes.length)];
+    document.getElementById('wheelResult').textContent = "You Won: " + prize + "!";
+    createConfetti(innerWidth/2, innerHeight/2, 50);
+    document.getElementById('spinBtn').style.display = 'none';
+    document.getElementById('wheelNext').style.display = 'inline-block';
+  }, 3000);
+}
 
-            const items = ['🎁', '🎂', '⭐', '🍬'];
-            
-            const spawnInterval = setInterval(() => {
-                if (collectedGifts >= 5) {
-                    clearInterval(spawnInterval);
-                    return;
-                }
-                let item = document.createElement('div');
-                item.className = 'falling-item';
-                item.innerText = items[Math.floor(Math.random() * items.length)];
-                item.style.left = Math.random() * 80 + 10 + '%';
-                
-                item.onclick = () => {
-                    collectedGifts++;
-                    document.getElementById('gift-count').innerText = collectedGifts;
-                    item.remove();
-                    if (collectedGifts >= 5) {
-                        setTimeout(() => nextPage(3), 600);
-                    }
-                };
+/* ========== BALLOONS PAGE 11 ========== */
+function spawnRimiBalloons() {
+  const field = document.getElementById('balloonField');
+  field.innerHTML = '';
+  
+  let interval = setInterval(()=>{
+    if(currentPage !== 11) return;
+    const b = document.createElement('div');
+    b.className = 'rimi-balloon';
+    b.style.left = Math.random()*80 + 10 + '%';
+    b.style.bottom = '-80px';
+    b.style.background = ['#ff69b4','#da70d6','#87ceeb','#ffd700'][Math.floor(Math.random()*4)];
+    b.textContent = 'RIMI';
+    
+    b.onclick = () => {
+      const wish = balloonWishes[Math.floor(Math.random()*balloonWishes.length)];
+      const pop = document.getElementById('wishPopup');
+      pop.textContent = wish;
+      pop.classList.add('show');
+      const rect = b.getBoundingClientRect();
+      createConfetti(rect.left + rect.width/2, rect.top + rect.height/2, 20);
+      b.remove();
+      setTimeout(()=>pop.classList.remove('show'), 1500);
+    };
+    
+    field.appendChild(b);
+    setTimeout(()=>b.remove(), 6000);
+  }, 1000);
+  activeIntervals.push(interval);
+}
 
-                area.appendChild(item);
-                setTimeout(() => { if(item.parentNode) item.remove(); }, 3000);
-            }, 700);
-        }
+/* ========== FIREWORKS ========== */
+function startFireworks() {
+  const canvas = document.getElementById('fw-canvas');
+  canvas.width = innerWidth; 
+  canvas.height = innerHeight;
+  const ctx = canvas.getContext('2d');
+  
+  let fwParticles = [];
+  
+  let interval = setInterval(()=>{
+    if(currentPage !== 12) return;
+    let x = Math.random() * canvas.width;
+    let y = Math.random() * (canvas.height * 0.5);
+    let color = ['#ff69b4', '#ffd700', '#00bfff', '#ff1493'][Math.floor(Math.random()*4)];
+    for(let i=0; i<30; i++){
+      let angle = (Math.PI * 2 / 30) * i;
+      let speed = Math.random() * 4 + 2;
+      fwParticles.push({
+        x: x, y: y,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        alpha: 1, color: color
+      });
+    }
+  }, 600);
+  activeIntervals.push(interval);
 
-        // --- PAGE 3: CAKE ---
-        function blowCandles() {
-            document.getElementById('candles').innerText = '💨';
-            candlesBlown = true;
-            document.getElementById('cut-cake-btn').classList.remove('disabled');
-        }
+  function renderFW() {
+    if(currentPage !== 12) return;
+    ctx.fillStyle = 'rgba(0,0,0,0.2)';
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+    
+    for(let i = fwParticles.length - 1; i >= 0; i--){
+      let p = fwParticles[i];
+      p.x += p.vx; p.y += p.vy;
+      p.alpha -= 0.02;
+      if(p.alpha <= 0){
+        fwParticles.splice(i,1);
+      } else {
+        ctx.globalAlpha = p.alpha;
+        ctx.fillStyle = p.color;
+        ctx.beginPath(); ctx.arc(p.x, p.y, 3, 0, Math.PI*2); ctx.fill();
+      }
+    }
+    ctx.globalAlpha = 1;
+    requestAnimationFrame(renderFW);
+  }
+  renderFW();
+}
 
-        function cutCake() {
-            if (!candlesBlown) return;
-            document.getElementById('cake-container').innerHTML = '🍰✨';
-            setTimeout(() => nextPage(4), 800);
-        }
+/* ========== GIFTS ========== */
+function openGift(num) {
+  const content = document.getElementById('giftContent');
+  const texts = [
+    "💌 Special Letter: You are an incredible person Rimi! Never stop shining and spreading your beautiful smile.",
+    "📸 Precious Memories: Every single memory shared with you is a treasure I cherish forever!",
+    "🎉 Surprise Note: You earned 1,000,000 Bestie Points! Valid for infinite hugs and endless support!"
+  ];
+  content.textContent = texts[num - 1];
+  content.classList.add('show');
+  createConfetti(innerWidth/2, innerHeight/2, 30);
+}
 
-        // --- PAGE 4: WISHES ---
-        function initWishes() {
-            const msg = "Dear Rimi,\n\nOn this wonderful day, I want to remind you how deeply special you are to me. Having you as my bestie is a true blessing. May your year ahead be filled with unlimited laughter, pure joy, and infinite success.\n\nKeep shining bright always! ✨❤️";
-            let idx = 0;
-            const box = document.getElementById('wishes-text');
-            box.innerText = '';
-            const timer = setInterval(() => {
-                box.innerText += msg[idx];
-                idx++;
-                if (idx >= msg.length) clearInterval(timer);
-            }, 35);
-        }
+/* ========== QUIZ ========== */
+let quizIdx = 0;
+function startQuiz() {
+  quizIdx = 0;
+  showQuiz();
+}
 
-        // --- PAGE 5: CALENDAR ---
-        function initCalendar() {
-            const now = new Date();
-            const options = { month: 'short', day: 'numeric', year: 'numeric' };
-            document.getElementById('today-date').innerText = now.toLocaleDateString('en-US', options);
-        }
+function showQuiz() {
+  if(quizIdx >= quizQuestions.length){
+    goTo(15);
+    return;
+  }
+  const q = quizQuestions[quizIdx];
+  document.getElementById('quizQ').textContent = q.q;
+  const btns = document.getElementById('quizBtns');
+  btns.innerHTML = '';
+  q.a.forEach(ans => {
+    const b = document.createElement('button');
+    b.textContent = ans;
+    b.onclick = () => {
+      createConfetti(innerWidth/2, innerHeight/2, 25);
+      quizIdx++;
+      showQuiz();
+    };
+    btns.appendChild(b);
+  });
+}
 
-        // --- PAGE 6: LOVE METER ---
-        function startLoveMeter() {
-            const fill = document.getElementById('love-fill');
-            const text = document.getElementById('meter-text');
-            const values = ['25%', '50%', '75%', '100%', '500%', '1000%', 'Infinity ♾️'];
-            let idx = 0;
+/* ========== VIDEO ========== */
+function playVideo() {
+  const v = document.getElementById('bdayVideo');
+  v.play().catch(()=>{});
+  v.onended = () => {
+    document.getElementById('cinemaEnd').classList.add('show');
+    createConfetti(innerWidth/2, innerHeight/2, 100);
+  };
+}
 
-            const interval = setInterval(() => {
-                text.innerText = values[idx];
-                fill.style.width = ((idx + 1) * 14.2) + '%';
-                idx++;
-                if (idx >= values.length) {
-                    clearInterval(interval);
-                    document.getElementById('love-next-btn').classList.remove('hidden');
-                }
-            }, 350);
-        }
-
-        // --- PAGE 7 & 8: GALLERIES ---
-        function nextPhoto() {
-            photoIndex = (photoIndex + 1) % photos.length;
-            document.getElementById('gallery-img').src = photos[photoIndex];
-        }
-        function prevPhoto() {
-            photoIndex = (photoIndex - 1 + photos.length) % photos.length;
-            document.getElementById('gallery-img').src = photos[photoIndex];
-        }
-
-        function nextGif() {
-            gifIndex = (gifIndex + 1) % gifs.length;
-            document.getElementById('gif-display').src = gifs[gifIndex];
-        }
-        function prevGif() {
-            gifIndex = (gifIndex - 1 + gifs.length) % gifs.length;
-            document.getElementById('gif-display').src = gifs[gifIndex];
-        }
-
-        // --- PAGE 9: 50 REASONS ---
-        function initReasons() {
-            const container = document.getElementById('reasons-container');
-            if (container.children.length > 0) return;
-            
-            for (let i = 1; i <= 50; i++) {
-                let card = document.createElement('div');
-                card.className = 'reason-card';
-                card.innerText = `#${i} Reason ❤️`;
-                card.onclick = () => {
-                    card.innerText = getSweetReason(i);
-                };
-                container.appendChild(card);
-            }
-        }
-
-        function getSweetReason(num) {
-            const reasons = [
-                "Always caring!", "Cute smile 😊", "Best listener 🎧", 
-                "Super kind 💕", "Pure heart 💖", "Makes me laugh 😂", 
-                "Always supportive ✨", "Truly honest 🌟", "So stylish 👗", "Pure gold 💛"
-            ];
-            return reasons[num % reasons.length];
-        }
-
-        // --- PAGE 10: WHEEL ---
-        function spinWheel() {
-            const wheel = document.getElementById('wheel');
-            const randDeg = Math.floor(3600 + Math.random() * 360);
-            wheel.style.transform = `rotate(${randDeg}deg)`;
-            
-            setTimeout(() => {
-                document.getElementById('wheel-result').innerText = "Result: 🎉 Best Friend Forever! 💖";
-                document.getElementById('wheel-next').classList.remove('hidden');
-            }, 4000);
-        }
-
-        // --- PAGE 11: BALLOONS ---
-        function initBalloonsPage() {
-            const area = document.getElementById('balloon-pop-area');
-            area.innerHTML = '';
-            const wishes = [
-                "Happy Birthday Rimi ❤️", "Stay Blessed 🎂", 
-                "Bestie Forever 💕", "Smile Always 😊", "Have a Wonderful Life ✨"
-            ];
-
-            for (let i = 0; i < 5; i++) {
-                let balloon = document.createElement('div');
-                balloon.className = 'floating-balloon';
-                balloon.innerText = '🎈 RIMI';
-                balloon.style.left = (i * 18 + 5) + '%';
-                balloon.onclick = () => {
-                    balloon.style.display = 'none';
-                    document.getElementById('balloon-wish-display').innerText = wishes[i % wishes.length];
-                };
-                area.appendChild(balloon);
-            }
-        }
-
-        // --- PAGE 12: FIREWORKS ---
-        function triggerFireworksShow() {
-            for (let i = 0; i < 40; i++) {
-                setTimeout(() => {
-                    createParticle(
-                        Math.random() * window.innerWidth, 
-                        Math.random() * window.innerHeight * 0.6
-                    );
-                }, i * 50);
-            }
-        }
-
-        // --- PAGE 13: GIFT BOXES ---
-        function openGiftBox(num) {
-            const messages = {
-                1: "💌 Birthday Letter: You deserve all the happiness, laughter, and success in the world!",
-                2: "📸 Birthday Memories: Every single moment spent with you is unforgettable!",
-                3: "🎁 Special Surprise: You are officially crowned the Best Bestie in the Universe!"
-            };
-            document.getElementById('gift-modal-text').innerText = messages[num];
-            document.getElementById('gift-modal').classList.remove('hidden');
-        }
-
-        function closeGiftModal() {
-            document.getElementById('gift-modal').classList.add('hidden');
-        }
-
-        // --- PAGE 16: CINEMA ---
-        function goToCinema() {
-            nextPage(16);
-            bgMusic.pause();
-            bgMusic.currentTime = 0;
-
-            const video = document.getElementById('birthday-video');
-            video.play().catch(err => console.log("Video play error:", err));
-
-            video.onended = () => {
-                document.getElementById('video-end-card').classList.remove('hidden');
-            };
-        }
-
-        // --- CANVAS PARTICLE ENGINE ---
-        let particles = [];
-        function initParticles() {
-            const canvas = document.getElementById('particle-canvas');
-            const ctx = canvas.getContext('2d');
-            
-            function resize() {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-            }
-            resize();
-            window.addEventListener('resize', resize);
-
-            class Particle {
-                constructor(x, y) {
-                    this.x = x || Math.random() * canvas.width;
-                    this.y = y || Math.random() * canvas.height;
-                    this.size = Math.random() * 5 + 2;
-                    this.speedX = Math.random() * 4 - 2;
-                    this.speedY = Math.random() * 4 - 2;
-                    this.color = `hsl(${Math.random() * 360}, 100%, 70%)`;
-                }
-                update() {
-                    this.x += this.speedX;
-                    this.y += this.speedY;
-                    if (this.size > 0.2) this.size -= 0.05;
-                }
-                draw() {
-                    ctx.fillStyle = this.color;
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-            }
-
-            window.addEventListener('click', (e) => {
-                for (let i = 0; i < 12; i++) {
-                    particles.push(new Particle(e.clientX, e.clientY));
-                }
-            });
-
-            function animate() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                if (particles.length < 30) {
-                    particles.push(new Particle());
-                }
-                for (let i = 0; i < particles.length; i++) {
-                    particles[i].update();
-                    particles[i].draw();
-                    if (particles[i].size <= 0.2) {
-                        particles.splice(i, 1);
-                        i--;
-                    }
-                }
-                requestAnimationFrame(animate);
-            }
-            animate();
-        }
-
-        function createParticle(x, y) {
-            window.dispatchEvent(new MouseEvent('click', { clientX: x, clientY: y }));
-        }
-    </script>
+/* ========== FLOATERS ========== */
+function spawnFloaters() {
+  const layer = document.getElementById('floatLayer');
+  if(layer.children.length > 8) return; // limit element count for non-laggy UI
+  const items = ['✨','💖','🎈','🌸','⭐'];
+  const el = document.createElement('div');
+  el.className = 'float-item';
+  el.textContent = items[Math.floor(Math.random()*items.length)];
+  el.style.left = Math.random()*90 + '%';
+  layer.appendChild(el);
+  setTimeout(()=>el.remove(), 10000);
+}
+</script>
 </body>
- </html>
+    </html>
