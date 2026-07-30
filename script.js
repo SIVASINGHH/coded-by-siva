@@ -4,20 +4,36 @@ let collectedGifts = 0;
 let candlesBlown = false;
 let photoIndex = 0;
 let gifIndex = 0;
-const photos = ['assets/photo1.jpg', 'assets/photo2.jpg', 'assets/photo3.jpg', 'assets/photo4.jpg', 'assets/photo5.jpg'];
-const gifs = ['assets/gif1.gif', 'assets/gif2.gif', 'assets/gif3.gif', 'assets/gif4.gif', 'assets/gif5.gif'];
+
+const photos = [
+    'assets/photo1.jpg',
+    'assets/photo2.jpg',
+    'assets/photo3.jpg',
+    'assets/photo4.jpg',
+    'assets/photo5.jpg'
+];
+
+const gifs = [
+    'assets/gif1.gif',
+    'assets/gif2.gif',
+    'assets/gif3.gif',
+    'assets/gif4.gif',
+    'assets/gif5.gif'
+];
 
 // --- AUDIO MANAGEMENT ---
 const bgMusic = document.getElementById('bg-music');
 
-function playAudio() {
-    bgMusic.play().catch(() => {
-        // Fallback for browsers blocking autoplay before interaction
-        document.addEventListener('click', () => { bgMusic.play(); }, { once: true });
+function enableAudio() {
+    bgMusic.play().then(() => {
+        document.getElementById('audio-enable-overlay').classList.add('hidden');
+    }).catch((err) => {
+        console.log("Audio play deferred or blocked:", err);
+        document.getElementById('audio-enable-overlay').classList.add('hidden');
     });
 }
 
-// --- INITIALIZATION & LOADING ---
+// --- INITIALIZATION & LOADER ---
 window.addEventListener('DOMContentLoaded', () => {
     let progress = 0;
     const fill = document.getElementById('progress-fill');
@@ -33,41 +49,42 @@ window.addEventListener('DOMContentLoaded', () => {
             document.getElementById('loader').classList.add('hidden');
             startOpeningAnimation();
         }
-    }, 40);
+    }, 35);
 
     initParticles();
 });
 
 // --- OPENING ANIMATION ---
 function startOpeningAnimation() {
-    playAudio();
+    enableAudio();
     const openingScreen = document.getElementById('opening');
     const balloonsContainer = document.getElementById('opening-balloons-container');
     
-    // Spawn balloons with "RIMI"
+    // Create animated balloons
     for (let i = 0; i < 8; i++) {
         let b = document.createElement('div');
-        b.innerHTML = '🎈 RIMi';
+        b.innerHTML = '🎈 RIMI';
         b.style.position = 'absolute';
-        b.style.left = (10 + i * 11) + '%';
-        b.style.bottom = '-50px';
-        b.style.fontSize = '24px';
-        b.style.transition = 'all 4s ease';
+        b.style.left = (8 + i * 11) + '%';
+        b.style.bottom = '-60px';
+        b.style.fontSize = '26px';
+        b.style.fontWeight = 'bold';
+        b.style.transition = 'all 3.5s cubic-bezier(0.25, 1, 0.5, 1)';
         balloonsContainer.appendChild(b);
 
         setTimeout(() => {
             b.style.bottom = '50%';
             b.style.transform = 'scale(1.2)';
-        }, i * 300);
+        }, i * 250);
 
         setTimeout(() => {
-            b.style.opacity = '0'; // Burst animation
-        }, 3500 + (i * 200));
+            b.style.opacity = '0';
+        }, 3600 + (i * 200));
     }
 
     setTimeout(() => {
         document.getElementById('opening-text').classList.remove('hidden');
-    }, 5500);
+    }, 5200);
 
     setTimeout(() => {
         openingScreen.style.opacity = '0';
@@ -75,8 +92,8 @@ function startOpeningAnimation() {
             openingScreen.classList.add('hidden');
             document.getElementById('app-container').classList.remove('hidden');
             initPage1();
-        }, 1000);
-    }, 8500);
+        }, 800);
+    }, 8000);
 }
 
 // --- PAGE NAVIGATION ---
@@ -99,7 +116,7 @@ function triggerPageSpecificLogic(page) {
     if (page === 12) triggerFireworksShow();
 }
 
-// --- PAGE 1: TYPING EFFECT ---
+// --- PAGE 1: TYPEWRITER ---
 function initPage1() {
     const text = "This surprise is specially made for the world's cutest bestie ❤️";
     let index = 0;
@@ -109,7 +126,7 @@ function initPage1() {
         el.innerText += text[index];
         index++;
         if (index >= text.length) clearInterval(timer);
-    }, 50);
+    }, 45);
 }
 
 // --- PAGE 2: GAME ---
@@ -136,13 +153,13 @@ function initGame() {
             document.getElementById('gift-count').innerText = collectedGifts;
             item.remove();
             if (collectedGifts >= 5) {
-                setTimeout(() => nextPage(3), 800);
+                setTimeout(() => nextPage(3), 600);
             }
         };
 
         area.appendChild(item);
         setTimeout(() => { if(item.parentNode) item.remove(); }, 3000);
-    }, 800);
+    }, 700);
 }
 
 // --- PAGE 3: CAKE ---
@@ -155,7 +172,7 @@ function blowCandles() {
 function cutCake() {
     if (!candlesBlown) return;
     document.getElementById('cake-container').innerHTML = '🍰✨';
-    setTimeout(() => nextPage(4), 1000);
+    setTimeout(() => nextPage(4), 800);
 }
 
 // --- PAGE 4: WISHES ---
@@ -168,7 +185,7 @@ function initWishes() {
         box.innerText += msg[idx];
         idx++;
         if (idx >= msg.length) clearInterval(timer);
-    }, 40);
+    }, 35);
 }
 
 // --- PAGE 5: CALENDAR ---
@@ -193,7 +210,7 @@ function startLoveMeter() {
             clearInterval(interval);
             document.getElementById('love-next-btn').classList.remove('hidden');
         }
-    }, 400);
+    }, 350);
 }
 
 // --- PAGE 7 & 8: GALLERIES ---
@@ -218,7 +235,7 @@ function prevGif() {
 // --- PAGE 9: 50 REASONS ---
 function initReasons() {
     const container = document.getElementById('reasons-container');
-    if(container.children.length > 0) return; // Prevent duplicating cards
+    if (container.children.length > 0) return;
     
     for (let i = 1; i <= 50; i++) {
         let card = document.createElement('div');
@@ -232,7 +249,11 @@ function initReasons() {
 }
 
 function getSweetReason(num) {
-    const reasons = ["Always caring!", "Cute smile 😊", "Best listener 🎧", "Super kind 💕", "Pure heart 💖", "Makes me laugh 😂", "Always supportive ✨"];
+    const reasons = [
+        "Always caring!", "Cute smile 😊", "Best listener 🎧", 
+        "Super kind 💕", "Pure heart 💖", "Makes me laugh 😂", 
+        "Always supportive ✨", "Truly honest 🌟", "So stylish 👗", "Pure gold 💛"
+    ];
     return reasons[num % reasons.length];
 }
 
@@ -252,9 +273,12 @@ function spinWheel() {
 function initBalloonsPage() {
     const area = document.getElementById('balloon-pop-area');
     area.innerHTML = '';
-    const wishes = ["Happy Birthday Rimi ❤️", "Stay Blessed 🎂", "Bestie Forever 💕", "Smile Always 😊", "Have a Wonderful Life ✨"];
+    const wishes = [
+        "Happy Birthday Rimi ❤️", "Stay Blessed 🎂", 
+        "Bestie Forever 💕", "Smile Always 😊", "Have a Wonderful Life ✨"
+    ];
 
-    for(let i = 0; i < 5; i++) {
+    for (let i = 0; i < 5; i++) {
         let balloon = document.createElement('div');
         balloon.className = 'floating-balloon';
         balloon.innerText = '🎈 RIMI';
@@ -269,18 +293,22 @@ function initBalloonsPage() {
 
 // --- PAGE 12: FIREWORKS ---
 function triggerFireworksShow() {
-    // Visual cue provided by canvas particles falling/exploding
-    for(let i=0; i<30; i++) {
-        createParticle(window.innerWidth / 2, window.innerHeight / 2);
+    for (let i = 0; i < 40; i++) {
+        setTimeout(() => {
+            createParticle(
+                Math.random() * window.innerWidth, 
+                Math.random() * window.innerHeight * 0.6
+            );
+        }, i * 50);
     }
 }
 
 // --- PAGE 13: GIFT BOXES ---
 function openGiftBox(num) {
     const messages = {
-        1: "💌 Birthday Letter: You deserve all the joy in the universe!",
-        2: "📸 Birthday Memories: Thank you for every amazing moment we shared!",
-        3: "🎁 Special Surprise: You are officially awarded the Best Bestie of the Century!"
+        1: "💌 Birthday Letter: You deserve all the happiness, laughter, and success in the world!",
+        2: "📸 Birthday Memories: Every single moment spent with you is unforgettable!",
+        3: "🎁 Special Surprise: You are officially crowned the Best Bestie in the Universe!"
     };
     document.getElementById('gift-modal-text').innerText = messages[num];
     document.getElementById('gift-modal').classList.remove('hidden');
@@ -297,7 +325,7 @@ function goToCinema() {
     bgMusic.currentTime = 0;
 
     const video = document.getElementById('birthday-video');
-    video.play();
+    video.play().catch(err => console.log("Video play error:", err));
 
     video.onended = () => {
         document.getElementById('video-end-card').classList.remove('hidden');
@@ -321,15 +349,15 @@ function initParticles() {
         constructor(x, y) {
             this.x = x || Math.random() * canvas.width;
             this.y = y || Math.random() * canvas.height;
-            this.size = Math.random() * 4 + 1;
-            this.speedX = Math.random() * 2 - 1;
-            this.speedY = Math.random() * 2 - 1;
-            this.color = `hsl(${Math.random() * 360}, 100%, 75%)`;
+            this.size = Math.random() * 5 + 2;
+            this.speedX = Math.random() * 4 - 2;
+            this.speedY = Math.random() * 4 - 2;
+            this.color = `hsl(${Math.random() * 360}, 100%, 70%)`;
         }
         update() {
             this.x += this.speedX;
             this.y += this.speedY;
-            if (this.size > 0.2) this.size -= 0.02;
+            if (this.size > 0.2) this.size -= 0.05;
         }
         draw() {
             ctx.fillStyle = this.color;
@@ -340,14 +368,14 @@ function initParticles() {
     }
 
     window.addEventListener('click', (e) => {
-        for (let i = 0; i < 8; i++) {
+        for (let i = 0; i < 12; i++) {
             particles.push(new Particle(e.clientX, e.clientY));
         }
     });
 
     function animate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        if (particles.length < 40) {
+        if (particles.length < 30) {
             particles.push(new Particle());
         }
         for (let i = 0; i < particles.length; i++) {
@@ -365,4 +393,4 @@ function initParticles() {
 
 function createParticle(x, y) {
     window.dispatchEvent(new MouseEvent('click', { clientX: x, clientY: y }));
-}
+        }
