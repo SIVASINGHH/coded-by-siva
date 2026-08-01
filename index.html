@@ -2,1325 +2,1227 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="mobile-web-app-capable" content="yes">
-<title>🎂 Happy Birthday Rimi 🎂</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>I made this for you❤️ </title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Great+Vibes&family=Orbitron:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
-/* ===================== RESET & BASE ===================== */
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html,body{
-  width:100%;height:100%;overflow:hidden;
-  font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,Helvetica,Arial,sans-serif;
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-  background:#0a0015;color:#fff;
-  touch-action:manipulation;-webkit-tap-highlight-color:transparent;
-}
-button{font-family:inherit;cursor:pointer;border:none;outline:none;background:none}
-img,video{max-width:100%;display:block}
-::-webkit-scrollbar{width:0;height:0}
-
-/* ===================== CSS VARIABLES ===================== */
-:root{
-  --pink:#ff6b9d;
-  --purple:#c44dff;
-  --sky:#5ce1ff;
-  --gold:#ffd700;
-  --rosegold:#e8b4b8;
-  --white:#ffffff;
-  --glass:rgba(255,255,255,0.12);
-  --glass-border:rgba(255,255,255,0.25);
-  --shadow:0 8px 32px rgba(0,0,0,0.4);
-  --glow-pink:0 0 30px rgba(255,107,157,0.8);
-  --glow-gold:0 0 30px rgba(255,215,0,0.8);
+:root {
+  --black: #07070b;
+  --dark-purple: #130722;
+  --purple: #3a1554;
+  --pink: #ff2e63;
+  --red: #e60026;
+  --gold: #ffd700;
+  --gold-light: #ffe66d;
+  --white: #ffffff;
+  --glass: rgba(255, 255, 255, 0.07);
+  --glass-border: rgba(255, 255, 255, 0.18);
+  --neon-pink: #ff2e63;
+  --neon-gold: #ffd700;
 }
 
-/* ===================== HIGH PERFORMANCE UTILITY ===================== */
-.hidden{display:none!important}
-.page{
-  position:absolute;inset:0;width:100%;height:100%;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  opacity:0;pointer-events:none;
-  transition:opacity 0.6s ease, transform 0.6s cubic-bezier(0.16,1,0.3,1);
-  transform:scale(0.96) translateZ(0);
-  will-change:opacity, transform;
-  overflow:hidden;z-index:10;
-}
-.page.active{opacity:1;pointer-events:auto;transform:scale(1) translateZ(0);z-index:20}
-
-.glass{
-  background:var(--glass);
-  backdrop-filter:blur(16px) saturate(180%);
-  -webkit-backdrop-filter:blur(16px) saturate(180%);
-  border:1px solid var(--glass-border);
-  border-radius:24px;
-  box-shadow:var(--shadow);
-  transform:translateZ(0);
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
 }
 
-/* ===================== ULTRA-FRESH GLOWING TEXT STYLES ===================== */
-.opening-text, .typing-title, .letter-title, .celeb-title, .fw-text, .cinema-end-text, .quiz-q {
-  font-weight:900;
-  text-align:center;
-  background:linear-gradient(135deg, #ffffff 0%, #ff6b9d 30%, #ffd700 65%, #5ce1ff 100%);
-  background-size:200% auto;
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  background-clip:text;
-  animation:glowGradient 4s linear infinite;
-  filter:drop-shadow(0 0 10px rgba(255, 107, 157, 0.8)) drop-shadow(0 0 22px rgba(196, 77, 255, 0.6));
-  will-change:filter, background-position;
-  letter-spacing:1px;
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--black);
+  font-family: 'Poppins', sans-serif;
+  color: var(--white);
 }
 
-@keyframes glowGradient{
-  0%{background-position:0% 50%}
-  50%{background-position:100% 50%}
-  100%{background-position:0% 50%}
+@media (pointer: fine) {
+  body { cursor: none; }
 }
 
-.btn-premium{
-  position:relative;
-  padding:18px 42px;
-  font-size:1.15rem;
-  font-weight:700;
-  letter-spacing:0.5px;
-  color:#fff;
-  background:linear-gradient(135deg,#ff6b9d 0%,#c44dff 50%,#5ce1ff 100%);
-  background-size:200% 200%;
-  border-radius:50px;
-  box-shadow:0 0 25px rgba(255,107,157,0.6), inset 0 1px 0 rgba(255,255,255,0.4);
-  overflow:hidden;
-  transition:transform 0.25s ease, box-shadow 0.25s ease;
-  animation:gradientShift 4s ease infinite;
-  transform:translateZ(0);
-  will-change:transform, box-shadow;
+/* Custom Cursor (Desktop) */
+.cursor {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--gold);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate3d(-50%, -50%, 0);
+  transition: width 0.2s, height 0.2s, border-color 0.2s;
+  mix-blend-mode: difference;
+  display: none;
 }
-.btn-premium::before{
-  content:'';
-  position:absolute;inset:0;
-  background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,0.4) 50%,transparent 70%);
-  transform:translateX(-100%);
-  transition:transform 0.6s ease;
+.cursor-dot {
+  position: fixed;
+  width: 6px;
+  height: 6px;
+  background: var(--pink);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate3d(-50%, -50%, 0);
+  display: none;
 }
-.btn-premium:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 0 35px rgba(255,107,157,0.85)}
-.btn-premium:hover::before{transform:translateX(100%)}
-.btn-premium:active{transform:scale(0.97)}
-@keyframes gradientShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
-
-/* ===================== LOADING SCREEN ===================== */
-#loading{
-  position:fixed;inset:0;z-index:9999;
-  background:radial-gradient(ellipse at center,#1a0033 0%,#0a0015 70%);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  transition:opacity 0.8s ease, visibility 0.8s;
-  transform:translateZ(0);
-}
-#loading.fade-out{opacity:0;visibility:hidden;pointer-events:none}
-.cake-loader{
-  width:120px;height:140px;position:relative;margin-bottom:40px;
-  animation:cakeFloat 2.5s ease-in-out infinite;
-  will-change:transform;
-}
-@keyframes cakeFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
-.cake-base{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:100px;height:40px;background:linear-gradient(180deg,#ffb6c1,#ff69b4);border-radius:8px 8px 12px 12px;box-shadow:0 8px 20px rgba(255,105,180,0.4)}
-.cake-mid{position:absolute;bottom:35px;left:50%;transform:translateX(-50%);width:80px;height:30px;background:linear-gradient(180deg,#e0b0ff,#c44dff);border-radius:6px;box-shadow:0 4px 12px rgba(196,77,255,0.4)}
-.cake-top{position:absolute;bottom:60px;left:50%;transform:translateX(-50%);width:60px;height:25px;background:linear-gradient(180deg,#ffe4e1,#ff6b9d);border-radius:5px}
-.candle{position:absolute;bottom:82px;left:50%;transform:translateX(-50%);width:6px;height:28px;background:linear-gradient(180deg,#fff,#ffe4b5);border-radius:2px}
-.flame{
-  position:absolute;bottom:108px;left:50%;transform:translateX(-50%);
-  width:14px;height:22px;
-  background:radial-gradient(ellipse at bottom,#ffeb3b 0%,#ff9800 40%,#ff5722 70%,transparent 100%);
-  border-radius:50% 50% 50% 50% / 60% 60% 40% 40%;
-  animation:flicker 0.15s ease-in-out infinite alternate;
-  box-shadow:0 0 15px #ff9800,0 0 30px #ff5722;
-  will-change:transform;
-}
-@keyframes flicker{0%{transform:translateX(-50%) scale(1) rotate(-2deg)}100%{transform:translateX(-50%) scale(1.1) rotate(2deg)}}
-.progress-wrap{width:min(280px,70vw);height:8px;background:rgba(255,255,255,0.1);border-radius:20px;overflow:hidden;margin-bottom:16px}
-.progress-bar{height:100%;width:0%;background:linear-gradient(90deg,#ff6b9d,#c44dff,#5ce1ff,#ffd700);border-radius:20px;transition:width 0.3s ease;box-shadow:0 0 20px rgba(255,107,157,0.6)}
-.progress-text{font-size:0.95rem;color:rgba(255,255,255,0.8);letter-spacing:1px;margin-bottom:30px}
-.credit-load{font-size:0.85rem;color:rgba(255,255,255,0.5);position:absolute;bottom:30px}
-.credit-load span{color:var(--pink)}
-
-/* ===================== CANVAS LAYERS ===================== */
-#bg-canvas,#fx-canvas,#particle-canvas{
-  position:fixed;inset:0;width:100%;height:100%;pointer-events:none;
-  transform:translateZ(0);will-change:transform;
-}
-#bg-canvas{z-index:1}
-#fx-canvas{z-index:5}
-#particle-canvas{z-index:6}
-
-/* ===================== OPENING SEQUENCE ===================== */
-#opening{
-  position:fixed;inset:0;z-index:50;
-  background:radial-gradient(ellipse at 30% 20%,#1a0033 0%,#0a0015 50%,#000 100%);
-  display:flex;align-items:center;justify-content:center;
-  transition:opacity 0.8s ease;
-  transform:translateZ(0);
-}
-#opening.done{opacity:0;pointer-events:none}
-.opening-text{
-  font-size:clamp(2.2rem,8vw,4.5rem);
-  padding:20px;
-  animation:glowGradient 3s ease infinite, zoomIn 1.2s cubic-bezier(0.16,1,0.3,1) forwards;
-  will-change:transform, opacity;
-}
-@keyframes zoomIn{0%{opacity:0;transform:scale(0.6)}100%{opacity:1;transform:scale(1)}}
-
-/* ===================== PAGE 1 - INTRO ===================== */
-#page1{background:radial-gradient(ellipse at top,#2a0845 0%,#0a0015 60%)}
-.typing-container{text-align:center;padding:20px;max-width:90vw}
-.typing-title{
-  font-size:clamp(2.2rem,7vw,3.8rem);
-  margin-bottom:20px;
-  min-height:1.2em;
-}
-.typing-sub{
-  font-size:clamp(1.1rem,3.5vw,1.5rem);
-  color:rgba(255,255,255,0.9);
-  line-height:1.6;
-  margin-bottom:50px;
-  min-height:3em;
-  text-shadow:0 0 10px rgba(255,255,255,0.3);
-}
-.cursor-blink{display:inline-block;width:3px;height:1.1em;background:#ff6b9d;margin-left:2px;animation:blink 0.7s step-end infinite;vertical-align:text-bottom}
-@keyframes blink{50%{opacity:0}}
-
-/* ===================== PAGE 2 - GIFT GAME ===================== */
-#page2{background:radial-gradient(ellipse at bottom,#1a0033,#0a0015)}
-.game-area{
-  position:relative;width:100%;height:70vh;max-width:500px;
-  overflow:hidden;border-radius:20px;
-  transform:translateZ(0);
-}
-.game-hud{
-  position:absolute;top:15px;left:0;right:0;
-  display:flex;justify-content:space-between;padding:0 20px;
-  font-size:1.1rem;font-weight:700;z-index:5;
-  color:#ffd700;text-shadow:0 0 12px rgba(255,215,0,0.6);
-}
-.falling-item{
-  position:absolute;font-size:2.4rem;
-  cursor:pointer;user-select:none;
-  transition:transform 0.1s;
-  filter:drop-shadow(0 0 10px rgba(255,107,157,0.5));
-  animation:itemFloat 0.6s ease-in-out infinite alternate;
-  will-change:transform;
-}
-@keyframes itemFloat{0%{transform:translateY(0) rotate(-5deg)}100%{transform:translateY(-6px) rotate(5deg)}}
-.falling-item.caught{animation:caughtPop 0.4s ease forwards}
-@keyframes caughtPop{0%{transform:scale(1)}50%{transform:scale(1.4)}100%{transform:scale(0);opacity:0}}
-
-/* ===================== PAGE 3 - CAKE ===================== */
-#page3{background:radial-gradient(circle at 50% 80%,#2a0845 0%,#0a0015 70%)}
-.cake-scene{position:relative;width:280px;height:320px;margin-bottom:40px;transform:translateZ(0)}
-.cake-3d{position:relative;width:100%;height:100%}
-.layer{position:absolute;left:50%;transform:translateX(-50%);border-radius:50%;}
-.layer1{bottom:0;width:220px;height:70px;background:linear-gradient(180deg,#ffb6c1,#ff69b4);box-shadow:0 10px 30px rgba(255,105,180,0.5),inset 0 -8px 20px rgba(0,0,0,0.15)}
-.layer2{bottom:55px;width:180px;height:55px;background:linear-gradient(180deg,#e8d5ff,#c44dff);box-shadow:0 8px 25px rgba(196,77,255,0.4),inset 0 -6px 15px rgba(0,0,0,0.12)}
-.layer3{bottom:95px;width:140px;height:45px;background:linear-gradient(180deg,#ffe4e1,#ff8fab);box-shadow:0 6px 20px rgba(255,143,171,0.4)}
-.frosting{position:absolute;width:12px;height:18px;background:#fff;border-radius:50% 50% 40% 40%;box-shadow:0 2px 4px rgba(0,0,0,0.1)}
-.candle-wrap{position:absolute;bottom:135px;left:50%;transform:translateX(-50%);display:flex;gap:18px}
-.candle-stick{width:8px;height:36px;background:linear-gradient(180deg,#fff8e7,#ffe4b5);border-radius:3px;position:relative}
-.candle-flame{
-  position:absolute;top:-22px;left:50%;transform:translateX(-50%);
-  width:16px;height:26px;
-  background:radial-gradient(ellipse at 50% 80%,#fff 0%,#ffeb3b 20%,#ff9800 50%,#ff5722 80%,transparent);
-  border-radius:50% 50% 20% 20%;
-  animation:flameDance 0.2s ease-in-out infinite alternate;
-  box-shadow:0 0 20px #ff9800,0 0 40px rgba(255,87,34,0.6);
-  opacity:1;transition:opacity 0.8s,transform 0.8s;
-  will-change:transform, opacity;
-}
-.candle-flame.out{opacity:0;transform:translateX(-50%) scale(0)}
-@keyframes flameDance{0%{transform:translateX(-50%) scaleY(1) rotate(-3deg)}100%{transform:translateX(-50%) scaleY(1.15) rotate(3deg)}}
-.smoke{
-  position:absolute;top:-30px;left:50%;width:8px;height:8px;
-  background:rgba(200,200,200,0.4);border-radius:50%;
-  opacity:0;pointer-events:none;
-}
-.smoke.active{animation:smokeRise 1.5s ease-out forwards}
-@keyframes smokeRise{0%{opacity:0.6;transform:translate(-50%,0) scale(1)}100%{opacity:0;transform:translate(-50%,-60px) scale(2.5)}}
-.cream-splash{position:absolute;width:20px;height:20px;background:#fff;border-radius:50%;opacity:0;pointer-events:none}
-.cake-cut .layer{animation:cakeSlice 1s ease forwards}
-@keyframes cakeSlice{0%{transform:translateX(-50%) scale(1)}100%{transform:translateX(-50%) scale(0.95) rotateX(5deg)}}
-
-/* ===================== PAGE 4 - LETTER ===================== */
-#page4{background:radial-gradient(ellipse at center,#1a0a2e,#0a0015)}
-.letter-card{
-  width:min(420px,90vw);max-height:75vh;overflow-y:auto;
-  padding:40px 30px;text-align:center;
-  background:linear-gradient(145deg,rgba(255,255,255,0.15),rgba(255,255,255,0.05));
-  border:1px solid rgba(255,215,0,0.3);
-  box-shadow:0 20px 60px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.2);
-}
-.letter-title{font-size:1.8rem;margin-bottom:24px;}
-.letter-body{
-  font-family:'Georgia',serif;
-  font-size:1.05rem;line-height:1.9;
-  color:rgba(255,255,255,0.95);
-  text-align:left;
-  white-space:pre-wrap;
-  text-shadow:0 0 6px rgba(255,255,255,0.2);
-}
-.letter-signature{margin-top:30px;text-align:right;color:var(--pink);font-style:italic;font-size:1.2rem;font-weight:700;text-shadow:0 0 10px rgba(255,107,157,0.6)}
-
-/* ===================== PAGE 5 - CALENDAR ===================== */
-#page5{background:radial-gradient(circle at 50% 30%,#2a0845,#0a0015)}
-.calendar{
-  width:min(340px,90vw);
-  background:var(--glass);
-  backdrop-filter:blur(20px);
-  border-radius:24px;
-  border:1px solid var(--glass-border);
-  overflow:hidden;
-  box-shadow:var(--shadow),0 0 60px rgba(196,77,255,0.2);
-}
-.cal-header{
-  background:linear-gradient(135deg,#ff6b9d,#c44dff);
-  padding:20px;text-align:center;font-size:1.3rem;font-weight:800;letter-spacing:1px;
-}
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;padding:16px}
-.cal-day-name{text-align:center;font-size:0.75rem;color:rgba(255,255,255,0.6);padding:6px 0;font-weight:600}
-.cal-day{
-  aspect-ratio:1;display:flex;align-items:center;justify-content:center;
-  font-size:0.95rem;border-radius:12px;transition:all 0.3s;
-}
-.cal-day.today{
-  background:linear-gradient(135deg,#ff6b9d,#ffd700);
-  color:#1a0015;font-weight:900;
-  box-shadow:0 0 25px rgba(255,107,157,0.8);
-  animation:pulseToday 1.5s ease-in-out infinite;
-  will-change:transform;
-}
-@keyframes pulseToday{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
-.cal-msg{text-align:center;padding:20px;font-size:1.2rem;color:var(--gold);font-weight:700;text-shadow:0 0 12px rgba(255,215,0,0.6)}
-
-/* ===================== PAGE 6 - THERMOMETER ===================== */
-#page6{background:radial-gradient(ellipse at bottom,#1a0033,#0a0015)}
-.thermo-wrap{display:flex;flex-direction:column;align-items:center;gap:20px}
-.thermo{
-  width:60px;height:min(380px,50vh);
-  background:rgba(255,255,255,0.1);
-  border-radius:40px;
-  border:3px solid rgba(255,255,255,0.25);
-  position:relative;overflow:hidden;
-  box-shadow:inset 0 0 20px rgba(0,0,0,0.3);
-}
-.thermo-fill{
-  position:absolute;bottom:0;left:0;right:0;height:0%;
-  background:linear-gradient(180deg,#ff6b9d 0%,#c44dff 30%,#5ce1ff 60%,#ffd700 85%,#fff 100%);
-  border-radius:40px;
-  transition:height 1.2s cubic-bezier(0.34,1.56,0.64,1);
-  box-shadow:0 0 30px rgba(255,107,157,0.6);
-  will-change:height;
-}
-.thermo-bulb{
-  width:90px;height:90px;border-radius:50%;
-  background:linear-gradient(135deg,#ff6b9d,#c44dff);
-  margin-top:-20px;
-  box-shadow:0 0 40px rgba(255,107,157,0.8);
-  display:flex;align-items:center;justify-content:center;
-  font-size:1.8rem;
-}
-.thermo-labels{display:flex;flex-direction:column;gap:8px;margin-left:20px}
-.thermo-label{font-size:0.95rem;color:rgba(255,255,255,0.7);opacity:0.5;transition:all 0.4s}
-.thermo-label.active{opacity:1;color:#ffd700;font-weight:800;transform:scale(1.1);text-shadow:0 0 10px rgba(255,215,0,0.8)}
-
-/* ===================== PAGE 7 - PHOTO GALLERY ===================== */
-#page7{background:radial-gradient(circle at top,#2a0845,#0a0015)}
-.gallery-wrap{width:min(420px,92vw);position:relative}
-.gallery-slide{
-  width:100%;aspect-ratio:4/5;border-radius:24px;overflow:hidden;
-  box-shadow:0 20px 50px rgba(0,0,0,0.5),0 0 40px rgba(196,77,255,0.3);
-  border:2px solid rgba(255,255,255,0.25);
-  position:relative;
-}
-.gallery-slide img{
-  width:100%;height:100%;object-fit:cover;
-  transition:transform 6s ease;
-  will-change:transform;
-}
-.gallery-slide:hover img{transform:scale(1.08)}
-.gallery-nav{display:flex;justify-content:center;gap:12px;margin-top:24px}
-.gallery-dot{
-  width:12px;height:12px;border-radius:50%;
-  background:rgba(255,255,255,0.3);
-  transition:all 0.3s;cursor:pointer;
-}
-.gallery-dot.active{background:linear-gradient(135deg,#ff6b9d,#ffd700);transform:scale(1.3);box-shadow:0 0 15px rgba(255,107,157,0.8)}
-.gallery-caption{text-align:center;margin-top:16px;font-size:1.05rem;color:rgba(255,255,255,0.9);font-weight:600;text-shadow:0 0 8px rgba(255,255,255,0.4)}
-
-/* ===================== PAGE 8 - GIF GALLERY ===================== */
-#page8{background:radial-gradient(ellipse at center,#1a0033,#0a0015)}
-.gif-carousel{width:min(400px,90vw);position:relative;overflow:hidden;border-radius:24px}
-.gif-track{display:flex;transition:transform 0.5s cubic-bezier(0.16,1,0.3,1);will-change:transform}
-.gif-item{min-width:100%;aspect-ratio:1;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.3)}
-.gif-item img{width:100%;height:100%;object-fit:cover;border-radius:20px}
-.gif-controls{display:flex;justify-content:center;gap:20px;margin-top:20px}
-.gif-btn{
-  width:48px;height:48px;border-radius:50%;
-  background:var(--glass);border:1px solid var(--glass-border);
-  color:#fff;font-size:1.3rem;
-  display:flex;align-items:center;justify-content:center;
-  transition:all 0.25s ease;
-}
-.gif-btn:hover{background:rgba(255,107,157,0.4);transform:scale(1.1);box-shadow:0 0 15px rgba(255,107,157,0.6)}
-
-/* ===================== PAGE 9 - 50 REASONS ===================== */
-#page9{background:radial-gradient(circle at 50% 20%,#2a0845,#0a0015);overflow-y:auto}
-.reasons-grid{
-  display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
-  gap:14px;padding:20px;max-width:700px;width:100%;
-  max-height:70vh;overflow-y:auto;
-}
-.reason-card{
-  aspect-ratio:1;perspective:800px;cursor:pointer;
-}
-.reason-inner{
-  width:100%;height:100%;position:relative;
-  transform-style:preserve-3d;transition:transform 0.6s cubic-bezier(0.16,1,0.3,1);
-  will-change:transform;
-}
-.reason-card.flipped .reason-inner{transform:rotateY(180deg)}
-.reason-front,.reason-back{
-  position:absolute;inset:0;backface-visibility:hidden;
-  border-radius:16px;display:flex;align-items:center;justify-content:center;
-  padding:12px;text-align:center;font-size:0.85rem;font-weight:700;
-}
-.reason-front{
-  background:linear-gradient(145deg,rgba(255,107,157,0.35),rgba(196,77,255,0.35));
-  border:1px solid rgba(255,255,255,0.3);
-  font-size:1.5rem;
-}
-.reason-back{
-  background:linear-gradient(145deg,rgba(255,215,0,0.35),rgba(92,225,255,0.35));
-  border:1px solid rgba(255,215,0,0.4);
-  transform:rotateY(180deg);
-  color:#fff;
-  line-height:1.3;
-  text-shadow:0 0 8px rgba(0,0,0,0.6);
+@media (pointer: fine) {
+  .cursor, .cursor-dot { display: block; }
 }
 
-/* ===================== PAGE 10 - WHEEL ===================== */
-#page10{background:radial-gradient(ellipse at center,#1a0033,#0a0015)}
-.wheel-container{position:relative;width:min(320px,85vw);height:min(320px,85vw)}
-.wheel{
-  width:100%;height:100%;border-radius:50%;
-  position:relative;overflow:hidden;
-  box-shadow:0 0 0 8px rgba(255,215,0,0.5),0 0 45px rgba(255,107,157,0.5),inset 0 0 30px rgba(0,0,0,0.3);
-  transition:transform 4s cubic-bezier(0.15,0.8,0.2,1);
-  will-change:transform;
-}
-.wheel-segment{
-  position:absolute;width:50%;height:50%;left:50%;top:0;
-  transform-origin:0% 100%;
-  display:flex;align-items:center;justify-content:center;
-  font-size:0.75rem;font-weight:800;color:#1a0015;
-  padding-left:20px;
-}
-.wheel-pointer{
-  position:absolute;top:-18px;left:50%;transform:translateX(-50%);
-  width:0;height:0;
-  border-left:14px solid transparent;
-  border-right:14px solid transparent;
-  border-top:28px solid #ffd700;
-  filter:drop-shadow(0 4px 8px rgba(0,0,0,0.6));
-  z-index:5;
-}
-.wheel-center{
-  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-  width:50px;height:50px;border-radius:50%;
-  background:linear-gradient(135deg,#ffd700,#ff6b9d);
-  box-shadow:0 0 20px rgba(255,215,0,0.8);
-  z-index:4;display:flex;align-items:center;justify-content:center;
-  font-size:1.4rem;
-}
-.wheel-result{
-  margin-top:30px;font-size:1.3rem;font-weight:800;
-  color:var(--gold);min-height:1.5em;text-align:center;
-  text-shadow:0 0 20px rgba(255,215,0,0.8);
+/* App Container */
+#app {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
 }
 
-/* ===================== PAGE 11 - BALLOON GARDEN ===================== */
-#page11{background:radial-gradient(ellipse at top,#1a0033,#0a0015)}
-.balloon-garden{position:relative;width:100%;height:100%;overflow:hidden}
-.balloon{
-  position:absolute;cursor:pointer;user-select:none;
-  font-size:2.8rem;filter:drop-shadow(0 8px 12px rgba(0,0,0,0.3));
-  transition:transform 0.1s;
-  animation:balloonSway 3s ease-in-out infinite;
-  will-change:transform;
+.page {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  background: radial-gradient(ellipse at center, var(--dark-purple) 0%, var(--black) 80%);
+  will-change: opacity, transform;
 }
-@keyframes balloonSway{0%,100%{transform:translateX(0) rotate(-3deg)}50%{transform:translateX(8px) rotate(3deg)}}
-.balloon.burst{animation:balloonBurst 0.5s ease forwards}
-@keyframes balloonBurst{0%{transform:scale(1);opacity:1}100%{transform:scale(2);opacity:0}}
-.wish-popup{
-  position:absolute;padding:12px 20px;border-radius:16px;
-  background:rgba(255,255,255,0.2);backdrop-filter:blur(12px);
-  border:1px solid rgba(255,255,255,0.4);
-  font-size:1rem;font-weight:700;color:#fff;pointer-events:none;
-  animation:wishFloat 2.5s ease forwards;
-  z-index:10;text-shadow:0 0 8px rgba(0,0,0,0.5);
+.page.active {
+  opacity: 1;
+  visibility: visible;
+  z-index: 10;
+  transform: scale(1);
 }
-@keyframes wishFloat{0%{opacity:0;transform:translateY(0) scale(0.8)}20%{opacity:1;transform:translateY(-20px) scale(1)}100%{opacity:0;transform:translateY(-80px) scale(0.9)}}
+.page.exit {
+  opacity: 0;
+  transform: scale(1.05);
+}
 
-/* ===================== PAGE 12 - FIREWORKS ===================== */
-#page12{background:#050010}
-.fw-text{
-  position:relative;z-index:10;text-align:center;
-  font-size:clamp(1.8rem,6vw,3rem);
-  animation:pulseGlow 2s ease-in-out infinite;
+/* Glass UI */
+.glass {
+  background: var(--glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.15);
 }
-@keyframes pulseGlow{0%,100%{filter:brightness(1)}50%{filter:brightness(1.3)}}
 
-/* ===================== PAGE 13 - GIFT BOXES ===================== */
-#page13{background:radial-gradient(ellipse at center,#2a0845,#0a0015)}
-.gifts-row{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;padding:20px}
-.gift-box{
-  width:140px;height:160px;position:relative;cursor:pointer;
-  transition:transform 0.3s cubic-bezier(0.16,1,0.3,1);
-  will-change:transform;
+/* Controls Header */
+.controls {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  gap: 12px;
+  z-index: 1000;
 }
-.gift-box:hover{transform:translateY(-8px) scale(1.05)}
-.gift-lid{
-  position:absolute;top:0;left:0;right:0;height:40px;
-  background:linear-gradient(135deg,#ff6b9d,#c44dff);
-  border-radius:8px 8px 0 0;
-  transition:transform 0.5s cubic-bezier(0.16,1,0.3,1);
-  z-index:2;
-  box-shadow:0 4px 15px rgba(0,0,0,0.3);
-  will-change:transform;
+.ctrl-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--glass);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  color: var(--gold);
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+  box-shadow: 0 0 15px rgba(255,215,0,0.2);
 }
-.gift-box.opened .gift-lid{transform:translateY(-50px) rotate(-15deg)}
-.gift-body{
-  position:absolute;bottom:0;left:0;right:0;height:120px;
-  background:linear-gradient(180deg,#ffd700,#ffaa00);
-  border-radius:0 0 12px 12px;
-  display:flex;align-items:flex-end;justify-content:center;
-  padding-bottom:12px;font-size:0.85rem;font-weight:800;color:#1a0015;
-  box-shadow:0 8px 25px rgba(255,215,0,0.4);
+.ctrl-btn:hover {
+  background: rgba(255,215,0,0.2);
+  transform: scale(1.1);
 }
-.gift-ribbon{
-  position:absolute;top:0;left:50%;transform:translateX(-50%);
-  width:16px;height:100%;background:rgba(255,255,255,0.5);z-index:1;
-}
-.gift-content{
-  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);
-  font-size:2.5rem;opacity:0;transition:all 0.5s 0.2s cubic-bezier(0.16,1,0.3,1);
-  z-index:3;will-change:transform, opacity;
-}
-.gift-box.opened .gift-content{transform:translate(-50%,-80%) scale(1);opacity:1}
 
-/* ===================== PAGE 14 - QUIZ ===================== */
-#page14{background:radial-gradient(circle at 50% 40%,#2a0845,#0a0015)}
-.quiz-card{
-  width:min(400px,90vw);padding:40px 30px;text-align:center;
+/* Navigation Buttons */
+.nav-btn {
+  position: absolute;
+  bottom: 25px;
+  padding: 14px 32px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--gold);
+  background: linear-gradient(135deg, rgba(255,215,0,0.15), rgba(255,46,99,0.15));
+  border: 1px solid var(--gold);
+  border-radius: 50px;
+  cursor: pointer;
+  z-index: 100;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 20px rgba(255,215,0,0.3);
+  text-transform: uppercase;
 }
-.quiz-q{font-size:1.4rem;margin-bottom:30px;line-height:1.4}
-.quiz-options{display:flex;flex-direction:column;gap:14px}
-.quiz-opt{
-  padding:16px 24px;border-radius:50px;
-  background:var(--glass);border:1px solid var(--glass-border);
-  font-size:1.1rem;font-weight:700;color:#fff;
-  transition:all 0.25s ease;
+.nav-btn:hover {
+  background: linear-gradient(135deg, rgba(255,215,0,0.3), rgba(255,46,99,0.3));
+  box-shadow: 0 0 35px rgba(255,215,0,0.6);
+  transform: scale(1.05);
 }
-.quiz-opt:hover{background:linear-gradient(135deg,rgba(255,107,157,0.4),rgba(196,77,255,0.4));transform:scale(1.03);border-color:rgba(255,107,157,0.6)}
-.quiz-opt.selected{background:linear-gradient(135deg,#ff6b9d,#c44dff);border-color:transparent;box-shadow:0 0 30px rgba(255,107,157,0.7)}
+.nav-btn.prev { left: 25px; }
+.nav-btn.next { right: 25px; }
 
-/* ===================== PAGE 15 - GRAND CELEBRATION ===================== */
-#page15{background:radial-gradient(ellipse at center,#1a0033 0%,#050010 70%)}
-.celeb-text{
-  text-align:center;z-index:10;position:relative;padding:20px;
+/* Canvas Overlay Rules */
+canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: auto;
 }
-.celeb-title{
-  font-size:clamp(2rem,7vw,3.5rem);
-  margin-bottom:24px;
-}
-.celeb-msg{
-  font-size:clamp(1rem,3vw,1.25rem);
-  color:rgba(255,255,255,0.92);line-height:1.7;
-  max-width:500px;margin:0 auto 16px;
-  text-shadow:0 0 8px rgba(255,255,255,0.3);
-}
-.celeb-thanks{font-size:1.2rem;color:var(--pink);font-weight:700;margin-top:20px;text-shadow:0 0 12px rgba(255,107,157,0.6)}
 
-/* ===================== PAGE 16 - CINEMA ===================== */
-#page16{background:#000}
-.cinema-frame{
-  width:min(900px,96vw);aspect-ratio:16/9;
-  background:#111;border-radius:12px;overflow:hidden;
-  box-shadow:0 0 0 4px rgba(255,215,0,0.4),0 0 80px rgba(255,107,157,0.3);
-  position:relative;
+/* --- PAGE 1: LOADING --- */
+.loading-logo {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(3rem, 10vw, 5.5rem);
+  color: var(--gold);
+  text-shadow: 0 0 30px var(--gold), 0 0 60px var(--pink);
+  z-index: 5;
 }
-.cinema-frame video{width:100%;height:100%;object-fit:contain;background:#000}
-.cinema-lights{
-  position:absolute;top:-2px;left:0;right:0;height:4px;
-  background:linear-gradient(90deg,#ff6b9d,#ffd700,#c44dff,#5ce1ff,#ff6b9d);
-  background-size:200% 100%;
-  animation:gradientShift 2s linear infinite;
+.love-percent {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  color: var(--pink);
+  margin-top: 20px;
+  text-shadow: 0 0 20px var(--pink);
+  z-index: 5;
 }
-.cinema-end{
-  position:absolute;inset:0;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  background:rgba(0,0,0,0.85);opacity:0;pointer-events:none;
-  transition:opacity 0.8s ease;
+.loading-bar-wrap {
+  width: min(80%, 380px);
+  height: 8px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 10px;
+  margin-top: 20px;
+  overflow: hidden;
+  z-index: 5;
+  border: 1px solid var(--glass-border);
 }
-.cinema-end.show{opacity:1;pointer-events:auto}
-.cinema-end-text{
-  font-size:clamp(1.8rem,5vw,3rem);
-  margin-bottom:16px;text-align:center;
+.loading-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--purple), var(--pink), var(--gold));
+  box-shadow: 0 0 20px var(--pink);
+  transition: width 0.1s linear;
 }
-.cinema-end-sub{font-size:1.25rem;color:var(--pink);font-weight:700;text-shadow:0 0 10px rgba(255,107,157,0.7)}
 
-/* ===================== NAV & UI ===================== */
-.nav-btn{
-  position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateZ(0);
-  z-index:100;padding:16px 36px;
-  font-size:1.05rem;font-weight:700;
-  color:#fff;
-  background:linear-gradient(135deg,#ff6b9d,#c44dff);
-  border-radius:50px;
-  box-shadow:0 0 25px rgba(255,107,157,0.6);
-  transition:all 0.25s ease;
-  will-change:transform;
+/* --- PAGE 2: SPACE --- */
+.space-title {
+  position: absolute;
+  top: 10%;
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.4rem, 4.5vw, 2.5rem);
+  color: var(--gold);
+  text-align: center;
+  z-index: 5;
+  text-shadow: 0 0 20px var(--gold);
+  padding: 0 15px;
 }
-.nav-btn:hover{transform:translateX(-50%) scale(1.05);box-shadow:0 0 35px rgba(255,107,157,0.85)}
+.space-subtitle {
+  position: absolute;
+  bottom: 15%;
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(1.6rem, 4vw, 2.6rem);
+  color: var(--pink);
+  z-index: 5;
+  text-shadow: 0 0 15px var(--pink);
+}
 
-.music-control{
-  position:fixed;top:20px;right:20px;z-index:100;
-  width:44px;height:44px;border-radius:50%;
-  background:var(--glass);border:1px solid var(--glass-border);
-  display:flex;align-items:center;justify-content:center;
-  font-size:1.2rem;box-shadow:0 4px 15px rgba(0,0,0,0.3);
-  transition:transform 0.25s ease;
+/* --- PAGE 3: BOW & ARROW --- */
+.bow-instruction {
+  position: absolute;
+  top: 10%;
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.1rem, 3.5vw, 1.6rem);
+  color: var(--gold);
+  text-align: center;
+  z-index: 5;
+  text-shadow: 0 0 15px var(--gold);
+  padding: 0 20px;
+  pointer-events: none;
 }
-.music-control:hover{transform:scale(1.1)}
-.music-control.playing{animation:spin 4s linear infinite}
-@keyframes spin{100%{transform:rotate(360deg)}}
+
+/* --- PAGE 4: COUNTER --- */
+.counter-title {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(2.5rem, 8vw, 4rem);
+  color: var(--gold);
+  margin-bottom: 25px;
+  text-shadow: 0 0 20px var(--gold);
+}
+.counter-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 15px;
+  width: min(92%, 700px);
+  z-index: 5;
+}
+.counter-item {
+  padding: 18px 10px;
+  text-align: center;
+  border-radius: 16px;
+}
+.counter-num {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(1.4rem, 4vw, 2rem);
+  color: var(--pink);
+  text-shadow: 0 0 12px var(--pink);
+}
+.counter-label {
+  font-size: 0.75rem;
+  color: var(--gold);
+  margin-top: 6px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.pulse-heart {
+  font-size: 3.5rem;
+  margin-top: 30px;
+  animation: heartBeat 1.2s ease-in-out infinite;
+  filter: drop-shadow(0 0 20px var(--pink));
+  cursor: pointer;
+}
+@keyframes heartBeat {
+  0%, 100% { transform: scale(1); }
+  25% { transform: scale(1.18); }
+  40% { transform: scale(1); }
+  60% { transform: scale(1.12); }
+}
+
+/* --- PAGE 5: THERMOMETER --- */
+.thermo-title {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.4rem, 4vw, 2rem);
+  color: var(--gold);
+  margin-bottom: 30px;
+  text-shadow: 0 0 15px var(--gold);
+  z-index: 5;
+  text-align: center;
+}
+.thermo-container {
+  position: relative;
+  width: 80px;
+  height: 300px;
+  z-index: 5;
+  cursor: pointer;
+}
+.thermo-glass {
+  width: 40px;
+  height: 260px;
+  background: rgba(255,255,255,0.1);
+  border: 3px solid rgba(255,255,255,0.3);
+  border-radius: 20px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+}
+.thermo-fill {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 10%;
+  background: linear-gradient(to top, #00b4d8, #9d4edd, #ff2e63, #e60026);
+  border-radius: 0 0 17px 17px;
+  transition: height 0.1s ease-out;
+  box-shadow: 0 0 20px var(--pink);
+}
+.thermo-bulb {
+  width: 60px;
+  height: 60px;
+  background: #e60026;
+  border-radius: 50%;
+  border: 3px solid rgba(255,255,255,0.3);
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 0 30px #e60026;
+}
+.thermo-percent {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 2rem;
+  color: var(--pink);
+  margin-top: 30px;
+  text-shadow: 0 0 15px var(--pink);
+  z-index: 5;
+}
+
+/* --- PAGE 6: GARDEN --- */
+.garden-title {
+  position: absolute;
+  top: 10%;
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  color: var(--gold);
+  text-shadow: 0 0 20px var(--gold);
+  z-index: 5;
+  text-align: center;
+}
+
+/* --- PAGE 7: GALLERY --- */
+.gallery-title {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.4rem, 4vw, 2.2rem);
+  color: var(--gold);
+  margin-bottom: 20px;
+  text-shadow: 0 0 15px var(--gold);
+  z-index: 5;
+}
+.carousel {
+  display: flex;
+  gap: 20px;
+  perspective: 1000px;
+  z-index: 5;
+  overflow-x: auto;
+  padding: 30px 20px;
+  width: 100%;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.carousel::-webkit-scrollbar { display: none; }
+.polaroid {
+  flex: 0 0 210px;
+  height: 270px;
+  background: #fdfbf7;
+  border-radius: 6px;
+  padding: 12px 12px 35px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+  scroll-snap-align: center;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+.polaroid:hover {
+  transform: translateY(-10px) rotate(2deg) scale(1.03);
+  box-shadow: 0 20px 45px rgba(255,46,99,0.3);
+}
+.polaroid-inner {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--purple), var(--pink));
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+}
+.polaroid-caption {
+  position: absolute;
+  bottom: 8px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-family: 'Great Vibes', cursive;
+  font-size: 1.3rem;
+  color: #222;
+}
+
+/* --- PAGE 8: BOOK --- */
+.book-title {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.3rem, 4vw, 1.8rem);
+  color: var(--gold);
+  margin-bottom: 20px;
+  text-shadow: 0 0 15px var(--gold);
+  z-index: 5;
+}
+.book-container {
+  perspective: 1200px;
+  z-index: 5;
+  width: min(90%, 380px);
+  height: 260px;
+}
+.book {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.book-page {
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(to right, #f4e4c1, #fff8e7);
+  border: 1px solid #c0a060;
+  box-shadow: 0 0 15px rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(1.1rem, 3.2vw, 1.4rem);
+  color: #3a2005;
+  text-align: center;
+}
+.book-page.left { left: 0; border-radius: 4px 0 0 4px; }
+.book-page.right { right: 0; border-radius: 0 4px 4px 0; }
+.book-nav {
+  display: flex;
+  gap: 15px;
+  margin-top: 25px;
+  z-index: 5;
+}
+.book-nav button {
+  padding: 10px 22px;
+  font-family: 'Cinzel', serif;
+  background: var(--glass);
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+/* --- PAGE 9: ROSE RAIN --- */
+.rose-title {
+  position: absolute;
+  top: 12%;
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(2rem, 7vw, 3.5rem);
+  color: var(--gold);
+  text-shadow: 0 0 25px var(--gold), 0 0 50px var(--pink);
+  z-index: 5;
+  text-align: center;
+}
+
+/* --- PAGE 10: HEART TUNNEL --- */
+.tunnel-title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(2rem, 6vw, 3.2rem);
+  color: var(--pink);
+  text-shadow: 0 0 30px var(--pink);
+  z-index: 5;
+  text-align: center;
+  pointer-events: none;
+}
+
+/* --- PAGE 11: PROPOSAL SCENE --- */
+.proposal-box {
+  text-align: center;
+  z-index: 5;
+  padding: 20px;
+}
+.boy-avatar {
+  font-size: 5rem;
+  filter: drop-shadow(0 0 25px rgba(255,215,0,0.5));
+  transition: transform 0.8s ease;
+}
+.ring-box {
+  font-size: 3rem;
+  margin-top: 15px;
+  display: inline-block;
+  animation: ringGlow 1.5s ease-in-out infinite alternate;
+}
+@keyframes ringGlow {
+  from { filter: drop-shadow(0 0 10px var(--gold)); transform: scale(1); }
+  to { filter: drop-shadow(0 0 30px var(--gold)) drop-shadow(0 0 50px var(--pink)); transform: scale(1.1); }
+}
+.proposal-text {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  color: var(--gold);
+  margin-top: 20px;
+  text-shadow: 0 0 25px var(--gold);
+}
+
+/* --- PAGE 12: YES / NO --- */
+.choice-title {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(2.5rem, 8vw, 4.5rem);
+  color: var(--gold);
+  text-shadow: 0 0 30px var(--gold), 0 0 60px var(--pink);
+  margin-bottom: 40px;
+  z-index: 5;
+  text-align: center;
+  padding: 0 20px;
+}
+.choice-btns {
+  display: flex;
+  gap: 30px;
+  z-index: 5;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  min-height: 100px;
+  width: 100%;
+}
+.yes-btn {
+  padding: 18px 48px;
+  font-family: 'Cinzel', serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, var(--pink), var(--red));
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 0 40px rgba(255,46,99,0.6);
+  transition: transform 0.2s;
+  z-index: 10;
+}
+.yes-btn:hover {
+  transform: scale(1.12);
+  box-shadow: 0 0 60px rgba(255,46,99,0.9);
+}
+.no-btn {
+  padding: 16px 36px;
+  font-family: 'Cinzel', serif;
+  font-size: 1.1rem;
+  color: var(--white);
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 50px;
+  cursor: pointer;
+  position: absolute;
+  transition: left 0.2s ease, top 0.2s ease;
+  z-index: 10;
+}
+
+/* --- PAGE 13: CELEBRATION --- */
+.celeb-title {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(2.8rem, 9vw, 5rem);
+  color: var(--gold);
+  text-shadow: 0 0 30px var(--gold), 0 0 60px var(--pink);
+  z-index: 5;
+  text-align: center;
+}
+.celeb-sub {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1rem, 3vw, 1.4rem);
+  color: var(--pink);
+  margin-top: 15px;
+  z-index: 5;
+  text-shadow: 0 0 15px var(--pink);
+}
+
+/* Dynamic Particle FX */
+.mouse-particle {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99998;
+  background: var(--pink);
+  box-shadow: 0 0 10px var(--pink);
+  animation: mouseFade 0.7s ease-out forwards;
+}
+@keyframes mouseFade {
+  to { transform: scale(0); opacity: 0; }
+}
 </style>
 </head>
 <body>
 
-<canvas id="bg-canvas"></canvas>
-<canvas id="fx-canvas"></canvas>
-<canvas id="particle-canvas"></canvas>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-dot" id="cursorDot"></div>
 
-<button class="music-control" id="musicToggle" aria-label="Toggle Music">🎵</button>
-<audio id="bgm" loop preload="auto" src="birthday-song.mp3"></audio>
-
-<div id="loading">
-  <div class="cake-loader">
-    <div class="cake-base"></div>
-    <div class="cake-mid"></div>
-    <div class="cake-top"></div>
-    <div class="candle"><div class="flame"></div></div>
-  </div>
-  <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
-  <div class="progress-text" id="progressText">Creating Magic... 0%</div>
-  <div class="credit-load">Made with ❤️ for <span>Rimi</span></div>
+<div class="controls">
+  <button class="ctrl-btn" id="musicBtn" title="Sound Effects / Audio">♪</button>
+  <button class="ctrl-btn" id="fsBtn" title="Fullscreen">⛶</button>
 </div>
 
-<div id="opening">
-  <div class="opening-text">✨ Special Moment For Rimi ✨</div>
-</div>
-
-<section class="page" id="page1">
-  <div class="typing-container">
-    <h1 class="typing-title" id="typeTitle"></h1>
-    <p class="typing-sub" id="typeSub"></p>
-    <button class="btn-premium" onclick="nextPage()">Start Journey ✨</button>
+<div id="app">
+  <div class="page active" id="page1">
+    <canvas id="stars-canvas"></canvas>
+    <div class="loading-logo">Forever Ours</div>
+    <div class="love-percent" id="lovePercent">0%</div>
+    <div class="loading-bar-wrap"><div class="loading-bar" id="loadingBar"></div></div>
   </div>
-</section>
 
-<section class="page" id="page2">
-  <div class="game-hud">
-    <span>Gifts Caught: <strong id="score">0</strong>/10</span>
-    <span>Score: <strong id="gameMsg">Catch them!</strong></span>
+  <div class="page" id="page2">
+    <canvas id="space-canvas"></canvas>
+    <div class="space-title">A Journey Across the Cosmos</div>
+    <div class="space-subtitle">To the one who lights up my universe</div>
+    <button class="nav-btn prev" data-prev="1">Back</button>
+    <button class="nav-btn next" data-next="3">Next</button>
   </div>
-  <div class="game-area" id="gameArea"></div>
-  <button class="btn-premium hidden" id="gameNext" onclick="nextPage()">Awesome! Continue 💖</button>
-</section>
 
-<section class="page" id="page3">
-  <div class="cake-scene" id="cakeScene">
-    <div class="cake-3d" id="cake3d">
-      <div class="layer layer1"></div>
-      <div class="layer layer2"></div>
-      <div class="layer layer3"></div>
-      <div class="candle-wrap">
-        <div class="candle-stick"><div class="candle-flame" id="flame1"></div></div>
-        <div class="candle-stick"><div class="candle-flame" id="flame2"></div></div>
-        <div class="candle-stick"><div class="candle-flame" id="flame3"></div></div>
+  <div class="page" id="page3">
+    <canvas id="bow-canvas"></canvas>
+    <div class="bow-instruction">Drag & Release Bowstring to Fire Cupid's Arrow 🏹</div>
+    <button class="nav-btn prev" data-prev="2">Back</button>
+    <button class="nav-btn next" data-next="4">Next</button>
+  </div>
+
+  <div class="page" id="page4">
+    <div class="counter-title">Every Second Spent Loving You</div>
+    <div class="counter-grid">
+      <div class="counter-item glass"><div class="counter-num" id="cYears">00</div><div class="counter-label">Years</div></div>
+      <div class="counter-item glass"><div class="counter-num" id="cDays">00</div><div class="counter-label">Days</div></div>
+      <div class="counter-item glass"><div class="counter-num" id="cHours">00</div><div class="counter-label">Hours</div></div>
+      <div class="counter-item glass"><div class="counter-num" id="cMins">00</div><div class="counter-label">Minutes</div></div>
+      <div class="counter-item glass"><div class="counter-num" id="cSecs">00</div><div class="counter-label">Seconds</div></div>
+    </div>
+    <div class="pulse-heart" id="pulseHeart">❤️</div>
+    <button class="nav-btn prev" data-prev="3">Back</button>
+    <button class="nav-btn next" data-next="5">Next</button>
+  </div>
+
+  <div class="page" id="page5">
+    <div class="thermo-title">Tap/Drag to Fill Love Temperature 🔥</div>
+    <div class="thermo-container" id="thermoContainer">
+      <div class="thermo-glass"><div class="thermo-fill" id="thermoFill"></div></div>
+      <div class="thermo-bulb"></div>
+    </div>
+    <div class="thermo-percent" id="thermoPercent">10%</div>
+    <button class="nav-btn prev" data-prev="4">Back</button>
+    <button class="nav-btn next" data-next="6">Next</button>
+  </div>
+
+  <div class="page" id="page6">
+    <canvas id="garden-canvas"></canvas>
+    <div class="garden-title">Where Dreams Bloom</div>
+    <button class="nav-btn prev" data-prev="5">Back</button>
+    <button class="nav-btn next" data-next="7">Next</button>
+  </div>
+
+  <div class="page" id="page7">
+    <div class="gallery-title">Our Golden Memories</div>
+    <div class="carousel">
+      <div class="polaroid"><div class="polaroid-inner">🌅</div><div class="polaroid-caption">First Sunrise</div></div>
+      <div class="polaroid"><div class="polaroid-inner">☕</div><div class="polaroid-caption">Coffee Dates</div></div>
+      <div class="polaroid"><div class="polaroid-inner">🌙</div><div class="polaroid-caption">Late Night Talks</div></div>
+      <div class="polaroid"><div class="polaroid-inner">🌊</div><div class="polaroid-caption">Beach Walks</div></div>
+      <div class="polaroid"><div class="polaroid-inner">💫</div><div class="polaroid-caption">Stargazing</div></div>
+    </div>
+    <button class="nav-btn prev" data-prev="6">Back</button>
+    <button class="nav-btn next" data-next="8">Next</button>
+  </div>
+
+  <div class="page" id="page8">
+    <div class="book-title">The Story of Us</div>
+    <div class="book-container">
+      <div class="book" id="book">
+        <div class="book-page left" id="pageLeft">Every single day with you is my favorite chapter.</div>
+        <div class="book-page right" id="pageRight">You wrote forever upon my heart.</div>
       </div>
     </div>
-  </div>
-  <p style="margin-bottom:20px;font-size:1.1rem;color:var(--gold);font-weight:700;text-shadow:0 0 10px rgba(255,215,0,0.6);" id="cakeInstruction">
-    🎤 Tap button or Blow into mic to extinguish candles!
-  </p>
-  <div style="display:flex;gap:14px;">
-    <button class="btn-premium" onclick="blowCandles()">Blow Candles 🕯️</button>
-    <button class="btn-premium hidden" id="cutBtn" onclick="cutCake()">Cut Cake 🎂</button>
-  </div>
-</section>
-
-<section class="page" id="page4">
-  <div class="letter-card glass">
-    <div class="letter-title">Dearest Rimi 💖</div>
-    <div class="letter-body">
-Happy Birthday to the most wonderful, amazing person! 🌟
-
-On this special day, I want you to know how truly special you are. Your smile brightens up the darkest days, and your laughter is pure magic. 
-
-May your year ahead be filled with boundless joy, infinite success, love, peace, and beautiful memories. Always keep shining brightly like the star you are!
-
-Happy Birthday once again! 🎂✨
+    <div class="book-nav">
+      <button id="bookPrev">← Prev</button>
+      <button id="bookNext">Next →</button>
     </div>
-    <div class="letter-signature">Forever Yours ❤️</div>
+    <button class="nav-btn prev" data-prev="7">Back</button>
+    <button class="nav-btn next" data-next="9">Next</button>
   </div>
-  <button class="btn-premium" style="margin-top:24px" onclick="nextPage()">Read Next ✨</button>
-</section>
 
-<section class="page" id="page5">
-  <div class="calendar">
-    <div class="cal-header">SPECIAL MONTH</div>
-    <div class="cal-grid" id="calGrid"></div>
-    <div class="cal-msg">🎉 A Queen Was Born Today! 🎉</div>
+  <div class="page" id="page9">
+    <canvas id="rose-canvas"></canvas>
+    <div class="rose-title">Showered in Roses 🌹</div>
+    <button class="nav-btn prev" data-prev="8">Back</button>
+    <button class="nav-btn next" data-next="10">Next</button>
   </div>
-  <button class="btn-premium" style="margin-top:30px" onclick="nextPage()">Continue ✨</button>
-</section>
 
-<section class="page" id="page6">
-  <div style="display:flex;align-items:center;margin-bottom:30px;">
-    <div class="thermo">
-      <div class="thermo-fill" id="thermoFill"></div>
+  <div class="page" id="page10">
+    <canvas id="tunnel-canvas"></canvas>
+    <div class="tunnel-title">Warping Through Love</div>
+    <button class="nav-btn prev" data-prev="9">Back</button>
+    <button class="nav-btn next" data-next="11">Next</button>
+  </div>
+
+  <div class="page" id="page11">
+    <div class="proposal-box">
+      <div class="boy-avatar">🕺💍</div>
+      <div class="ring-box">💎</div>
+      <div class="proposal-text">I have a question for you...</div>
     </div>
-    <div class="thermo-labels">
-      <div class="thermo-label" id="tl5">100% - Infinity & Beyond ♾️</div>
-      <div class="thermo-label" id="tl4">80% - Best Friend Ever 💎</div>
-      <div class="thermo-label" id="tl3">60% - Pure Sunshine ☀️</div>
-      <div class="thermo-label" id="tl2">40% - Sweetest Soul 🌸</div>
-      <div class="thermo-label" id="tl1">20% - Warm Smile 😊</div>
+    <button class="nav-btn prev" data-prev="10">Back</button>
+    <button class="nav-btn next" data-next="12">Ask Me!</button>
+  </div>
+
+  <div class="page" id="page12">
+    <div class="choice-title">Will You Be Mine Forever? ❤️</div>
+    <div class="choice-btns" id="choiceContainer">
+      <button class="yes-btn" id="yesBtn">YES! 💖</button>
+      <button class="no-btn" id="noBtn">No</button>
     </div>
+    <button class="nav-btn prev" data-prev="11">Back</button>
   </div>
-  <button class="btn-premium" onclick="boostThermo()">Measure Love 🌡️</button>
-</section>
 
-<section class="page" id="page7">
-  <div class="gallery-wrap">
-    <div class="gallery-slide">
-      <img id="galImg" src="" alt="Rimi Photo">
-    </div>
-    <div class="gallery-caption" id="galCap">Memories</div>
-    <div class="gallery-nav" id="galNav"></div>
+  <div class="page" id="page13">
+    <canvas id="celeb-canvas"></canvas>
+    <div class="celeb-title">You Said YES! 🎉</div>
+    <div class="celeb-sub">Forever & Always Yours ❤️</div>
+    <button class="nav-btn prev" data-prev="12">Back</button>
   </div>
-  <button class="btn-premium" style="margin-top:24px" onclick="nextPage()">See GIFs 🎬</button>
-</section>
-
-<section class="page" id="page8">
-  <div class="gif-carousel">
-    <div class="gif-track" id="gifTrack"></div>
-  </div>
-  <div class="gif-controls">
-    <button class="gif-btn" onclick="prevGif()">❮</button>
-    <button class="gif-btn" onclick="nextGif()">❯</button>
-  </div>
-  <button class="btn-premium" style="margin-top:24px" onclick="nextPage()">Why You Are Special ✨</button>
-</section>
-
-<section class="page" id="page9">
-  <h2 style="margin-top:20px;font-size:1.8rem;color:var(--gold);text-shadow:0 0 12px rgba(255,215,0,0.6);">Reasons Why You Are Amazing</h2>
-  <div class="reasons-grid" id="reasonsGrid"></div>
-  <button class="btn-premium" style="margin:20px 0" onclick="nextPage()">Spin the Wheel 🎡</button>
-</section>
-
-<section class="page" id="page10">
-  <div class="wheel-container">
-    <div class="wheel-pointer"></div>
-    <div class="wheel" id="wheel"></div>
-    <div class="wheel-center">🎁</div>
-  </div>
-  <div class="wheel-result" id="wheelResult">Tap Spin to reveal your wish!</div>
-  <button class="btn-premium" style="margin-top:20px" onclick="spinWheel()">Spin Wheel 🎰</button>
-  <button class="btn-premium hidden" id="wheelNext" style="margin-top:10px" onclick="nextPage()">Next ✨</button>
-</section>
-
-<section class="page" id="page11">
-  <div class="balloon-garden" id="balloonGarden"></div>
-  <button class="btn-premium" style="position:absolute;bottom:30px;z-index:20" onclick="nextPage()">Fireworks Show 🎆</button>
-</section>
-
-<section class="page" id="page12">
-  <div class="fw-text">🎆 Happy Birthday Rimi 🎆</div>
-  <button class="btn-premium" style="position:absolute;bottom:40px;z-index:20" onclick="nextPage()">Open Gifts 🎁</button>
-</section>
-
-<section class="page" id="page13">
-  <h2 style="font-size:1.8rem;color:var(--gold);margin-bottom:30px;text-shadow:0 0 12px rgba(255,215,0,0.6)">Tap to Open Your Gifts!</h2>
-  <div class="gifts-row">
-    <div class="gift-box" onclick="openGift(this, '💖 Endless Happiness')">
-      <div class="gift-lid"></div>
-      <div class="gift-body"><div class="gift-ribbon"></div>Box 1</div>
-      <div class="gift-content">💖</div>
-    </div>
-    <div class="gift-box" onclick="openGift(this, '👑 Eternal Queen')">
-      <div class="gift-lid"></div>
-      <div class="gift-body"><div class="gift-ribbon"></div>Box 2</div>
-      <div class="gift-content">👑</div>
-    </div>
-    <div class="gift-box" onclick="openGift(this, '🌟 Pure Magic')">
-      <div class="gift-lid"></div>
-      <div class="gift-body"><div class="gift-ribbon"></div>Box 3</div>
-      <div class="gift-content">🌟</div>
-    </div>
-  </div>
-  <button class="btn-premium" style="margin-top:30px" onclick="nextPage()">Take Quiz 🎯</button>
-</section>
-
-<section class="page" id="page14">
-  <div class="quiz-card glass">
-    <div class="quiz-q" id="quizQ">Who is the absolute best person today?</div>
-    <div class="quiz-options" id="quizOpts"></div>
-  </div>
-  <button class="btn-premium hidden" id="quizNext" style="margin-top:24px" onclick="nextPage()">Grand Celebration 🎉</button>
-</section>
-
-<section class="page" id="page15">
-  <div class="celeb-text">
-    <h1 class="celeb-title">🎂 HAPPY BIRTHDAY RIMI! 🎂</h1>
-    <p class="celeb-msg">May your day be filled with sunshine, laughter, sweet surprises, and unconditional love!</p>
-    <p class="celeb-thanks">Thank you for being you! ❤️</p>
-    <button class="btn-premium" style="margin-top:30px" onclick="nextPage()">Watch Cinema 🎬</button>
-  </div>
-</section>
-
-<section class="page" id="page16">
-  <div class="cinema-frame">
-    <div class="cinema-lights"></div>
-    <video id="cinemaVideo" controls playsinline>
-      <source src="video1.mp4" type="video/mp4">
-      Your browser does not support video playback.
-    </video>
-    <div class="cinema-end" id="cinemaEnd">
-      <div class="cinema-end-text">Happy Birthday Rimi ❤️</div>
-      <div class="cinema-end-sub">Hope you loved your surprise!</div>
-      <button class="btn-premium" style="margin-top:20px" onclick="restartJourney()">Replay Journey 🔄</button>
-    </div>
-  </div>
-</section>
+</div>
 
 <script>
-/* ---------- STATE & DATA ---------- */
-const state = {
-  currentPage: 1,
-  totalPages: 16,
-  score: 0,
-  thermoLevel: 0,
-  mediaLoaded: 0,
-  totalMedia: 12,
-  currPhoto: 0,
-  currGif: 0
-};
+/* ==================== 4DX & SYNTHESIZED SOUND ENGINE ==================== */
+let audioCtx = null;
+let soundEnabled = true;
 
-const photos = ['photo1.jpg','photo2.jpg','photo3.jpg','photo4.jpg','photo5.jpg'];
-const gifs = ['gif1.gif','gif2.gif','gif3.gif','gif4.gif','gif5.gif'];
-const reasons = [
-  "Your beautiful smile", "Kindest heart", "Always supports everyone", "Pure soul", "Incredible humor",
-  "Unstoppable energy", "Brightens any room", "Sweetest voice", "Super talented", "Truly unique",
-  "Always positive", "Makes life fun", "Caring nature", "Best listener", "Honest & real",
-  "Inspiring presence", "Great style", "Spreads happiness", "Loyal friend", "Simply unforgettable",
-  "Cute laughter", "Strong mindset", "Gentle vibe", "Warm hugs", "Creative spirit",
-  "Full of surprises", "Makes days special", "Radiant aura", "Dreamer", "Golden heart",
-  "Charming style", "Thoughtful actions", "Sparks joy", "One in a million", "Spontaneous fun",
-  "Super smart", "Brings comfort", "Unconditional love", "Awesome personality", "Graceful charm",
-  "Shines bright", "Always authentic", "Brings out the best", "Adored by all", "Magical moments",
-  "Pure positivity", "Forever treasured", "Simply amazing", "Sweetest friend", "Being YOU!"
-];
-
-const wheelOptions = ["Free Hug 🤗", "Special Gift 🎁", "Chocolate Box 🍫", "Royal Treat 👑", "Secret Wish 🌟", "Endless Joy ❤️"];
-
-/* ---------- CANVAS INITIALIZATION ---------- */
-const bgCanvas = document.getElementById('bg-canvas');
-const bgCtx = bgCanvas.getContext('2d');
-const fxCanvas = document.getElementById('fx-canvas');
-const fxCtx = fxCanvas.getContext('2d');
-const particleCanvas = document.getElementById('particle-canvas');
-const pCtx = particleCanvas.getContext('2d');
-
-let width, height;
-function resizeCanvases(){
-  width = window.innerWidth;
-  height = window.innerHeight;
-  [bgCanvas, fxCanvas, particleCanvas].forEach(c=>{
-    c.width = width; c.height = height;
-  });
-}
-window.addEventListener('resize', resizeCanvases);
-resizeCanvases();
-
-/* ---------- BACKGROUND PARTICLES (LAG-FREE) ---------- */
-const bgParticles = Array.from({length: 40}, ()=>({
-  x: Math.random() * width,
-  y: Math.random() * height,
-  r: Math.random() * 2 + 1,
-  vx: (Math.random() - 0.5) * 0.4,
-  vy: (Math.random() - 0.5) * 0.4,
-  alpha: Math.random() * 0.6 + 0.2
-}));
-
-function drawBg(){
-  bgCtx.clearRect(0,0,width,height);
-  bgParticles.forEach(p=>{
-    p.x += p.vx; p.y += p.vy;
-    if(p.x < 0) p.x = width; if(p.x > width) p.x = 0;
-    if(p.y < 0) p.y = height; if(p.y > height) p.y = 0;
-    bgCtx.beginPath();
-    bgCtx.arc(p.x, p.y, p.r, 0, Math.PI*2);
-    bgCtx.fillStyle = `rgba(255, 107, 157, ${p.alpha})`;
-    bgCtx.fill();
-  });
+function initAudio() {
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
 }
 
-/* ---------- FIREWORKS & PARTICLES ENGINE ---------- */
-let particles = [];
-function createConfetti(x = width/2, y = height/2, count = 50){
-  const colors = ['#ff6b9d','#ffd700','#c44dff','#5ce1ff','#ffffff'];
-  for(let i=0; i<count; i++){
-    const angle = Math.random() * Math.PI * 2;
-    const speed = Math.random() * 8 + 2;
-    particles.push({
-      x, y,
-      vx: Math.cos(angle) * speed,
-      vy: Math.sin(angle) * speed,
-      r: Math.random() * 4 + 2,
-      color: colors[Math.floor(Math.random() * colors.length)],
-      life: 1,
-      decay: Math.random() * 0.02 + 0.015
+function playTone(freq, type = 'sine', duration = 0.3, vol = 0.1) {
+  if (!soundEnabled) return;
+  try {
+    initAudio();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+    gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime + duration);
+  } catch(e) {}
+}
+
+function vibrate(msPattern) {
+  if (navigator.vibrate) {
+    try { navigator.vibrate(msPattern); } catch(e) {}
+  }
+}
+
+/* ==================== CURSOR & TRAIL LOGIC ==================== */
+const cursor = document.getElementById('cursor');
+const cursorDot = document.getElementById('cursorDot');
+let lastMove = 0;
+
+window.addEventListener('pointermove', (e) => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+  cursorDot.style.left = e.clientX + 'px';
+  cursorDot.style.top = e.clientY + 'px';
+
+  // Smooth throttled particle trail
+  const now = Date.now();
+  if (now - lastMove > 45) {
+    lastMove = now;
+    const p = document.createElement('div');
+    p.className = 'mouse-particle';
+    p.style.left = e.clientX + 'px';
+    p.style.top = e.clientY + 'px';
+    document.body.appendChild(p);
+    setTimeout(() => p.remove(), 700);
+  }
+});
+
+/* ==================== PAGE MANAGER ==================== */
+let currentPage = 1;
+const totalPages = 13;
+const activeCanvasLoops = {};
+
+function showPage(pageNum) {
+  vibrate(15);
+  playTone(440, 'sine', 0.15, 0.05);
+  
+  document.querySelectorAll('.page').forEach(p => {
+    p.classList.remove('active', 'exit');
+  });
+
+  const target = document.getElementById(`page${pageNum}`);
+  if (target) {
+    target.classList.add('active');
+    currentPage = pageNum;
+    onPageActivated(pageNum);
+  }
+}
+
+document.querySelectorAll('[data-next]').forEach(btn => {
+  btn.addEventListener('click', () => showPage(parseInt(btn.getAttribute('data-next'))));
+});
+document.querySelectorAll('[data-prev]').forEach(btn => {
+  btn.addEventListener('click', () => showPage(parseInt(btn.getAttribute('data-prev'))));
+});
+
+/* ==================== CANVAS SCENE RUNNERS ==================== */
+function setupCanvas(id) {
+  const canvas = document.getElementById(id);
+  if (!canvas) return null;
+  const ctx = canvas.getContext('2d');
+  function resize() {
+    canvas.width = canvas.clientWidth * window.devicePixelRatio || window.innerWidth;
+    canvas.height = canvas.clientHeight * window.devicePixelRatio || window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+  return { canvas, ctx };
+}
+
+/* --- SCENE 1: STARFIELD & LOADER --- */
+const p1 = setupCanvas('stars-canvas');
+let p1Progress = 0;
+function runPage1() {
+  if (!p1) return;
+  const stars = Array.from({length: 80}, () => ({
+    x: Math.random() * p1.canvas.width,
+    y: Math.random() * p1.canvas.height,
+    r: Math.random() * 2 + 1,
+    alpha: Math.random()
+  }));
+
+  const interval = setInterval(() => {
+    if (currentPage !== 1) { clearInterval(interval); return; }
+    p1Progress += 2;
+    document.getElementById('lovePercent').innerText = p1Progress + '%';
+    document.getElementById('loadingBar').style.width = p1Progress + '%';
+    if (p1Progress >= 100) {
+      clearInterval(interval);
+      setTimeout(() => showPage(2), 400);
+    }
+  }, 50);
+
+  function loop() {
+    if (currentPage !== 1) return;
+    p1.ctx.clearRect(0,0,p1.canvas.width, p1.canvas.height);
+    stars.forEach(s => {
+      s.alpha += (Math.random() - 0.5) * 0.05;
+      p1.ctx.fillStyle = `rgba(255,255,255,${Math.max(0.1, Math.min(1, s.alpha))})`;
+      p1.ctx.beginPath();
+      p1.ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      p1.ctx.fill();
     });
+    requestAnimationFrame(loop);
   }
+  loop();
 }
 
-function updateParticles(){
-  pCtx.clearRect(0,0,width,height);
-  fxCtx.clearRect(0,0,width,height);
+/* --- SCENE 2: SPACE --- */
+const p2 = setupCanvas('space-canvas');
+function runPage2() {
+  if (!p2) return;
+  const stars = Array.from({length: 150}, () => ({
+    x: Math.random() * p2.canvas.width,
+    y: Math.random() * p2.canvas.height,
+    z: Math.random() * p2.canvas.width
+  }));
 
-  for(let i = particles.length - 1; i >= 0; i--){
-    const p = particles[i];
-    p.x += p.vx;
-    p.y += p.vy;
-    p.vy += 0.1; // gravity
-    p.life -= p.decay;
+  function loop() {
+    if (currentPage !== 2) return;
+    p2.ctx.fillStyle = 'rgba(7, 7, 11, 0.3)';
+    p2.ctx.fillRect(0, 0, p2.canvas.width, p2.canvas.height);
+    stars.forEach(s => {
+      s.z -= 2;
+      if (s.z <= 0) s.z = p2.canvas.width;
+      const k = 128 / s.z;
+      const px = (s.x - p2.canvas.width/2) * k + p2.canvas.width/2;
+      const py = (s.y - p2.canvas.height/2) * k + p2.canvas.height/2;
+      p2.ctx.fillStyle = '#ffd700';
+      p2.ctx.beginPath();
+      p2.ctx.arc(px, py, Math.max(0.5, (1 - s.z/p2.canvas.width)*3), 0, Math.PI*2);
+      p2.ctx.fill();
+    });
+    requestAnimationFrame(loop);
+  }
+  loop();
+}
 
-    if(p.life <= 0){
-      particles.splice(i, 1);
-      continue;
+/* --- SCENE 3: CUPID'S BOW --- */
+const p3 = setupCanvas('bow-canvas');
+function runPage3() {
+  if (!p3) return;
+  let dragging = false;
+  let bowPull = 0;
+  let arrowShot = false;
+  let arrowX = 0, arrowY = 0, arrowVx = 0, arrowVy = 0;
+
+  function reset() {
+    arrowShot = false;
+    bowPull = 0;
+  }
+
+  const handleStart = () => { if (!arrowShot) dragging = true; };
+  const handleMove = (e) => {
+    if (dragging) {
+      bowPull = Math.min(80, bowPull + 3);
+      vibrate(10);
     }
-
-    pCtx.beginPath();
-    pCtx.arc(p.x, p.y, p.r, 0, Math.PI*2);
-    pCtx.fillStyle = p.color;
-    pCtx.globalAlpha = p.life;
-    pCtx.fill();
-  }
-  pCtx.globalAlpha = 1;
-}
-
-function animate(){
-  drawBg();
-  updateParticles();
-  if(state.currentPage === 12 && Math.random() < 0.1){
-    createConfetti(Math.random() * width, Math.random() * height * 0.6, 30);
-  }
-  requestAnimationFrame(animate);
-}
-
-/* ---------- LOADING & PAGE NAVIGATION ---------- */
-function updateProgress(){
-  state.mediaLoaded++;
-  const pct = Math.min(100, Math.round((state.mediaLoaded / state.totalMedia) * 100));
-  document.getElementById('progressBar').style.width = pct + '%';
-  document.getElementById('progressText').innerText = `Creating Magic... ${pct}%`;
-  
-  if(pct >= 100){
-    setTimeout(()=>{
-      document.getElementById('loading').classList.add('fade-out');
-      runOpening();
-    }, 600);
-  }
-}
-
-function runOpening(){
-  const opening = document.getElementById('opening');
-  setTimeout(()=>{
-    opening.classList.add('done');
-    showPage(1);
-  }, 2200);
-}
-
-function showPage(num){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  state.currentPage = num;
-  const target = document.getElementById(`page${num}`);
-  if(target) target.classList.add('active');
-
-  // Trigger Page Specific Events
-  if(num === 1) startTyping();
-  if(num === 2) initGame();
-  if(num === 5) renderCalendar();
-  if(num === 7) renderGallery();
-  if(num === 8) renderGifs();
-  if(num === 9) renderReasons();
-  if(num === 10) renderWheel();
-  if(num === 11) initBalloons();
-  if(num === 14) initQuiz();
-  if(num === 16) initCinema();
-}
-
-function nextPage(){
-  if(state.currentPage < state.totalPages){
-    showPage(state.currentPage + 1);
-    createConfetti(width/2, height/2, 40);
-  }
-}
-
-function restartJourney(){
-  showPage(1);
-}
-
-/* ---------- PAGE 1: TYPING EFFECT ---------- */
-function startTyping(){
-  const titleEl = document.getElementById('typeTitle');
-  const subEl = document.getElementById('typeSub');
-  titleEl.innerText = "";
-  subEl.innerText = "";
-
-  const titleText = "Hey Rimi ✨";
-  const subText = "Today is a super special day created just for you. Get ready for an unforgettable birthday journey!";
-
-  let i = 0;
-  function typeT(){
-    if(i < titleText.length){
-      titleEl.innerText += titleText.charAt(i);
-      i++;
-      setTimeout(typeT, 80);
-    } else {
-      let j = 0;
-      function typeS(){
-        if(j < subText.length){
-          subEl.innerText += subText.charAt(j);
-          j++;
-          setTimeout(typeS, 40);
-        }
-      }
-      setTimeout(typeS, 200);
-    }
-  }
-  typeT();
-}
-
-/* ---------- PAGE 2: GIFT CATCH GAME ---------- */
-function initGame(){
-  const area = document.getElementById('gameArea');
-  area.innerHTML = '';
-  state.score = 0;
-  document.getElementById('score').innerText = '0';
-  document.getElementById('gameNext').classList.add('hidden');
-
-  const items = ['🎁','🎂','🎈','💖','👑','✨'];
-  let spawnCount = 0;
-
-  const interval = setInterval(()=>{
-    if(spawnCount >= 15 || state.score >= 10){
-      clearInterval(interval);
-      return;
-    }
-    spawnCount++;
-    const item = document.createElement('div');
-    item.className = 'falling-item';
-    item.innerText = items[Math.floor(Math.random() * items.length)];
-    item.style.left = Math.random() * (area.clientWidth - 50) + 'px';
-    item.style.top = '-50px';
-    area.appendChild(item);
-
-    let pos = -50;
-    const fall = setInterval(()=>{
-      pos += 3;
-      item.style.top = pos + 'px';
-      if(pos > area.clientHeight){
-        clearInterval(fall);
-        if(item.parentNode) item.parentNode.removeChild(item);
-      }
-    }, 20);
-
-    item.onclick = ()=>{
-      state.score++;
-      document.getElementById('score').innerText = state.score;
-      createConfetti(parseFloat(item.style.left), pos, 20);
-      item.classList.add('caught');
-      clearInterval(fall);
-      setTimeout(()=>item.remove(), 400);
-
-      if(state.score >= 10){
-        document.getElementById('gameMsg').innerText = "You Won! 🎉";
-        document.getElementById('gameNext').classList.remove('hidden');
-      }
-    };
-  }, 800);
-}
-
-/* ---------- PAGE 3: BLOW CANDLES & CAKE ---------- */
-function blowCandles(){
-  document.querySelectorAll('.candle-flame').forEach(f=>f.classList.add('out'));
-  document.getElementById('cakeInstruction').innerText = "Yay! Wishes sent to the universe ✨ Now cut the cake!";
-  document.getElementById('cutBtn').classList.remove('hidden');
-  createConfetti(width/2, height/2 - 50, 60);
-}
-
-function cutCake(){
-  document.getElementById('cakeScene').classList.add('cake-cut');
-  createConfetti(width/2, height/2, 100);
-  setTimeout(nextPage, 1200);
-}
-
-/* ---------- PAGE 5: CALENDAR ---------- */
-function renderCalendar(){
-  const grid = document.getElementById('calGrid');
-  grid.innerHTML = '';
-  const days = ['S','M','T','W','T','F','S'];
-  days.forEach(d=>{
-    const el = document.createElement('div');
-    el.className = 'cal-day-name';
-    el.innerText = d;
-    grid.appendChild(el);
-  });
-
-  for(let i=1; i<=31; i++){
-    const day = document.createElement('div');
-    day.className = 'cal-day' + (i === 15 ? ' today' : ''); // Highlight Day
-    day.innerText = i;
-    grid.appendChild(day);
-  }
-}
-
-/* ---------- PAGE 6: THERMOMETER ---------- */
-function boostThermo(){
-  if(state.thermoLevel < 5){
-    state.thermoLevel++;
-    document.getElementById('thermoFill').style.height = (state.thermoLevel * 20) + '%';
-    document.getElementById(`tl${state.thermoLevel}`).classList.add('active');
-    createConfetti(width/2, height/2, 25);
-    if(state.thermoLevel === 5){
-      setTimeout(nextPage, 1200);
-    }
-  }
-}
-
-/* ---------- PAGE 7: PHOTO GALLERY ---------- */
-function renderGallery(){
-  const img = document.getElementById('galImg');
-  const nav = document.getElementById('galNav');
-  nav.innerHTML = '';
-
-  photos.forEach((p, idx)=>{
-    const dot = document.createElement('div');
-    dot.className = 'gallery-dot' + (idx === state.currPhoto ? ' active' : '');
-    dot.onclick = ()=>{
-      state.currPhoto = idx;
-      renderGallery();
-    };
-    nav.appendChild(dot);
-  });
-
-  img.src = photos[state.currPhoto];
-  document.getElementById('galCap').innerText = `Memory ${state.currPhoto + 1} of ${photos.length}`;
-}
-
-/* ---------- PAGE 8: GIF CAROUSEL ---------- */
-function renderGifs(){
-  const track = document.getElementById('gifTrack');
-  track.innerHTML = '';
-  gifs.forEach(g=>{
-    const item = document.createElement('div');
-    item.className = 'gif-item';
-    item.innerHTML = `<img src="${g}" alt="GIF">`;
-    track.appendChild(item);
-  });
-  updateGifPosition();
-}
-function updateGifPosition(){
-  const track = document.getElementById('gifTrack');
-  track.style.transform = `translateX(-${state.currGif * 100}%)`;
-}
-function nextGif(){
-  state.currGif = (state.currGif + 1) % gifs.length;
-  updateGifPosition();
-}
-function prevGif(){
-  state.currGif = (state.currGif - 1 + gifs.length) % gifs.length;
-  updateGifPosition();
-}
-
-/* ---------- PAGE 9: 50 REASONS ---------- */
-function renderReasons(){
-  const grid = document.getElementById('reasonsGrid');
-  grid.innerHTML = '';
-  reasons.forEach((r, idx)=>{
-    const card = document.createElement('div');
-    card.className = 'reason-card';
-    card.innerHTML = `
-      <div class="reason-inner">
-        <div class="reason-front">#${idx+1}</div>
-        <div class="reason-back">${r}</div>
-      </div>
-    `;
-    card.onclick = ()=>{
-      card.classList.toggle('flipped');
-      createConfetti(card.getBoundingClientRect().left + 50, card.getBoundingClientRect().top + 50, 15);
-    };
-    grid.appendChild(card);
-  });
-}
-
-/* ---------- PAGE 10: FORTUNE WHEEL ---------- */
-function renderWheel(){
-  const wheel = document.getElementById('wheel');
-  wheel.innerHTML = '';
-  const segAngle = 360 / wheelOptions.length;
-  const colors = ['#ff6b9d','#ffd700','#c44dff','#5ce1ff','#ff8fab','#e0b0ff'];
-
-  wheelOptions.forEach((opt, i)=>{
-    const seg = document.createElement('div');
-    seg.className = 'wheel-segment';
-    seg.style.transform = `rotate(${i * segAngle}deg) skewY(-30deg)`;
-    seg.style.background = colors[i % colors.length];
-    seg.innerText = opt;
-    wheel.appendChild(seg);
-  });
-}
-
-let isSpinning = false;
-function spinWheel(){
-  if(isSpinning) return;
-  isSpinning = true;
-  const wheel = document.getElementById('wheel');
-  const randomRot = 1440 + Math.floor(Math.random() * 360);
-  wheel.style.transform = `rotate(${randomRot}deg)`;
-
-  setTimeout(()=>{
-    isSpinning = false;
-    const actualDeg = randomRot % 360;
-    const index = Math.floor((360 - actualDeg) / (360 / wheelOptions.length)) % wheelOptions.length;
-    document.getElementById('wheelResult').innerText = `You Won: ${wheelOptions[index]}! 🎉`;
-    document.getElementById('wheelNext').classList.remove('hidden');
-    createConfetti(width/2, height/2, 80);
-  }, 4000);
-}
-
-/* ---------- PAGE 11: BALLOON GARDEN ---------- */
-function initBalloons(){
-  const garden = document.getElementById('balloonGarden');
-  garden.innerHTML = '';
-  const wishes = ["Happiness 💖","Success 👑","Pure Joy 🌟","Health 🌸","Love ❤️","Peace ✨"];
-  
-  for(let i=0; i<8; i++){
-    const b = document.createElement('div');
-    b.className = 'balloon';
-    b.innerText = ['🎈','🎈','🎈'][i%3];
-    b.style.left = Math.random() * (width - 60) + 'px';
-    b.style.top = Math.random() * (height - 200) + 100 + 'px';
-    
-    b.onclick = (e)=>{
-      b.classList.add('burst');
-      const pop = document.createElement('div');
-      pop.className = 'wish-popup';
-      pop.innerText = wishes[Math.floor(Math.random() * wishes.length)];
-      pop.style.left = e.clientX + 'px';
-      pop.style.top = e.clientY + 'px';
-      garden.appendChild(pop);
-      createConfetti(e.clientX, e.clientY, 30);
-      setTimeout(()=>b.remove(), 500);
-    };
-    garden.appendChild(b);
-  }
-}
-
-/* ---------- PAGE 13: GIFT BOXES ---------- */
-function openGift(box, text){
-  if(!box.classList.contains('opened')){
-    box.classList.add('opened');
-    createConfetti(box.getBoundingClientRect().left + 70, box.getBoundingClientRect().top + 80, 40);
-  }
-}
-
-/* ---------- PAGE 14: QUIZ ---------- */
-function initQuiz(){
-  const q = document.getElementById('quizQ');
-  const opts = document.getElementById('quizOpts');
-  opts.innerHTML = '';
-
-  q.innerText = "Who is the absolute Queen of Today?";
-  const options = ["Rimi 👑", "Definitely Rimi 💕", "Rimi Always ✨"];
-
-  options.forEach(o=>{
-    const btn = document.createElement('button');
-    btn.className = 'quiz-opt';
-    btn.innerText = o;
-    btn.onclick = ()=>{
-      btn.classList.add('selected');
-      createConfetti(width/2, height/2, 60);
-      document.getElementById('quizNext').classList.remove('hidden');
-    };
-    opts.appendChild(btn);
-  });
-}
-
-/* ---------- PAGE 16: CINEMA VIDEO ---------- */
-function initCinema(){
-  const video = document.getElementById('cinemaVideo');
-  video.play().catch(()=>{});
-  video.onended = ()=>{
-    document.getElementById('cinemaEnd').classList.add('show');
-    createConfetti(width/2, height/2, 100);
   };
+  const handleEnd = () => {
+    if (dragging) {
+      dragging = false;
+      arrowShot = true;
+      arrowX = p3.canvas.width * 0.2;
+      arrowY = p3.canvas.height * 0.5;
+      arrowVx = bowPull * 0.4;
+      arrowVy = -bowPull * 0.1;
+      playTone(600, 'triangle', 0.2, 0.2);
+      vibrate([30, 50, 30]);
+    }
+  };
+
+  p3.canvas.onpointerdown = handleStart;
+  p3.canvas.onpointermove = handleMove;
+  p3.canvas.onpointerup = handleEnd;
+
+  function loop() {
+    if (currentPage !== 3) return;
+    p3.ctx.clearRect(0,0,p3.canvas.width, p3.canvas.height);
+
+    const cx = p3.canvas.width * 0.2;
+    const cy = p3.canvas.height * 0.5;
+
+    // Target Heart
+    const tx = p3.canvas.width * 0.8;
+    const ty = p3.canvas.height * 0.5;
+    p3.ctx.font = '50px sans-serif';
+    p3.ctx.textAlign = 'center';
+    p3.ctx.fillText('💖', tx, ty);
+
+    // Bow
+    p3.ctx.strokeStyle = '#ffd700';
+    p3.ctx.lineWidth = 4;
+    p3.ctx.beginPath();
+    p3.ctx.arc(cx, cy, 60, Math.PI * 0.5, Math.PI * 1.5);
+    p3.ctx.stroke();
+
+    // String
+    p3.ctx.beginPath();
+    p3.ctx.moveTo(cx, cy - 60);
+    p3.ctx.lineTo(cx - bowPull, cy);
+    p3.ctx.lineTo(cx, cy + 60);
+    p3.ctx.stroke();
+
+    // Arrow
+    if (!arrowShot) {
+      p3.ctx.fillText('💘', cx - bowPull, cy + 10);
+    } else {
+      arrowX += arrowVx;
+      arrowY += arrowVy;
+      p3.ctx.fillText('💘', arrowX, arrowY);
+
+      if (Math.hypot(arrowX - tx, arrowY - ty) < 50) {
+        vibrate([100, 50, 100]);
+        playTone(880, 'sine', 0.4, 0.3);
+        reset();
+      } else if (arrowX > p3.canvas.width) {
+        reset();
+      }
+    }
+
+    requestAnimationFrame(loop);
+  }
+  loop();
 }
 
-/* ---------- AUDIO CONTROL ---------- */
-const bgm = document.getElementById('bgm');
-const musicToggle = document.getElementById('musicToggle');
-let isPlaying = false;
+/* --- SCENE 6: BUTTERFLY GARDEN --- */
+const p6 = setupCanvas('garden-canvas');
+function runPage6() {
+  if (!p6) return;
+  const butterflies = Array.from({length: 12}, () => ({
+    x: Math.random() * p6.canvas.width,
+    y: Math.random() * p6.canvas.height,
+    vx: (Math.random() - 0.5) * 2,
+    vy: (Math.random() - 0.5) * 2,
+    size: Math.random() * 10 + 15
+  }));
 
-musicToggle.onclick = ()=>{
-  if(isPlaying){
-    bgm.pause();
-    musicToggle.classList.remove('playing');
-  } else {
-    bgm.play();
-    musicToggle.classList.add('playing');
+  function loop() {
+    if (currentPage !== 6) return;
+    p6.ctx.clearRect(0,0,p6.canvas.width, p6.canvas.height);
+    butterflies.forEach(b => {
+      b.x += b.vx;
+      b.y += b.vy;
+      if (b.x < 0 || b.x > p6.canvas.width) b.vx *= -1;
+      if (b.y < 0 || b.y > p6.canvas.height) b.vy *= -1;
+
+      p6.ctx.font = `${b.size}px sans-serif`;
+      p6.ctx.fillText('🦋', b.x, b.y);
+    });
+    requestAnimationFrame(loop);
   }
-  isPlaying = !isPlaying;
+  loop();
+}
+
+/* --- SCENE 9: ROSE RAIN --- */
+const p9 = setupCanvas('rose-canvas');
+function runPage9() {
+  if (!p9) return;
+  const petals = Array.from({length: 40}, () => ({
+    x: Math.random() * p9.canvas.width,
+    y: Math.random() * p9.canvas.height,
+    vy: Math.random() * 2 + 1,
+    rot: Math.random() * Math.PI
+  }));
+
+  function loop() {
+    if (currentPage !== 9) return;
+    p9.ctx.clearRect(0,0,p9.canvas.width, p9.canvas.height);
+    petals.forEach(p => {
+      p.y += p.vy;
+      p.rot += 0.02;
+      if (p.y > p9.canvas.height) p.y = -20;
+      p9.ctx.font = '24px sans-serif';
+      p9.ctx.fillText('🌹', p.x, p.y);
+    });
+    requestAnimationFrame(loop);
+  }
+  loop();
+}
+
+/* --- SCENE 10: TUNNEL --- */
+const p10 = setupCanvas('tunnel-canvas');
+function runPage10() {
+  if (!p10) return;
+  let angle = 0;
+  function loop() {
+    if (currentPage !== 10) return;
+    p10.ctx.fillStyle = 'rgba(7,7,11,0.2)';
+    p10.ctx.fillRect(0,0,p10.canvas.width, p10.canvas.height);
+    angle += 0.03;
+
+    p10.ctx.save();
+    p10.ctx.translate(p10.canvas.width/2, p10.canvas.height/2);
+    for (let i = 0; i < 10; i++) {
+      p10.ctx.strokeStyle = `hsl(${(angle*50 + i*20)%360}, 100%, 60%)`;
+      p10.ctx.lineWidth = 3;
+      p10.ctx.beginPath();
+      p10.ctx.arc(0, 0, ((angle*40 + i*30) % 300), 0, Math.PI*2);
+      p10.ctx.stroke();
+    }
+    p10.ctx.restore();
+    requestAnimationFrame(loop);
+  }
+  loop();
+}
+
+/* --- SCENE 13: CELEBRATION --- */
+const p13 = setupCanvas('celeb-canvas');
+function runPage13() {
+  if (!p13) return;
+  const confetti = Array.from({length: 80}, () => ({
+    x: Math.random() * p13.canvas.width,
+    y: Math.random() * p13.canvas.height,
+    vy: Math.random() * 4 + 2,
+    color: `hsl(${Math.random()*360}, 100%, 50%)`
+  }));
+
+  function loop() {
+    if (currentPage !== 13) return;
+    p13.ctx.clearRect(0,0,p13.canvas.width, p13.canvas.height);
+    confetti.forEach(c => {
+      c.y += c.vy;
+      if (c.y > p13.canvas.height) c.y = -10;
+      p13.ctx.fillStyle = c.color;
+      p13.ctx.fillRect(c.x, c.y, 8, 8);
+    });
+    requestAnimationFrame(loop);
+  }
+  loop();
+}
+
+/* ==================== EVENT ROUTER ==================== */
+function onPageActivated(pageNum) {
+  if (pageNum === 1) runPage1();
+  if (pageNum === 2) runPage2();
+  if (pageNum === 3) runPage3();
+  if (pageNum === 6) runPage6();
+  if (pageNum === 9) runPage9();
+  if (pageNum === 10) runPage10();
+  if (pageNum === 13) runPage13();
+}
+
+/* --- PAGE 4: COUNTER LOGIC --- */
+setInterval(() => {
+  if (currentPage === 4) {
+    const now = new Date();
+    document.getElementById('cYears').innerText = '01';
+    document.getElementById('cDays').innerText = String(now.getDate()).padStart(2, '0');
+    document.getElementById('cHours').innerText = String(now.getHours()).padStart(2, '0');
+    document.getElementById('cMins').innerText = String(now.getMinutes()).padStart(2, '0');
+    document.getElementById('cSecs').innerText = String(now.getSeconds()).padStart(2, '0');
+  }
+}, 1000);
+
+document.getElementById('pulseHeart').onclick = () => {
+  vibrate([40, 30, 40]);
+  playTone(300, 'sine', 0.2, 0.2);
 };
 
-/* ---------- PRELOAD ASSETS ---------- */
-function fakePreload(){
-  let loaded = 0;
-  const interval = setInterval(()=>{
-    loaded++;
-    updateProgress();
-    if(loaded >= state.totalMedia){
-      clearInterval(interval);
-    }
-  }, 150);
+/* --- PAGE 5: THERMOMETER LOGIC --- */
+let thermoVal = 10;
+const thermoContainer = document.getElementById('thermoContainer');
+function fillThermo() {
+  thermoVal = Math.min(100, thermoVal + 10);
+  document.getElementById('thermoFill').style.height = thermoVal + '%';
+  document.getElementById('thermoPercent').innerText = thermoVal + '%';
+  vibrate(20);
+  playTone(300 + thermoVal * 5, 'sine', 0.1, 0.1);
 }
+thermoContainer.onclick = fillThermo;
+
+/* --- PAGE 8: BOOK FLIP LOGIC --- */
+let bookPage = 0;
+const bookPages = [
+  { left: "Every single day with you is my favorite chapter.", right: "You wrote forever upon my heart." },
+  { left: "Your smile brightens up my darkest days.", right: "I want to share every adventure with you." }
+];
+document.getElementById('bookNext').onclick = () => {
+  bookPage = (bookPage + 1) % bookPages.length;
+  updateBook();
+};
+document.getElementById('bookPrev').onclick = () => {
+  bookPage = (bookPage - 1 + bookPages.length) % bookPages.length;
+  updateBook();
+};
+function updateBook() {
+  vibrate(15);
+  playTone(500, 'sine', 0.1, 0.05);
+  document.getElementById('pageLeft').innerText = bookPages[bookPage].left;
+  document.getElementById('pageRight').innerText = bookPages[bookPage].right;
+}
+
+/* --- PAGE 12: ESCAPING NO BUTTON --- */
+const noBtn = document.getElementById('noBtn');
+const yesBtn = document.getElementById('yesBtn');
+
+function dodgeNo() {
+  const container = document.getElementById('choiceContainer');
+  const rect = container.getBoundingClientRect();
+  const newX = Math.random() * (rect.width - 100);
+  const newY = Math.random() * (rect.height - 40);
+  noBtn.style.left = newX + 'px';
+  noBtn.style.top = newY + 'px';
+  vibrate(10);
+}
+noBtn.onpointerenter = dodgeNo;
+noBtn.onclick = dodgeNo;
+
+yesBtn.onclick = () => {
+  vibrate([100, 50, 100, 50, 150]);
+  playTone(880, 'sine', 0.5, 0.3);
+  showPage(13);
+};
+
+/* --- AUDIO & FULLSCREEN BUTTONS --- */
+document.getElementById('musicBtn').onclick = () => {
+  soundEnabled = !soundEnabled;
+  document.getElementById('musicBtn').style.opacity = soundEnabled ? '1' : '0.4';
+  vibrate(15);
+};
+
+document.getElementById('fsBtn').onclick = () => {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen().catch(() => {});
+  } else {
+    document.exitFullscreen().catch(() => {});
+  }
+};
 
 // Start
-fakePreload();
-requestAnimationFrame(animate);
-
-// Prevent context menu
-document.addEventListener('contextmenu', e => e.preventDefault());
+runPage1();
 </script>
 </body>
-    </html>
+  </html>
