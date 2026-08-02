@@ -2,654 +2,460 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>SIVASINGH UNBAN SYSTEM</title>
-<!-- GITHUB PAGES READY — SAVE THIS FILE AS: index.html (lowercase) -->
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔓</text></svg>">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For You, Cutiee 💐</title>
 <style>
-  * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', system-ui, -apple-system, sans-serif; }
-  html { scroll-behavior:smooth; }
-  body { background: radial-gradient(1200px 600px at 50% -120px, #0c3d1e 0%, #04120a 55%, #020804 100%); background-attachment:fixed; color:#e6fff0; min-height:100vh; padding-bottom:90px; }
+  @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600;700&display=swap');
 
-  header { text-align:center; padding:48px 16px 20px; }
-  .logo-main {
-    display:block; font-size:clamp(38px, 8vw, 72px); font-weight:900; letter-spacing:4px; line-height:1;
-    background:linear-gradient(180deg,#eafff1 0%, #4dff8b 42%, #00c853 82%);
-    -webkit-background-clip:text; background-clip:text; color:transparent;
-    animation:pulse 2.4s infinite ease-in-out; text-transform:uppercase;
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html,body { height:100%; overflow:hidden; }
+  body {
+    font-family:'Quicksand',sans-serif;
+    background:linear-gradient(160deg,#ffd6e8 0%,#ffc2d1 25%,#e0b3ff 55%,#b8c6ff 100%);
+    background-size:200% 200%;
+    animation:bgShift 18s ease-in-out infinite;
   }
-  .logo-sub { display:block; font-size:clamp(17px,3.6vw,27px); font-weight:800; letter-spacing:10px; color:#69f0ae; margin-top:8px; text-shadow:0 0 20px rgba(105,240,174,.9); text-transform:uppercase; }
-  @keyframes pulse { 0%,100%{filter:drop-shadow(0 0 16px rgba(0,230,118,.55));} 50%{filter:drop-shadow(0 0 36px rgba(0,230,118,1));} }
-  .tagline { margin-top:12px; color:#8fdbb4; font-size:14px; letter-spacing:1px; }
-  .badge { display:inline-block; margin-top:12px; padding:6px 18px; border:1px solid #00c853; border-radius:99px; background:rgba(0,200,83,.12); color:#69f0ae; font-size:12px; letter-spacing:1px; }
+  @keyframes bgShift { 0%,100%{background-position:0% 0%} 50%{background-position:100% 100%} }
 
-  nav.topnav { display:flex; flex-wrap:wrap; justify-content:center; gap:8px; padding:10px 12px; position:sticky; top:0; z-index:50; background:rgba(4,18,10,.92); backdrop-filter:blur(10px); border-bottom:1px solid rgba(0,200,83,.25); }
-  nav.topnav button { padding:11px 20px; border-radius:99px; border:1px solid rgba(0,200,83,.45); background:transparent; color:#9fe9c2; font-weight:700; font-size:14px; cursor:pointer; transition:.2s; }
-  nav.topnav button:hover { background:rgba(0,200,83,.15); }
-  nav.topnav button.active { background:linear-gradient(135deg,#00e676,#00b248); color:#04120a; border-color:#00e676; box-shadow:0 0 20px rgba(0,230,118,.55); }
+  #gardenSvg, #garden { position:fixed; inset:0; width:100vw; height:100vh; opacity:0; pointer-events:none; transition:opacity 1.2s ease; }
+  #garden.show { opacity:1; }
 
-  nav.bottomnav { display:none; position:fixed; bottom:0; left:0; right:0; z-index:100; background:rgba(3,14,8,.97); border-top:1px solid rgba(0,200,83,.35); padding:6px 4px calc(6px + env(safe-area-inset-bottom)); }
-  nav.bottomnav button { flex:1; background:transparent; border:none; color:#7fb99b; font-size:10px; font-weight:700; padding:8px 2px; cursor:pointer; border-radius:10px; }
-  nav.bottomnav button span.ic { display:block; font-size:20px; margin-bottom:2px; }
-  nav.bottomnav button.active { color:#4dff8b; background:rgba(0,230,118,.12); }
-
-  main { max-width:960px; margin:20px auto; padding:0 14px; }
-  section.tab { display:none; animation:fadeIn .3s ease; }
-  section.tab.active { display:block; }
-  @keyframes fadeIn { from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:none;} }
-
-  .card { background:rgba(13,36,24,.78); border:1px solid rgba(0,200,83,.28); border-radius:16px; padding:22px; margin-bottom:18px; box-shadow:0 10px 30px rgba(0,0,0,.35); }
-  .card h2 { color:#4dff8b; font-size:20px; margin-bottom:4px; letter-spacing:.5px; }
-  .card h2 small { color:#8fdbb4; font-weight:400; font-size:13px; }
-  .card .desc { color:#9fd8ba; font-size:13px; margin-bottom:16px; line-height:1.6; }
-  label { display:block; color:#c8f5db; font-weight:600; font-size:13px; margin:14px 0 6px; }
-  input, select, textarea {
-    width:100%; padding:12px 14px; border-radius:10px; border:1px solid rgba(0,200,83,.4);
-    background:rgba(2,12,6,.88); color:#e6fff0; font-size:15px; outline:none; transition:.2s;
-  }
-  input:focus, select:focus, textarea:focus { border-color:#00e676; box-shadow:0 0 0 3px rgba(0,230,118,.18); }
-  textarea { resize:vertical; min-height:90px; }
-  select option { background:#04120a; }
-  .row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-  @media (max-width:640px){ .row { grid-template-columns:1fr; } }
-
-  .btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; width:100%; margin-top:18px;
-    padding:14px 18px; border:none; border-radius:12px; cursor:pointer; font-size:16px; font-weight:800; letter-spacing:.5px;
-    background:linear-gradient(135deg,#00e676,#00b248); color:#03150b; box-shadow:0 6px 22px rgba(0,230,118,.4);
-    transition:.2s; text-transform:uppercase; }
-  .btn:hover { transform:translateY(-2px); box-shadow:0 10px 28px rgba(0,230,118,.55); }
-  .btn:active { transform:scale(.97); }
-  .btn.small { width:auto; padding:8px 14px; font-size:12px; margin-top:0; border-radius:8px; text-transform:none; }
-  .btn.ghost { background:transparent; border:1px solid rgba(0,230,118,.5); color:#69f0ae; box-shadow:none; }
-  .btn.ghost:hover { background:rgba(0,230,118,.12); }
-  .btn.red { background:linear-gradient(135deg,#ff5252,#b71c1c); box-shadow:0 6px 22px rgba(255,82,82,.35); }
-  .btn.red:hover { box-shadow:0 10px 28px rgba(255,82,82,.5); }
-
-  .sys-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:10px; }
-  .sys-item { background:rgba(2,12,6,.75); border:1px solid rgba(0,200,83,.3); border-radius:12px; padding:14px; text-align:center; }
-  .sys-item .st { font-size:26px; }
-  .sys-item b { display:block; color:#c8f5db; font-size:13px; margin:6px 0 2px; }
-  .sys-item span { font-size:11px; color:#8fdbb4; }
-  .ok { color:#4dff8b !important; } .bad { color:#ff8a80 !important; }
-
-  .queue-item { display:flex; justify-content:space-between; align-items:center; gap:10px; background:rgba(2,12,6,.7); border:1px solid rgba(0,200,83,.3); padding:10px 14px; border-radius:10px; margin-top:8px; flex-wrap:wrap; }
-  .queue-item b { color:#4dff8b; }
-
-  .table-wrap { overflow-x:auto; margin-top:14px; border-radius:10px; }
-  table { width:100%; border-collapse:collapse; min-width:660px; }
-  th { background:rgba(0,200,83,.15); color:#4dff8b; text-align:left; padding:10px 12px; font-size:11px; text-transform:uppercase; letter-spacing:1px; }
-  td { padding:10px 12px; border-bottom:1px solid rgba(0,200,83,.15); font-size:13px; color:#d9f7e7; }
-  tr:hover td { background:rgba(0,200,83,.06); }
-  .chip { display:inline-block; padding:3px 10px; border-radius:99px; font-size:11px; font-weight:700; }
-  .chip.Sent { background:rgba(255,193,7,.15); color:#ffd54f; border:1px solid rgba(255,193,7,.4); }
-  .chip.Resolved { background:rgba(0,230,118,.15); color:#4dff8b; border:1px solid rgba(0,230,118,.4); }
-  .chip.Pending { background:rgba(255,82,82,.15); color:#ff8a80; border:1px solid rgba(255,82,82,.4); }
-  .td-actions { display:flex; gap:6px; flex-wrap:wrap; }
-  .stats { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:14px; }
-  .stat { flex:1; min-width:120px; text-align:center; background:rgba(0,200,83,.09); border:1px solid rgba(0,200,83,.3); border-radius:12px; padding:12px 8px; }
-  .stat b { display:block; font-size:24px; color:#4dff8b; }
-  .stat span { font-size:10px; color:#8fdbb4; text-transform:uppercase; letter-spacing:1px; }
-
-  .info-box { border-left:4px solid #00e676; background:rgba(0,230,118,.07); padding:14px 16px; border-radius:10px; margin-top:16px; font-size:13px; line-height:1.7; color:#b9ecd1; }
-  .info-box b { color:#4dff8b; }
-  .warn-box { border-left:4px solid #ffc107; background:rgba(255,193,7,.07); padding:14px 16px; border-radius:10px; margin-top:16px; font-size:13px; line-height:1.7; color:#e9d9a8; }
-
-  .tool-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:12px; }
-  .tool { background:rgba(2,12,6,.7); border:1px solid rgba(0,200,83,.3); border-radius:12px; padding:16px; }
-  .tool h3 { color:#4dff8b; font-size:15px; margin-bottom:6px; }
-  .tool p { color:#9fd8ba; font-size:12px; line-height:1.6; margin-bottom:10px; }
-
-  #liveFrame { width:100%; height:520px; border:1px solid rgba(0,200,83,.4); border-radius:12px; background:#fff; margin-top:12px; }
-
-  footer { text-align:center; color:#5d8f74; font-size:12px; margin-top:30px; padding:0 16px; line-height:1.8; }
-
-  #toast { position:fixed; bottom:100px; left:50%; transform:translateX(-50%) translateY(140px); background:linear-gradient(135deg,#00e676,#00b248); color:#03150b; font-weight:700; padding:13px 22px; border-radius:99px; box-shadow:0 10px 30px rgba(0,0,0,.5); transition:.35s; z-index:999; max-width:92vw; text-align:center; font-size:14px; }
-  #toast.show { transform:translateX(-50%) translateY(0); }
-
-  @media print {
-    body * { visibility:hidden; }
-    #printArea, #printArea * { visibility:visible; }
-    #printArea { position:absolute; left:0; top:0; width:100%; color:#000; }
-    nav, footer, #toast { display:none !important; }
+  /* ---------- floating hearts (intro) ---------- */
+  .heart { position:fixed; bottom:-60px; opacity:.55; animation:floatUp linear infinite; pointer-events:none; z-index:1; }
+  @keyframes floatUp {
+    0%   { transform:translateY(0) rotate(0deg); opacity:0; }
+    12%  { opacity:.6; }
+    100% { transform:translateY(-110vh) rotate(40deg); opacity:0; }
   }
 
-  @media (max-width:767px) {
-    nav.topnav { display:none; }
-    nav.bottomnav { display:flex; }
+  /* ---------- intro screen ---------- */
+  #intro { position:fixed; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:20px; z-index:5; transition:opacity 1.1s ease; }
+  #intro.gone { opacity:0; pointer-events:none; }
+  #lines { min-height:230px; display:flex; flex-direction:column; gap:14px; }
+  #lines p { font-size:clamp(20px,4.4vw,34px); font-weight:700; color:#7a2d5e; text-shadow:0 2px 0 #fff, 0 0 18px #ffd6e8; line-height:1.35; }
+  #lines p.soft { font-size:clamp(16px,3vw,24px); color:#a14c7c; font-weight:600; }
+  .cursor { display:inline-block; width:3px; height:1em; background:#7a2d5e; margin-left:3px; vertical-align:-0.15em; animation:blink .8s step-end infinite; }
+  @keyframes blink { 50% { opacity:0 } }
+
+  /* ---------- flowers button ---------- */
+  #btnWrap { opacity:0; transform:translateY(14px) scale(.9); transition:all .7s cubic-bezier(.2,1.4,.4,1); }
+  #btnWrap.show { opacity:1; transform:none; }
+  #growBtn {
+    margin-top:26px; padding:18px 46px; font-size:clamp(18px,3vw,24px); font-weight:700; font-family:'Quicksand',sans-serif;
+    color:#fff; border:none; border-radius:60px; cursor:pointer;
+    background:linear-gradient(135deg,#ff6fa5,#ff9a8b 45%,#c86bdd);
+    box-shadow:0 10px 30px rgba(255,90,150,.45), inset 0 -4px 0 rgba(0,0,0,.12), 0 0 0 6px rgba(255,255,255,.35);
+    animation:glow 2.2s ease-in-out infinite; transition:transform .25s;
+  }
+  #growBtn:hover { transform:scale(1.07) rotate(-1.5deg); }
+  #growBtn:active { transform:scale(.96); }
+  @keyframes glow { 0%,100% { box-shadow:0 10px 30px rgba(255,90,150,.4), 0 0 0 6px rgba(255,255,255,.3);} 50% { box-shadow:0 10px 44px rgba(255,120,170,.75), 0 0 0 10px rgba(255,255,255,.45);} }
+  .hint { margin-top:14px; font-size:14px; color:#b0608b; font-style:italic; }
+
+  /* ---------- SVG plant pieces ---------- */
+  .stem { stroke-dasharray:1400; stroke-dashoffset:1400; transition:stroke-dashoffset 2s cubic-bezier(.3,.8,.4,1); }
+  .leaf { transform-box:fill-box; transform-origin:50% 100%; opacity:0; }
+  .leaf.grow { animation:leafIn .8s cubic-bezier(.2,1.3,.4,1) both; }
+  @keyframes leafIn { 0%{transform:scaleX(0); opacity:0} 70%{transform:scaleX(1.08); opacity:1} 100%{transform:scaleX(1); opacity:1} }
+  .budG { transform-box:fill-box; transform-origin:50% 100%; opacity:0; }
+  .budG.in { animation:budIn .8s cubic-bezier(.2,1.4,.4,1) both; }
+  @keyframes budIn { 0%{transform:scale(.1); opacity:0} 70%{transform:scale(1.1); opacity:1} 100%{transform:scale(1); opacity:1} }
+  .petal { transform-box:fill-box; transform-origin:50% 100%; opacity:0; }
+  .petal.bloom { animation:bloomIn .95s cubic-bezier(.22,1.5,.45,1) both; animation-delay:var(--d,0s); }
+  @keyframes bloomIn {
+    0%   { transform:scale(0) rotate(-6deg); opacity:0; }
+    65%  { transform:scale(1.08) rotate(2deg); opacity:1; }
+    100% { transform:scale(1) rotate(0); opacity:1; }
+  }
+  .bloomG { animation:bob 3.4s ease-in-out infinite; }
+  @keyframes bob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
+  .plant { animation:sway 4.2s ease-in-out infinite; }
+  @keyframes sway { 0%,100%{transform:rotate(-1.6deg)} 50%{transform:rotate(1.8deg)} }
+  .sprout { animation:pop .7s cubic-bezier(.2,1.6,.4,1) both; }
+  @keyframes pop { 0%{transform:scale(0); opacity:0} 60%{transform:scale(1.25); opacity:1} 100%{transform:scale(1); opacity:1} }
+  .spark { animation:sparkle 1.3s ease-out both; }
+  @keyframes sparkle { 0%{transform:scale(0); opacity:0} 35%{transform:scale(1.15); opacity:1} 100%{transform:scale(.4); opacity:0} }
+  .cloud { animation:drift 26s ease-in-out infinite alternate; }
+  @keyframes drift { from{transform:translateX(0)} to{transform:translateX(90px)} }
+  .sunGlow { animation:pulse 5s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{opacity:.85} 50%{opacity:1} }
+
+  /* ---------- falling petals ---------- */
+  .fallpetal { position:fixed; top:-70px; font-size:26px; opacity:0; z-index:3; pointer-events:none; animation:fall linear infinite; }
+  @keyframes fall { 0%{transform:translateY(0) rotate(0); opacity:0} 10%{opacity:.85} 100%{transform:translateY(112vh) rotate(340deg); opacity:.15} }
+
+  /* ---------- overlays ---------- */
+  .overlay { position:fixed; left:0; right:0; text-align:center; z-index:4; pointer-events:none; padding:0 18px; }
+  #hersFlower { top:8vh; opacity:0; transform:translateY(-16px); transition:all 1s ease; }
+  #hersFlower.show { opacity:1; transform:none; }
+  #hersFlower h2 { font-family:'Pacifico',cursive; font-size:clamp(26px,5.6vw,52px); color:#fff; text-shadow:0 3px 0 #d6458c, 0 6px 24px rgba(214,69,140,.6); }
+  #finalMsg { bottom:4.5vh; opacity:0; transform:translateY(22px); transition:all 1.2s ease; }
+  #finalMsg.show { opacity:1; transform:none; }
+  #finalMsg h1 { font-family:'Pacifico',cursive; font-size:clamp(30px,6.5vw,64px); color:#fff; text-shadow:0 3px 0 #d6458c, 0 8px 30px rgba(214,69,140,.65); line-height:1.2; }
+  #finalMsg p { margin-top:10px; font-size:clamp(15px,2.8vw,22px); color:#6d1f4c; font-weight:600; background:rgba(255,255,255,.5); display:inline-block; padding:6px 18px; border-radius:40px; backdrop-filter:blur(3px); }
+
+  /* ---------- music controls / toasts ---------- */
+  #musicBtn { position:fixed; top:16px; right:16px; z-index:9; width:52px; height:52px; border-radius:50%; border:none; font-size:24px; cursor:pointer; background:rgba(255,255,255,.8); box-shadow:0 6px 18px rgba(214,69,140,.35); backdrop-filter:blur(4px); transition:transform .2s; }
+  #musicBtn:hover { transform:scale(1.12); }
+  #toast { position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:rgba(90,20,60,.85); color:#ffd6e8; padding:10px 18px; border-radius:40px; font-size:14px; z-index:9; opacity:0; transition:opacity .6s; max-width:92vw; text-align:center; }
+  #toast.show { opacity:1; }
+
+  @media (prefers-reduced-motion:reduce){
+    .plant,.bloomG,.heart,.fallpetal{ animation:none !important; }
   }
 </style>
 </head>
 <body>
 
-<header>
-  <span class="logo-main">SIVASINGH</span>
-  <span class="logo-sub">UNBAN SYSTEM</span>
-  <p class="tagline">⚡ Appeal System • Report System • Ban/Unban Tracker</p>
-  <span class="badge">🔓 100% Working • Official Instagram Forms • Auto-Copy</span>
-</header>
+<!-- floating hearts -->
+<div id="heartLayer"></div>
 
-<nav class="topnav">
-  <button class="tab-btn active" data-tab="home">🏠 Home</button>
-  <button class="tab-btn" data-tab="appeal">📨 Appeal</button>
-  <button class="tab-btn" data-tab="report">🚨 Report</button>
-  <button class="tab-btn" data-tab="tracker">📊 Tracker</button>
-  <button class="tab-btn" data-tab="tools">🧰 Tools</button>
-</nav>
+<!-- falling petals (after garden) -->
+<div id="petalLayer"></div>
 
-<main>
+<!-- INTRO -->
+<section id="intro">
+  <div id="lines"></div>
+  <div id="btnWrap"><button id="growBtn">🌸 Tap here for your flowers 🌸</button></div>
+  <div class="hint">psst.. ek baar click karo, magic ho jayega ✨🌷</div>
+</section>
 
-  <section id="tab-home" class="tab active">
-    <div class="card">
-      <h2>🖥️ SYSTEM CHECK <small>— har cheez test karke green dikhata hai</small></h2>
-      <p class="desc">App khud check karta hai ki sab kuch kaam kar raha hai ya nahi.</p>
-      <div class="sys-grid" id="sysGrid"></div>
-      <button class="btn ghost" onclick="systemCheck(true)">🔄 RE-RUN SYSTEM CHECK</button>
-      <div class="info-box" id="sysMsg"></div>
-    </div>
+<!-- GARDEN -->
+<svg id="gardenSvg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMax slice"></svg>
 
-    <div class="card">
-      <h2>⚡ QUICK ACTIONS</h2>
-      <div class="tool-grid">
-        <div class="tool"><h3>📨 Account Disabled?</h3><p>Official Instagram appeal form kholo + text auto-copy.</p><button class="btn small" onclick="goTab('appeal')">Appeal Karo</button></div>
-        <div class="tool"><h3>🚨 Report Karna Hai?</h3><p>Username + category → queue → sab reports ek saath bhejo.</p><button class="btn small" onclick="goTab('report')">Report Karo</button></div>
-        <div class="tool"><h3>📊 Records Dekho</h3><p>Saare appeals/reports ka status tracker mein hai.</p><button class="btn small" onclick="goTab('tracker')">Tracker Kholo</button></div>
-        <div class="tool"><h3>🧰 Official Tools</h3><p>Hacked recovery, 180-day appeal, copyright — sab direct links.</p><button class="btn small" onclick="goTab('tools')">Tools Kholo</button></div>
-      </div>
-    </div>
-  </section>
+<!-- overlays -->
+<div id="hersFlower" class="overlay"><h2>…and here is YOUR flower 💐🌷</h2></div>
+<div id="finalMsg" class="overlay">
+  <h1>Here is your garden, Cutiee 💐</h1>
+  <p>Every flower grew for you… like my smile when I talk to you 🌷</p>
+  <p>NTMY again — this time, with flowers 🥺💕<br><em>— tere liye, hamesha ✨</em></p>
+</div>
 
-  <section id="tab-appeal" class="tab">
-    <div class="card">
-      <h2>📨 INSTAGRAM APPEAL SYSTEM <small>— disabled / hacked / suspended</small></h2>
-      <p class="desc">Username daalo → appeal type choose karo → SEND APPEAL dabao. Official Instagram form naye tab mein khulega + appeal text clipboard mein copy ho jayega → form mein paste (Ctrl+V) karke submit.</p>
-
-      <label>👤 Instagram Username</label>
-      <input type="text" id="appealUsername" list="userHistory" placeholder="e.g. @yourusername ya sirf yourusername" autocomplete="off">
-
-      <div class="row">
-        <div>
-          <label>📌 Appeal Type</label>
-          <select id="appealType">
-            <option value="disabled">Account Disabled (galati se)</option>
-            <option value="permanent">Permanent Ban</option>
-            <option value="hacked">Hacked / Login Issue</option>
-            <option value="suspended">Temporary Suspension / Shadowban</option>
-            <option value="suspended180">180-Day Suspension Appeal (DSA)</option>
-            <option value="other">Other Issue</option>
-          </select>
-        </div>
-        <div>
-          <label>📧 Contact Email (optional)</label>
-          <input type="email" id="appealEmail" placeholder="aapka email for response">
-        </div>
-      </div>
-
-      <label>📝 Appeal Details / Reason</label>
-      <textarea id="appealReason" placeholder="Kyun account galati se ban hua, kitne din se, kitne followers, kya use karte ho..."></textarea>
-
-      <button class="btn" onclick="sendAppeal()">📨 SEND APPEAL ➜ INSTAGRAM</button>
-      <div class="info-box"><b>Real working flow:</b> form khulega + text copy hoga → form mein paste karo → submit. Tracker mein record auto-save ho jayega.</div>
-    </div>
-  </section>
-
-  <section id="tab-report" class="tab">
-    <div class="card">
-      <h2>🚨 INSTAGRAM REPORT SYSTEM <small>— multi-report, ek saath</small></h2>
-      <p class="desc">Report category choose karo → username daalo → ADD TO QUEUE (jitne chaaho utne) → SEND ALL REPORTS se sab official forms ek saath khul jayenge.</p>
-
-      <div class="row">
-        <div>
-          <label>👤 Reported Username</label>
-          <input type="text" id="reportUsername" list="userHistory" placeholder="e.g. @fakepage123" autocomplete="off">
-        </div>
-        <div>
-          <label>📌 Report Category</label>
-          <select id="reportCategory">
-            <option value="spam">Spam / Fake Followers</option>
-            <option value="fake">Fake Account / Impersonation</option>
-            <option value="harass">Harassment / Bullying / Threats</option>
-            <option value="hate">Hate Speech</option>
-            <option value="violence">Violence / Dangerous Content</option>
-            <option value="nudity">Nudity / Sexual Content</option>
-            <option value="scam">Scam / Fraud / Phishing</option>
-            <option value="ip">Copyright / Trademark (IP)</option>
-            <option value="selfharm">Suicide / Self-Harm Concern</option>
-            <option value="child">Child Safety / Under-age</option>
-            <option value="drugs">Drugs / Illegal Sales</option>
-            <option value="other">Other Violation</option>
-          </select>
-        </div>
-      </div>
-
-      <label>📝 Report Details (optional)</label>
-      <textarea id="reportNote" placeholder="Kya violation hai — reason/post link likho..."></textarea>
-
-      <button class="btn ghost" onclick="addToQueue()">➕ ADD TO REPORT QUEUE</button>
-      <div id="reportQueue" style="margin-top:14px;"></div>
-      <button class="btn" onclick="sendAllReports()" style="margin-top:14px;">📤 SEND ALL REPORTS ➜ INSTAGRAM</button>
-      <div class="warn-box"><b>Note:</b> Saare tabs ek hi click mein khulte hain. Agar browser popup rokta hai to address bar mein popup icon ➡ "Always allow" karo aur dobara dabao.</div>
-    </div>
-  </section>
-
-  <section id="tab-tracker" class="tab">
-    <div class="card">
-      <h2>📊 BAN / UNBAN TRACKER <small>— saare records ek jagah</small></h2>
-      <p class="desc">Har appeal/report yahan save hota hai. Status update: Pending ➜ Sent ➜ Resolved. Search bhi kar sakte ho.</p>
-
-      <div class="stats">
-        <div class="stat"><b id="statTotal">0</b><span>Total</span></div>
-        <div class="stat"><b id="statSent">0</b><span>Sent</span></div>
-        <div class="stat"><b id="statResolved">0</b><span>Resolved</span></div>
-      </div>
-
-      <label>🔍 Search Records</label>
-      <input type="text" id="searchBox" placeholder="Username ya category se search karo..." oninput="renderTracker()">
-
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Type</th><th>Username</th><th>Category</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead>
-          <tbody id="trackerBody"></tbody>
-        </table>
-      </div>
-
-      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:16px;">
-        <button class="btn small ghost" onclick="exportJSON()">⬇️ Export JSON</button>
-        <button class="btn small ghost" onclick="printRecords()">🖨️ Print / PDF</button>
-        <button class="btn small red" onclick="clearAll()">🗑️ Clear All</button>
-      </div>
-      <div class="info-box"><b>Account Status Check:</b> "👁 Check" button se account khulega — profile dikhe to account <b>active</b> hai, "Sorry, this page isn't available" aaye to account <b>disabled</b> hai.</div>
-    </div>
-  </section>
-
-  <section id="tab-tools" class="tab">
-    <div class="card">
-      <h2>🧰 UNBAN TOOLKIT <small>— official tools direct access</small></h2>
-      <div class="tool-grid">
-        <div class="tool"><h3>🔓 Disabled Account Appeal</h3><p>Official "account disabled" review form.</p><button class="btn small ghost" onclick="openWin('https://help.instagram.com/contact/606967319425038')">Open Form</button></div>
-        <div class="tool"><h3>🛡️ Hacked / Locked Out</h3><p>Instagram ka official hacked recovery flow.</p><button class="btn small ghost" onclick="openWin('https://www.instagram.com/hacked')">Recover Now</button></div>
-        <div class="tool"><h3>⏳ 180-Day Suspension</h3><p>DSA regions ka suspended-account appeal form.</p><button class="btn small ghost" onclick="openWin('https://help.instagram.com/contact/1652567838289083')">Open Form</button></div>
-        <div class="tool"><h3>👤 Impersonation Report</h3><p>Fake account report — official form.</p><button class="btn small ghost" onclick="openWin('https://help.instagram.com/contact/636276399721841')">Report Now</button></div>
-        <div class="tool"><h3>©️ Copyright / IP Report</h3><p>Official copyright infringement form.</p><button class="btn small ghost" onclick="openWin('https://help.instagram.com/contact/552695131608132')">Report Now</button></div>
-        <div class="tool"><h3>⚖️ General Content Report</h3><p>Community guidelines violation report form.</p><button class="btn small ghost" onclick="openWin('https://help.instagram.com/contact/383679321740945')">Report Now</button></div>
-        <div class="tool"><h3>👶 Under-age Report</h3><p>Minimum age se kam account report form.</p><button class="btn small ghost" onclick="openWin('https://help.instagram.com/contact/723586364339719')">Report Now</button></div>
-        <div class="tool"><h3>🆘 Help Center</h3><p>Instagram ka official help home page.</p><button class="btn small ghost" onclick="openWin('https://help.instagram.com/')">Open Help</button></div>
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>🖥️ LIVE FORM VIEWER <small>— app ke andar hi form dekho</small></h2>
-      <p class="desc">Neeche form choose karo → app ke andar hi khulega (agar browser allow kare). Agar blocked dikhe to "Open in New Tab" use karo.</p>
-      <select id="liveSelect" onchange="loadLiveForm()">
-        <option value="">— Form choose karo —</option>
-        <option value="https://help.instagram.com/contact/606967319425038">🔓 Disabled Account Appeal</option>
-        <option value="https://help.instagram.com/contact/740949042640030">🛡️ Hacked / Locked Out</option>
-        <option value="https://help.instagram.com/contact/1652567838289083">⏳ 180-Day Suspension</option>
-        <option value="https://help.instagram.com/contact/636276399721841">👤 Impersonation Report</option>
-        <option value="https://help.instagram.com/contact/552695131608132">©️ Copyright Report</option>
-        <option value="https://help.instagram.com/contact/383679321740945">⚖️ General Content Report</option>
-      </select>
-      <button class="btn ghost" onclick="openWin(document.getElementById('liveSelect').value)">↗️ OPEN IN NEW TAB (hamesha working)</button>
-      <div id="liveFrameWrap"></div>
-    </div>
-
-    <div class="card">
-      <h2>💡 Smart Unban Tips</h2>
-      <ul style="color:#9fd8ba; font-size:14px; line-height:2; padding-left:20px;">
-        <li><b style="color:#4dff8b;">1 appeal per week</b> — baar-baar appeal mat karo, response 7–10 din tak aata hai.</li>
-        <li><b style="color:#4dff8b;">In-app appeal sabse fast</b> — disabled notice par "Appeal" button dikhe to wahi se karo.</li>
-        <li><b style="color:#4dff8b;">ID / selfie ready</b> — Instagram government ID ya handwritten code wali selfie maang sakta hai.</li>
-        <li><b style="color:#4dff8b;">Spam folder check</b> — Instagram ka response email spam mein bhi ja sakta hai.</li>
-        <li><b style="color:#4dff8b;">Hacked case:</b> pehle instagram.com/hacked se recovery, appeal baad mein.</li>
-      </ul>
-    </div>
-
-    <div class="card">
-      <h2>⚡ Honesty Note (ye app real hai)</h2>
-      <div class="warn-box">Ye app Instagram ke <b>official forms tak appeal/report pahunchati hai</b> aur text copy karti hai — yehi sabse powerful real method hai. Koi app/server Instagram ke server mein seedha appeal inject <b>nahi</b> kar sakta (koi public API nahi). Jo apps "guaranteed unban" bolti hain wo <b>scams</b> hain. Is system mein aapka data sirf aapke browser mein rehta hai.</div>
-    </div>
-  </section>
-
-</main>
-
-<nav class="bottomnav">
-  <button class="tab-btn active" data-tab="home"><span class="ic">🏠</span>Home</button>
-  <button class="tab-btn" data-tab="appeal"><span class="ic">📨</span>Appeal</button>
-  <button class="tab-btn" data-tab="report"><span class="ic">🚨</span>Report</button>
-  <button class="tab-btn" data-tab="tracker"><span class="ic">📊</span>Tracker</button>
-  <button class="tab-btn" data-tab="tools"><span class="ic">🧰</span>Tools</button>
-</nav>
-
-<footer>
-  SIVASINGH UNBAN SYSTEM • 100% Working System • Data sirf aapke browser mein (localStorage)<br>
-  Instagram is a trademark of Meta Platforms, Inc. This tool is not affiliated with Meta.
-</footer>
-
+<!-- music: put tere-liye.mp3 in the SAME folder as this file -->
+<audio id="bgm" loop preload="auto">
+  <source src="tere-liye.mp3" type="audio/mpeg">
+</audio>
+<button id="musicBtn" title="music">🔊</button>
 <div id="toast"></div>
-<div id="printArea" style="display:none;"></div>
-
-<datalist id="userHistory"></datalist>
 
 <script>
-'use strict';
+/* ========================== SETUP ========================== */
+const NS = "http://www.w3.org/2000/svg";
+const svg = document.getElementById('gardenSvg');
+const W = 1440, H = 900, GROUND_Y = 800;
+const rnd = (a,b)=>a+Math.random()*(b-a);
+const pick = a=>a[Math.floor(Math.random()*a.length)];
 
-const $ = id => document.getElementById(id);
-function toast(msg){
-  const t = $('toast'); t.textContent = msg; t.classList.add('show');
-  clearTimeout(t._tm); t._tm = setTimeout(()=>t.classList.remove('show'), 3400);
-}
-function openWin(url){
-  if(!url){ toast('⚠️ Pehle ek option choose karo!'); return; }
-  const w = window.open(url, '_blank');
-  if(!w) toast('⚠️ Popup blocked! Address bar mein popup icon par click karke "Allow" karo.');
-  return w;
-}
-function copyText(text){
-  try{
-    if(navigator.clipboard && navigator.clipboard.writeText){
-      navigator.clipboard.writeText(text).then(()=>toast('📋 Text copied to clipboard!')).catch(()=>fallbackCopy(text));
-    } else fallbackCopy(text);
-  }catch(e){ fallbackCopy(text); }
-}
-function fallbackCopy(text){
-  try{
-    const ta = document.createElement('textarea');
-    ta.value = text; ta.style.position='fixed'; ta.style.opacity='0';
-    document.body.appendChild(ta); ta.select();
-    const ok = document.execCommand('copy');
-    document.body.removeChild(ta);
-    toast(ok ? '📋 Text copied!' : 'Copy failed — text select karke manually copy karo.');
-  }catch(e){ toast('Copy failed — text select karke manually copy karo.'); }
-}
-function cleanUser(v){
-  return String(v||'').trim().replace(/^@+/, '').replace(/[^\w.\-]/g, '').slice(0, 30);
+function el(tag, attrs, text){
+  const e = document.createElementNS(NS, tag);
+  for(const k in attrs) e.setAttribute(k, attrs[k]);
+  if(text !== undefined) e.textContent = text;
+  return e;
 }
 
-const DB_KEY = 'sivasingh_unban_system_v1';
-let db = { records: [] };
-function loadDB(){
-  try{ db = JSON.parse(localStorage.getItem(DB_KEY)) || {records:[]}; }
-  catch(e){ db = {records:[]}; }
-  if(!Array.isArray(db.records)) db.records = [];
-}
-function saveDB(){ try{ localStorage.setItem(DB_KEY, JSON.stringify(db)); }catch(e){ toast('⚠️ Storage full — kuch records delete karo.'); } }
-function addHistory(username){
-  try{
-    let h = JSON.parse(localStorage.getItem('sivasingh_hist')) || [];
-    h = h.filter(x=>x!==username); h.unshift(username); h = h.slice(0, 10);
-    localStorage.setItem('sivasingh_hist', JSON.stringify(h));
-    renderHistory();
-  }catch(e){}
-}
-function renderHistory(){
-  try{
-    const h = JSON.parse(localStorage.getItem('sivasingh_hist')) || [];
-    $('userHistory').innerHTML = h.map(u=>`<option value="${u}">`).join('');
-  }catch(e){}
-}
-function addRecord(type, username, category, status){
-  db.records.unshift({
-    id: Date.now()+''+Math.floor(Math.random()*9999),
-    type, username, category, status,
-    date: new Date().toLocaleString()
-  });
-  saveDB(); renderTracker();
-}
+/* gradients + sky scene */
+svg.innerHTML = `
+<defs>
+  <linearGradient id="gradPink"  x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffb3d1"/><stop offset="1" stop-color="#ff5fa2"/></linearGradient>
+  <linearGradient id="gradRose"  x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff8fa3"/><stop offset="1" stop-color="#d62839"/></linearGradient>
+  <linearGradient id="gradLilac" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d0a5ff"/><stop offset="1" stop-color="#8e44e0"/></linearGradient>
+  <linearGradient id="gradPeach" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd6a5"/><stop offset="1" stop-color="#ff6d3f"/></linearGradient>
+  <linearGradient id="gradRed"   x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff5d73"/><stop offset="1" stop-color="#b0002a"/></linearGradient>
+  <linearGradient id="gradBlue"  x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a0c4ff"/><stop offset="1" stop-color="#3a5bd9"/></linearGradient>
+  <linearGradient id="gradWhite" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff5f2"/><stop offset="1" stop-color="#ffc2d1"/></linearGradient>
+  <linearGradient id="gradGold"  x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe066"/><stop offset="1" stop-color="#ffb703"/></linearGradient>
+  <linearGradient id="gradStem"  x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#79c46a"/><stop offset="1" stop-color="#2f7d32"/></linearGradient>
+  <linearGradient id="gradLeaf1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8fd06f"/><stop offset="1" stop-color="#3f9b48"/></linearGradient>
+  <linearGradient id="gradLeaf2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#a5e07c"/><stop offset="1" stop-color="#57a83f"/></linearGradient>
+  <linearGradient id="gradGrass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7ccf6b"/><stop offset="1" stop-color="#3e9e4e"/></linearGradient>
+  <linearGradient id="gradGrass2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9ade7f"/><stop offset="1" stop-color="#4fae55"/></linearGradient>
+  <radialGradient id="gradSun" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#ffe9b8"/><stop offset=".55" stop-color="#ffc9a3"/><stop offset="1" stop-color="#ff9db2" stop-opacity="0"/></radialGradient>
+  <radialGradient id="gradGlow" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+</defs>
 
-const APPEAL_FORMS = {
-  disabled:    { label:'Account Disabled (mistake)',  url:'https://help.instagram.com/contact/606967319425038' },
-  permanent:   { label:'Permanent Ban',               url:'https://help.instagram.com/contact/606967319425038' },
-  hacked:      { label:'Hacked / Login Issue',        url:'https://help.instagram.com/contact/740949042640030' },
-  suspended:   { label:'Temporary Suspension',        url:'https://help.instagram.com/contact/383679321740945' },
-  suspended180:{ label:'180-Day Suspension (DSA)',    url:'https://help.instagram.com/contact/1652567838289083' },
-  other:       { label:'Other Issue',                 url:'https://help.instagram.com/contact/383679321740945' }
-};
-const REPORT_FORMS = {
-  spam:'https://help.instagram.com/contact/383679321740945',
-  fake:'https://help.instagram.com/contact/636276399721841',
-  harass:'https://help.instagram.com/contact/383679321740945',
-  hate:'https://help.instagram.com/contact/383679321740945',
-  violence:'https://help.instagram.com/contact/383679321740945',
-  nudity:'https://help.instagram.com/contact/383679321740945',
-  scam:'https://help.instagram.com/contact/383679321740945',
-  ip:'https://help.instagram.com/contact/552695131608132',
-  selfharm:'https://help.instagram.com/contact/383679321740945',
-  child:'https://help.instagram.com/contact/723586364339719',
-  drugs:'https://help.instagram.com/contact/383679321740945',
-  other:'https://help.instagram.com/contact/383679321740945'
-};
-const REPORT_TITLES = {
-  spam:'Spam Report', fake:'Impersonation Report', harass:'Harassment Report', hate:'Hate Speech Report',
-  violence:'Violence Report', nudity:'Nudity Report', scam:'Scam Report', ip:'Copyright Report',
-  selfharm:'Self-Harm Concern', child:'Under-age Report', drugs:'Drugs Report', other:'General Report'
-};
-const REPORT_LABELS = {
-  spam:'Spam / Fake Followers', fake:'Fake Account / Impersonation', harass:'Harassment / Bullying',
-  hate:'Hate Speech', violence:'Violence / Dangerous Content', nudity:'Nudity / Sexual Content',
-  scam:'Scam / Fraud / Phishing', ip:'Copyright / Trademark (IP)', selfharm:'Suicide / Self-Harm Concern',
-  child:'Child Safety / Under-age', drugs:'Drugs / Illegal Sales', other:'Other Violation'
-};
+<g class="sunGlow">
+  <circle cx="220" cy="135" r="150" fill="url(#gradSun)"/>
+  <circle cx="220" cy="135" r="62" fill="#ffe9a8" opacity=".9"/>
+</g>
+<g class="cloud" opacity=".55"><ellipse cx="980" cy="150" rx="120" ry="30" fill="#fff"/><ellipse cx="1060" cy="140" rx="80" ry="26" fill="#fff"/><ellipse cx="920" cy="145" rx="70" ry="24" fill="#fff"/></g>
+<g class="cloud" opacity=".45" style="animation-duration:34s; animation-delay:-12s"><ellipse cx="560" cy="90" rx="95" ry="24" fill="#fff"/><ellipse cx="630" cy="82" rx="60" ry="20" fill="#fff"/></g>
 
-function sendAppeal(){
-  const user = cleanUser($('appealUsername').value);
-  if(!user){ toast('⚠️ Pehle Instagram username daalo!'); $('appealUsername').focus(); return; }
-  const key = $('appealType').value;
-  const form = APPEAL_FORMS[key];
-  const email = $('appealEmail').value.trim();
-  const reason = $('appealReason').value.trim();
+<path d="M0 650 Q 370 555 730 660 Q 1090 765 1440 655 L1440 900 L0 900 Z" fill="url(#gradGrass)" opacity=".55"/>
+<path d="M0 745 Q 380 640 770 735 Q 1130 810 1440 725 L1440 900 L0 900 Z" fill="url(#gradGrass2)"/>
+<path d="M0 862 Q 360 838 720 856 Q 1080 874 1440 852 L1440 900 L0 900 Z" fill="#5d4037" opacity=".35"/>
+`;
 
-  const text =
-`APPEAL REQUEST — SIVASINGH UNBAN SYSTEM
-
-Issue: ${form.label}
-Username: @${user}
-Contact Email: ${email || 'N/A'}
-
-Details:
-${reason || 'My account was disabled/suspended. I believe this was a mistake. I have not violated Instagram\'s Community Guidelines knowingly. Please review my account and restore it. I can provide a government ID for verification if required.'}
-
-Request: Kindly review my account and restore access. Thank you for your support.`;
-
-  copyText(text);
-  addHistory(user);
-  const win = window.open(form.url, '_blank');
-  addRecord('appeal', '@'+user, form.label, win ? 'Sent' : 'Pending');
-  if(win){ toast('✅ Appeal bheja gaya! Form mein paste (Ctrl+V) karke submit karo.'); }
-  else { toast('⚠️ Popup blocked — address bar mein "Allow" karo, text already copied hai.'); }
-}
-
-let queue = [];
-function addToQueue(){
-  const user = cleanUser($('reportUsername').value);
-  if(!user){ toast('⚠️ Reported username daalo!'); $('reportUsername').focus(); return; }
-  const key = $('reportCategory').value;
-  const note = $('reportNote').value.trim();
-  queue.push({ user, key, note });
-  addHistory(user);
-  $('reportNote').value = ''; $('reportUsername').value = '';
-  renderQueue();
-  toast('➕ Report added! Queue: ' + queue.length);
-}
-function renderQueue(){
-  const box = $('reportQueue');
-  if(!queue.length){
-    box.innerHTML = '<p style="color:#5d8f74;font-size:13px;margin-top:10px;">Queue khaali hai — upar se reports add karo.</p>';
-    return;
+/* little grass tufts */
+(function(){
+  for(let i=0;i<34;i++){
+    const x = rnd(20,1420), s = rnd(5,10);
+    const t = el('path',{d:`M ${x} ${GROUND_Y} Q ${x-s} ${GROUND_Y-22-s} ${x-s*.4} ${GROUND_Y-30-s} M ${x} ${GROUND_Y} Q ${x+s*.5} ${GROUND_Y-26} ${x+s} ${GROUND_Y-18-s}`, stroke:'url(#gradLeaf2)','stroke-width':2.4, fill:'none','stroke-linecap':'round', opacity:.9});
+    svg.appendChild(t);
   }
-  box.innerHTML = '<p style="color:#8fdbb4;font-size:13px;font-weight:700;margin-bottom:4px;">📥 REPORT QUEUE (' + queue.length + '):</p>' +
-    queue.map((q,i)=>`
-      <div class="queue-item">
-        <span><b>@${q.user}</b> — ${REPORT_LABELS[q.key]}</span>
-        <button class="btn small red" onclick="removeFromQueue(${i})">✕</button>
-      </div>`).join('');
-}
-function removeFromQueue(i){ queue.splice(i,1); renderQueue(); }
+})();
 
-function sendAllReports(){
-  if(!queue.length){ toast('⚠️ Queue khaali hai — pehle reports add karo.'); return; }
-  const total = queue.length;
-  const text = queue.map(q=>
-`${REPORT_TITLES[q.key].toUpperCase()}
-Reported Username: @${q.user}
-Category: ${REPORT_LABELS[q.key]}
-Details: ${q.note || 'This account is violating Instagram Community Guidelines. Please review and take appropriate action.'}
-----------------------------------------`
-  ).join('\n');
-
-  let opened = 0;
-  for(const q of queue){
-    const win = window.open(REPORT_FORMS[q.key], '_blank');
-    if(win) opened++;
-    addRecord('report', '@'+q.user, REPORT_LABELS[q.key], win ? 'Sent' : 'Pending');
+/* tiny grass flowers */
+(function(){
+  for(let i=0;i<26;i++){
+    const x = rnd(20,1420), y = GROUND_Y - rnd(6,22), cols=['#ffb3d1','#ffe066','#d0a5ff','#ffd6a5'];
+    const c = el('circle',{cx:x, cy:y, r:rnd(2.5,4.5), fill:pick(cols), opacity:.8});
+    svg.appendChild(c);
   }
-  copyText(text);
-  queue = []; renderQueue();
-  if(opened === total) toast('📤 Sab '+total+' reports ke forms khul gaye! Har tab mein paste + submit karo.');
-  else if(opened > 0) toast('📤 '+opened+'/'+total+' forms khule — baaki ke liye popup allow karo, text copied hai.');
-  else toast('⚠️ Popup blocked — address bar mein "Allow" karo, report text copied hai.');
-}
+})();
 
-function renderTracker(){
-  const body = $('trackerBody');
-  const q = ($('searchBox') ? $('searchBox').value : '').toLowerCase();
-  const list = q ? db.records.filter(r =>
-    r.username.toLowerCase().includes(q) || r.category.toLowerCase().includes(q) || r.type.includes(q)) : db.records;
+/* ========================== INTRO TYPING ========================== */
+const lines = [
+  "Hiiiiiii Cutiee! ✨",
+  "I just met you… and talked to you… 💬",
+  "…and honestly? I already think you're adorable 🥺💕",
+  "So here it is — NTMY, Nice To Meet You! 😌🤝",
+  "Wait… but where are the flowers?? 🌷",
+  "Let me grow a whole garden for you… 🌱",
+];
+const lineBox = document.getElementById('lines');
+let li = 0;
+(function type(){
+  if(li >= lines.length){ showButton(); return; }
+  const p = document.createElement('p');
+  if(li === lines.length-1) p.classList.add('soft');
+  lineBox.appendChild(p);
+  const t = lines[li]; let ci = 0;
+  const iv = setInterval(()=>{
+    if(ci < t.length){ p.insertBefore(document.createTextNode(t[ci]), p.lastChild ? null : null); 
+      // simpler: append
+      p.appendChild(document.createTextNode(t[ci])); ci++; }
+    else { clearInterval(iv); p.appendChild(cursor()); li++; setTimeout(type, 380); }
+  }, 46);
+})();
+function cursor(){ const s=document.createElement('span'); s.className='cursor'; return s; }
+function showButton(){ document.getElementById('btnWrap').classList.add('show'); }
 
-  $('statTotal').textContent = db.records.length;
-  $('statSent').textContent = db.records.filter(r=>r.status==='Sent').length;
-  $('statResolved').textContent = db.records.filter(r=>r.status==='Resolved').length;
-
-  if(!list.length){
-    body.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#5d8f74;padding:24px;">' +
-      (db.records.length ? 'Koi match nahi mila.' : 'Abhi koi record nahi — appeal/report bhejo, yahan auto-save hoga.') + '</td></tr>';
-    return;
+/* floating hearts */
+(function(){
+  const layer = document.getElementById('heartLayer');
+  for(let i=0;i<16;i++){
+    const h = document.createElement('span');
+    h.className = 'heart';
+    h.textContent = pick(['💗','💖','💕','🌸','💘']);
+    h.style.left = rnd(2,96)+'vw';
+    h.style.fontSize = rnd(16,42)+'px';
+    h.style.animationDuration = rnd(9,20)+'s';
+    h.style.animationDelay = rnd(-18,0)+'s';
+    layer.appendChild(h);
   }
-  body.innerHTML = list.map(r=>`
-    <tr>
-      <td>${r.type==='appeal' ? '📨 Appeal' : '🚨 Report'}</td>
-      <td><b style="color:#69f0ae">${r.username}</b></td>
-      <td>${r.category}</td>
-      <td><span class="chip ${r.status}">${r.status}</span></td>
-      <td>${r.date}</td>
-      <td>
-        <div class="td-actions">
-          <button class="btn small ghost" onclick="checkAccount('${r.username.replace(/^@/,'')}')">👁 Check</button>
-          ${r.status==='Sent' ? `<button class="btn small" onclick="setStatus('${r.id}','Resolved')">✓ Resolved</button>` : ''}
-          ${r.status!=='Sent' ? `<button class="btn small ghost" onclick="setStatus('${r.id}','Sent')">📤 Sent</button>` : ''}
-          <button class="btn small red" onclick="delRecord('${r.id}')">🗑</button>
-        </div>
-      </td>
-    </tr>`).join('');
-}
-function setStatus(id, status){
-  const r = db.records.find(x=>x.id===id);
-  if(r){ r.status = status; saveDB(); renderTracker(); toast('✅ Status: ' + status); }
-}
-function delRecord(id){
-  db.records = db.records.filter(x=>x.id!==id); saveDB(); renderTracker();
-  toast('🗑 Record delete ho gaya');
-}
-function checkAccount(u){ window.open('https://www.instagram.com/'+u+'/', '_blank'); }
-function exportJSON(){
-  if(!db.records.length){ toast('⚠️ Koi record nahi hai.'); return; }
-  const blob = new Blob([JSON.stringify(db.records, null, 2)], {type:'application/json'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob); a.download = 'sivasingh_unban_records.json'; a.click();
-  toast('⬇️ JSON export ho gaya');
-}
-function printRecords(){
-  const area = $('printArea');
-  if(!db.records.length){ toast('⚠️ Koi record nahi hai.'); return; }
-  area.style.display = 'block';
-  area.innerHTML = '<h1 style="font-size:22px;">SIVASINGH UNBAN SYSTEM — Records</h1><table style="width:100%;border-collapse:collapse;font-size:12px;">' +
-    '<tr style="background:#eee;"><th style="border:1px solid #000;padding:6px;text-align:left;">Type</th><th style="border:1px solid #000;padding:6px;text-align:left;">Username</th><th style="border:1px solid #000;padding:6px;text-align:left;">Category</th><th style="border:1px solid #000;padding:6px;text-align:left;">Status</th><th style="border:1px solid #000;padding:6px;text-align:left;">Date</th></tr>' +
-    db.records.map(r=>`<tr><td style="border:1px solid #000;padding:6px;">${r.type}</td><td style="border:1px solid #000;padding:6px;">${r.username}</td><td style="border:1px solid #000;padding:6px;">${r.category}</td><td style="border:1px solid #000;padding:6px;">${r.status}</td><td style="border:1px solid #000;padding:6px;">${r.date}</td></tr>`).join('') + '</table>';
-  window.print();
-  setTimeout(()=>{ area.style.display='none'; }, 300);
-}
-function clearAll(){
-  if(!db.records.length){ toast('Already empty hai.'); return; }
-  if(confirm('Saare ' + db.records.length + ' records delete karne hain?')){
-    db.records = []; saveDB(); renderTracker(); toast('🗑 All records cleared');
-  }
-}
+})();
 
-function loadLiveForm(){
-  const url = $('liveSelect').value;
-  const wrap = $('liveFrameWrap');
-  if(!url){ wrap.innerHTML = ''; return; }
-  wrap.innerHTML = '<iframe id="liveFrame" src="' + url + '" onload="liveLoaded()"></iframe>' +
-    '<p style="color:#8fdbb4;font-size:12px;margin-top:8px;">⏳ Load ho raha hai... agar 5 second mein khaali lage to Instagram iframe block kar raha hai — neeche "Open in New Tab" button use karo (wo hamesha chalta hai).</p>';
-  clearTimeout(window._liveT);
-  window._liveT = setTimeout(()=>{
-    const f = $('liveFrame');
-    if(f && !f.getAttribute('data-loaded')){
-      wrap.innerHTML += '<div class="warn-box">⚠️ Instagram ne app ke andar load karne se roka (normal hai — ye unka security rule hai). <b style="color:#4dff8b;">"Open in New Tab"</b> button se form kholo — wo 100% working hai.</div>';
+/* ========================== FLOWERS ========================== */
+const tulipGrads = ['url(#gradPink)','url(#gradLilac)','url(#gradPeach)','url(#gradRed)','url(#gradBlue)'];
+const roseGrads  = ['url(#gradRose)','url(#gradRed)','url(#gradPeach)','url(#gradPink)','url(#gradLilac)'];
+
+const TULIP = 'tulip', ROSE = 'rose', DAISY = 'daisy';
+const LEAF_D = 'M0 0 C -9 -13 -30 -16 -36 -5 C -23 1 -7 6 0 0 Z';
+const BUD_D  = 'M0 -30 C -11 -14 -9 -2 0 3 C 9 -2 11 -14 0 -30 Z';
+
+function leaf(x,y,side,delay){
+  const g = el('g',{transform:`translate(${x*1},${y}) ${side==='left'?'':'scale(-1,1)'}`});
+  const l = el('path',{d:LEAF_D, fill:'url(#gradLeaf1)', class:'leaf', style:`animation-delay:${delay}s; filter:drop-shadow(0 2px 3px rgba(30,90,20,.25))`});
+  const ve = el('path',{d:'M -3 -3 Q -16 -8 -30 -9', stroke:'#2f7d32','stroke-width':1.4, fill:'none', opacity:.6});
+  ve.setAttribute('transform','scale(1.08)');
+  l.appendChild(ve); g.appendChild(l); return g;
+}
+function budShape(seedGrad){
+  const g = el('g',{class:'budG'});
+  const b = el('path',{d:BUD_D, fill:'url(#gradStem)', stroke:'#2f7d32','stroke-width':1});
+  const tip = el('ellipse',{cx:0, cy:-24, rx:6.5, ry:9, fill:seedGrad, opacity:.95});
+  g.append(b,tip);
+  return g;
+}
+function bloom(g, type, cx, cy, grad){
+  const bloomG = el('g',{class:'bloomG', transform:`translate(${cx},${cy})`});
+  const glow = el('circle',{r:55, fill:'url(#gradGlow)'});
+  bloomG.appendChild(glow);
+
+  if(type === TULIP){
+    for(let i=0;i<6;i++){
+      const pet = el('path',{d:'M0 0 C -17 -26 -19 -62 -7 -90 C -1 -88 1 -88 7 -90 C 19 -62 17 -26 0 0 Z',
+        fill:grad, class:'petal bloom', style:`--d:${i*0.11}s; filter:drop-shadow(0 3px 5px rgba(120,20,70,.22))`});
+      pet.setAttribute('transform',`rotate(${i*60})`);
+      bloomG.appendChild(pet);
     }
-  }, 5000);
-}
-function liveLoaded(){
-  const f = $('liveFrame'); if(f) f.setAttribute('data-loaded','1');
-}
-
-function setSys(id, name, ok, note){
-  const el = $(id);
-  if(!el) return;
-  el.innerHTML = '<div class="st ' + (ok?'ok':'bad') + '">' + (ok?'✅':'❌') + '</div><b>' + name + '</b><span>' + (ok ? note : (note || 'Not working')) + '</span>';
-}
-async function systemCheck(manual){
-  const msg = $('sysMsg');
-  const grid = $('sysGrid');
-  grid.innerHTML = '<p style="color:#8fdbb4;font-size:13px;">⏳ Testing systems...</p>';
-  if(msg) msg.innerHTML = '';
-
-  let lsOK = false;
-  try{ localStorage.setItem('_sst','1'); lsOK = localStorage.getItem('_sst')==='1'; localStorage.removeItem('_sst'); }catch(e){}
-  setSys('sysLS','Storage (localStorage)', lsOK, lsOK ? 'Records save honge' : 'Private mode me storage band ho sakta hai');
-
-  const cbOK = !!(navigator.clipboard && navigator.clipboard.writeText) || !!document.execCommand;
-  setSys('sysCB','Clipboard', cbOK, 'Auto-copy kaam karega');
-
-  let popOK = true, popNote = 'Ready — click karne par khulta hai';
-  if(manual){
-    popOK = false;
-    try{ const w = window.open('about:blank','_blank'); if(w){ popOK = true; setTimeout(()=>w.close(),300); } }catch(e){}
-    popNote = popOK ? 'Forms khulenge' : 'Address bar mein popup allow karo';
+    const shine = el('ellipse',{cx:-5.5, cy:-46, rx:5, ry:22, fill:'#fff', opacity:.32});
+    bloomG.appendChild(shine);
   }
-  setSys('sysPOP','New Tab / Popup', popOK, popNote);
-
-  let netOK = false;
-  try{ await fetch('https://help.instagram.com/contact/606967319425038', {mode:'no-cors'}); netOK = true; }catch(e){ netOK = false; }
-  setSys('sysNET','Instagram Server', netOK, netOK ? 'Forms khulenge' : 'Internet check karo');
-
-  setSys('sysVER','App Version', true, 'SIVASINGH UNBAN SYSTEM v2.1');
-
-  if(msg){
-    const allOK = lsOK && cbOK && popOK && netOK;
-    msg.innerHTML = allOK
-      ? '<b>✅ SAB KUCH PERFECT HAI!</b> System fully working — appeal/report bhejne ke liye tayar.'
-      : '<b>⚠️ Ek-do cheez check karo:</b> ' +
-        (manual && !popOK ? 'Browser ne popup block kiya — address bar mein popup allow karo. ' : '') +
-        (!netOK ? 'Internet connection check karo. ' : '') +
-        (!lsOK ? 'Private/incognito mode mein storage disable ho sakta hai. ' : '');
+  else if(type === ROSE){
+    const layers = [[8,1,0],[8,.72,30],[6,.46,15],[5,.28,60]];
+    layers.forEach(([n,s,off])=>{
+      for(let i=0;i<n;i++){
+        const pet = el('path',{d:'M0 0 C -19 -13 -23 -36 -9 -49 C -2 -54 2 -54 9 -49 C 23 -36 19 -13 0 0 Z',
+          fill:grad, class:'petal bloom', style:`--d:${off*0.01 + i*0.07 + (n===8?0:.4)}s; filter:drop-shadow(0 2px 4px rgba(120,20,70,.25))`});
+        pet.setAttribute('transform',`rotate(${(360/n)*i}) scale(${s})`);
+        bloomG.appendChild(pet);
+      }
+    });
   }
+  else { /* DAISY */
+    for(let i=0;i<14;i++){
+      const pet = el('path',{d:'M0 0 C -10 -20 -13 -48 0 -62 C 13 -48 10 -20 0 0 Z',
+        fill:grad, class:'petal bloom', style:`--d:${i*0.075}s; filter:drop-shadow(0 2px 4px rgba(120,20,70,.2))`});
+      pet.setAttribute('transform',`rotate(${(360/14)*i})`);
+      bloomG.appendChild(pet);
+    }
+    const c1 = el('circle',{r:15, fill:'url(#gradGold)'});
+    const c2 = el('circle',{r:7, fill:'#a1632a', opacity:.8});
+    bloomG.append(c1,c2);
+  }
+  g.appendChild(bloomG);
 }
 
-function goTab(name){
-  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-  document.querySelectorAll('section.tab').forEach(s=>s.classList.remove('active'));
-  const btn = document.querySelector('.tab-btn[data-tab="' + name + '"]');
-  if(btn) btn.classList.add('active');
-  $('tab-' + name).classList.add('active');
-  window.scrollTo({top:0, behavior:'smooth'});
+function growPlant(x, type, h, t0, isFirst){
+  const g = el('g',{class:'plant'});
+  g.style.transformOrigin = `${x}px ${GROUND_Y}px`;
+  svg.appendChild(g);
+
+  const topY = GROUND_Y - h;
+  const pGrad = type===DAISY ? 'url(#gradWhite)' : (type===TULIP ? pick(tulipGrads) : pick(roseGrads));
+
+  /* 🌱 sprout */
+  const sprout = el('text',{x, y:GROUND_Y-6, 'font-size':36, 'text-anchor':'middle', class:'sprout'},'🌱');
+  g.appendChild(sprout);
+
+  /* stem (drawn like a growing vine) */
+  const swayX = rnd(-12,12);
+  const stem = el('path',{d:`M ${x} ${GROUND_Y} Q ${x+swayX*1.4} ${topY+h/2} ${x+swayX*.6} ${topY}`,
+    class:'stem', stroke:'url(#gradStem)','stroke-width':rnd(5,7), fill:'none','stroke-linecap':'round'});
+  g.appendChild(stem);
+
+  const leafY1 = topY + h*.38, leafY2 = topY + h*.62;
+
+  setTimeout(()=>{
+    sprout.style.opacity = 0.25;
+    const len = stem.getTotalLength();
+    stem.style.strokeDasharray = len; stem.style.strokeDashoffset = len;
+    requestAnimationFrame(()=>{ stem.style.strokeDashoffset = 0; });
+    setTimeout(()=>{ sprout.style.transition='opacity .5s'; sprout.style.opacity=0; sprout.remove(); }, 2100);
+  }, t0+350);
+
+  /* leaves */
+  const l1 = leaf(x, leafY1, 'left', 0);  l1.querySelector('.leaf').style.animationDelay = (t0+1600)/1000 + 's';
+  const l2 = leaf(x, leafY2, 'right', 0); l2.querySelector('.leaf').style.animationDelay = (t0+2000)/1000 + 's';
+  g.append(l1,l2);
+
+  /* bud */
+  const bud = budShape(pGrad);
+  bud.setAttribute('transform',`translate(${x+swayX*.6},${topY})`);
+  const budDelay = (t0+2650)/1000 + 's';
+  bud.style.animationDelay = budDelay;
+  g.appendChild(bud);
+
+  /* bloom */
+  setTimeout(()=>{
+    bud.classList.add('in');
+    setTimeout(()=>{
+      bud.style.opacity = 0; bud.remove();
+      bloom(g, type, x+swayX*.6, topY, pGrad);
+      const sp = el('text',{x:x+swayX*.6, y:topY-70, 'font-size':30, 'text-anchor':'middle', class:'spark'},'✨');
+      g.appendChild(sp);
+      setTimeout(()=>sp.remove(),1400);
+      if(isFirst){
+        const hf = document.getElementById('hersFlower');
+        hf.classList.add('show'); hf.classList.add('show');
+        setTimeout(()=>hf.classList.remove('show'),4200);
+      }
+    }, 850);
+  }, t0+2650);
 }
-document.querySelectorAll('.tab-btn').forEach(btn=>{
-  btn.addEventListener('click', ()=>goTab(btn.dataset.tab));
+
+/* plant the garden, one flower at a time */
+function startGarden(){
+  const PLANTS = 11;
+  const step = 1650;
+  const types = [];
+  /* first flower = special pink tulip, bigger */
+  for(let i=0;i<PLANTS;i++){
+    if(i===0) types.push(TULIP);
+    else types.push(pick([TULIP,ROSE,DAISY,TULIP,ROSE,DAISY,DAISY]));
+  }
+  const xs = [800];
+  for(let i=1;i<PLANTS;i++) xs.push(rnd(110,1330));
+  for(let i=0;i<PLANTS;i++){
+    const h = i===0 ? 330 : rnd(195,325);
+    const t0 = i*step;
+    setTimeout(()=>growPlant(xs[i], types[i], h, t0, i===0), t0);
+  }
+  setTimeout(()=>{
+    document.getElementById('finalMsg').classList.add('show');
+    const fl = document.getElementById('petalLayer');
+    for(let i=0;i<15;i++){
+      const p = document.createElement('span');
+      p.className='fallpetal'; p.textContent = pick(['🌸','🌷','💮','🌸']);
+      p.style.left = rnd(2,96)+'vw';
+      p.style.animationDuration = rnd(6,12)+'s';
+      p.style.animationDelay = rnd(0,8)+'s';
+      p.style.opacity = '.85';
+      fl.appendChild(p);
+    }
+  }, PLANTS*step + 4300);
+}
+
+/* ========================== CLICK → GARDEN + MUSIC ========================== */
+const grew = (()=>{ let d=false; return ()=>d; })();
+document.getElementById('growBtn').addEventListener('click', ()=>{
+  if(grew()) return; d=true;
+  document.getElementById('intro').classList.add('gone');
+  document.getElementById('gardenSvg').parentElement.classList.add('show');
+  document.getElementById('gardenSvg').classList.add('show');
+  startGarden();
+  startMusic();
 });
 
-document.addEventListener('DOMContentLoaded', function(){
-  loadDB(); renderHistory(); renderTracker(); renderQueue();
-  systemCheck(false);
+/* music: tere-liye.mp3 (place beside this file). If file missing → soft melody fallback */
+const bgm = document.getElementById('bgm');
+const musicBtn = document.getElementById('musicBtn');
+let musicOn = true;
+function startMusic(){
+  musicBtn.style.display = 'block';
+  const p = bgm.play();
+  if(p && p.catch) p.catch(()=>{ note('🎵 "tere-liye.mp3" nahi mila — ise is file ke saath rakho, ya <b>audio src</b> ko kisi bhi MP3 URL se replace karo. Abhi soft melody chal rahi hai 🎶'); startFallback(); });
+}
+musicBtn.addEventListener('click', ()=>{
+  musicOn = !musicOn;
+  if(musicOn){ bgm.play().catch(()=>{}); musicBtn.textContent='🔊'; }
+  else { bgm.pause(); musicBtn.textContent='🔇'; }
 });
+
+/* gentle piano-ish fallback melody (only if the mp3 is missing) */
+function startFallback(){
+  const AC = window.AudioContext||window.webkitAudioContext;
+  const ctx = new AC();
+  const chords = [
+    [261.63,329.63,392.0,493.88],
+    [220.0,261.63,329.63,440.0],
+    [174.61,220.0,261.63,349.23],
+    [196.0,246.94,293.66,392.0]
+  ];
+  const seq=[0,1,2,3,2,1,0,2];
+  let bar=0, next = ctx.currentTime + 0.1;
+  function note(f, t, vol){
+    const o=ctx.createOscillator(), g=ctx.createGain();
+    o.type='sine'; o.frequency.value=f;
+    g.gain.setValueAtTime(.0001,t);
+    g.gain.exponentialRampToValueAtTime(vol,t+.06);
+    g.gain.exponentialRampToValueAtTime(.0001,t+1.3);
+    o.connect(g).connect(ctx.destination);
+    o.start(t); o.stop(t+1.4);
+  }
+  (function barLoop(){
+    const ch = chords[bar%4], d = next;
+    for(let i=0;i<16;i++)
+      note(ch[seq[i%8]]/(i%8===0?2:1), d + i*.25, .045);
+    note(130.81, d, .05); note(196.0, d+2, .035);
+    bar++; next += 4; setTimeout(barLoop,4000);
+  })();
+}
+let _d=false;
+function grew(){ return _d; } // unused helper guard
+
+function note(msg){ const t=document.getElementById('toast'); t.innerHTML=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),9000); }
 </script>
 </body>
-            </html>
+</html>
