@@ -3,441 +3,477 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>NTMY – For You</title>
+<title>NTMY 🌷</title>
 <style>
-  *{margin:0;padding:0;box-sizing:border-box}
-  html,body{width:100%;height:100%;overflow:hidden;background:#030208;font-family:system-ui,-apple-system,sans-serif}
-  #canvas{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none}
-  #intro{
-    position:fixed;inset:0;z-index:100;
-    display:flex;flex-direction:column;align-items:center;justify-content:center;
-    background:radial-gradient(ellipse at center,#1a0a18 0%,#030208 70%);
-    transition:opacity 1.8s cubic-bezier(.4,0,.2,1),visibility 1.8s;
-    padding:24px;text-align:center;pointer-events:auto
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #030208;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
   }
-  #intro.hide{opacity:0;visibility:hidden;pointer-events:none}
-  .intro-msg{
-    max-width:560px;color:#ffc1d4;
-    font-size:clamp(17px,4.2vw,24px);line-height:1.75;letter-spacing:.3px;
-    text-shadow:0 0 28px rgba(255,140,180,.55);
-    margin-bottom:48px;animation:fadeUp 1.6s ease both
+
+  #intro {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(ellipse at center, #1a0a18 0%, #030208 70%);
+    transition: opacity 1.3s ease, visibility 1.3s;
+    padding: 24px;
+    text-align: center;
   }
-  .intro-msg .heart{display:inline-block;animation:heartbeat 1.7s ease-in-out infinite}
-  @keyframes fadeUp{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:translateY(0)}}
-  @keyframes heartbeat{0%,100%{transform:scale(1)}14%{transform:scale(1.3)}28%{transform:scale(1)}42%{transform:scale(1.18)}}
-  #seeBtn{
-    background:linear-gradient(135deg,#ff4d7a,#ff9ec0);border:none;color:#fff;
-    font-size:18px;font-weight:500;letter-spacing:2px;padding:18px 46px;border-radius:50px;
-    cursor:pointer;box-shadow:0 0 40px rgba(255,80,130,.65),0 12px 28px rgba(0,0,0,.4);
-    transition:transform .3s,box-shadow .3s;animation:fadeUp 1.9s ease both
+  #intro.hide {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
   }
-  #seeBtn:hover{transform:scale(1.07);box-shadow:0 0 55px rgba(255,80,130,.85),0 14px 32px rgba(0,0,0,.45)}
-  #seeBtn:active{transform:scale(.96)}
-  #roseMsg{
-    position:fixed;top:24px;left:50%;transform:translateX(-50%);z-index:60;
-    background:rgba(18,6,16,.82);backdrop-filter:blur(14px);
-    border:1px solid rgba(255,120,160,.45);color:#ffc1d4;font-size:15px;
-    padding:14px 30px;border-radius:40px;cursor:pointer;opacity:0;pointer-events:none;
-    transition:opacity 1.2s,transform .4s;box-shadow:0 0 32px rgba(255,80,130,.35);white-space:nowrap
+
+  .msg {
+    max-width: 540px;
+    color: #ffc1d4;
+    font-size: clamp(16px, 4.1vw, 22px);
+    line-height: 1.75;
+    letter-spacing: 0.3px;
+    text-shadow: 0 0 22px rgba(255, 158, 192, 0.5);
+    margin-bottom: 42px;
+    animation: fadeUp 1.5s ease both;
   }
-  #roseMsg.show{opacity:1;pointer-events:auto}
-  #roseMsg:hover{transform:translateX(-50%) scale(1.06);box-shadow:0 0 45px rgba(255,80,130,.55)}
-  #finalText{
-    position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(.6);
-    z-index:70;color:#fff;font-size:clamp(28px,6vw,48px);font-weight:500;
-    letter-spacing:3px;text-shadow:0 0 40px rgba(255,100,150,.9),0 0 80px rgba(255,60,100,.5);
-    opacity:0;pointer-events:none;transition:opacity 2s,transform 2.5s cubic-bezier(.2,.8,.2,1)
+  .msg .heart {
+    display: inline-block;
+    animation: heartbeat 1.6s ease-in-out infinite;
   }
-  #finalText.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
-  #loading{position:fixed;inset:0;z-index:200;background:#030208;display:flex;align-items:center;justify-content:center;color:#ff9ec0;font-size:14px;letter-spacing:2px}
-  #loading.hide{opacity:0;pointer-events:none;transition:opacity .8s}
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    14%      { transform: scale(1.28); }
+    28%      { transform: scale(1); }
+    42%      { transform: scale(1.16); }
+  }
+
+  #seeBtn {
+    background: linear-gradient(135deg, #ff4d7a, #ff9ec0);
+    border: none;
+    color: #fff;
+    font-size: 17px;
+    font-weight: 500;
+    letter-spacing: 1.6px;
+    padding: 17px 42px;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 0 32px rgba(255, 80, 130, 0.6), 0 10px 24px rgba(0,0,0,0.35);
+    transition: transform 0.25s, box-shadow 0.25s;
+    animation: fadeUp 1.7s ease both;
+  }
+  #seeBtn:hover {
+    transform: scale(1.07);
+    box-shadow: 0 0 45px rgba(255, 80, 130, 0.8), 0 12px 28px rgba(0,0,0,0.4);
+  }
+  #seeBtn:active { transform: scale(0.96); }
+
+  #roseMsg {
+    position: fixed;
+    top: 22px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 50;
+    background: rgba(20, 8, 18, 0.75);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 120, 160, 0.35);
+    color: #ffc1d4;
+    font-size: 15px;
+    padding: 12px 26px;
+    border-radius: 40px;
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1s ease, transform 0.4s;
+    box-shadow: 0 0 25px rgba(255, 80, 130, 0.25);
+    white-space: nowrap;
+  }
+  #roseMsg.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  #roseMsg:hover {
+    transform: translateX(-50%) scale(1.05);
+    box-shadow: 0 0 35px rgba(255, 80, 130, 0.45);
+  }
+
+  canvas {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .sparkle {
+    position: fixed;
+    pointer-events: none;
+    z-index: 5;
+    font-size: 15px;
+    opacity: 0;
+    animation: floatSparkle 7s linear infinite;
+  }
+  @keyframes floatSparkle {
+    0%   { transform: translateY(105vh) rotate(0deg); opacity: 0; }
+    12%  { opacity: 0.75; }
+    88%  { opacity: 0.5; }
+    100% { transform: translateY(-15vh) rotate(360deg); opacity: 0; }
+  }
 </style>
 </head>
 <body>
-<div id="loading">Loading garden…</div>
-<div id="intro">
-  <div class="intro-msg">
-    Hi Cutiee <span class="heart">💕</span><br>
-    I just met you and talked to you,<br>
-    so I just told you NTMY…<br>
-    but where are the flowers?
-  </div>
-  <button id="seeBtn">✨ See Flowers ✨</button>
-</div>
-<div id="roseMsg">🌹 I think you're missing a rose? Click here</div>
-<div id="finalText">Just for You ❤️</div>
-<canvas id="canvas"></canvas>
 
-<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/controls/OrbitControls.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/postprocessing/EffectComposer.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/postprocessing/RenderPass.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/postprocessing/ShaderPass.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/shaders/CopyShader.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
+<div id="intro">
+  <div class="msg">
+    Hi cutiee <span class="heart">💕</span><br>
+    I just met you and talked to you,<br>
+    so I just told you <b>NTMY</b>…<br>
+    but where are the flowers? 🌷
+  </div>
+  <button id="seeBtn">See Flowers ✨</button>
+</div>
+
+<div id="roseMsg">I think you're missing a rose? Click here 🌹</div>
+
+<canvas id="c"></canvas>
+
+<audio id="music" loop preload="auto">
+  <source src="tere-liye.mp3" type="audio/mpeg">
+</audio>
 
 <script>
-const MUSIC_URL = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
-
-const canvas = document.getElementById('canvas');
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+const music = document.getElementById('music');
 const intro = document.getElementById('intro');
 const seeBtn = document.getElementById('seeBtn');
 const roseMsg = document.getElementById('roseMsg');
-const finalText = document.getElementById('finalText');
-const loading = document.getElementById('loading');
 
-let scene, camera, renderer, controls, composer, bloomPass;
-let clock = new THREE.Clock();
-let flowers = [];
-let specialRoses = [];
-let particles = [];
-let insects = [];
-let grassMeshes = [];
+let W, H;
+const particles = [];
+const flowers = [];
+const roses = [];
 let started = false;
-let rosesPhase = false;
-let finalPhase = false;
-let mainBloomDone = false;
-let cameraLookAt = new THREE.Vector3(0, 1.0, 0);
+let rosesStarted = false;
+let roseStartT = 0;
+let mainDone = false;
 
-/* ---------- RENDERER & SCENE ---------- */
-function initRenderer() {
-  renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
-  // Cap pixel ratio to 1.5 for performance boost
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.shadowMap.enabled = true;
-  renderer.shadowMap.type = THREE.BasicShadowMap; // Faster shadow mapping
-  renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.15;
+function resize() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
 }
+window.addEventListener('resize', resize);
+resize();
 
-function initScene() {
-  scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x030208);
-  scene.fog = new THREE.FogExp2(0x0a0610, 0.018);
-
-  camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
-  camera.position.set(0, 4.5, 14);
-
-  controls = new THREE.OrbitControls(camera, canvas);
-  controls.enableDamping = true;
-  controls.dampingFactor = 0.06;
-  controls.minDistance = 3;
-  controls.maxDistance = 28;
-  controls.maxPolarAngle = Math.PI * 0.48;
-  controls.target.copy(cameraLookAt);
-  controls.enabled = false;
-}
-
-/* ---------- LIGHTING ---------- */
-function initLights() {
-  const moon = new THREE.DirectionalLight(0xb8c4ff, 1.2);
-  moon.position.set(-8, 18, 6);
-  moon.castShadow = true;
-  moon.shadow.mapSize.set(1024, 1024); // Lowered shadow map size for low-end GPUs
-  scene.add(moon);
-
-  const fill = new THREE.DirectionalLight(0xff9ec0, 0.35);
-  fill.position.set(6, 8, -4);
-  scene.add(fill);
-
-  scene.add(new THREE.AmbientLight(0x1a1020, 0.5));
-}
-
-/* ---------- POST PROCESSING ---------- */
-function initPost() {
-  composer = new THREE.EffectComposer(renderer);
-  composer.addPass(new THREE.RenderPass(scene, camera));
-
-  bloomPass = new THREE.UnrealBloomPass(
-    new THREE.Vector2(window.innerWidth / 2, window.innerHeight / 2), // Half resolution bloom pass
-    0.45,  // bloom strength
-    0.4,   // radius
-    0.85   // threshold
-  );
-  composer.addPass(bloomPass);
-}
-
-/* ---------- GROUND & GRASS ---------- */
-function createGround() {
-  const groundGeo = new THREE.CircleGeometry(22, 32);
-  const groundMat = new THREE.MeshStandardMaterial({ color: 0x1a120e, roughness: 0.95 });
-  const ground = new THREE.Mesh(groundGeo, groundMat);
-  ground.rotation.x = -Math.PI / 2;
-  ground.receiveShadow = true;
-  scene.add(ground);
-
-  const bladeGeo = new THREE.PlaneGeometry(0.04, 0.35);
-  bladeGeo.translate(0, 0.175, 0);
-  const bladeMat = new THREE.MeshStandardMaterial({ color: 0x2e7d32, side: THREE.DoubleSide, roughness: 0.8 });
-  
-  const grassCount = 1000; // Optimized count
-  const grass = new THREE.InstancedMesh(bladeGeo, bladeMat, grassCount);
-
-  const dummy = new THREE.Object3D();
-  for (let i = 0; i < grassCount; i++) {
-    const r = Math.sqrt(Math.random()) * 18;
-    const theta = Math.random() * Math.PI * 2;
-    dummy.position.set(Math.cos(theta) * r, 0, Math.sin(theta) * r);
-    dummy.rotation.y = Math.random() * Math.PI;
-    dummy.rotation.z = (Math.random() - 0.5) * 0.4;
-    dummy.scale.setScalar(0.7 + Math.random() * 0.8);
-    dummy.updateMatrix();
-    grass.setMatrixAt(i, dummy.matrix);
+class Particle {
+  constructor() { this.reset(true); }
+  reset(init) {
+    this.x = Math.random() * W;
+    this.y = init ? Math.random() * H : H + 40;
+    this.r = 1.2 + Math.random() * 2.5;
+    this.speed = 0.2 + Math.random() * 0.4;
+    this.a = 0.1 + Math.random() * 0.25;
+    this.col = Math.random() > 0.35 ? '#ff9ec0' : '#ffe0ec';
+    this.wobble = Math.random() * Math.PI * 2;
   }
-  grass.instanceMatrix.needsUpdate = true;
-  scene.add(grass);
-}
-
-/* ---------- PARTICLES ---------- */
-function createParticles() {
-  const fireflyCount = 50;
-  const pos = new Float32Array(fireflyCount * 3);
-  const phases = [];
-  for (let i = 0; i < fireflyCount; i++) {
-    pos[i*3] = (Math.random()-0.5)*30;
-    pos[i*3+1] = 0.5 + Math.random()*4;
-    pos[i*3+2] = (Math.random()-0.5)*30;
-    phases.push(Math.random()*Math.PI*2);
+  update() {
+    this.y -= this.speed;
+    this.x += Math.sin(this.wobble + this.y * 0.008) * 0.4;
+    if (this.y < -40) this.reset(false);
   }
-  const fireflyGeo = new THREE.BufferGeometry();
-  fireflyGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-  const fireflies = new THREE.Points(
-    fireflyGeo,
-    new THREE.PointsMaterial({ color: 0xffe082, size: 0.1, transparent: true, opacity: 0.8 })
-  );
-  fireflies.userData = { phases, type: 'firefly' };
-  scene.add(fireflies);
-  particles.push(fireflies);
-}
-
-/* ---------- INSECTS ---------- */
-function createInsects() {
-  const wingGeo = new THREE.PlaneGeometry(0.18, 0.12);
-  const bodyGeo = new THREE.SphereGeometry(0.04, 4, 4);
-
-  for (let i = 0; i < 6; i++) {
-    const group = new THREE.Group();
-    const body = new THREE.Mesh(bodyGeo, new THREE.MeshBasicMaterial({ color: 0xffd54f }));
-    group.add(body);
-
-    const wingMat = new THREE.MeshBasicMaterial({ color: 0xce93d8, transparent: true, opacity: 0.7, side: THREE.DoubleSide });
-    const wingL = new THREE.Mesh(wingGeo, wingMat);
-    wingL.position.set(-0.08, 0.02, 0);
-    const wingR = wingL.clone();
-    wingR.position.x = 0.08;
-    group.add(wingL, wingR);
-
-    group.userData = {
-      wingL, wingR,
-      phase: Math.random() * Math.PI * 2,
-      speed: 0.4 + Math.random() * 0.4,
-      radius: 4 + Math.random() * 6,
-      height: 1.2 + Math.random() * 2,
-      center: new THREE.Vector3((Math.random()-0.5)*10, 0, (Math.random()-0.5)*10)
-    };
-    scene.add(group);
-    insects.push(group);
+  draw() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+    ctx.fillStyle = this.col;
+    ctx.globalAlpha = this.a;
+    ctx.fill();
+    ctx.globalAlpha = 1;
   }
 }
+for (let i = 0; i < 50; i++) particles.push(new Particle());
 
-/* ---------- FLOWERS ---------- */
-function createPetalShape(type, scale = 1) {
-  const shape = new THREE.Shape();
-  shape.moveTo(0, 0);
-  shape.bezierCurveTo(0.15*scale, 0.1*scale, 0.25*scale, 0.4*scale, 0.05*scale, 0.7*scale);
-  shape.bezierCurveTo(-0.1*scale, 0.55*scale, -0.2*scale, 0.25*scale, 0, 0);
-  return shape;
-}
+const PRESETS = [
+  { petalDeep: '#d81b60', petalMid: '#ff4081', petalLight: '#ff80ab', bud: '#f48fb1', core: '#ffd54f', glow: 'rgba(255,64,129,0.5)' },
+  { petalDeep: '#8e24aa', petalMid: '#ba68c8', petalLight: '#f3e5f5', bud: '#ce93d8', core: '#fff', glow: 'rgba(186,104,200,0.45)' },
+  { petalDeep: '#c2185b', petalMid: '#e91e63', petalLight: '#f8bbd0', bud: '#f06292', core: null, glow: 'rgba(233,30,99,0.5)' },
+  { petalDeep: '#e65100', petalMid: '#ff9800', petalLight: '#ffe082', bud: '#ffa726', core: '#4e342e', glow: 'rgba(255,152,0,0.4)' },
+  { petalDeep: '#6a1b9a', petalMid: '#ab47bc', petalLight: '#e1bee7', bud: '#ba68c8', core: '#ffd54f', glow: 'rgba(171,71,188,0.45)' }
+];
 
-const sharedPetalGeo = new THREE.ShapeGeometry(createPetalShape('rose'));
+const ROSE_PRESETS = [
+  { petalDeep: '#880e4f', petalMid: '#c2185b', petalLight: '#e91e63', bud: '#ad1457', core: '#ffb300', glow: 'rgba(194,24,91,0.6)' },
+  { petalDeep: '#b71c1c', petalMid: '#d32f2f', petalLight: '#f44336', bud: '#c62828', core: '#ffd54f', glow: 'rgba(211,47,47,0.6)' },
+  { petalDeep: '#ad1457', petalMid: '#f06292', petalLight: '#f8bbd0', bud: '#ec407a', core: '#ffecb3', glow: 'rgba(240,98,146,0.55)' }
+];
 
-function createFlower(type, colorDeep, colorMid, colorLight, x, z, delay, heightScale = 1) {
-  const group = new THREE.Group();
-  group.position.set(x, 0, z);
+const STAGE = { root: 0.0, stem: 0.3, leaf: 1.2, bud: 2.0, open: 2.8 };
 
-  const baseHeight = 0.9 + Math.random() * 0.6 * heightScale;
-  const petalCount = 8; // Reduced petal count for speed
-
-  group.userData = {
-    type, delay, progress: 0, grown: false,
-    swayPhase: Math.random() * Math.PI * 2,
-    swaySpeed: 0.6 + Math.random() * 0.8,
-    baseHeight, petalCount
+function createFlower(cfg, isRose = false) {
+  return {
+    cx: cfg.x,
+    base: 0.93,
+    maxH: cfg.h,
+    ang: cfg.ang * Math.PI / 180,
+    delay: cfg.delay,
+    preset: isRose ? ROSE_PRESETS[cfg.p % ROSE_PRESETS.length] : PRESETS[cfg.p % PRESETS.length],
+    petals: cfg.petals || 6,
+    isTulip: cfg.tulip || false,
+    isSun: cfg.sun || false,
+    isRose: isRose,
+    sway: 0.1 + Math.random() * 0.2,
+    swaySpeed: 0.5 + Math.random() * 0.5,
+    phase: Math.random() * Math.PI * 2
   };
+}
 
-  const stemGeo = new THREE.CylinderGeometry(0.02, 0.03, baseHeight, 5);
-  stemGeo.translate(0, baseHeight / 2, 0);
-  const stem = new THREE.Mesh(stemGeo, new THREE.MeshStandardMaterial({ color: 0x2e7d32, roughness: 0.8 }));
-  group.add(stem);
-  group.userData.stem = stem;
+const LAYOUT = [
+  { x: 0.08, h: 0.42, delay: 0.0, ang: -25, p: 0, petals: 7 },
+  { x: 0.20, h: 0.54, delay: 0.8, ang: -15, p: 3, petals: 14, sun: true },
+  { x: 0.35, h: 0.48, delay: 1.6, ang: -8,  p: 1, petals: 6 },
+  { x: 0.50, h: 0.62, delay: 2.4, ang: 0,   p: 2, petals: 3, tulip: true },
+  { x: 0.65, h: 0.52, delay: 3.2, ang: 8,   p: 0, petals: 8 },
+  { x: 0.80, h: 0.46, delay: 4.0, ang: 18,  p: 4, petals: 7 },
+  { x: 0.92, h: 0.40, delay: 4.8, ang: 25,  p: 1, petals: 6 }
+];
+LAYOUT.forEach(l => flowers.push(createFlower(l)));
 
-  const head = new THREE.Group();
-  head.position.y = baseHeight;
-  group.add(head);
-  group.userData.head = head;
+const ROSE_LAYOUT = [
+  { x: 0.22, h: 0.58, delay: 0.0, ang: -12, p: 0, petals: 12 },
+  { x: 0.38, h: 0.65, delay: 0.9, ang: -5,  p: 1, petals: 14 },
+  { x: 0.52, h: 0.70, delay: 1.8, ang: 0,   p: 2, petals: 15 },
+  { x: 0.68, h: 0.62, delay: 2.7, ang: 8,   p: 0, petals: 13 },
+  { x: 0.82, h: 0.54, delay: 3.6, ang: 15,  p: 1, petals: 12 }
+];
 
-  // Single shared material for flower petals
-  const petalMat = new THREE.MeshStandardMaterial({
-    color: colorMid,
-    roughness: 0.5,
-    side: THREE.DoubleSide,
-    transparent: true
+function ease(t) { return t < 0 ? 0 : t > 1 ? 1 : 1 - Math.pow(1 - t, 3); }
+
+function drawStemAndLeaves(f, stemP, leafP, time) {
+  const h = f.maxH * H * ease(stemP);
+  if (h < 2) return { tipX: f.cx * W, tipY: f.base * H };
+
+  const sway = Math.sin(time * f.swaySpeed + f.phase) * f.sway * (h / (f.maxH * H));
+  const x = f.cx * W, y = f.base * H;
+
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.rotate(f.ang + sway * 0.15);
+
+  const stemGrad = ctx.createLinearGradient(0, 0, 0, -h);
+  stemGrad.addColorStop(0, '#1b4d20');
+  stemGrad.addColorStop(0.5, '#2e7d32');
+  stemGrad.addColorStop(1, '#4caf50');
+
+  ctx.beginPath();
+  ctx.moveTo(-2, 0);
+  ctx.quadraticCurveTo(4 * Math.sin(f.ang + sway), -h * 0.5, sway * 2, -h);
+  ctx.lineTo(2 + sway * 2, -h);
+  ctx.quadraticCurveTo(6 * Math.sin(f.ang + sway), -h * 0.5, 2, 0);
+  ctx.fillStyle = stemGrad;
+  ctx.fill();
+
+  if (leafP > 0) {
+    const leaves = [{ pos: 0.6, side: -1 }, { pos: 0.4, side: 1 }];
+    leaves.forEach((L, i) => {
+      const lp = Math.max(0, Math.min(1, (leafP - i * 0.2) / 0.5));
+      if (lp <= 0) return;
+      const ly = -h * L.pos;
+      const sc = ease(lp);
+      ctx.save();
+      ctx.translate(sway * 1.5, ly);
+      ctx.rotate(L.side * 0.6 * sc);
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.bezierCurveTo(L.side * 15 * sc, -5 * sc, L.side * 20 * sc, 10 * sc, 0, 15 * sc);
+      ctx.fillStyle = '#388e3c';
+      ctx.globalAlpha = 0.9 * sc;
+      ctx.fill();
+      ctx.restore();
+    });
+  }
+  ctx.restore();
+
+  return {
+    tipX: x + Math.sin(f.ang + sway * 0.15) * h,
+    tipY: y - Math.cos(f.ang + sway * 0.15) * h
+  };
+}
+
+function drawRealisticRose(f, tipX, tipY, openP, time) {
+  if (openP <= 0) return;
+  const s = ease(openP) * 1.1;
+  const pr = f.preset;
+
+  ctx.save();
+  ctx.translate(tipX, tipY);
+  ctx.rotate(f.ang + Math.sin(time * 0.5 + f.phase) * 0.03);
+  ctx.scale(s, s);
+
+  ctx.beginPath();
+  ctx.arc(0, 0, 45, 0, Math.PI * 2);
+  const gl = ctx.createRadialGradient(0, 0, 5, 0, 0, 45);
+  gl.addColorStop(0, pr.glow);
+  gl.addColorStop(1, 'transparent');
+  ctx.fillStyle = gl;
+  ctx.fill();
+
+  const layers = [
+    { count: 6, radius: 34, width: 20 },
+    { count: 7, radius: 26, width: 16 },
+    { count: 6, radius: 18, width: 12 },
+    { count: 5, radius: 10, width: 8 }
+  ];
+
+  layers.forEach((layer, li) => {
+    for (let i = 0; i < layer.count; i++) {
+      const a = (i / layer.count) * Math.PI * 2 + li * 0.2;
+      ctx.save();
+      ctx.rotate(a);
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.bezierCurveTo(layer.width, -layer.radius * 0.4, layer.width * 0.8, -layer.radius, 0, -layer.radius);
+      ctx.bezierCurveTo(-layer.width * 0.8, -layer.radius, -layer.width, -layer.radius * 0.4, 0, 0);
+
+      const pg = ctx.createLinearGradient(0, 0, 0, -layer.radius);
+      pg.addColorStop(0, pr.petalDeep);
+      pg.addColorStop(0.6, pr.petalMid);
+      pg.addColorStop(1, pr.petalLight);
+
+      ctx.fillStyle = pg;
+      ctx.globalAlpha = 0.95;
+      ctx.fill();
+      ctx.restore();
+    }
   });
 
-  for (let i = 0; i < petalCount; i++) {
-    const petal = new THREE.Mesh(sharedPetalGeo, petalMat);
-    const angle = (i / petalCount) * Math.PI * 2;
-    petal.position.set(Math.cos(angle)*0.02, 0.02, Math.sin(angle)*0.02);
-    petal.rotation.y = angle;
-    petal.scale.setScalar(0);
-    head.add(petal);
-  }
-
-  const center = new THREE.Mesh(new THREE.SphereGeometry(0.07, 6, 6), new THREE.MeshBasicMaterial({ color: 0xffd54f }));
-  center.position.y = 0.04;
-  center.scale.setScalar(0);
-  head.add(center);
-  group.userData.center = center;
-
-  const bud = new THREE.Mesh(new THREE.SphereGeometry(0.08, 6, 6), new THREE.MeshBasicMaterial({ color: colorDeep }));
-  bud.position.y = 0.08;
-  bud.scale.setScalar(0);
-  head.add(bud);
-  group.userData.bud = bud;
-
-  group.scale.setScalar(0);
-  scene.add(group);
-  return group;
+  ctx.restore();
 }
 
-function buildGarden() {
-  let delay = 0;
-  for (let i = 0; i < 20; i++) {
-    const r = 2.5 + Math.random() * 8;
-    const theta = Math.random() * Math.PI * 2;
-    const f = createFlower('rose', 0x9b0a0a, 0xec407a, 0xf8bbd0, Math.cos(theta) * r, Math.sin(theta) * r, delay);
-    flowers.push(f);
-    delay += 0.4;
+function drawBloom(f, tipX, tipY, openP, time) {
+  if (openP <= 0) return;
+  const s = ease(openP);
+  const pr = f.preset;
+
+  ctx.save();
+  ctx.translate(tipX, tipY);
+  ctx.rotate(f.ang);
+  ctx.scale(s, s);
+
+  for (let i = 0; i < f.petals; i++) {
+    const a = (i / f.petals) * Math.PI * 2;
+    ctx.save();
+    ctx.rotate(a);
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.bezierCurveTo(15, -10, 15, -30, 0, -35);
+    ctx.bezierCurveTo(-15, -30, -15, -10, 0, 0);
+
+    const pg = ctx.createLinearGradient(0, 0, 0, -35);
+    pg.addColorStop(0, pr.petalDeep);
+    pg.addColorStop(0.5, pr.petalMid);
+    pg.addColorStop(1, pr.petalLight);
+
+    ctx.fillStyle = pg;
+    ctx.fill();
+    ctx.restore();
   }
+
+  if (pr.core) {
+    ctx.beginPath();
+    ctx.arc(0, 0, 8, 0, Math.PI * 2);
+    ctx.fillStyle = pr.core;
+    ctx.fill();
+  }
+  ctx.restore();
 }
 
-function createSpecialRoses() {
-  const positions = [[-2, 0, 1.5], [-0.8, 0, 2.8], [0.9, 0, 2.2], [2, 0, 1.0], [0, 0, 0.6]];
-  positions.forEach((p, i) => {
-    const f = createFlower('rose', 0x8b0000, 0xd32f2f, 0xef9a9a, p[0], p[2], i * 1.2, 1.2);
-    specialRoses.push(f);
+let startT = 0;
+function frame(now) {
+  if (!startT) startT = now;
+  const elapsed = (now - startT) / 1000;
+  const time = now / 1000;
+
+  ctx.clearRect(0, 0, W, H);
+
+  const bg = ctx.createRadialGradient(W / 2, H * 0.3, 0, W / 2, H * 0.4, Math.max(W, H));
+  bg.addColorStop(0, '#1f0b1a');
+  bg.addColorStop(0.6, '#0c050e');
+  bg.addColorStop(1, '#030208');
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, W, H);
+
+  particles.forEach(p => { p.update(); p.draw(); });
+
+  flowers.forEach(f => {
+    const local = elapsed - f.delay;
+    if (local < 0) return;
+
+    const stemP = ease(Math.max(0, Math.min(1, (local - STAGE.stem) / 1.5)));
+    const leafP = ease(Math.max(0, Math.min(1, (local - STAGE.leaf) / 0.8)));
+    const openP = ease(Math.max(0, Math.min(1, (local - STAGE.open) / 1.0)));
+
+    const tip = drawStemAndLeaves(f, stemP, leafP, time);
+    drawBloom(f, tip.tipX, tip.tipY, openP, time);
   });
-}
 
-/* ---------- ANIMATION LOOP ---------- */
-function updateGrowth(flower, dt) {
-  const ud = flower.userData;
-  if (ud.grown) return;
-
-  ud.progress += dt * 0.5;
-  const p = Math.min(1, ud.progress);
-
-  flower.scale.setScalar(p);
-  ud.stem.scale.y = p;
-
-  if (p > 0.4) {
-    const openP = (p - 0.4) / 0.6;
-    ud.head.children.forEach((child) => {
-      if (child !== ud.bud && child !== ud.center) {
-        child.scale.setScalar(openP * 0.8);
-      }
-    });
-    ud.center.scale.setScalar(openP);
-  }
-
-  if (p >= 1) ud.grown = true;
-}
-
-let rosesPhaseStart = 0;
-
-function animate() {
-  requestAnimationFrame(animate);
-  const dt = Math.min(clock.getDelta(), 0.033);
-  const t = clock.getElapsedTime();
-
-  if (started) {
-    flowers.forEach(f => { if (t > f.userData.delay) updateGrowth(f, dt); });
-
-    if (rosesPhase) {
-      specialRoses.forEach(f => { if (t > f.userData.delay + rosesPhaseStart) updateGrowth(f, dt); });
-    }
-
-    insects.forEach(ins => {
-      const ud = ins.userData;
-      const angle = t * ud.speed + ud.phase;
-      ins.position.x = ud.center.x + Math.cos(angle) * ud.radius * 0.4;
-      ins.position.z = ud.center.z + Math.sin(angle) * ud.radius * 0.4;
-      ins.position.y = ud.height + Math.sin(t * 2 + ud.phase) * 0.2;
-      ins.wingL.rotation.z = Math.sin(t * 15) * 0.5;
-      ins.wingR.rotation.z = -Math.sin(t * 15) * 0.5;
-    });
-
-    if (finalPhase && specialRoses[2]) {
-      const bigRose = specialRoses[2];
-      camera.position.lerp(new THREE.Vector3().copy(bigRose.position).add(new THREE.Vector3(0, 1.6, 2.8)), 0.02);
-      controls.target.lerp(bigRose.position.clone().add(new THREE.Vector3(0, 1.2, 0)), 0.02);
-    }
-
-    controls.update();
-  }
-
-  if (!mainBloomDone && started && t > 18) {
-    mainBloomDone = true;
+  if (!mainDone && elapsed > 8) {
+    mainDone = true;
     roseMsg.classList.add('show');
   }
 
-  composer.render();
+  if (rosesStarted) {
+    const roseElapsed = (now - roseStartT) / 1000;
+    roses.forEach(f => {
+      const local = roseElapsed - f.delay;
+      if (local < 0) return;
+
+      const stemP = ease(Math.max(0, Math.min(1, (local - STAGE.stem) / 1.5)));
+      const leafP = ease(Math.max(0, Math.min(1, (local - STAGE.leaf) / 0.8)));
+      const openP = ease(Math.max(0, Math.min(1, (local - STAGE.open) / 1.2)));
+
+      const tip = drawStemAndLeaves(f, stemP, leafP, time);
+      drawRealisticRose(f, tip.tipX, tip.tipY, openP, time);
+    });
+  }
+
+  requestAnimationFrame(frame);
 }
 
-/* ---------- EVENTS ---------- */
 seeBtn.addEventListener('click', () => {
   intro.classList.add('hide');
+  startT = 0;
   started = true;
-  controls.enabled = true;
-  new Audio(MUSIC_URL).play().catch(()=>{});
+  music.play().catch(() => {});
+  requestAnimationFrame(frame);
+
+  for (let i = 0; i < 12; i++) {
+    const sp = document.createElement('div');
+    sp.className = 'sparkle';
+    sp.textContent = ['✨', '🌸', '💕', '🌷'][i % 4];
+    sp.style.left = Math.random() * 100 + 'vw';
+    sp.style.animationDelay = (Math.random() * 4) + 's';
+    sp.style.animationDuration = (5 + Math.random() * 3) + 's';
+    document.body.appendChild(sp);
+  }
 });
 
 roseMsg.addEventListener('click', () => {
-  if (rosesPhase) return;
-  rosesPhase = true;
-  rosesPhaseStart = clock.getElapsedTime();
+  if (rosesStarted) return;
+  rosesStarted = true;
+  roseStartT = performance.now();
   roseMsg.classList.remove('show');
-  createSpecialRoses();
-
-  setTimeout(() => {
-    finalPhase = true;
-    setTimeout(() => finalText.classList.add('show'), 3000);
-  }, 8000);
+  ROSE_LAYOUT.forEach(l => roses.push(createFlower(l, true)));
 });
-
-window.addEventListener('resize', () => {
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  composer.setSize(window.innerWidth, window.innerHeight);
-});
-
-/* ---------- BOOT ---------- */
-function boot() {
-  initRenderer();
-  initScene();
-  initLights();
-  initPost();
-  createGround();
-  createParticles();
-  createInsects();
-  buildGarden();
-  loading.classList.add('hide');
-  animate();
-}
-boot();
 </script>
 </body>
 </html>
