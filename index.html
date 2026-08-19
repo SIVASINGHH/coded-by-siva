@@ -1,233 +1,628 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For You 🙂💗</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;700&display=swap');
-        
-        body {
-            background: radial-gradient(circle at center, #1a001f 0%, #000000 100%);
-            font-family: 'Poppins', sans-serif;
-            overflow: hidden; margin: 0; color: #ffffff; user-select: none;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Romantic Tic Tac Toe - SIVASINGH</title>
+  <!-- PeerJS for WebRTC Online Multiplayer & Audio -->
+  <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    :root {
+      --primary: #ff2a6d;
+      --secondary: #ff758c;
+      --bg-dark: #0f051d;
+      --glass: rgba(255, 255, 255, 0.08);
+      --glass-border: rgba(255, 117, 140, 0.3);
+      --text: #ffffff;
+      --x-color: #ff2a6d;
+      --o-color: #00f5d4;
+    }
 
-        .header-tag {
-            position: fixed; top: 10px; width: 100%; text-align: center;
-            z-index: 100; font-family: 'Dancing Script', cursive;
-            color: #ffb3d9; font-size: 1.4rem; letter-spacing: 2px;
-            text-shadow: 0 0 15px rgba(255,179,217,0.7);
-        }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+    }
 
-        .slide {
-            display: none; position: fixed; inset: 0; width: 100%; height: 100vh;
-            align-items: center; justify-content: center; flex-direction: column;
-            transition: all 0.6s ease-in-out; opacity: 0; z-index: 20; padding: 20px; text-align: center;
-        }
-        .slide.active { display: flex; opacity: 1; }
+    body {
+      background: radial-gradient(circle at center, #2c0b30, var(--bg-dark));
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow-x: hidden;
+      position: relative;
+    }
 
-        /* Darker, bolder text for readability */
-        .cute-msg { font-family: 'Dancing Script', cursive; color: #ffebf5; text-shadow: 0 0 20px #ff00cc, 0 0 40px #ff00cc; font-size: 2.8rem; margin-top: 15px; font-weight: 700; }
-        .sub-text { color: #ffffff; font-weight: 600; font-size: 1.1rem; text-shadow: 2px 2px 4px rgba(0,0,0,1); }
-        
-        .gif-frame { 
-            width: 260px; height: 260px; border-radius: 30px; 
-            border: 3px solid #ff00cc; 
-            box-shadow: 0 0 50px rgba(255, 0, 204, 0.5); 
-            object-fit: cover; 
-        }
+    /* Floating Hearts Background Animation */
+    .hearts-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
 
-        .glow-btn { 
-            background: linear-gradient(45deg, #ff00cc, #ff69b4); 
-            padding: 14px 40px; border-radius: 50px; font-weight: 700; 
-            box-shadow: 0 0 25px rgba(255, 0, 204, 0.6); 
-            cursor: pointer; transition: 0.3s; margin: 10px;
-            color: white; border: none; font-size: 1.1rem;
-        }
-        .glow-btn:hover { transform: scale(1.1); box-shadow: 0 0 40px #ff00cc; }
-        
-        .no-btn { background: #333; color: #aaa; padding: 10px 25px; border-radius: 50px; cursor: pointer; transition: 0.2s; }
+    .heart-particle {
+      position: absolute;
+      color: rgba(255, 42, 109, 0.3);
+      animation: floatUp 8s infinite linear;
+      font-size: 1.2rem;
+    }
 
-        .solar-system { position: relative; width: 280px; height: 280px; display: flex; align-items: center; justify-content: center; }
-        .orbit { position: absolute; border: 2px solid rgba(255,105,180,0.4); border-radius: 50%; animation: spin linear infinite; }
-        .orbit-1 { width: 180px; height: 180px; animation-duration: 5s; }
-        .orbit-2 { width: 260px; height: 260px; animation-duration: 9s; animation-direction: reverse; }
-        .planet { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); font-size: 24px; }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
+    @keyframes floatUp {
+      0% { transform: translateY(100vh) scale(0.8) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(-10vh) scale(1.2) rotate(360deg); opacity: 0; }
+    }
 
-        .star { position: absolute; background: white; border-radius: 50%; box-shadow: 0 0 10px white; animation: twinkle var(--d) infinite alternate; }
-        @keyframes twinkle { 0% { opacity: 0.2; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1.3); } }
+    /* Overlay Screens */
+    .overlay-screen {
+      position: fixed;
+      inset: 0;
+      background: var(--bg-dark);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      transition: opacity 0.8s ease, visibility 0.8s;
+    }
 
-        .hold-container { width: 280px; height: 16px; background: rgba(255,255,255,0.2); border-radius: 10px; margin-top: 20px; overflow: hidden; position: relative; border: 1px solid white; }
-        #holdProgress { position: absolute; left: 0; top: 0; height: 100%; background: #ff00cc; width: 0%; box-shadow: 0 0 20px #ff00cc; }
+    /* Intro Overlay */
+    #intro-screen h1 {
+      font-size: 2.5rem;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      background: linear-gradient(45deg, #ff2a6d, #ff758c, #00f5d4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: glowPulse 2s infinite alternate, scaleUp 1.5s ease-out;
+    }
 
-        #videoLayer { display: none; position: fixed; inset: 0; background: black; z-index: 1000; align-items: center; justify-content: center; }
-        video { width: 100%; height: 100%; object-fit: contain; }
-    </style>
+    @keyframes glowPulse {
+      0% { filter: drop-shadow(0 0 5px rgba(255, 42, 109, 0.6)); }
+      100% { filter: drop-shadow(0 0 25px rgba(255, 42, 109, 0.9)); }
+    }
+
+    @keyframes scaleUp {
+      0% { transform: scale(0.5); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    /* Welcome Overlay */
+    #welcome-screen {
+      background: rgba(15, 5, 29, 0.95);
+      z-index: 90;
+    }
+
+    .card-modal {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(12px);
+      padding: 2rem 3rem;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+      max-width: 90%;
+    }
+
+    .card-modal h2 {
+      font-size: 2.2rem;
+      margin-bottom: 1.5rem;
+      color: #ff758c;
+    }
+
+    .btn-main {
+      background: linear-gradient(45deg, var(--primary), var(--secondary));
+      border: none;
+      color: white;
+      padding: 12px 30px;
+      font-size: 1.1rem;
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: 600;
+      box-shadow: 0 4px 15px rgba(255, 42, 109, 0.4);
+      transition: all 0.3s ease;
+      margin-top: 10px;
+    }
+
+    .btn-main:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 6px 20px rgba(255, 42, 109, 0.6);
+    }
+
+    /* Main Game Layout */
+    .app-container {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      width: 100%;
+      max-width: 450px;
+      padding: 20px;
+    }
+
+    /* Top Control Bar */
+    .controls-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(8px);
+      padding: 10px 15px;
+      border-radius: 15px;
+    }
+
+    .control-btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid var(--glass-border);
+      color: var(--text);
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .control-btn.active {
+      background: var(--primary);
+      box-shadow: 0 0 10px var(--primary);
+    }
+
+    /* Online Connection Panel */
+    .connection-panel {
+      width: 100%;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(8px);
+      padding: 15px;
+      border-radius: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      font-size: 0.9rem;
+    }
+
+    .peer-id-box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 8px 12px;
+      border-radius: 8px;
+    }
+
+    .input-group {
+      display: flex;
+      gap: 8px;
+    }
+
+    .input-group input {
+      flex: 1;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--glass-border);
+      padding: 8px 12px;
+      border-radius: 8px;
+      color: white;
+      outline: none;
+    }
+
+    .status-text {
+      font-size: 0.85rem;
+      text-align: center;
+      color: #00f5d4;
+    }
+
+    /* Game Info & Board */
+    .game-status {
+      font-size: 1.3rem;
+      font-weight: 600;
+      text-shadow: 0 0 10px var(--primary);
+      min-height: 32px;
+    }
+
+    .board {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      width: 100%;
+      aspect-ratio: 1;
+    }
+
+    .cell {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.05);
+    }
+
+    .cell:hover {
+      background: rgba(255, 255, 255, 0.15);
+      transform: scale(1.02);
+    }
+
+    .cell.x {
+      color: var(--x-color);
+      text-shadow: 0 0 15px var(--x-color);
+    }
+
+    .cell.o {
+      color: var(--o-color);
+      text-shadow: 0 0 15px var(--o-color);
+    }
+
+    /* Hidden Audio Elements */
+    audio { display: none; }
+  </style>
 </head>
 <body>
 
-    <div class="header-tag">Insta - @smss1708💗</div>
+  <!-- Hearts Floating Background -->
+  <div class="hearts-bg" id="heartsContainer"></div>
 
-    <audio id="bgMusic" loop src="tere-liye.mp3"></audio>
-    <div id="stars-container" class="fixed inset-0 pointer-events-none"></div>
+  <!-- Intro Screen -->
+  <div class="overlay-screen" id="intro-screen">
+    <h1>Modded by SIVASINGH</h1>
+  </div>
 
-    <div id="slide1" class="slide active">
-        <img src="gif1.gif" class="gif-frame">
-        <h1 class="cute-msg">Hey shreyuu! ✨</h1>
-        <p class="sub-text">We just met, but my heart already knew it was you!</p>
-        <button onclick="startApp()" class="glow-btn">Touch My Heart 🥺</button>
+  <!-- Welcome Screen -->
+  <div class="overlay-screen" id="welcome-screen" style="display: none; opacity: 0;">
+    <div class="card-modal">
+      <h2>Devu lets play 🤭🤭</h2>
+      <button class="btn-main" onclick="startGame()">Start Game ❤️</button>
+    </div>
+  </div>
+
+  <!-- Main Game App -->
+  <div class="app-container">
+    
+    <!-- Top Audio & Control Bar -->
+    <div class="controls-bar">
+      <!-- Voice Mic Toggle -->
+      <button class="control-btn" id="micBtn" onclick="toggleMic()" title="Toggle Mic">
+        <i class="fa-solid fa-microphone-slash"></i>
+      </button>
+
+      <!-- Music Player Controls -->
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <button class="control-btn" id="musicBtn" onclick="toggleMusic()" title="Play/Pause Music">
+          <i class="fa-solid fa-music"></i>
+        </button>
+        <button class="control-btn" onclick="switchSong()" title="Switch Song">
+          <i class="fa-solid fa-forward-step"></i>
+        </button>
+      </div>
+
+      <!-- Reset Game -->
+      <button class="control-btn" onclick="resetGame()" title="Reset Board">
+        <i class="fa-solid fa-rotate-right"></i>
+      </button>
     </div>
 
-    <div id="slide2" class="slide">
-        <img src="gif2.gif" class="gif-frame">
-        <h1 class="cute-msg">How are you so cute?</h1>
-        <p class="sub-text">Seriously, your smile is the highlight of my day!</p>
-        <button onclick="next()" class="glow-btn">See More 💕</button>
+    <!-- Connection Panel (Multiplayer) -->
+    <div class="connection-panel">
+      <div class="peer-id-box">
+        <span>Your Room Code: <strong id="my-id">Generating...</strong></span>
+        <button class="control-btn" style="width: 30px; height: 30px;" onclick="copyID()" title="Copy Code">
+          <i class="fa-solid fa-copy"></i>
+        </button>
+      </div>
+      <div class="input-group">
+        <input type="text" id="friend-id" placeholder="Enter Bestie's Code">
+        <button class="btn-main" style="padding: 8px 15px; margin: 0; font-size: 0.9rem;" onclick="connectToFriend()">Connect</button>
+      </div>
+      <div class="status-text" id="status-text">Playing Offline / Waiting for Connection</div>
     </div>
 
-    <div id="slide3" class="slide">
-        <img src="gif3.gif" class="gif-frame">
-        <h1 class="cute-msg">Our Vibe is Rare! 😌</h1>
-        <p class="sub-text">Talking to you feels like time has completely stopped.</p>
-        <button onclick="next()" class="glow-btn">Next Step ✨</button>
+    <!-- Status Text -->
+    <div class="game-status" id="gameStatus">Your Turn (X)</div>
+
+    <!-- Tic Tac Toe Grid -->
+    <div class="board" id="board">
+      <div class="cell" data-index="0"></div>
+      <div class="cell" data-index="1"></div>
+      <div class="cell" data-index="2"></div>
+      <div class="cell" data-index="3"></div>
+      <div class="cell" data-index="4"></div>
+      <div class="cell" data-index="5"></div>
+      <div class="cell" data-index="6"></div>
+      <div class="cell" data-index="7"></div>
+      <div class="cell" data-index="8"></div>
     </div>
 
-    <div id="slide4" class="slide">
-        <div class="text-9xl mb-6 transition-all duration-500" id="pulseHeart">💖</div>
-        <h1 class="text-2xl font-bold">How much do I adore you?</h1>
-        <div class="hold-container"><div id="holdProgress"></div></div>
-        <button id="holdBtn" class="glow-btn mt-6 select-none">PRESS & HOLD TO FEEL</button>
-    </div>
+  </div>
 
-    <div id="slide5" class="slide">
-        <img src="gif4.gif" class="gif-frame">
-        <h1 class="cute-msg">You're One in a Billion! 💎</h1>
-        <p class="sub-text">It's only been a short time, but the feeling is magical.</p>
-        <button onclick="next()" class="glow-btn">Continue...</button>
-    </div>
+  <!-- Audio Elements -->
+  <audio id="bgMusic" loop>
+    <source id="musicSource" src="song1.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="remoteAudio" autoplay></audio>
 
-    <div id="slide6" class="slide">
-        <div class="solar-system">
-            <div class="orbit orbit-1"><span class="planet">💗</span></div>
-            <div class="orbit orbit-2"><span class="planet">⭐</span></div>
-            <div class="text-6xl">🌍</div>
-        </div>
-        <h1 class="cute-msg mt-10">My Whole Universe!</h1>
-        <p class="sub-text">Everything seems better when you're around.</p>
-        <button onclick="next()" class="glow-btn">Keep Going 🚀</button>
-    </div>
+  <script>
+    /* --- Floating Hearts Background Generator --- */
+    const heartsContainer = document.getElementById('heartsContainer');
+    const heartIcons = ['❤️', '💖', '💕', '💗', '✨'];
+    
+    for (let i = 0; i < 25; i++) {
+      const heart = document.createElement('div');
+      heart.className = 'heart-particle';
+      heart.innerText = heartIcons[Math.floor(Math.random() * heartIcons.length)];
+      heart.style.left = `${Math.random() * 100}%`;
+      heart.style.animationDelay = `${Math.random() * 8}s`;
+      heart.style.fontSize = `${12 + Math.random() * 20}px`;
+      heartsContainer.appendChild(heart);
+    }
 
-    <div id="slide7" class="slide">
-        <img src="gif5.gif" class="gif-frame">
-        <h1 class="cute-msg">Don't ever leave! 🥺</h1>
-        <p class="sub-text">I've never met anyone as sweet and special as you.</p>
-        <button onclick="next()" class="glow-btn">Wait for it...</button>
-    </div>
-
-    <div id="slide8" class="slide">
-        <h1 class="cute-msg">You're my Brightest Star! ⭐</h1>
-        <p class="sub-text max-w-xs">In a sky full of stars, my eyes only search for you.</p>
-        <button onclick="next()" class="glow-btn">Just a bit more ✨</button>
-    </div>
-
-    <div id="slide9" class="slide">
-        <img src="gif6.gif" class="gif-frame">
-        <h1 class="cute-msg">Will You Be My Friend? ❤️</h1>
-        <p class="sub-text">...and maybe something even more special? 💍</p>
-        <div id="btnContainer" class="flex flex-wrap justify-center mt-4">
-            <button onclick="next()" class="glow-btn">YES! 😍</button>
-            <button id="noBtn" onclick="trapNo()" class="no-btn">No 🥺</button>
-        </div>
-    </div>
-
-    <div id="slide10" class="slide">
-        <img src="gif7.gif" class="gif-frame">
-        <h1 class="cute-msg">Yaaay! My Heart is Happy! 🥳</h1>
-        <p class="sub-text">I promise to keep that beautiful smile on your face!</p>
-        <button onclick="playSurprise()" class="glow-btn animate-bounce">A FINAL SURPRISE 🎁</button>
-    </div>
-
-    <div id="videoLayer">
-        <video id="vPlayer" playsinline src="video1.mp4"></video>
-    </div>
-
-    <script>
-        let step = 1;
-        const music = document.getElementById('bgMusic');
-
-        // Background Stars Logic
-        const starContainer = document.getElementById('stars-container');
-        for(let i=0; i<100; i++) {
-            const star = document.createElement('div');
-            star.className = 'star';
-            const size = Math.random()*3 + 1 + 'px';
-            star.style.width = size; star.style.height = size;
-            star.style.left = Math.random()*100 + 'vw';
-            star.style.top = Math.random()*100 + 'vh';
-            star.style.setProperty('--d', (Math.random()*2+1)+'s');
-            starContainer.appendChild(star);
-        }
-
-        function startApp() { 
-            music.play().catch(() => {}); 
-            next(); 
-        }
-
-        function next() {
-            document.querySelectorAll('.slide').forEach(s => { s.classList.remove('active'); s.style.display='none'; });
-            step++;
-            const current = document.getElementById('slide'+step);
-            if(current) { 
-                current.style.display='flex'; 
-                setTimeout(() => current.classList.add('active'), 50); 
-            }
-        }
-
-        // The No Button Trap
-        function trapNo() {
-            const container = document.getElementById('btnContainer');
-            const noBtn = document.getElementById('noBtn');
-            noBtn.style.display = 'none'; // Remove the No button
-            
-            // Add 5 more YES buttons
-            for(let i=0; i<5; i++) {
-                const newYes = document.createElement('button');
-                newYes.innerHTML = "YES! 💖";
-                newYes.className = "glow-btn";
-                newYes.onclick = next;
-                container.appendChild(newYes);
-            }
-        }
-
-        // Hold Logic
-        let hVal = 0, hInt;
-        const hBtn = document.getElementById('holdBtn'), hProg = document.getElementById('holdProgress'), pHeart = document.getElementById('pulseHeart');
+    /* --- Flow Sequence (Intro -> Welcome -> Main Game) --- */
+    window.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+        const intro = document.getElementById('intro-screen');
+        const welcome = document.getElementById('welcome-screen');
         
-        const startH = (e) => { 
-            e.preventDefault(); 
-            pHeart.style.transform = 'scale(1.8)';
-            hInt = setInterval(() => { 
-                hVal += 2; 
-                hProg.style.width = hVal + '%'; 
-                if(hVal >= 100) { clearInterval(hInt); next(); } 
-            }, 40); 
-        };
-        const endH = () => { clearInterval(hInt); hVal = 0; hProg.style.width = '0%'; pHeart.style.transform = 'scale(1)'; };
-        
-        hBtn.onmousedown = hBtn.ontouchstart = startH; 
-        window.onmouseup = window.ontouchend = endH;
+        intro.style.opacity = '0';
+        setTimeout(() => {
+          intro.style.display = 'none';
+          welcome.style.display = 'flex';
+          setTimeout(() => welcome.style.opacity = '1', 50);
+        }, 800);
+      }, 2500);
+    });
 
-        function playSurprise() { 
-            music.pause(); 
-            const layer = document.getElementById('videoLayer');
-            const video = document.getElementById('vPlayer');
-            layer.style.display = 'flex';
-            video.play();
-            video.onended = () => { location.reload(); };
+    function startGame() {
+      const welcome = document.getElementById('welcome-screen');
+      welcome.style.opacity = '0';
+      setTimeout(() => {
+        welcome.style.display = 'none';
+        initPeer();
+      }, 800);
+    }
+
+    /* --- Music Controls --- */
+    const bgMusic = document.getElementById('bgMusic');
+    const musicSource = document.getElementById('musicSource');
+    const musicBtn = document.getElementById('musicBtn');
+    let isPlaying = false;
+    let currentSong = 1;
+
+    function toggleMusic() {
+      if (isPlaying) {
+        bgMusic.pause();
+        musicBtn.classList.remove('active');
+      } else {
+        bgMusic.play().catch(e => console.log("Audio play blocked by browser."));
+        musicBtn.classList.add('active');
+      }
+      isPlaying = !isPlaying;
+    }
+
+    function switchSong() {
+      currentSong = currentSong === 1 ? 2 : 1;
+      musicSource.src = `song${currentSong}.mp3`;
+      bgMusic.load();
+      if (isPlaying) bgMusic.play();
+    }
+
+    /* --- Game Logic --- */
+    let boardState = ["", "", "", "", "", "", "", "", ""];
+    let currentPlayer = "X"; // Default host is X
+    let mySymbol = "X";
+    let isGameActive = true;
+    let isMultiplayer = false;
+
+    const gameStatus = document.getElementById('gameStatus');
+    const cells = document.querySelectorAll('.cell');
+    const winningCombinations = [
+      [0,1,2], [3,4,5], [6,7,8], // Rows
+      [0,3,6], [1,4,7], [2,5,8], // Columns
+      [0,4,8], [2,4,6]          // Diagonals
+    ];
+
+    cells.forEach(cell => {
+      cell.addEventListener('click', () => handleCellClick(cell));
+    });
+
+    function handleCellClick(cell) {
+      const index = cell.getAttribute('data-index');
+
+      if (boardState[index] !== "" || !isGameActive) return;
+      if (isMultiplayer && currentPlayer !== mySymbol) return;
+
+      makeMove(index, currentPlayer);
+
+      if (isMultiplayer && dataConnection) {
+        dataConnection.send({ type: 'MOVE', index: index, symbol: mySymbol });
+      }
+    }
+
+    function makeMove(index, symbol) {
+      boardState[index] = symbol;
+      const cell = cells[index];
+      cell.innerText = symbol;
+      cell.classList.add(symbol.toLowerCase());
+
+      if (checkWin(symbol)) {
+        gameStatus.innerText = `${symbol === 'X' ? '❤️ X' : '💖 O'} Wins!`;
+        isGameActive = false;
+        return;
+      }
+
+      if (boardState.every(cell => cell !== "")) {
+        gameStatus.innerText = "It's a Draw! 💖";
+        isGameActive = false;
+        return;
+      }
+
+      currentPlayer = currentPlayer === "X" ? "O" : "X";
+      updateStatusDisplay();
+    }
+
+    function checkWin(symbol) {
+      return winningCombinations.some(combination => {
+        return combination.every(index => boardState[index] === symbol);
+      });
+    }
+
+    function updateStatusDisplay() {
+      if (isMultiplayer) {
+        gameStatus.innerText = currentPlayer === mySymbol ? "Your Turn!" : "Bestie's Turn...";
+      } else {
+        gameStatus.innerText = `Turn: ${currentPlayer}`;
+      }
+    }
+
+    function resetGame(sendRemote = true) {
+      boardState = ["", "", "", "", "", "", "", "", ""];
+      isGameActive = true;
+      currentPlayer = "X";
+      cells.forEach(cell => {
+        cell.innerText = "";
+        cell.classList.remove('x', 'o');
+      });
+      updateStatusDisplay();
+
+      if (isMultiplayer && sendRemote && dataConnection) {
+        dataConnection.send({ type: 'RESET' });
+      }
+    }
+
+    /* --- Online Multiplayer & Voice Chat (WebRTC via PeerJS) --- */
+    let peer = null;
+    let dataConnection = null;
+    let localStream = null;
+    let micActive = false;
+
+    function initPeer() {
+      peer = new Peer();
+
+      peer.on('open', (id) => {
+        document.getElementById('my-id').innerText = id;
+      });
+
+      peer.on('connection', (conn) => {
+        dataConnection = conn;
+        setupDataListener();
+        isMultiplayer = true;
+        mySymbol = "O"; // Joiner is O
+        document.getElementById('status-text').innerText = "Connected with Bestie! 💕";
+        resetGame(false);
+      });
+
+      peer.on('call', (call) => {
+        navigator.mediaDevices.getUserMedia({ 
+          audio: { 
+            echoCancellation: true, 
+            noiseSuppression: true, 
+            autoGainControl: true 
+          } 
+        }).then(stream => {
+          localStream = stream;
+          call.answer(stream);
+          call.on('stream', remoteStream => {
+            document.getElementById('remoteAudio').srcObject = remoteStream;
+          });
+        });
+      });
+    }
+
+    function connectToFriend() {
+      const friendId = document.getElementById('friend-id').value.trim();
+      if (!friendId) return alert('Please enter Room Code');
+
+      dataConnection = peer.connect(friendId);
+      setupDataListener();
+      isMultiplayer = true;
+      mySymbol = "X"; // Host is X
+      document.getElementById('status-text').innerText = "Connected with Bestie! 💕";
+      
+      // Start Voice Call
+      startVoiceCall(friendId);
+      resetGame(false);
+    }
+
+    function setupDataListener() {
+      dataConnection.on('data', (data) => {
+        if (data.type === 'MOVE') {
+          makeMove(data.index, data.symbol);
+        } else if (data.type === 'RESET') {
+          resetGame(false);
         }
-    </script>
+      });
+    }
+
+    function copyID() {
+      const myId = document.getElementById('my-id').innerText;
+      if (myId && myId !== "Generating...") {
+        navigator.clipboard.writeText(myId);
+        alert("Room Code copied to clipboard!");
+      }
+    }
+
+    /* --- High Quality Voice Chat with Noise Reduction --- */
+    async function toggleMic() {
+      const micBtn = document.getElementById('micBtn');
+
+      if (!micActive) {
+        try {
+          // Microphone settings optimized for Zero Noise / High Clarity
+          localStream = await navigator.mediaDevices.getUserMedia({
+            audio: {
+              echoCancellation: true,
+              noiseSuppression: true,
+              autoGainControl: true
+            }
+          });
+          
+          micActive = true;
+          micBtn.classList.add('active');
+          micBtn.innerHTML = '<i class="fa-solid fa-microphone"></i>';
+
+          if (dataConnection && peer) {
+            startVoiceCall(dataConnection.peer);
+          }
+        } catch (err) {
+          alert('Microphone access denied or unavailable.');
+        }
+      } else {
+        if (localStream) {
+          localStream.getTracks().forEach(track => track.stop());
+        }
+        micActive = false;
+        micBtn.classList.remove('active');
+        micBtn.innerHTML = '<i class="fa-solid fa-microphone-slash"></i>';
+      }
+    }
+
+    function startVoiceCall(remotePeerId) {
+      if (!localStream) return;
+      const call = peer.call(remotePeerId, localStream);
+      call.on('stream', remoteStream => {
+        document.getElementById('remoteAudio').srcObject = remoteStream;
+      });
+    }
+  </script>
 </body>
 </html>
