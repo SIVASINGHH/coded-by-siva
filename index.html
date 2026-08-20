@@ -1,226 +1,568 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Coded by SIVASINGH</title>
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Hide & Seek | SIVASINGH Edition</title>
+
+  <!-- External CDNs: Three.js, PeerJS, FontAwesome, Google Fonts -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Fredoka:wght@400;600&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --primary: #ff2a6d;
-      --secondary: #ff758c;
+      --primary: #ff1493;
+      --secondary: #ff69b4;
       --accent: #00f5d4;
-      --bg-dark: #08020f;
-      --glass-bg: rgba(255, 255, 255, 0.08);
-      --glass-border: rgba(255, 117, 140, 0.3);
+      --gold: #ffd700;
+      --bg-dark: #0a0314;
+      --glass-bg: rgba(255, 20, 147, 0.12);
+      --glass-border: rgba(255, 105, 180, 0.35);
       --text: #ffffff;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; user-select: none; }
-    body { background: var(--bg-dark); color: var(--text); min-height: 100vh; overflow: hidden; position: relative; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+    }
 
-    .page { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; z-index: 10; opacity: 0; visibility: hidden; transition: opacity 0.5s ease; }
-    .page.active { opacity: 1; visibility: visible; }
+    body, html {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: var(--bg-dark);
+      color: var(--text);
+      position: relative;
+    }
 
-    /* Intro & Lobby Styling */
-    .intro-title { font-family: 'Fredoka', cursive; font-size: 2.8rem; text-align: center; text-transform: uppercase; background: linear-gradient(45deg, #ff2a6d, #ff758c, #00f5d4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 15px rgba(255, 42, 109, 0.8)); }
-    .glass-card { background: var(--glass-bg); border: 1px solid var(--glass-border); backdrop-filter: blur(16px); padding: 2rem; border-radius: 24px; text-align: center; box-shadow: 0 12px 40px rgba(0, 0, 0, 0.8); width: 100%; max-width: 420px; }
-    
-    .btn-pink { background: linear-gradient(45deg, var(--primary), var(--secondary)); border: none; color: white; padding: 12px 30px; font-size: 1.1rem; font-weight: 600; border-radius: 30px; cursor: pointer; box-shadow: 0 4px 15px rgba(255, 42, 109, 0.4); transition: 0.3s; margin-top: 15px; display: inline-flex; align-items: center; gap: 10px; justify-content: center; width: 100%; }
-    .btn-pink:hover { transform: translateY(-2px) scale(1.02); }
+    /* Screen Transitions & Glassmorphism UI */
+    .page {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 10;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      transform: scale(0.96);
+    }
+    .page.active {
+      opacity: 1;
+      visibility: visible;
+      transform: scale(1);
+    }
 
-    /* HUD Overlay */
-    #game-container { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; }
-    .hud-layer { position: absolute; inset: 0; z-index: 5; pointer-events: none; display: flex; flex-direction: column; justify-content: space-between; padding: 15px; }
+    .glass-card {
+      background: rgba(20, 8, 30, 0.75);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding: 2.2rem 1.8rem;
+      border-radius: 28px;
+      text-align: center;
+      box-shadow: 0 15px 50px rgba(255, 20, 147, 0.25), inset 0 0 15px rgba(255, 215, 0, 0.1);
+      width: 100%;
+      max-width: 440px;
+      position: relative;
+    }
+
+    .empress-title {
+      font-family: 'Cinzel', serif;
+      font-weight: 900;
+      font-size: 2.2rem;
+      background: linear-gradient(45deg, #ffd700, #ff69b4, #00f5d4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.6));
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .branding-tag {
+      font-size: 0.75rem;
+      letter-spacing: 3px;
+      color: var(--gold);
+      text-transform: uppercase;
+      font-weight: 700;
+      margin-bottom: 12px;
+      opacity: 0.9;
+    }
+
+    .btn-pink {
+      background: linear-gradient(45deg, #ff1493, #ff69b4);
+      border: none;
+      color: white;
+      padding: 14px 28px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      border-radius: 35px;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(255, 20, 147, 0.5);
+      transition: all 0.25s ease;
+      margin-top: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: center;
+      width: 100%;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .btn-pink:active {
+      transform: scale(0.95);
+    }
+
+    /* Game World & HUD Overlay */
+    #game-container {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+    .hud-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 12px;
+    }
+
     .interactive { pointer-events: auto; }
 
-    .top-bar { display: flex; justify-content: space-between; align-items: center; width: 100%; }
-    .control-btn { background: rgba(0, 0, 0, 0.6); border: 1px solid var(--glass-border); color: var(--text); width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; backdrop-filter: blur(8px); transition: 0.3s; font-size: 1.1rem; }
-    .control-btn.active { background: var(--primary); box-shadow: 0 0 15px var(--primary); }
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      gap: 8px;
+    }
 
-    /* Dashboard & Gauges */
-    .dashboard { position: absolute; bottom: 30px; right: 20px; background: rgba(0,0,0,0.6); padding: 15px 20px; border-radius: 20px; border: 1px solid var(--glass-border); text-align: right; backdrop-filter: blur(10px); }
-    .speed-val { font-size: 2.2rem; font-weight: bold; color: var(--accent); font-family: 'Fredoka'; line-height: 1; }
-    .unit { font-size: 0.8rem; opacity: 0.8; }
+    .control-btn {
+      background: rgba(10, 3, 20, 0.75);
+      border: 1px solid var(--glass-border);
+      color: var(--text);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      transition: 0.3s;
+      font-size: 1.1rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    }
+    .control-btn.active {
+      background: linear-gradient(45deg, var(--primary), var(--secondary));
+      box-shadow: 0 0 18px var(--primary);
+      border-color: #fff;
+    }
 
-    /* On-Screen Mobile Controls */
-    .touch-controls { position: absolute; bottom: 20px; left: 20px; display: flex; gap: 12px; }
-    .touch-btn { width: 60px; height: 60px; border-radius: 50%; background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.3); color: white; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
-    .touch-btn:active { background: var(--primary); }
+    .status-card {
+      background: rgba(15, 5, 25, 0.8);
+      padding: 8px 16px;
+      border-radius: 20px;
+      border: 1px solid var(--glass-border);
+      text-align: center;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+    }
+    .timer-val {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--gold);
+      font-family: 'Fredoka', sans-serif;
+      line-height: 1;
+      text-shadow: 0 0 10px rgba(255,215,0,0.6);
+    }
 
-    .nitro-btn { position: absolute; bottom: 20px; right: 180px; width: 65px; height: 65px; border-radius: 50%; background: linear-gradient(45deg, #00f5d4, #00bbf9); border: none; color: black; font-weight: bold; font-size: 1rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px var(--accent); }
+    #minimap-canvas {
+      position: absolute;
+      top: 68px;
+      right: 12px;
+      width: 105px;
+      height: 105px;
+      border-radius: 50%;
+      border: 2px solid var(--gold);
+      background: rgba(10, 3, 20, 0.85);
+      box-shadow: 0 0 15px rgba(255,215,0,0.4);
+    }
 
-    /* Gifts Display Bar */
-    .gifts-bar { display: flex; gap: 10px; background: rgba(0,0,0,0.5); border: 1px solid var(--glass-border); border-radius: 30px; padding: 6px 15px; backdrop-filter: blur(10px); }
-    .gift-btn { background: transparent; border: none; font-size: 1.5rem; cursor: pointer; transition: 0.2s; }
-    .gift-btn:hover { transform: scale(1.3); }
+    /* Touch Controls / Virtual Joystick */
+    .joystick-zone {
+      position: absolute;
+      bottom: 25px;
+      left: 20px;
+      width: 125px;
+      height: 125px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 2px solid rgba(255, 105, 180, 0.3);
+      border-radius: 50%;
+      touch-action: none;
+      backdrop-filter: blur(5px);
+    }
+    .joystick-knob {
+      position: absolute;
+      top: 37.5px;
+      left: 37.5px;
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(45deg, var(--primary), var(--gold));
+      border-radius: 50%;
+      box-shadow: 0 0 20px var(--primary);
+      pointer-events: none;
+    }
 
-    /* Floating Animations */
-    .flying-gift { position: fixed; font-size: 3rem; z-index: 1000; pointer-events: none; transition: all 1s ease-in-out; }
+    .action-group {
+      position: absolute;
+      bottom: 25px;
+      right: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: flex-end;
+    }
+    .action-btn {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      background: linear-gradient(45deg, #00f5d4, #00bbf9);
+      border: 2px solid #fff;
+      color: #000;
+      font-weight: 800;
+      font-size: 1.3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 22px var(--accent);
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .action-btn.propose-mode {
+      background: linear-gradient(45deg, #ffd700, #ff1493);
+      color: white;
+      box-shadow: 0 0 30px #ffd700;
+    }
+
+    .emotes-wrapper {
+      display: flex;
+      gap: 6px;
+      background: rgba(10, 3, 20, 0.8);
+      border: 1px solid var(--glass-border);
+      border-radius: 30px;
+      padding: 5px 10px;
+      backdrop-filter: blur(10px);
+    }
+    .emote-btn {
+      background: transparent;
+      border: none;
+      font-size: 1.4rem;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+    .emote-btn:active { transform: scale(1.3); }
+
+    .floating-emoji {
+      position: fixed;
+      font-size: 3.5rem;
+      z-index: 1000;
+      pointer-events: none;
+      transition: all 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+      filter: drop-shadow(0 0 15px rgba(255,20,147,0.8));
+    }
+
+    /* Modal Banner Overlays */
+    .banner-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(5, 1, 10, 0.88);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 20;
+      pointer-events: auto;
+      backdrop-filter: blur(12px);
+    }
+
+    .song-pill {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid var(--glass-border);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      color: var(--gold);
+      margin-top: 6px;
+      display: inline-block;
+    }
+
     audio { display: none; }
   </style>
 </head>
 <body>
 
-  <!-- PAGE 1: INTRO -->
-  <div class="page active" id="page-intro">
-    <h1 class="intro-title">Modded by SIVASINGH</h1>
-  </div>
-
-  <!-- PAGE 2: WELCOME -->
-  <div class="page" id="page-welcome">
-    <div class="glass-card">
-      <h2 style="font-size: 1.8rem; color: #ff758c; margin-bottom: 10px;">Devu Ready for Race? 🏎️💨</h2>
-      <p style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 20px;">Moti mere sath race karegi aaja babu 🤭!</p>
-      <button class="btn-pink" onclick="goToPage('page-lobby')">Start Engine ❤️</button>
-    </div>
-  </div>
-
-  <!-- PAGE 3: LOBBY -->
-  <div class="page" id="page-lobby">
-    <div class="glass-card" id="lobby-input-box">
-      <h3 style="margin-bottom: 15px; color: var(--secondary);">Connect Race Lobby</h3>
-      <div style="background: rgba(0,0,0,0.4); padding: 10px; border-radius: 12px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center;">
-        <span style="font-size: 0.85rem;">Your ID: <strong id="my-code" style="color: var(--accent);">Generating...</strong></span>
-        <button class="control-btn interactive" style="width: 32px; height: 32px;" onclick="copyCode()"><i class="fa-solid fa-copy"></i></button>
-      </div>
-      <input type="text" id="friend-code" placeholder="Enter Bestie's ID" style="width: 100%; padding: 12px; background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border); border-radius: 12px; color: white; outline: none; text-align: center; margin-bottom: 15px;">
-      <button class="btn-pink" onclick="startConnection()">Connect & Race 💕</button>
-      <button class="btn-pink" style="background: rgba(255,255,255,0.1); margin-top: 10px;" onclick="startSoloRace()">Practice Solo 🏎️</button>
-    </div>
-  </div>
-
-  <!-- PAGE 4: MAIN 3D CANVAS -->
-  <div class="page" id="page-game" style="padding: 0;">
-    <div id="game-container"></div>
-    
-    <div class="hud-layer">
-      <div class="top-bar">
-        <div style="display: flex; gap: 10px;">
-          <button class="control-btn interactive" id="micBtn" onclick="toggleMic()"><i class="fa-solid fa-microphone-slash"></i></button>
-          <button class="control-btn interactive" id="musicBtn" onclick="toggleMusic()"><i class="fa-solid fa-music"></i></button>
-          <button class="control-btn interactive" onclick="switchSong()"><i class="fa-solid fa-forward-step"></i></button>
-        </div>
-
-        <div class="gifts-bar interactive">
-          <button class="gift-btn" onclick="sendGift('🌹')">🌹</button>
-          <button class="gift-btn" onclick="sendGift('💋')">💋</button>
-          <button class="gift-btn" onclick="sendGift('🥊')">🥊</button>
-        </div>
-      </div>
-
-      <div class="dashboard">
-        <div class="speed-val" id="speedometer">0</div>
-        <div class="unit">KM/H</div>
-      </div>
-
-      <div class="touch-controls interactive">
-        <div class="touch-btn" id="btn-left"><i class="fa-solid fa-arrow-left"></i></div>
-        <div class="touch-btn" id="btn-right"><i class="fa-solid fa-arrow-right"></i></div>
-        <div class="touch-btn" id="btn-brake" style="background: rgba(255, 42, 109, 0.4);"><i class="fa-solid fa-ban"></i></div>
-      </div>
-
-      <button class="nitro-btn interactive" id="btn-nitro">NOS</button>
-    </div>
-  </div>
-
-  <audio id="bgMusic" loop><source id="musicSource" src="song1.mp3" type="audio/mpeg"></audio>
+  <!-- AUDIO PLAYLIST SYSTEM -->
+  <audio id="music1" loop><source src="song1.mp3"></audio>
+  <audio id="music2" loop><source src="song2.mp3"></audio>
+  <audio id="music3" loop><source src="https://cdn.pixabay.com/download/audio/2022/10/25/audio_2492160938.mp3?filename=sweet-love-125862.mp3" type="audio/mpeg"></audio>
+  <audio id="music4" loop><source src="https://cdn.pixabay.com/download/audio/2021/11/24/audio_c8a74c72a8.mp3?filename=cinematic-love-story-10499.mp3" type="audio/mpeg"></audio>
   <audio id="remoteAudio" autoplay></audio>
 
+  <!-- PAGE 1: INTRO SPLASH -->
+  <div class="page active" id="page-intro">
+    <div class="branding-tag">Codded by SIVASINGH</div>
+    <h1 class="empress-title"> DEVUU</h1>
+    <p style="margin-top:8px; color: var(--secondary); font-weight: 600; font-size: 1.05rem;">Garden 3D Hide & Seek</p>
+    <p style="font-size: 0.8rem; opacity: 0.7; margin-top: 15px;">Initializing Magical World...</p>
+  </div>
+
+  <!-- PAGE 2: CHARACTER SELECT -->
+  <div class="page" id="page-welcome">
+    <div class="glass-card">
+      <div class="branding-tag">SIVASINGH PRESENTS</div>
+      <h2 style="font-size: 1.7rem; color: #ff69b4; margin-bottom: 6px; font-family:'Cinzel';">Welcome  Devu 💕</h2>
+      <p style="font-size: 0.85rem; opacity: 0.85; margin-bottom: 18px;">Find each other in the glowing flower garden & and hug each other!</p>
+
+      <div style="margin-bottom: 18px; text-align: left; background: rgba(0,0,0,0.35); padding: 12px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.05);">
+        <p style="font-size: 0.8rem; color: var(--gold); font-weight: 700; margin-bottom: 8px; text-transform: uppercase;">Choose Character Avatar:</p>
+        <div style="display: flex; gap: 10px;">
+          <button class="btn-pink" id="char-boy" style="margin:0; background: linear-gradient(45deg, #00f5d4, #00bbf9); color: black;" onclick="selectGender('boy')">Aarav (Boy 🕺)</button>
+          <button class="btn-pink" id="char-girl" style="margin:0; opacity: 0.5;" onclick="selectGender('girl')">Devu (Girl 💃)</button>
+        </div>
+      </div>
+
+      <button class="btn-pink" onclick="goToPage('page-lobby')">Enter  Garden 🌹</button>
+    </div>
+  </div>
+
+  <!-- PAGE 3: MULTIPLAYER LOBBY -->
+  <div class="page" id="page-lobby">
+    <div class="glass-card">
+      <h3 style="margin-bottom: 10px; color: var(--gold); font-family:'Cinzel'; font-size: 1.4rem;">Multiplayer Garden Lobby</h3>
+
+      <div style="background: rgba(0,0,0,0.45); padding: 12px; border-radius: 16px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--glass-border);">
+        <span style="font-size: 0.85rem;">Room ID: <strong id="my-code" style="color: var(--gold);">Generating...</strong></span>
+        <button class="control-btn interactive" style="width: 34px; height: 34px; font-size: 0.9rem;" onclick="copyCode()"><i class="fa-solid fa-copy"></i></button>
+      </div>
+
+      <input type="text" id="friend-code" placeholder="Enter Empress Devu's Room ID" style="width: 100%; padding: 14px; background: rgba(0,0,0,0.45); border: 1px solid var(--glass-border); border-radius: 16px; color: white; outline: none; text-align: center; font-size: 1rem; margin-bottom: 15px;">
+
+      <button class="btn-pink" onclick="startConnection()">Connect & Play Together ❤️</button>
+      <button class="btn-pink" style="background: rgba(255,255,255,0.1); margin-top: 8px; box-shadow:none;" onclick="startSoloPractice()">Solo Garden Practice 🌸</button>
+    </div>
+  </div>
+
+  <!-- PAGE 4: MAIN 3D GAME HUD -->
+  <div class="page" id="page-game" style="padding: 0;">
+    <div id="game-container"></div>
+    <canvas id="minimap-canvas"></canvas>
+
+    <div class="hud-layer">
+      <div class="top-bar">
+        <div style="display: flex; gap: 6px;">
+          <button class="control-btn interactive" id="micBtn" onclick="toggleMic()"><i class="fa-solid fa-microphone-slash"></i></button>
+          <button class="control-btn interactive" id="musicBtn" onclick="cycleMusic()"><i class="fa-solid fa-music"></i></button>
+          <button class="control-btn interactive" id="vibeBtn" onclick="toggleVibe()"><i class="fa-solid fa-heart"></i></button>
+        </div>
+
+        <div class="status-card">
+          <div style="font-size: 0.7rem; color: var(--secondary); font-weight: 700; letter-spacing: 0.5px;" id="role-display">ROLE: PREPARING</div>
+          <div class="timer-val" id="game-timer">00:00</div>
+          <div style="font-size: 0.68rem; opacity: 0.9; color: var(--gold);" id="score-display">Score - Aarav: 0 | Devu: 0</div>
+          <div class="song-pill" id="song-title">🎵 Song:  Guitars</div>
+        </div>
+
+        <div class="emotes-wrapper interactive">
+          <button class="emote-btn" onclick="triggerEmote('🫂')">🫂</button>
+          <button class="emote-btn" onclick="triggerEmote('💋')">💋</button>
+          <button class="emote-btn" onclick="triggerEmote('🌹')">🌹</button>
+          <button class="emote-btn" onclick="triggerEmote('💍')">💍</button>
+        </div>
+      </div>
+
+      <!-- Touch Controls -->
+      <div class="joystick-zone interactive" id="joy-zone">
+        <div class="joystick-knob" id="joy-knob"></div>
+      </div>
+
+      <div class="action-group interactive">
+        <button class="action-btn" id="hide-btn" style="display: none;" onclick="handleHideAction()"><i class="fa-solid fa-eye-slash"></i></button>
+        <button class="action-btn propose-mode" id="propose-btn" style="display: none;" onclick="triggerProposalSequence()"><i class="fa-solid fa-heart"></i></button>
+        <button class="action-btn" id="search-btn" style="display: none; background: linear-gradient(45deg, #ffbb00, #ff5500);" onclick="handleSearchAction()"><i class="fa-solid fa-magnifying-glass"></i></button>
+        <button class="action-btn" id="pulse-btn" style="display: none; width: 50px; height: 50px; font-size: 0.9rem;" onclick="triggerRadarPulse()"><i class="fa-solid fa-wifi"></i></button>
+      </div>
+    </div>
+
+    <!-- PROPOSAL & GAME OVER OVERLAY -->
+    <div class="banner-overlay" id="outcome-banner" style="display: none;">
+      <div class="glass-card">
+        <div class="branding-tag" id="banner-tag"<Moder Siva!</div>
+        <h2 id="banner-title" style="font-size: 1.8rem; color: var(--gold); font-family: 'Cinzel'; margin-bottom: 8px;">YOU FOUND  DEVU! 💍</h2>
+        <p id="banner-desc" style="font-size: 0.9rem; margin-bottom: 18px; line-height: 1.4;">Lalalakalalala 🤭🤭🤭🤭!</p>
+
+        <div style="display: flex; gap: 8px; justify-content: center; margin-bottom: 16px;">
+          <button class="emote-btn" style="font-size: 2.2rem;" onclick="triggerEmote('🫂')">🫂</button>
+          <button class="emote-btn" style="font-size: 2.2rem;" onclick="triggerEmote('💋')">💋</button>
+          <button class="emote-btn" style="font-size: 2.2rem;" onclick="triggerEmote('🌹')">🌹</button>
+          <button class="emote-btn" style="font-size: 2.2rem;" onclick="triggerEmote('💍')">💍</button>
+        </div>
+
+        <button class="btn-pink" onclick="requestNextRound()">Next  Round 🔄</button>
+      </div>
+    </div>
+  </div>
+
   <script>
-    /* --- Navigation --- */
+    /* --- GLOBAL STATE & CONFIG --- */
+    let myGender = 'boy';
+    let peer, dataConn, localStream, micActive = false;
+    let isMultiplayer = false, isHost = false;
+
+    let gameState = {
+      phase: 'LOBBY',
+      seekerRole: 'boy',
+      round: 1,
+      scores: { player1: 0, player2: 0 },
+      timer: 0,
+      hiderIsHidden: false,
+      hidingSpotId: null
+    };
+
+    let localPlayerPos = { x: 0, y: 0, z: 0, rotY: 0, anim: 'idle' };
+    let remotePlayerPos = { x: 6, y: 0, z: 6, rotY: 0, anim: 'idle', isHidden: false, isKneeling: false };
+
+    /* --- PAGE ROUTING --- */
     function goToPage(id) {
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
       document.getElementById(id).classList.add('active');
     }
 
+    function selectGender(g) {
+      myGender = g;
+      document.getElementById('char-boy').style.opacity = g === 'boy' ? '1' : '0.5';
+      document.getElementById('char-girl').style.opacity = g === 'girl' ? '1' : '0.5';
+    }
+
     window.addEventListener('DOMContentLoaded', () => {
-      setTimeout(() => { goToPage('page-welcome'); initPeer(); }, 2500);
+      setTimeout(() => { goToPage('page-welcome'); initPeer(); }, 2200);
     });
 
-    /* --- Audio Synthesizer Engine Sound --- */
-    let audioCtx, osc, gainNode;
-    function initEngineSound() {
-      try {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        osc = audioCtx.createOscillator();
-        gainNode = audioCtx.createGain();
-        osc.type = 'sawtooth';
-        osc.frequency.value = 40;
-        gainNode.gain.value = 0.04;
-        osc.connect(gainNode);
-        gainNode.connect(audioCtx.destination);
-        osc.start();
-      } catch(e) {}
-    }
-
-    function updateEngineSound(speed) {
-      if (osc && audioCtx) osc.frequency.setTargetAtTime(30 + speed * 1.5, audioCtx.currentTime, 0.1);
-    }
-
-    /* --- Music Controls --- */
-    const bgMusic = document.getElementById('bgMusic');
-    const musicSource = document.getElementById('musicSource');
-    let isPlaying = false, currentSong = 1;
-
-    function toggleMusic() {
-      if (isPlaying) { bgMusic.pause(); document.getElementById('musicBtn').classList.remove('active'); }
-      else { bgMusic.play().catch(()=>{}); document.getElementById('musicBtn').classList.add('active'); }
-      isPlaying = !isPlaying;
-    }
-
-    function switchSong() {
-      currentSong = currentSong === 1 ? 2 : 1;
-      musicSource.src = `song${currentSong}.mp3`;
-      bgMusic.load(); if (isPlaying) bgMusic.play();
-    }
-
-    /* --- PeerJS Multiplayer --- */
-    let peer, dataConn, localStream, micActive = false;
-    let remoteCarPos = { x: 2, z: 0 };
-
+    /* --- MULTIPLAYER (PEERJS DATA & VOICE) --- */
     function initPeer() {
       peer = new Peer();
       peer.on('open', id => document.getElementById('my-code').innerText = id);
       peer.on('connection', conn => {
-        dataConn = conn; setupDataListener();
-        goToPage('page-game'); init3DGame();
+        dataConn = conn;
+        isHost = true;
+        isMultiplayer = true;
+        setupDataListener();
+        goToPage('page-game');
+        init3DGame();
       });
       peer.on('call', call => {
         navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
           call.answer(stream);
           call.on('stream', rStream => document.getElementById('remoteAudio').srcObject = rStream);
-        });
+        }).catch(err => alert("Voice connection error!"));
       });
     }
 
     function startConnection() {
       const code = document.getElementById('friend-code').value.trim();
-      if (!code) return alert("Enter Bestie's ID!");
+      if (!code) return alert("Please enter Room ID!");
       dataConn = peer.connect(code);
+      isHost = false;
+      isMultiplayer = true;
       setupDataListener();
-      goToPage('page-game'); init3DGame();
+      goToPage('page-game');
+      init3DGame();
     }
 
-    function startSoloRace() {
-      goToPage('page-game'); init3DGame();
+    function startSoloPractice() {
+      isMultiplayer = false;
+      goToPage('page-game');
+      init3DGame();
     }
 
     function setupDataListener() {
       dataConn.on('data', data => {
-        if (data.type === 'POS') { remoteCarPos.x = data.x; remoteCarPos.z = data.z; }
-        if (data.type === 'GIFT') triggerGiftAnimation(data.emoji);
+        if (data.type === 'POS') {
+          remotePlayerPos.x = data.x;
+          remotePlayerPos.y = data.y;
+          remotePlayerPos.z = data.z;
+          remotePlayerPos.rotY = data.rotY;
+          remotePlayerPos.anim = data.anim;
+          remotePlayerPos.isHidden = data.isHidden;
+          remotePlayerPos.isKneeling = data.isKneeling;
+        }
+        else if (data.type === 'STATE_SYNC') {
+          gameState = data.state;
+          updateHUD();
+        }
+        else if (data.type === 'EMOTE') {
+          spawnFloatingEmoji(data.emoji);
+        }
+        else if (data.type === 'PROPOSAL') {
+          spawnFloatingEmoji('💍');
+          spawnFloatingEmoji('🌹');
+          endRound('SEEKER_WIN');
+        }
+        else if (data.type === 'NEXT_ROUND') {
+          resetRound();
+        }
       });
     }
 
     function copyCode() {
       navigator.clipboard.writeText(document.getElementById('my-code').innerText);
-      alert("ID Copied!");
+      alert("Room ID Copied! Share with Empress Devu!");
+    }
+
+    /* --- MUSIC PLAYLIST & AUDIO SYSTEM (4 ROMANTIC SONGS) --- */
+    const songs = [
+      { id: 'music1', name: '🎵 Song 1: Romantic Guitars' },
+      { id: 'music2', name: '🎹 Song 2: Soft Love Piano' },
+      { id: 'music3', name: '🌸 Song 3: Sweet Garden Serenade' },
+      { id: 'music4', name: '✨ Song 4: Cinematic Love Story' }
+    ];
+    let currentSongIdx = -1;
+
+    function cycleMusic() {
+      if (currentSongIdx >= 0) {
+        document.getElementById(songs[currentSongIdx].id).pause();
+      }
+      currentSongIdx = (currentSongIdx + 1) % (songs.length + 1);
+
+      const btn = document.getElementById('musicBtn');
+      const label = document.getElementById('song-title');
+
+      if (currentSongIdx === songs.length) {
+        currentSongIdx = -1; // Mute state
+        btn.classList.remove('active');
+        label.innerText = '🎵 Music: Off';
+      } else {
+        const audio = document.getElementById(songs[currentSongIdx].id);
+        audio.play().catch(()=>{});
+        btn.classList.add('active');
+        label.innerText = songs[currentSongIdx].name;
+      }
     }
 
     async function toggleMic() {
@@ -228,72 +570,115 @@
       if (!micActive) {
         try {
           localStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-          micActive = true; micBtn.classList.add('active');
+          micActive = true;
+          micBtn.classList.add('active');
+          micBtn.innerHTML = '<i class="fa-solid fa-microphone"></i>';
           if (dataConn) peer.call(dataConn.peer, localStream);
         } catch(e) { alert("Mic Permission Denied!"); }
       } else {
         if (localStream) localStream.getTracks().forEach(t => t.stop());
-        micActive = false; micBtn.classList.remove('active');
+        micActive = false;
+        micBtn.classList.remove('active');
+        micBtn.innerHTML = '<i class="fa-solid fa-microphone-slash"></i>';
       }
     }
 
-    function sendGift(emoji) {
-      triggerGiftAnimation(emoji);
-      if (dataConn) dataConn.send({ type: 'GIFT', emoji: emoji });
+    function toggleVibe() {
+      if (navigator.vibrate) navigator.vibrate([100, 50, 100, 50, 150]);
+      document.getElementById('vibeBtn').classList.toggle('active');
     }
 
-    function triggerGiftAnimation(emoji) {
+    /* --- EMOTE & PROPOSAL VISUALS --- */
+    function triggerEmote(emoji) {
+      spawnFloatingEmoji(emoji);
+      if (dataConn && dataConn.open) {
+        dataConn.send({ type: 'EMOTE', emoji: emoji });
+      }
+    }
+
+    function spawnFloatingEmoji(emoji) {
       const el = document.createElement('div');
-      el.className = 'flying-gift'; el.innerText = emoji;
-      el.style.left = '50%'; el.style.top = '80%';
+      el.className = 'floating-emoji';
+      el.innerText = emoji;
+      el.style.left = (35 + Math.random() * 30) + '%';
+      el.style.top = '65%';
       document.body.appendChild(el);
-      setTimeout(() => { el.style.top = '20%'; el.style.transform = 'scale(2)'; }, 50);
-      setTimeout(() => el.remove(), 1000);
+      setTimeout(() => {
+        el.style.top = '20%';
+        el.style.transform = 'scale(1.8) rotate(15deg)';
+        el.style.opacity = '0';
+      }, 50);
+      setTimeout(() => el.remove(), 1250);
     }
 
-    /* --- REAL THREE.JS 3D ENGINE --- */
+    /* --- 3D ENGINE & ROMANTIC MAP (THREE.JS) --- */
     let scene, camera, renderer;
-    let playerCar, partnerCar;
-    let trafficCars = [];
-    let speed = 0, currentSpeed = 0;
-    let keyLeft = false, keyRight = false, keyBrake = false, keyNitro = false;
+    let localMesh, remoteMesh;
+    let hidingSpots = [];
+    let nearbySpot = null;
+    let isKneelingLocal = false;
 
-    function buildCarModel(colorHex) {
+    function buildRealisticCharacter(gender) {
       const group = new THREE.Group();
-      
-      // Chassis
-      const bodyGeo = new THREE.BoxGeometry(1.6, 0.6, 3.2);
-      const bodyMat = new THREE.MeshPhongMaterial({ color: colorHex, shininess: 100 });
-      const body = new THREE.Mesh(bodyGeo, bodyMat);
-      body.position.y = 0.5;
-      group.add(body);
+      const isBoy = gender === 'boy';
 
-      // Cabin / Roof
-      const cabinGeo = new THREE.BoxGeometry(1.2, 0.5, 1.6);
-      const cabinMat = new THREE.MeshPhongMaterial({ color: 0x111111, shininess: 80 });
-      const cabin = new THREE.Mesh(cabinGeo, cabinMat);
-      cabin.position.set(0, 0.9, -0.2);
-      group.add(cabin);
+      // Outfit & Skin Materials
+      const clothMat = new THREE.MeshPhongMaterial({ color: isBoy ? 0x1a2a3a : 0xff1493, shininess: 40 });
+      const skinMat = new THREE.MeshPhongMaterial({ color: 0xffdfc4, shininess: 10 });
+      const hairMat = new THREE.MeshLambertMaterial({ color: isBoy ? 0x110800 : 0x3d1c02 });
+      const goldAccent = new THREE.MeshPhongMaterial({ color: 0xffd700, shininess: 80 });
 
-      // Wheels
-      const wheelGeo = new THREE.CylinderGeometry(0.3, 0.3, 0.2, 16);
-      const wheelMat = new THREE.MeshLambertMaterial({ color: 0x222222 });
-      wheelGeo.rotateZ(Math.PI / 2);
+      // Torso & Dress
+      let bodyGeo = isBoy ? new THREE.CylinderGeometry(0.32, 0.28, 1.2, 16) : new THREE.ConeGeometry(0.6, 1.2, 16);
+      const torso = new THREE.Mesh(bodyGeo, clothMat);
+      torso.position.y = 0.85;
+      torso.castShadow = true;
+      group.add(torso);
 
-      const positions = [[-0.85, 0.3, 1], [0.85, 0.3, 1], [-0.85, 0.3, -1], [0.85, 0.3, -1]];
-      positions.forEach(pos => {
-        const wheel = new THREE.Mesh(wheelGeo, wheelMat);
-        wheel.position.set(...pos);
-        group.add(wheel);
-      });
+      // Head & Facial Structure
+      const headGeo = new THREE.SphereGeometry(0.28, 20, 20);
+      const head = new THREE.Mesh(headGeo, skinMat);
+      head.position.y = 1.65;
+      head.castShadow = true;
+      group.add(head);
 
-      // Tail Neon Lights
-      const lightGeo = new THREE.BoxGeometry(0.4, 0.1, 0.05);
-      const lightMat = new THREE.MeshBasicMaterial({ color: 0xff0055 });
-      const lightL = new THREE.Mesh(lightGeo, lightMat); lightL.position.set(-0.5, 0.5, 1.6);
-      const lightR = new THREE.Mesh(lightGeo, lightMat); lightR.position.set(0.5, 0.5, 1.6);
-      group.add(lightL); group.add(lightR);
+      // Hair Mesh
+      const hairGeo = isBoy ? new THREE.SphereGeometry(0.3, 16, 16, 0, Math.PI*2, 0, Math.PI/2) : new THREE.SphereGeometry(0.34, 16, 16);
+      const hair = new THREE.Mesh(hairGeo, hairMat);
+      hair.position.y = isBoy ? 1.72 : 1.68;
+      group.add(hair);
 
+      // Empress Devu Crown / Aarav Prince Cap
+      if (!isBoy) {
+        const crownGeo = new THREE.ConeGeometry(0.2, 0.25, 5);
+        const crown = new THREE.Mesh(crownGeo, goldAccent);
+        crown.position.y = 2.05;
+        group.add(crown);
+      }
+
+      // Legs
+      const legGeo = new THREE.CylinderGeometry(0.09, 0.08, 0.65, 12);
+      const legMat = new THREE.MeshLambertMaterial({ color: 0x111122 });
+
+      const legL = new THREE.Mesh(legGeo, legMat); legL.position.set(-0.14, 0.32, 0); group.add(legL);
+      const legR = new THREE.Mesh(legGeo, legMat); legR.position.set(0.14, 0.32, 0); group.add(legR);
+
+      // Arms & Rose Prop
+      const armGeo = new THREE.CylinderGeometry(0.07, 0.06, 0.6, 12);
+      const armL = new THREE.Mesh(armGeo, skinMat); armL.position.set(-0.35, 1.1, 0); group.add(armL);
+      const armR = new THREE.Mesh(armGeo, skinMat); armR.position.set(0.35, 1.1, 0); group.add(armR);
+
+      // Held Red Rose Prop
+      const roseGroup = new THREE.Group();
+      const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.02, 0.3), new THREE.MeshLambertMaterial({color: 0x008000}));
+      const petal = new THREE.Mesh(new THREE.SphereGeometry(0.08, 8, 8), new THREE.MeshPhongMaterial({color: 0xff0000}));
+      petal.position.y = 0.15;
+      roseGroup.add(stem); roseGroup.add(petal);
+      roseGroup.position.set(0.35, 0.85, 0.2);
+      roseGroup.rotation.x = Math.PI/4;
+      group.add(roseGroup);
+
+      group.userData = { legL, legR, armL, armR, torso, gender, roseGroup };
       return group;
     }
 
@@ -302,86 +687,139 @@
       container.innerHTML = '';
 
       scene = new THREE.Scene();
-      scene.background = new THREE.Color(0x08020f);
-      scene.fog = new THREE.FogExp2(0x08020f, 0.012);
+      scene.background = new THREE.Color(0x0d031a);
+      scene.fog = new THREE.FogExp2(0x0d031a, 0.015);
 
       camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-      
-      renderer = new THREE.WebGLRenderer({ antialias: true });
+
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
       renderer.setSize(window.innerWidth, window.innerHeight);
-      renderer.setPixelRatio(window.devicePixelRatio);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
       container.appendChild(renderer.domElement);
 
-      // Ambient & Directional Lights
-      const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+      // Romantic Atmosphere Lighting
+      const ambientLight = new THREE.AmbientLight(0xffb6c1, 0.8);
       scene.add(ambientLight);
 
-      const dirLight = new THREE.DirectionalLight(0xff758c, 1.2);
-      dirLight.position.set(20, 40, 20);
-      scene.add(dirLight);
+      const moonLight = new THREE.DirectionalLight(0xffd700, 1.3);
+      moonLight.position.set(20, 45, 20);
+      moonLight.castShadow = true;
+      moonLight.shadow.mapSize.width = 1024;
+      moonLight.shadow.mapSize.height = 1024;
+      scene.add(moonLight);
 
-      // Endless Road Plane
-      const roadGeo = new THREE.PlaneGeometry(16, 2000);
-      const roadMat = new THREE.MeshPhongMaterial({ color: 0x181824 });
-      const road = new THREE.Mesh(roadGeo, roadMat);
-      road.rotation.x = -Math.PI / 2;
-      road.position.z = 900;
-      scene.add(road);
+      // Magical Garden Floor (Grass with Glowing Petals)
+      const groundGeo = new THREE.PlaneGeometry(120, 120);
+      const groundMat = new THREE.MeshPhongMaterial({ color: 0x162d1b, shininess: 10 });
+      const ground = new THREE.Mesh(groundGeo, groundMat);
+      ground.rotation.x = -Math.PI / 2;
+      ground.receiveShadow = true;
+      scene.add(ground);
 
-      // Neon Track Barriers
-      const barrierGeo = new THREE.BoxGeometry(0.4, 0.8, 2000);
-      const barrierMat = new THREE.MeshBasicMaterial({ color: 0x00f5d4 });
-      const leftB = new THREE.Mesh(barrierGeo, barrierMat); leftB.position.set(-8.2, 0.4, 900);
-      const rightB = new THREE.Mesh(barrierGeo, barrierMat); rightB.position.set(8.2, 0.4, 900);
-      scene.add(leftB); scene.add(rightB);
+      // Build Garden Environment
+      buildEmpressGardenMap();
 
-      // Spawn Player & Partner
-      playerCar = buildCarModel(0xff2a6d);
-      playerCar.position.set(-2, 0, 0);
-      scene.add(playerCar);
+      // Spawn Player Models
+      localMesh = buildRealisticCharacter(myGender);
+      scene.add(localMesh);
 
-      partnerCar = buildCarModel(0x00f5d4);
-      partnerCar.position.set(2, 0, 0);
-      scene.add(partnerCar);
+      const remoteGender = myGender === 'boy' ? 'girl' : 'boy';
+      remoteMesh = buildRealisticCharacter(remoteGender);
+      scene.add(remoteMesh);
 
-      // Traffic Obstacles
-      for(let i = 0; i < 15; i++) {
-        let tCar = buildCarModel(0xffbb00);
-        tCar.position.set((Math.random() - 0.5) * 12, 0, 100 + i * 120);
-        scene.add(tCar);
-        trafficCars.push(tCar);
-      }
-
-      initEngineSound();
-      setupInputListeners();
+      setupJoystick();
       window.addEventListener('resize', onWindowResize);
+
+      if (isHost || !isMultiplayer) {
+        startRoundSequence();
+      }
 
       animate3D();
     }
 
-    function setupInputListeners() {
+    function buildEmpressGardenMap() {
+      hidingSpots = [];
+
+      // Grand Romantic Pavilion Center
+      const pavilionGeo = new THREE.CylinderGeometry(5, 5.5, 3.5, 8);
+      const pavilionMat = new THREE.MeshPhongMaterial({ color: 0xfff0f5, shininess: 50 });
+      const pavilion = new THREE.Mesh(pavilionGeo, pavilionMat);
+      pavilion.position.set(0, 1.75, 0);
+      pavilion.castShadow = true;
+      scene.add(pavilion);
+
+      // Romantic Objects & Hiding Spots
+      const spotConfs = [
+        { type: 'Rose Archway 🌹', color: 0xff1493, size: [3, 3, 1] },
+        { type: 'Royal Gazebo Pillar 🏛️', color: 0xffffff, size: [1.8, 4, 1.8] },
+        { type: 'Heart Blossom Tree 🌸', color: 0xff69b4, size: [3.5, 4.5, 3.5] },
+        { type: 'Cozy Love Bench 🪑', color: 0x8b4513, size: [2.5, 1.8, 1.2] },
+        { type: 'Empress Palace Cottage 🏰', color: 0x4b0082, size: [7, 5, 7] }
+      ];
+
+      const spotPositions = [
+        [-14, -14], [14, 14], [-18, 12], [18, -14], [0, 24], [0, -24], [-24, -6], [24, 6]
+      ];
+
+      spotPositions.forEach((pos, idx) => {
+        const conf = spotConfs[idx % spotConfs.length];
+        const geo = new THREE.BoxGeometry(...conf.size);
+        const mat = new THREE.MeshPhongMaterial({ color: conf.color });
+        const mesh = new THREE.Mesh(geo, mat);
+        mesh.position.set(pos[0], conf.size[1]/2, pos[1]);
+        mesh.castShadow = true;
+        scene.add(mesh);
+
+        hidingSpots.push({
+          id: 'spot_' + idx,
+          name: conf.type,
+          x: pos[0],
+          z: pos[1],
+          radius: Math.max(...conf.size) * 0.85 + 1.2
+        });
+      });
+    }
+
+    /* --- JOYSTICK & MOBILE CONTROLS --- */
+    let moveDir = { x: 0, z: 0 };
+
+    function setupJoystick() {
+      const zone = document.getElementById('joy-zone');
+      const knob = document.getElementById('joy-knob');
+      let active = false;
+
+      const handleMove = (clientX, clientY) => {
+        const rect = zone.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+
+        let dx = clientX - centerX;
+        let dy = clientY - centerY;
+        let dist = Math.hypot(dx, dy);
+        let maxR = rect.width / 2 - 25;
+
+        if (dist > maxR) { dx *= maxR / dist; dy *= maxR / dist; }
+
+        knob.style.transform = `translate(${dx}px, ${dy}px)`;
+        moveDir.x = dx / maxR;
+        moveDir.z = dy / maxR;
+      };
+
+      zone.addEventListener('touchstart', e => { active = true; handleMove(e.touches[0].clientX, e.touches[0].clientY); }, {passive: true});
+      window.addEventListener('touchmove', e => { if (active) handleMove(e.touches[0].clientX, e.touches[0].clientY); }, {passive: true});
+      window.addEventListener('touchend', () => { active = false; knob.style.transform = `translate(0px, 0px)`; moveDir = { x: 0, z: 0 }; });
+
       window.addEventListener('keydown', e => {
-        if(e.key === 'ArrowLeft' || e.key === 'a') keyLeft = true;
-        if(e.key === 'ArrowRight' || e.key === 'd') keyRight = true;
-        if(e.key === 'ArrowDown' || e.key === 's') keyBrake = true;
-        if(e.key === 'Shift') keyNitro = true;
+        if (e.key === 'w' || e.key === 'ArrowUp') moveDir.z = -1;
+        if (e.key === 's' || e.key === 'ArrowDown') moveDir.z = 1;
+        if (e.key === 'a' || e.key === 'ArrowLeft') moveDir.x = -1;
+        if (e.key === 'd' || e.key === 'ArrowRight') moveDir.x = 1;
       });
       window.addEventListener('keyup', e => {
-        if(e.key === 'ArrowLeft' || e.key === 'a') keyLeft = false;
-        if(e.key === 'ArrowRight' || e.key === 'd') keyRight = false;
-        if(e.key === 'ArrowDown' || e.key === 's') keyBrake = false;
-        if(e.key === 'Shift') keyNitro = false;
+        if (['w','s','a','d','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key)) moveDir = { x: 0, z: 0 };
       });
-
-      const bindBtn = (id, setter) => {
-        const el = document.getElementById(id);
-        el.addEventListener('touchstart', e => { e.preventDefault(); setter(true); });
-        el.addEventListener('touchend', e => { e.preventDefault(); setter(false); });
-      };
-      bindBtn('btn-left', v => keyLeft = v);
-      bindBtn('btn-right', v => keyRight = v);
-      bindBtn('btn-brake', v => keyBrake = v);
-      bindBtn('btn-nitro', v => keyNitro = v);
     }
 
     function onWindowResize() {
@@ -390,61 +828,271 @@
       renderer.setSize(window.innerWidth, window.innerHeight);
     }
 
+    /* --- GAMEPLAY ACTIONS & PROPOSAL SEQUENCE --- */
+    function handleHideAction() {
+      if (!nearbySpot) return;
+      gameState.hiderIsHidden = !gameState.hiderIsHidden;
+      gameState.hidingSpotId = gameState.hiderIsHidden ? nearbySpot.id : null;
+
+      if (gameState.hiderIsHidden) {
+        localPlayerPos.x = nearbySpot.x;
+        localPlayerPos.z = nearbySpot.z;
+      }
+      updateHUD();
+    }
+
+    function handleSearchAction() {
+      if (!nearbySpot) return;
+      if (remotePlayerPos.isHidden && Math.hypot(remotePlayerPos.x - nearbySpot.x, remotePlayerPos.z - nearbySpot.z) < 3) {
+        triggerProposalSequence();
+      } else {
+        alert("Empress Devu is not hiding here! Keep searching!");
+      }
+    }
+
+    function triggerProposalSequence() {
+      isKneelingLocal = true;
+      triggerEmote('🌹');
+      triggerEmote('💍');
+      triggerEmote('🫂');
+
+      if (dataConn && dataConn.open) {
+        dataConn.send({ type: 'PROPOSAL' });
+      }
+
+      setTimeout(() => endRound('SEEKER_WIN'), 1200);
+    }
+
+    function triggerRadarPulse() {
+      const dist = Math.hypot(localPlayerPos.x - remotePlayerPos.x, localPlayerPos.z - remotePlayerPos.z);
+      alert(`Empress Heartbeat Radar: Hider is ${Math.round(dist)}m away in the garden! 💓`);
+    }
+
+    /* --- ROUND TIMERS & STATE MANAGEMENT --- */
+    let timerInterval = null;
+
+    function startRoundSequence() {
+      gameState.phase = 'PREPARE';
+      gameState.timer = 15;
+      gameState.hiderIsHidden = false;
+      isKneelingLocal = false;
+
+      updateHUD();
+      clearInterval(timerInterval);
+
+      timerInterval = setInterval(() => {
+        gameState.timer--;
+        if (gameState.timer <= 0) {
+          if (gameState.phase === 'PREPARE') {
+            gameState.phase = 'SEEK';
+            gameState.timer = 50;
+          } else if (gameState.phase === 'SEEK') {
+            clearInterval(timerInterval);
+            endRound('HIDER_WIN');
+          }
+        }
+        updateHUD();
+        if (isHost && dataConn) dataConn.send({ type: 'STATE_SYNC', state: gameState });
+      }, 1000);
+    }
+
+    function endRound(outcome) {
+      clearInterval(timerInterval);
+      gameState.phase = 'END';
+
+      const banner = document.getElementById('outcome-banner');
+      const title = document.getElementById('banner-title');
+      const desc = document.getElementById('banner-desc');
+
+      banner.style.display = 'flex';
+      if (outcome === 'SEEKER_WIN') {
+        title.innerText = " SUCCESSFUL! 💍🌹";
+        desc.innerText = "Aarav knelt down on his knees, presented a magical red rose, and proposed with an eternal embrace!";
+        gameState.scores.player1 += 1;
+      } else {
+        title.innerText = "EMPRESS DEVU SURVIVED! 🌸";
+        desc.innerText = "Time expired! Devu won this round with clever hiding!";
+        gameState.scores.player2 += 1;
+      }
+      updateHUD();
+    }
+
+    function requestNextRound() {
+      document.getElementById('outcome-banner').style.display = 'none';
+      gameState.seekerRole = gameState.seekerRole === 'boy' ? 'girl' : 'boy';
+      gameState.round++;
+      if (dataConn) dataConn.send({ type: 'NEXT_ROUND' });
+      resetRound();
+    }
+
+    function resetRound() {
+      document.getElementById('outcome-banner').style.display = 'none';
+      localPlayerPos.x = (Math.random() - 0.5) * 12;
+      localPlayerPos.z = (Math.random() - 0.5) * 12;
+      isKneelingLocal = false;
+      startRoundSequence();
+    }
+
+    function updateHUD() {
+      const isAmSeeker = (myGender === gameState.seekerRole);
+      document.getElementById('role-display').innerText = `ROLE: ${isAmSeeker ? 'SEEKER 🔍' : 'HIDER 🙈'} (${gameState.phase})`;
+
+      const m = Math.floor(gameState.timer / 60).toString().padStart(2, '0');
+      const s = (gameState.timer % 60).toString().padStart(2, '0');
+      document.getElementById('game-timer').innerText = `${m}:${s}`;
+      document.getElementById('score-display').innerText = `Score - Aarav: ${gameState.scores.player1} | Devu: ${gameState.scores.player2}`;
+
+      const hideBtn = document.getElementById('hide-btn');
+      const searchBtn = document.getElementById('search-btn');
+      const proposeBtn = document.getElementById('propose-btn');
+      const pulseBtn = document.getElementById('pulse-btn');
+
+      // Distance check to remote player
+      const distToRemote = Math.hypot(localPlayerPos.x - remotePlayerPos.x, localPlayerPos.z - remotePlayerPos.z);
+
+      if (!isAmSeeker && nearbySpot && gameState.phase !== 'END') {
+        hideBtn.style.display = 'flex';
+        hideBtn.innerHTML = gameState.hiderIsHidden ? '<i class="fa-solid fa-person-walking"></i>' : '<i class="fa-solid fa-eye-slash"></i>';
+      } else {
+        hideBtn.style.display = 'none';
+      }
+
+      if (isAmSeeker && distToRemote < 3.5 && gameState.phase === 'SEEK') {
+        proposeBtn.style.display = 'flex';
+        searchBtn.style.display = 'none';
+      } else if (isAmSeeker && nearbySpot && gameState.phase === 'SEEK') {
+        searchBtn.style.display = 'flex';
+        proposeBtn.style.display = 'none';
+      } else {
+        searchBtn.style.display = 'none';
+        proposeBtn.style.display = 'none';
+      }
+
+      pulseBtn.style.display = (isAmSeeker && gameState.phase === 'SEEK') ? 'flex' : 'none';
+    }
+
+    /* --- REAL-TIME ANIMATION LOOP --- */
+    let animClock = 0;
+
     function animate3D() {
       requestAnimationFrame(animate3D);
+      animClock += 0.05;
 
-      // Speed Dynamics
-      let maxCap = keyNitro ? 220 : 160;
-      if (keyBrake) speed -= 2.0;
-      else if (speed < maxCap) speed += 0.8;
+      const isAmSeeker = (myGender === gameState.seekerRole);
+      const canMove = !gameState.hiderIsHidden && !isKneelingLocal && !(isAmSeeker && gameState.phase === 'PREPARE');
 
-      speed = Math.max(0, speed);
-      currentSpeed = speed;
+      // Movement Calculations
+      if (canMove && (moveDir.x !== 0 || moveDir.z !== 0)) {
+        let speed = 0.19;
+        localPlayerPos.x += moveDir.x * speed;
+        localPlayerPos.z += moveDir.z * speed;
+        localPlayerPos.rotY = Math.atan2(moveDir.x, moveDir.z);
+        localPlayerPos.anim = 'walk';
 
-      // Steering Movement
-      if (keyLeft && playerCar.position.x > -7.2) playerCar.position.x -= 0.12 * (speed / 80 + 0.2);
-      if (keyRight && playerCar.position.x < 7.2) playerCar.position.x += 0.12 * (speed / 80 + 0.2);
+        localPlayerPos.x = Math.max(-55, Math.min(55, localPlayerPos.x));
+        localPlayerPos.z = Math.max(-55, Math.min(55, localPlayerPos.z));
+      } else {
+        localPlayerPos.anim = 'idle';
+      }
 
-      // Forward Progression
-      playerCar.position.z += speed * 0.015;
+      // Local Mesh Updates
+      localMesh.position.set(localPlayerPos.x, isKneelingLocal ? -0.35 : 0, localPlayerPos.z);
+      localMesh.rotation.y = localPlayerPos.rotY;
 
-      // Smooth Camera Follow
-      camera.position.x = playerCar.position.x * 0.6;
-      camera.position.y = playerCar.position.y + 3.2;
-      camera.position.z = playerCar.position.z - 7.5;
-      camera.lookAt(playerCar.position.x, playerCar.position.y + 1, playerCar.position.z + 10);
+      // Proposing Kneeling Pose Animation
+      if (isKneelingLocal) {
+        localMesh.userData.torso.rotation.x = 0.3;
+        localMesh.userData.legL.rotation.x = 1.2;
+        localMesh.userData.legR.rotation.x = -0.4;
+        localMesh.userData.armR.rotation.x = -1.2;
+      } else if (localPlayerPos.anim === 'walk') {
+        localMesh.userData.torso.rotation.x = 0;
+        localMesh.userData.legL.rotation.x = Math.sin(animClock * 3.5) * 0.65;
+        localMesh.userData.legR.rotation.x = -Math.sin(animClock * 3.5) * 0.65;
+        localMesh.userData.armL.rotation.x = -Math.sin(animClock * 3.5) * 0.5;
+        localMesh.userData.armR.rotation.x = Math.sin(animClock * 3.5) * 0.5;
+      } else {
+        localMesh.userData.torso.rotation.x = 0;
+        localMesh.userData.legL.rotation.x = 0;
+        localMesh.userData.legR.rotation.x = 0;
+        localMesh.userData.armL.rotation.x = 0;
+        localMesh.userData.armR.rotation.x = 0;
+      }
 
-      // Traffic Mechanics & Collision
-      trafficCars.forEach(tCar => {
-        if (tCar.position.z < playerCar.position.z - 20) {
-          tCar.position.z = playerCar.position.z + 300 + Math.random() * 200;
-          tCar.position.x = (Math.random() - 0.5) * 12;
-        }
+      // Check Proximity to Hiding Locations
+      nearbySpot = null;
+      hidingSpots.forEach(spot => {
+        let d = Math.hypot(localPlayerPos.x - spot.x, localPlayerPos.z - spot.z);
+        if (d < spot.radius) nearbySpot = spot;
+      });
 
-        // Collision Check
-        let dx = Math.abs(tCar.position.x - playerCar.position.x);
-        let dz = Math.abs(tCar.position.z - playerCar.position.z);
-        if (dx < 1.4 && dz < 2.5) {
-          speed = 20; // Crash penalty
+      // Synchronize Remote Mesh
+      remoteMesh.position.set(remotePlayerPos.x, remotePlayerPos.isKneeling ? -0.35 : 0, remotePlayerPos.z);
+      remoteMesh.rotation.y = remotePlayerPos.rotY;
+
+      const shouldHideRemote = isAmSeeker && remotePlayerPos.isHidden;
+      remoteMesh.visible = !shouldHideRemote;
+
+      // Camera Follow Target
+      camera.position.x = localPlayerPos.x;
+      camera.position.y = 8.5;
+      camera.position.z = localPlayerPos.z + 11.5;
+      camera.lookAt(localPlayerPos.x, 1, localPlayerPos.z);
+
+      // Data Channel Broadcast
+      if (dataConn && dataConn.open) {
+        dataConn.send({
+          type: 'POS',
+          x: localPlayerPos.x,
+          y: localPlayerPos.y,
+          z: localPlayerPos.z,
+          rotY: localPlayerPos.rotY,
+          anim: localPlayerPos.anim,
+          isHidden: gameState.hiderIsHidden,
+          isKneeling: isKneelingLocal
+        });
+      }
+
+      drawMinimap();
+      renderer.render(scene, camera);
+    }
+
+    /* --- MINIMAP CANVAS RENDERER --- */
+    function drawMinimap() {
+      const canvas = document.getElementById('minimap-canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = 105; canvas.height = 105;
+
+      ctx.clearRect(0, 0, 105, 105);
+      ctx.save();
+      ctx.translate(52.5, 52.5);
+
+      ctx.fillStyle = '#ff1493';
+      hidingSpots.forEach(spot => {
+        let mx = (spot.x - localPlayerPos.x) * 0.75;
+        let my = (spot.z - localPlayerPos.z) * 0.75;
+        if (Math.hypot(mx, my) < 42) {
+          ctx.beginPath(); ctx.arc(mx, my, 3, 0, Math.PI*2); ctx.fill();
         }
       });
 
-      // Sync Partner Car
-      if (dataConn && dataConn.open) {
-        dataConn.send({ type: 'POS', x: playerCar.position.x, z: playerCar.position.z });
-        partnerCar.position.x = remoteCarPos.x;
-        partnerCar.position.z = remoteCarPos.z;
-      } else {
-        // AI Fallback Mode
-        partnerCar.position.z += (speed * 0.014);
+      // Local Player
+      ctx.fillStyle = '#00f5d4';
+      ctx.beginPath(); ctx.arc(0, 0, 5, 0, Math.PI*2); ctx.fill();
+
+      // Remote Player
+      const isAmSeeker = (myGender === gameState.seekerRole);
+      if (!isAmSeeker || !remotePlayerPos.isHidden) {
+        let rx = (remotePlayerPos.x - localPlayerPos.x) * 0.75;
+        let ry = (remotePlayerPos.z - localPlayerPos.z) * 0.75;
+        if (Math.hypot(rx, ry) < 42) {
+          ctx.fillStyle = '#ffd700';
+          ctx.beginPath(); ctx.arc(rx, ry, 4.5, 0, Math.PI*2); ctx.fill();
+        }
       }
 
-      // UI Gauges & SFX Updates
-      document.getElementById('speedometer').innerText = Math.floor(currentSpeed);
-      updateEngineSound(currentSpeed);
-
-      renderer.render(scene, camera);
+      ctx.restore();
     }
   </script>
 </body>
-</html>
+  </html>
