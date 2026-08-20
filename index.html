@@ -1,570 +1,832 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Hide & Seek | SIVASINGH Edition</title>
-
-  <!-- External CDNs: Three.js, PeerJS, FontAwesome, Google Fonts -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <title>Mission love track</title>
+  
   <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Fredoka:wght@400;600&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --primary: #ff1493;
-      --secondary: #ff69b4;
+      --primary: #ff2a6d;
+      --secondary: #ff758c;
       --accent: #00f5d4;
-      --gold: #ffd700;
-      --bg-dark: #0a0314;
-      --glass-bg: rgba(255, 20, 147, 0.12);
-      --glass-border: rgba(255, 105, 180, 0.35);
+      --bg-dark: #08020f;
+      --glass-bg: rgba(255, 255, 255, 0.08);
+      --glass-border: rgba(255, 117, 140, 0.25);
       --text: #ffffff;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Poppins', sans-serif;
-      user-select: none;
-      -webkit-user-select: none;
-      touch-action: manipulation;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; user-select: none; }
+    html, body { width: 100%; height: 100%; overflow: hidden; background: #030208; color: var(--text); position: relative; }
 
-    body, html {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background: var(--bg-dark);
-      color: var(--text);
-      position: relative;
-    }
-
-    /* Screen Transitions & Glassmorphism UI */
-    .page {
+    /* --- FLOWER SECTION STYLES --- */
+    #flower-section {
       position: absolute;
       inset: 0;
+      z-index: 10;
+      transition: opacity 1s ease, visibility 1s;
+    }
+    #flower-section.hide { opacity: 0; visibility: hidden; pointer-events: none; }
+
+    #intro {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 20px;
-      z-index: 10;
+      background: radial-gradient(ellipse at center, #1a0a18 0%, #030208 70%);
+      transition: opacity 1.3s ease, visibility 1.3s;
+      padding: 24px;
+      text-align: center;
+    }
+    #intro.hide { opacity: 0; visibility: hidden; pointer-events: none; }
+
+    .msg {
+      max-width: 540px;
+      color: #ffc1d4;
+      font-size: clamp(16px, 4.1vw, 22px);
+      line-height: 1.75;
+      letter-spacing: 0.3px;
+      text-shadow: 0 0 22px rgba(255, 158, 192, 0.5);
+      margin-bottom: 42px;
+      animation: fadeUp 1.5s ease both;
+    }
+    .msg .heart { display: inline-block; animation: heartbeat 1.6s ease-in-out infinite; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      14%      { transform: scale(1.28); }
+      28%      { transform: scale(1); }
+      42%      { transform: scale(1.16); }
+    }
+
+    .btn-glow {
+      background: linear-gradient(135deg, #ff4d7a, #ff9ec0);
+      border: none;
+      color: #fff;
+      font-size: 17px;
+      font-weight: 500;
+      letter-spacing: 1.6px;
+      padding: 17px 42px;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 0 32px rgba(255, 80, 130, 0.6), 0 10px 24px rgba(0,0,0,0.35);
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .btn-glow:hover { transform: scale(1.07); box-shadow: 0 0 45px rgba(255, 80, 130, 0.8); }
+    .btn-glow:active { transform: scale(0.96); }
+
+    #roseMsg {
+      position: fixed;
+      top: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 50;
+      background: rgba(20, 8, 18, 0.85);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 120, 160, 0.35);
+      color: #ffc1d4;
+      font-size: 15px;
+      padding: 12px 26px;
+      border-radius: 40px;
+      cursor: pointer;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1s ease, transform 0.4s;
+      box-shadow: 0 0 25px rgba(255, 80, 130, 0.25);
+      white-space: nowrap;
+    }
+    #roseMsg.show { opacity: 1; pointer-events: auto; }
+
+    #playGameBtn {
+      position: fixed;
+      bottom: 25px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 60;
+      display: none;
+      animation: fadeUp 1s ease;
+    }
+
+    canvas#c { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+
+    .sparkle {
+      position: fixed; pointer-events: none; z-index: 5; font-size: 15px; opacity: 0;
+      animation: floatSparkle 7s linear infinite;
+    }
+    @keyframes floatSparkle {
+      0%   { transform: translateY(105vh) rotate(0deg); opacity: 0; }
+      12%  { opacity: 0.75; }
+      88%  { opacity: 0.5; }
+      100% { transform: translateY(-15vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* --- GAME SECTION STYLES --- */
+    #game-section {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: radial-gradient(circle at center, #24082c 0%, var(--bg-dark) 100%);
       opacity: 0;
       visibility: hidden;
-      transition: opacity 0.4s ease, transform 0.4s ease;
-      transform: scale(0.96);
+      transition: opacity 1s ease, visibility 1s;
     }
-    .page.active {
-      opacity: 1;
-      visibility: visible;
-      transform: scale(1);
+    #game-section.active { opacity: 1; visibility: visible; z-index: 20; }
+
+    .hearts-bg { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+    .heart-particle {
+      position: absolute; color: rgba(255, 42, 109, 0.25);
+      animation: floatUp 7s infinite linear; font-size: 1.2rem;
+      filter: drop-shadow(0 0 5px rgba(255, 42, 109, 0.5));
     }
+    @keyframes floatUp {
+      0% { transform: translateY(105vh) scale(0.6) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(-10vh) scale(1.3) rotate(360deg); opacity: 0; }
+    }
+
+    .page {
+      position: absolute; inset: 0; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; padding: 20px; z-index: 10;
+      opacity: 0; visibility: hidden; transition: 0.5s ease; transform: scale(0.95);
+    }
+    .page.active { opacity: 1; visibility: visible; transform: scale(1); }
+
+    .intro-title {
+      font-family: 'Fredoka', cursive; font-size: 2.8rem; text-align: center;
+      text-transform: uppercase; letter-spacing: 3px;
+      background: linear-gradient(45deg, #ff2a6d, #ff758c, #00f5d4, #ff2a6d);
+      background-size: 300% 300%; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      animation: gradientShift 3s ease infinite, glowAnim 2s infinite alternate;
+    }
+    @keyframes gradientShift { 0%{background-position:0% 50%;} 50%{background-position:100% 50%;} 100%{background-position:0% 50%;} }
+    @keyframes glowAnim { 0%{filter:drop-shadow(0 0 10px rgba(255,42,109,0.4));} 100%{filter:drop-shadow(0 0 30px rgba(255,42,109,0.9));} }
 
     .glass-card {
-      background: rgba(20, 8, 30, 0.75);
-      border: 1px solid var(--glass-border);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      padding: 2.2rem 1.8rem;
-      border-radius: 28px;
-      text-align: center;
-      box-shadow: 0 15px 50px rgba(255, 20, 147, 0.25), inset 0 0 15px rgba(255, 215, 0, 0.1);
-      width: 100%;
-      max-width: 440px;
-      position: relative;
-    }
-
-    .empress-title {
-      font-family: 'Cinzel', serif;
-      font-weight: 900;
-      font-size: 2.2rem;
-      background: linear-gradient(45deg, #ffd700, #ff69b4, #00f5d4);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.6));
-      letter-spacing: 1px;
-      margin-bottom: 6px;
-    }
-
-    .branding-tag {
-      font-size: 0.75rem;
-      letter-spacing: 3px;
-      color: var(--gold);
-      text-transform: uppercase;
-      font-weight: 700;
-      margin-bottom: 12px;
-      opacity: 0.9;
+      background: var(--glass-bg); border: 1px solid var(--glass-border);
+      backdrop-filter: blur(16px); padding: 2rem; border-radius: 24px; text-align: center;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6); width: 100%; max-width: 420px;
     }
 
     .btn-pink {
-      background: linear-gradient(45deg, #ff1493, #ff69b4);
-      border: none;
-      color: white;
-      padding: 14px 28px;
-      font-size: 1.05rem;
-      font-weight: 700;
-      border-radius: 35px;
-      cursor: pointer;
-      box-shadow: 0 6px 20px rgba(255, 20, 147, 0.5);
-      transition: all 0.25s ease;
-      margin-top: 12px;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      justify-content: center;
-      width: 100%;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    .btn-pink:active {
-      transform: scale(0.95);
-    }
-
-    /* Game World & HUD Overlay */
-    #game-container {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 1;
-    }
-
-    .hud-layer {
-      position: absolute;
-      inset: 0;
-      z-index: 5;
-      pointer-events: none;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 12px;
-    }
-
-    .interactive { pointer-events: auto; }
-
-    .top-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
-      gap: 8px;
-    }
-
-    .control-btn {
-      background: rgba(10, 3, 20, 0.75);
-      border: 1px solid var(--glass-border);
-      color: var(--text);
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      backdrop-filter: blur(10px);
-      transition: 0.3s;
-      font-size: 1.1rem;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-    }
-    .control-btn.active {
       background: linear-gradient(45deg, var(--primary), var(--secondary));
-      box-shadow: 0 0 18px var(--primary);
-      border-color: #fff;
+      border: none; color: white; padding: 12px 30px; font-size: 1rem; font-weight: 600;
+      border-radius: 30px; cursor: pointer; box-shadow: 0 4px 15px rgba(255, 42, 109, 0.4);
+      transition: all 0.3s ease; margin-top: 15px; display: inline-flex; align-items: center;
+      gap: 10px; justify-content: center;
+    }
+    .btn-pink:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 8px 25px rgba(255, 42, 109, 0.6); }
+
+    .pulse-loader {
+      width: 70px; height: 70px; border-radius: 50%; background: rgba(255, 42, 109, 0.2);
+      display: flex; align-items: center; justify-content: center; margin: 20px auto; position: relative;
+    }
+    .pulse-loader::after {
+      content: ''; position: absolute; inset: -10px; border-radius: 50%;
+      border: 2px solid var(--primary); animation: pulseRing 1.5s infinite ease-out;
+    }
+    @keyframes pulseRing { 0%{transform:scale(0.8);opacity:1;} 100%{transform:scale(1.5);opacity:0;} }
+
+    .game-header { display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 420px; margin-bottom: 10px; }
+    .control-btn {
+      background: rgba(255, 255, 255, 0.1); border: 1px solid var(--glass-border); color: var(--text);
+      width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s;
+    }
+    .control-btn.active { background: var(--primary); box-shadow: 0 0 12px var(--primary); }
+
+    .profiles-container { display: flex; justify-content: space-between; width: 100%; max-width: 420px; margin-bottom: 10px; gap: 10px; }
+    .player-card {
+      flex: 1; background: var(--glass-bg); border: 1px solid var(--glass-border);
+      border-radius: 16px; padding: 10px; display: flex; align-items: center; gap: 10px; transition: 0.3s;
+    }
+    .player-card.active-turn { border-color: var(--accent); box-shadow: 0 0 15px rgba(0, 245, 212, 0.3); }
+    .avatar { width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(45deg, var(--primary), var(--secondary)); display: flex; align-items: center; justify-content: center; font-size: 1rem; font-weight: bold; }
+
+    .board-container {
+      width: 100%; max-width: 420px; aspect-ratio: 1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 10px;
+    }
+    .cell {
+      background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 18px;
+      display: flex; align-items: center; justify-content: center; font-size: 3rem; font-weight: bold; cursor: pointer; backdrop-filter: blur(10px); transition: 0.2s;
+    }
+    .cell:hover { background: rgba(255, 255, 255, 0.15); }
+    .cell.x { color: var(--primary); text-shadow: 0 0 15px var(--primary); }
+    .cell.o { color: var(--accent); text-shadow: 0 0 15px var(--accent); }
+
+    .gifts-bar {
+      display: flex; justify-content: space-around; width: 100%; max-width: 420px;
+      background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 30px; padding: 6px 12px; margin-bottom: 10px;
+    }
+    .gift-btn { background: transparent; border: none; font-size: 1.6rem; cursor: pointer; transition: transform 0.2s; }
+    .gift-btn:hover { transform: scale(1.3) rotate(10deg); }
+
+    /* --- IN-GAME CHAT SYSTEM --- */
+    .chat-container {
+      width: 100%; max-width: 420px; background: var(--glass-bg); border: 1px solid var(--glass-border);
+      border-radius: 16px; padding: 10px; display: flex; flex-direction: column; gap: 8px; backdrop-filter: blur(10px);
+    }
+    .chat-box { height: 70px; overflow-y: auto; display: flex; flex-direction: column; gap: 4px; padding-right: 5px; }
+    .chat-box::-webkit-scrollbar { width: 4px; }
+    .chat-box::-webkit-scrollbar-thumb { background: var(--glass-border); border-radius: 4px; }
+    
+    .chat-msg { font-size: 0.8rem; padding: 4px 8px; border-radius: 8px; max-width: 85%; word-break: break-word; }
+    .chat-msg.me { background: rgba(255, 42, 109, 0.3); align-self: flex-end; }
+    .chat-msg.them { background: rgba(0, 245, 212, 0.2); align-self: flex-start; }
+
+    .chat-input-wrapper { display: flex; gap: 6px; }
+    .chat-input {
+      flex: 1; background: rgba(0, 0, 0, 0.3); border: 1px solid var(--glass-border);
+      border-radius: 20px; padding: 6px 12px; color: white; outline: none; font-size: 0.85rem;
+    }
+    .chat-send-btn {
+      background: var(--primary); border: none; color: white; width: 32px; height: 32px;
+      border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 0.8rem;
     }
 
-    .status-card {
-      background: rgba(15, 5, 25, 0.8);
-      padding: 8px 16px;
-      border-radius: 20px;
-      border: 1px solid var(--glass-border);
-      text-align: center;
-      backdrop-filter: blur(12px);
-      box-shadow: 0 4px 20px rgba(0,0,0,0.6);
-    }
-    .timer-val {
-      font-size: 1.6rem;
-      font-weight: 800;
-      color: var(--gold);
-      font-family: 'Fredoka', sans-serif;
-      line-height: 1;
-      text-shadow: 0 0 10px rgba(255,215,0,0.6);
-    }
-
-    #minimap-canvas {
-      position: absolute;
-      top: 68px;
-      right: 12px;
-      width: 105px;
-      height: 105px;
-      border-radius: 50%;
-      border: 2px solid var(--gold);
-      background: rgba(10, 3, 20, 0.85);
-      box-shadow: 0 0 15px rgba(255,215,0,0.4);
-    }
-
-    /* Touch Controls / Virtual Joystick */
-    .joystick-zone {
-      position: absolute;
-      bottom: 25px;
-      left: 20px;
-      width: 125px;
-      height: 125px;
-      background: rgba(255, 255, 255, 0.06);
-      border: 2px solid rgba(255, 105, 180, 0.3);
-      border-radius: 50%;
-      touch-action: none;
-      backdrop-filter: blur(5px);
-    }
-    .joystick-knob {
-      position: absolute;
-      top: 37.5px;
-      left: 37.5px;
-      width: 50px;
-      height: 50px;
-      background: linear-gradient(45deg, var(--primary), var(--gold));
-      border-radius: 50%;
-      box-shadow: 0 0 20px var(--primary);
-      pointer-events: none;
-    }
-
-    .action-group {
-      position: absolute;
-      bottom: 25px;
-      right: 15px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      align-items: flex-end;
-    }
-    .action-btn {
-      width: 68px;
-      height: 68px;
-      border-radius: 50%;
-      background: linear-gradient(45deg, #00f5d4, #00bbf9);
-      border: 2px solid #fff;
-      color: #000;
-      font-weight: 800;
-      font-size: 1.3rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 0 22px var(--accent);
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    .action-btn.propose-mode {
-      background: linear-gradient(45deg, #ffd700, #ff1493);
-      color: white;
-      box-shadow: 0 0 30px #ffd700;
-    }
-
-    .emotes-wrapper {
-      display: flex;
-      gap: 6px;
-      background: rgba(10, 3, 20, 0.8);
-      border: 1px solid var(--glass-border);
-      border-radius: 30px;
-      padding: 5px 10px;
-      backdrop-filter: blur(10px);
-    }
-    .emote-btn {
-      background: transparent;
-      border: none;
-      font-size: 1.4rem;
-      cursor: pointer;
-      transition: transform 0.2s ease;
-    }
-    .emote-btn:active { transform: scale(1.3); }
-
-    .floating-emoji {
-      position: fixed;
-      font-size: 3.5rem;
-      z-index: 1000;
-      pointer-events: none;
-      transition: all 1.2s cubic-bezier(0.25, 1, 0.5, 1);
-      filter: drop-shadow(0 0 15px rgba(255,20,147,0.8));
-    }
-
-    /* Modal Banner Overlays */
-    .banner-overlay {
-      position: absolute;
-      inset: 0;
-      background: rgba(5, 1, 10, 0.88);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      z-index: 20;
-      pointer-events: auto;
-      backdrop-filter: blur(12px);
-    }
-
-    .song-pill {
-      background: rgba(255,255,255,0.08);
-      border: 1px solid var(--glass-border);
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 0.75rem;
-      color: var(--gold);
-      margin-top: 6px;
-      display: inline-block;
-    }
-
-    audio { display: none; }
+    .flying-gift { position: fixed; font-size: 2.5rem; z-index: 1000; pointer-events: none; transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1); }
+    .blast-effect { position: fixed; z-index: 1001; pointer-events: none; animation: burstAnim 0.6s ease-out forwards; font-size: 3rem; }
+    @keyframes burstAnim { 0%{transform:scale(0.5);opacity:1;} 100%{transform:scale(2.5);opacity:0;filter:blur(5px);} }
   </style>
 </head>
 <body>
 
-  <!-- AUDIO PLAYLIST SYSTEM -->
-  <audio id="music1" loop><source src="song1.mp3"></audio>
-  <audio id="music2" loop><source src="song2.mp3"></audio>
-  <audio id="music3" loop><source src="https://cdn.pixabay.com/download/audio/2022/10/25/audio_2492160938.mp3?filename=sweet-love-125862.mp3" type="audio/mpeg"></audio>
-  <audio id="music4" loop><source src="https://cdn.pixabay.com/download/audio/2021/11/24/audio_c8a74c72a8.mp3?filename=cinematic-love-story-10499.mp3" type="audio/mpeg"></audio>
+  <!-- ================= FLOWER SECTION ================= -->
+  <div id="flower-section">
+    <div id="intro">
+      <div class="msg">
+        Hi Devika <span class="heart">💕</span><br>
+        I am sivasingh nam to suna hi hoga,<br>
+        so I coded some flower for you<b>flower</b>…<br>
+        but where are the flowers? 🌷
+      </div>
+      <button class="btn-glow" id="seeBtn">See Flowers ✨</button>
+    </div>
+
+    <div id="roseMsg">I think you're missing a rose? Click here 🌹</div>
+    <button class="btn-glow" id="playGameBtn">Enter Game Arena 🎮</button>
+
+    <canvas id="c"></canvas>
+  </div>
+
+  <!-- ================= GAME SECTION ================= -->
+  <div id="game-section">
+    <div class="hearts-bg" id="heartsContainer"></div>
+
+    <div class="page active" id="page-intro">
+      <h1 class="intro-title">Modded by SIVASINGH</h1>
+    </div>
+
+    <div class="page" id="page-welcome">
+      <div class="glass-card">
+        <h2 style="font-size: 1.8rem; color: #ff758c; margin-bottom: 10px;">Devu lets play 🤭🤭</h2>
+        <p style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 15px;">Get ready for a battle!</p>
+        <button class="btn-pink" onclick="goToPage('page-lobby')">Continue ❤️</button>
+      </div>
+    </div>
+
+    <div class="page" id="page-lobby">
+      <div class="glass-card" id="lobby-input-box">
+        <h3 style="margin-bottom: 15px; color: var(--secondary);">Connect with 🤭🤭🤭🤭</h3>
+        
+        <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 12px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center;">
+          <span style="font-size: 0.85rem;">Your Code: <strong id="my-code" style="color: var(--accent);">Generating...</strong></span>
+          <button class="control-btn" style="width: 32px; height: 32px;" onclick="copyCode()" title="Copy Code"><i class="fa-solid fa-copy"></i></button>
+        </div>
+
+        <input type="text" id="friend-code" placeholder="Enter Bestie's Code" style="width: 100%; padding: 12px; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); border-radius: 12px; color: white; outline: none; text-align: center; font-size: 0.95rem; margin-bottom: 15px;">
+
+        <button class="btn-pink" style="width: 100%;" onclick="startConnection()">Connect & Play 💕</button>
+      </div>
+
+      <div class="glass-card" id="lobby-connecting-box" style="display: none;">
+        <div class="pulse-loader"><i class="fa-solid fa-heart" style="color: var(--primary); font-size: 1.5rem;"></i></div>
+        <h3 style="color: var(--secondary); margin-bottom: 5px;">Connecting...</h3>
+        <p style="font-size: 0.85rem; opacity: 0.8;">Establishing yyyyyyyyyy</p>
+      </div>
+    </div>
+
+    <div class="page" id="page-game">
+      <div class="game-header">
+        <button class="control-btn" id="micBtn" onclick="toggleMic()" title="Mic On/Off"><i class="fa-solid fa-microphone-slash"></i></button>
+        
+        <div style="display: flex; gap: 8px;">
+          <button class="control-btn" id="musicBtn" onclick="toggleMusic()" title="Play/Pause Music"><i class="fa-solid fa-music"></i></button>
+          <button class="control-btn" onclick="switchSong()" title="Switch Song"><i class="fa-solid fa-forward-step"></i></button>
+        </div>
+
+        <button class="control-btn" onclick="resetGame()" title="Reset Game"><i class="fa-solid fa-rotate-right"></i></button>
+      </div>
+
+      <div class="profiles-container">
+        <div class="player-card active-turn" id="p1-card">
+          <div class="avatar">You</div>
+          <div>
+            <div style="font-size: 0.8rem; font-weight: 600;" id="p1-name">You (X)</div>
+            <div style="font-size: 0.7rem; color: var(--accent);" id="p1-status">Turn</div>
+          </div>
+        </div>
+
+        <div class="player-card" id="p2-card">
+          <div class="avatar" style="background: linear-gradient(45deg, #00f5d4, #00bbf9);">Devu</div>
+          <div>
+            <div style="font-size: 0.8rem; font-weight: 600;" id="p2-name">opponet (O)</div>
+            <div style="font-size: 0.7rem; opacity: 0.6;" id="p2-status">Wait</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="board-container" id="board">
+        <div class="cell" data-index="0"></div>
+        <div class="cell" data-index="1"></div>
+        <div class="cell" data-index="2"></div>
+        <div class="cell" data-index="3"></div>
+        <div class="cell" data-index="4"></div>
+        <div class="cell" data-index="5"></div>
+        <div class="cell" data-index="6"></div>
+        <div class="cell" data-index="7"></div>
+        <div class="cell" data-index="8"></div>
+      </div>
+
+      <div class="gifts-bar">
+        <button class="gift-btn" onclick="sendGift('🌹')" title="Send Rose">🌹</button>
+        <button class="gift-btn" onclick="sendGift('😘')" title="Send Kiss">😘</button>
+        <button class="gift-btn" onclick="sendGift('🤗')" title="Send Hug">🤗</button>
+        <button class="gift-btn" onclick="sendGift('🥊')" title="Send Punch">🥊</button>
+      </div>
+
+      <!-- Live Chat Container -->
+      <div class="chat-container">
+        <div class="chat-box" id="chatBox">
+          <div class="chat-msg them">Devu: Hi! Let's play 💕</div>
+        </div>
+        <div class="chat-input-wrapper">
+          <input type="text" id="chatInput" class="chat-input" placeholder="Type a message..." onkeypress="handleChatKey(event)">
+          <button class="chat-send-btn" onclick="sendChatMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <audio id="bgMusic" loop preload="auto"></audio>
   <audio id="remoteAudio" autoplay></audio>
 
-  <!-- PAGE 1: INTRO SPLASH -->
-  <div class="page active" id="page-intro">
-    <div class="branding-tag">Codded by SIVASINGH</div>
-    <h1 class="empress-title"> DEVUU</h1>
-    <p style="margin-top:8px; color: var(--secondary); font-weight: 600; font-size: 1.05rem;">Garden 3D Hide & Seek</p>
-    <p style="font-size: 0.8rem; opacity: 0.7; margin-top: 15px;">Initializing Magical World...</p>
-  </div>
-
-  <!-- PAGE 2: CHARACTER SELECT -->
-  <div class="page" id="page-welcome">
-    <div class="glass-card">
-      <div class="branding-tag">SIVASINGH PRESENTS</div>
-      <h2 style="font-size: 1.7rem; color: #ff69b4; margin-bottom: 6px; font-family:'Cinzel';">Welcome  Devu 💕</h2>
-      <p style="font-size: 0.85rem; opacity: 0.85; margin-bottom: 18px;">Find each other in the glowing flower garden & and hug each other!</p>
-
-      <div style="margin-bottom: 18px; text-align: left; background: rgba(0,0,0,0.35); padding: 12px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.05);">
-        <p style="font-size: 0.8rem; color: var(--gold); font-weight: 700; margin-bottom: 8px; text-transform: uppercase;">Choose Character Avatar:</p>
-        <div style="display: flex; gap: 10px;">
-          <button class="btn-pink" id="char-boy" style="margin:0; background: linear-gradient(45deg, #00f5d4, #00bbf9); color: black;" onclick="selectGender('boy')">Aarav (Boy 🕺)</button>
-          <button class="btn-pink" id="char-girl" style="margin:0; opacity: 0.5;" onclick="selectGender('girl')">Devu (Girl 💃)</button>
-        </div>
-      </div>
-
-      <button class="btn-pink" onclick="goToPage('page-lobby')">Enter  Garden 🌹</button>
-    </div>
-  </div>
-
-  <!-- PAGE 3: MULTIPLAYER LOBBY -->
-  <div class="page" id="page-lobby">
-    <div class="glass-card">
-      <h3 style="margin-bottom: 10px; color: var(--gold); font-family:'Cinzel'; font-size: 1.4rem;">Multiplayer Garden Lobby</h3>
-
-      <div style="background: rgba(0,0,0,0.45); padding: 12px; border-radius: 16px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--glass-border);">
-        <span style="font-size: 0.85rem;">Room ID: <strong id="my-code" style="color: var(--gold);">Generating...</strong></span>
-        <button class="control-btn interactive" style="width: 34px; height: 34px; font-size: 0.9rem;" onclick="copyCode()"><i class="fa-solid fa-copy"></i></button>
-      </div>
-
-      <input type="text" id="friend-code" placeholder="Enter Empress Devu's Room ID" style="width: 100%; padding: 14px; background: rgba(0,0,0,0.45); border: 1px solid var(--glass-border); border-radius: 16px; color: white; outline: none; text-align: center; font-size: 1rem; margin-bottom: 15px;">
-
-      <button class="btn-pink" onclick="startConnection()">Connect & Play Together ❤️</button>
-      <button class="btn-pink" style="background: rgba(255,255,255,0.1); margin-top: 8px; box-shadow:none;" onclick="startSoloPractice()">Solo Garden Practice 🌸</button>
-    </div>
-  </div>
-
-  <!-- PAGE 4: MAIN 3D GAME HUD -->
-  <div class="page" id="page-game" style="padding: 0;">
-    <div id="game-container"></div>
-    <canvas id="minimap-canvas"></canvas>
-
-    <div class="hud-layer">
-      <div class="top-bar">
-        <div style="display: flex; gap: 6px;">
-          <button class="control-btn interactive" id="micBtn" onclick="toggleMic()"><i class="fa-solid fa-microphone-slash"></i></button>
-          <button class="control-btn interactive" id="musicBtn" onclick="cycleMusic()"><i class="fa-solid fa-music"></i></button>
-          <button class="control-btn interactive" id="vibeBtn" onclick="toggleVibe()"><i class="fa-solid fa-heart"></i></button>
-        </div>
-
-        <div class="status-card">
-          <div style="font-size: 0.7rem; color: var(--secondary); font-weight: 700; letter-spacing: 0.5px;" id="role-display">ROLE: PREPARING</div>
-          <div class="timer-val" id="game-timer">00:00</div>
-          <div style="font-size: 0.68rem; opacity: 0.9; color: var(--gold);" id="score-display">Score - Aarav: 0 | Devu: 0</div>
-          <div class="song-pill" id="song-title">🎵 Song:  Guitars</div>
-        </div>
-
-        <div class="emotes-wrapper interactive">
-          <button class="emote-btn" onclick="triggerEmote('🫂')">🫂</button>
-          <button class="emote-btn" onclick="triggerEmote('💋')">💋</button>
-          <button class="emote-btn" onclick="triggerEmote('🌹')">🌹</button>
-          <button class="emote-btn" onclick="triggerEmote('💍')">💍</button>
-        </div>
-      </div>
-
-      <!-- Touch Controls -->
-      <div class="joystick-zone interactive" id="joy-zone">
-        <div class="joystick-knob" id="joy-knob"></div>
-      </div>
-
-      <div class="action-group interactive">
-        <button class="action-btn" id="hide-btn" style="display: none;" onclick="handleHideAction()"><i class="fa-solid fa-eye-slash"></i></button>
-        <button class="action-btn propose-mode" id="propose-btn" style="display: none;" onclick="triggerProposalSequence()"><i class="fa-solid fa-heart"></i></button>
-        <button class="action-btn" id="search-btn" style="display: none; background: linear-gradient(45deg, #ffbb00, #ff5500);" onclick="handleSearchAction()"><i class="fa-solid fa-magnifying-glass"></i></button>
-        <button class="action-btn" id="pulse-btn" style="display: none; width: 50px; height: 50px; font-size: 0.9rem;" onclick="triggerRadarPulse()"><i class="fa-solid fa-wifi"></i></button>
-      </div>
-    </div>
-
-    <!-- PROPOSAL & GAME OVER OVERLAY -->
-    <div class="banner-overlay" id="outcome-banner" style="display: none;">
-      <div class="glass-card">
-        <div class="branding-tag" id="banner-tag"<Moder Siva!</div>
-        <h2 id="banner-title" style="font-size: 1.8rem; color: var(--gold); font-family: 'Cinzel'; margin-bottom: 8px;">YOU FOUND  DEVU! 💍</h2>
-        <p id="banner-desc" style="font-size: 0.9rem; margin-bottom: 18px; line-height: 1.4;">Lalalakalalala 🤭🤭🤭🤭!</p>
-
-        <div style="display: flex; gap: 8px; justify-content: center; margin-bottom: 16px;">
-          <button class="emote-btn" style="font-size: 2.2rem;" onclick="triggerEmote('🫂')">🫂</button>
-          <button class="emote-btn" style="font-size: 2.2rem;" onclick="triggerEmote('💋')">💋</button>
-          <button class="emote-btn" style="font-size: 2.2rem;" onclick="triggerEmote('🌹')">🌹</button>
-          <button class="emote-btn" style="font-size: 2.2rem;" onclick="triggerEmote('💍')">💍</button>
-        </div>
-
-        <button class="btn-pink" onclick="requestNextRound()">Next  Round 🔄</button>
-      </div>
-    </div>
-  </div>
-
   <script>
-    /* --- GLOBAL STATE & CONFIG --- */
-    let myGender = 'boy';
-    let peer, dataConn, localStream, micActive = false;
-    let isMultiplayer = false, isHost = false;
+    /* ========== MUSIC CONTROLLER (2 SONGS) ========== */
+    const bgMusic = document.getElementById('bgMusic');
+    const songs = ["tere-liye.mp3", "song1.mp3", "song2.mp3"];
+    let currentSongIdx = 0;
+    let isPlaying = false;
 
-    let gameState = {
-      phase: 'LOBBY',
-      seekerRole: 'boy',
-      round: 1,
-      scores: { player1: 0, player2: 0 },
-      timer: 0,
-      hiderIsHidden: false,
-      hidingSpotId: null
-    };
-
-    let localPlayerPos = { x: 0, y: 0, z: 0, rotY: 0, anim: 'idle' };
-    let remotePlayerPos = { x: 6, y: 0, z: 6, rotY: 0, anim: 'idle', isHidden: false, isKneeling: false };
-
-    /* --- PAGE ROUTING --- */
-    function goToPage(id) {
-      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
+    function playMusic() {
+      if(!bgMusic.src) bgMusic.src = songs[currentSongIdx];
+      bgMusic.play().then(() => {
+        isPlaying = true;
+        document.getElementById('musicBtn')?.classList.add('active');
+      }).catch(e => console.log("Audio waiting for interaction"));
     }
 
-    function selectGender(g) {
-      myGender = g;
-      document.getElementById('char-boy').style.opacity = g === 'boy' ? '1' : '0.5';
-      document.getElementById('char-girl').style.opacity = g === 'girl' ? '1' : '0.5';
+    function toggleMusic() {
+      if (isPlaying) {
+        bgMusic.pause();
+        document.getElementById('musicBtn').classList.remove('active');
+      } else {
+        playMusic();
+      }
+      isPlaying = !isPlaying;
     }
 
-    window.addEventListener('DOMContentLoaded', () => {
-      setTimeout(() => { goToPage('page-welcome'); initPeer(); }, 2200);
+    function switchSong() {
+      currentSongIdx = (currentSongIdx + 1) % songs.length;
+      bgMusic.src = songs[currentSongIdx];
+      bgMusic.load();
+      if (isPlaying) bgMusic.play();
+    }
+
+    /* ========== FLOWER WEBSITE LOGIC ========== */
+    const canvas = document.getElementById('c');
+    const ctx = canvas.getContext('2d');
+    const intro = document.getElementById('intro');
+    const seeBtn = document.getElementById('seeBtn');
+    const roseMsg = document.getElementById('roseMsg');
+    const playGameBtn = document.getElementById('playGameBtn');
+    const flowerSection = document.getElementById('flower-section');
+    const gameSection = document.getElementById('game-section');
+
+    let W, H;
+    const particles = [];
+    const flowers = [];
+    const roses = [];
+    let started = false;
+    let rosesStarted = false;
+    let roseStartT = 0;
+    let mainDone = false;
+    let animId = null;
+
+    function resize() {
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    class Particle {
+      constructor() { this.reset(true); }
+      reset(init) {
+        this.x = Math.random() * W;
+        this.y = init ? Math.random() * H : H + 40;
+        this.r = 1.0 + Math.random() * 2.8;
+        this.speed = 0.18 + Math.random() * 0.5;
+        this.a = 0.07 + Math.random() * 0.22;
+        this.col = Math.random() > 0.38 ? '#ff9ec0' : '#ffe0ec';
+        this.wobble = Math.random() * Math.PI * 2;
+      }
+      update() {
+        this.y -= this.speed;
+        this.x += Math.sin(this.wobble + this.y * 0.008) * 0.35;
+        if (this.y < -40) this.reset(false);
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+        ctx.fillStyle = this.col;
+        ctx.globalAlpha = this.a;
+        ctx.fill();
+        ctx.globalAlpha = 1;
+      }
+    }
+    for (let i = 0; i < 40; i++) particles.push(new Particle());
+
+    const PRESETS = [
+      { petalDeep: '#e91e63', petalMid: '#ff80ab', petalLight: '#ffc1d4', bud: '#f48fb1', core: '#ffd54f', glow: 'rgba(255,70,130,0.55)' },
+      { petalDeep: '#ce93d8', petalMid: '#f3e5f5', petalLight: '#faf5ff', bud: '#e1bee7', core: '#fff', glow: 'rgba(220,180,255,0.5)' },
+      { petalDeep: '#ad1457', petalMid: '#ec407a', petalLight: '#f8bbd0', bud: '#f06292', core: null, glow: 'rgba(180,30,90,0.55)' },
+      { petalDeep: '#ef6c00', petalMid: '#ffb300', petalLight: '#ffe082', bud: '#ff8f00', core: '#4e342e', glow: 'rgba(255,150,0,0.45)' },
+      { petalDeep: '#7b1fa2', petalMid: '#ba68c8', petalLight: '#e1bee7', bud: '#ce93d8', core: '#ffd54f', glow: 'rgba(150,60,200,0.5)' }
+    ];
+
+    const ROSE_PRESETS = [
+      { petalDeep: '#b71c1c', petalMid: '#e53935', petalLight: '#ef9a9a', bud: '#c62828', core: '#ffd54f', glow: 'rgba(200,30,40,0.6)' },
+      { petalDeep: '#c2185b', petalMid: '#f06292', petalLight: '#f8bbd0', bud: '#ec407a', core: '#ffecb3', glow: 'rgba(220,50,100,0.55)' }
+    ];
+
+    const STAGE = { root: 0.0, stem: 0.4, leaf: 1.55, bud: 2.5, open: 3.3 };
+
+    function createFlower(cfg, isRose = false) {
+      return {
+        cx: cfg.x, base: 0.93, maxH: cfg.h, ang: cfg.ang * Math.PI / 180, delay: cfg.delay,
+        preset: isRose ? ROSE_PRESETS[cfg.p % ROSE_PRESETS.length] : PRESETS[cfg.p % PRESETS.length],
+        petals: cfg.petals || 6, isTulip: cfg.tulip || false, isSun: cfg.sun || false, isRose: isRose,
+        sway: 0.12 + Math.random() * 0.28, swaySpeed: 0.55 + Math.random() * 0.7, phase: Math.random() * Math.PI * 2
+      };
+    }
+
+    const LAYOUT = [
+      { x: 0.10, h: 0.42, delay: 0.0, ang: -25, p: 0, petals: 7 },
+      { x: 0.28, h: 0.55, delay: 1.2, ang: -12, p: 1, petals: 6 },
+      { x: 0.50, h: 0.62, delay: 2.5, ang: 0, p: 2, petals: 3, tulip: true },
+      { x: 0.72, h: 0.52, delay: 3.8, ang: 15, p: 3, petals: 7 },
+      { x: 0.90, h: 0.44, delay: 5.0, ang: 25, p: 4, petals: 6 }
+    ];
+    LAYOUT.forEach(l => flowers.push(createFlower(l)));
+
+    const ROSE_LAYOUT = [
+      { x: 0.20, h: 0.58, delay: 0.0, ang: -15, p: 0, petals: 9 },
+      { x: 0.50, h: 0.68, delay: 1.5, ang: 0, p: 1, petals: 10 },
+      { x: 0.80, h: 0.56, delay: 3.0, ang: 15, p: 0, petals: 9 }
+    ];
+
+    function ease(t) { return t < 0 ? 0 : t > 1 ? 1 : 1 - Math.pow(1 - t, 3); }
+    function easeBack(t) { return t <= 0 ? 0 : t >= 1 ? 1 : 1 + 1.7 * Math.pow(t - 1, 3) + 1.7 * Math.pow(t - 1, 2); }
+
+    function drawRoot(f, p) {
+      if (p <= 0) return;
+      const x = f.cx * W, y = f.base * H;
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(f.ang);
+      const s = ease(p) * 18;
+      ctx.beginPath();
+      ctx.ellipse(0, 6, s * 1.7, s * 0.65, 0, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(70, 45, 35, 0.6)';
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function drawStemAndLeaves(f, stemP, leafP, time) {
+      const h = f.maxH * H * ease(stemP);
+      if (h < 2) return { tipX: f.cx * W, tipY: f.base * H };
+      const sway = Math.sin(time * f.swaySpeed + f.phase) * f.sway * (h / (f.maxH * H));
+      const x = f.cx * W, y = f.base * H;
+
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(f.ang + sway * 0.18);
+      ctx.beginPath();
+      ctx.moveTo(-2, 0); ctx.quadraticCurveTo(5, -h * 0.5, sway * 3, -h);
+      ctx.lineTo(sway * 3 + 2, -h); ctx.quadraticCurveTo(5, -h * 0.5, 2, 0);
+      ctx.fillStyle = '#2e7d32';
+      ctx.fill();
+      ctx.restore();
+
+      return { tipX: x + Math.sin(f.ang + sway * 0.18) * h, tipY: y - Math.cos(f.ang + sway * 0.18) * h };
+    }
+
+    function drawBloom(f, tipX, tipY, openP, time) {
+      if (openP <= 0) return;
+      const s = 0.1 + easeBack(openP) * 0.9;
+      ctx.save();
+      ctx.translate(tipX, tipY);
+      ctx.scale(s, s);
+      ctx.beginPath();
+      ctx.arc(0, 0, 35, 0, Math.PI * 2);
+      ctx.fillStyle = f.preset.petalMid;
+      ctx.fill();
+      ctx.restore();
+    }
+
+    let startT = 0;
+    function frame(now) {
+      if (!startT) startT = now;
+      const elapsed = (now - startT) / 1000;
+      const time = now / 1000;
+
+      ctx.clearRect(0, 0, W, H);
+      particles.forEach(p => { p.update(); p.draw(); });
+
+      flowers.forEach(f => {
+        const local = elapsed - f.delay;
+        if (local < 0) return;
+        const rootP = ease(Math.min(1, local / 0.5));
+        const stemP = ease(Math.max(0, Math.min(1, (local - STAGE.stem) / 1.75)));
+        const openP = ease(Math.max(0, Math.min(1, (local - STAGE.open) / 1.2)));
+
+        drawRoot(f, rootP);
+        const tip = drawStemAndLeaves(f, stemP, openP, time);
+        drawBloom(f, tip.tipX, tip.tipY, openP, time);
+      });
+
+      if (!mainDone && elapsed > 8) {
+        mainDone = true;
+        roseMsg.classList.add('show');
+        playGameBtn.style.display = 'block';
+      }
+
+      animId = requestAnimationFrame(frame);
+    }
+
+    seeBtn.addEventListener('click', () => {
+      intro.classList.add('hide');
+      playMusic();
+      animId = requestAnimationFrame(frame);
     });
 
-    /* --- MULTIPLAYER (PEERJS DATA & VOICE) --- */
+    roseMsg.addEventListener('click', () => {
+      if (rosesStarted) return;
+      rosesStarted = true;
+      roseMsg.classList.remove('show');
+      ROSE_LAYOUT.forEach(l => flowers.push(createFlower(l, true)));
+    });
+
+    // Switch to Game Arena
+    playGameBtn.addEventListener('click', () => {
+      cancelAnimationFrame(animId);
+      flowerSection.classList.add('hide');
+      gameSection.classList.add('active');
+      initGameSection();
+    });
+
+    /* ========== GAME SECTION LOGIC ========== */
+    function initGameSection() {
+      const heartsContainer = document.getElementById('heartsContainer');
+      const heartIcons = ['❤️', '💖', '💕', '✨'];
+      for (let i = 0; i < 20; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'heart-particle';
+        heart.innerText = heartIcons[Math.floor(Math.random() * heartIcons.length)];
+        heart.style.left = `${Math.random() * 100}%`;
+        heart.style.animationDelay = `${Math.random() * 7}s`;
+        heartsContainer.appendChild(heart);
+      }
+
+      setTimeout(() => {
+        goToPage('page-welcome');
+        initPeer();
+      }, 2500);
+    }
+
+    function goToPage(pageId) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById(pageId).classList.add('active');
+    }
+
+    let boardState = ["", "", "", "", "", "", "", "", ""];
+    let currentPlayer = "X";
+    let mySymbol = "X";
+    let isGameActive = true;
+    let isMultiplayer = false;
+
+    const cells = document.querySelectorAll('.cell');
+    const winningCombos = [
+      [0,1,2],[3,4,5],[6,7,8],
+      [0,3,6],[1,4,7],[2,5,8],
+      [0,4,8],[2,4,6]
+    ];
+
+    cells.forEach(cell => {
+      cell.addEventListener('click', () => {
+        const index = cell.getAttribute('data-index');
+        if (boardState[index] !== "" || !isGameActive) return;
+        if (isMultiplayer && currentPlayer !== mySymbol) return;
+
+        executeMove(index, currentPlayer);
+        if (isMultiplayer && dataConnection) {
+          dataConnection.send({ type: 'MOVE', index: index, symbol: mySymbol });
+        }
+      });
+    });
+
+    function executeMove(index, symbol) {
+      boardState[index] = symbol;
+      const cell = cells[index];
+      cell.innerText = symbol;
+      cell.classList.add(symbol.toLowerCase());
+
+      if (checkWin(symbol)) {
+        isGameActive = false;
+        alert(`${symbol === mySymbol ? 'You Won! ❤️' : 'opponent Won! 💖'}`);
+        return;
+      }
+
+      if (boardState.every(c => c !== "")) {
+        isGameActive = false;
+        alert("It's a Romantic Tie! 💕");
+        return;
+      }
+
+      currentPlayer = currentPlayer === "X" ? "O" : "X";
+      updateTurnUI();
+    }
+
+    function checkWin(symbol) {
+      return winningCombos.some(combo => combo.every(i => boardState[i] === symbol));
+    }
+
+    function updateTurnUI() {
+      const p1Card = document.getElementById('p1-card');
+      const p2Card = document.getElementById('p2-card');
+      if (currentPlayer === mySymbol) {
+        p1Card.classList.add('active-turn'); p2Card.classList.remove('active-turn');
+      } else {
+        p2Card.classList.add('active-turn'); p1Card.classList.remove('active-turn');
+      }
+    }
+
+    function resetGame(sendRemote = true) {
+      boardState = ["", "", "", "", "", "", "", "", ""];
+      isGameActive = true; currentPlayer = "X";
+      cells.forEach(cell => { cell.innerText = ""; cell.classList.remove('x', 'o'); });
+      updateTurnUI();
+      if (isMultiplayer && sendRemote && dataConnection) {
+        dataConnection.send({ type: 'RESET' });
+      }
+    }
+
+    /* ========== LIVE CHAT SYSTEM ========== */
+    function sendChatMessage() {
+      const input = document.getElementById('chatInput');
+      const text = input.value.trim();
+      if (!text) return;
+
+      appendChatMessage(text, 'me');
+      input.value = '';
+
+      if (isMultiplayer && dataConnection) {
+        dataConnection.send({ type: 'CHAT', text: text });
+      }
+    }
+
+    function handleChatKey(e) {
+      if (e.key === 'Enter') sendChatMessage();
+    }
+
+    function appendChatMessage(text, sender) {
+      const chatBox = document.getElementById('chatBox');
+      const msgDiv = document.createElement('div');
+      msgDiv.className = `chat-msg ${sender}`;
+      msgDiv.innerText = (sender === 'me' ? 'You: ' : 'Bestie: ') + text;
+      chatBox.appendChild(msgDiv);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    /* ========== ONLINE MULTIPLAYER (PEERJS) ========== */
+    let peer = null, dataConnection = null, localStream = null, micActive = false;
+
     function initPeer() {
       peer = new Peer();
-      peer.on('open', id => document.getElementById('my-code').innerText = id);
+      peer.on('open', id => { document.getElementById('my-code').innerText = id; });
+
       peer.on('connection', conn => {
-        dataConn = conn;
-        isHost = true;
-        isMultiplayer = true;
+        dataConnection = conn;
         setupDataListener();
-        goToPage('page-game');
-        init3DGame();
+        isMultiplayer = true; mySymbol = "O";
+        showConnectingScreenAndStart();
       });
+
       peer.on('call', call => {
         navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+          localStream = stream;
           call.answer(stream);
-          call.on('stream', rStream => document.getElementById('remoteAudio').srcObject = rStream);
-        }).catch(err => alert("Voice connection error!"));
+          call.on('stream', rStream => { document.getElementById('remoteAudio').srcObject = rStream; });
+        });
       });
     }
 
     function startConnection() {
       const code = document.getElementById('friend-code').value.trim();
-      if (!code) return alert("Please enter Room ID!");
-      dataConn = peer.connect(code);
-      isHost = false;
-      isMultiplayer = true;
+      if (!code) return alert("Please enter Bestie's Code!");
+
+      dataConnection = peer.connect(code);
       setupDataListener();
-      goToPage('page-game');
-      init3DGame();
+      isMultiplayer = true; mySymbol = "X";
+      showConnectingScreenAndStart();
     }
 
-    function startSoloPractice() {
-      isMultiplayer = false;
-      goToPage('page-game');
-      init3DGame();
+    function showConnectingScreenAndStart() {
+      document.getElementById('lobby-input-box').style.display = 'none';
+      document.getElementById('lobby-connecting-box').style.display = 'block';
+
+      setTimeout(() => {
+        goToPage('page-game');
+        resetGame(false);
+      }, 1500);
     }
 
     function setupDataListener() {
-      dataConn.on('data', data => {
-        if (data.type === 'POS') {
-          remotePlayerPos.x = data.x;
-          remotePlayerPos.y = data.y;
-          remotePlayerPos.z = data.z;
-          remotePlayerPos.rotY = data.rotY;
-          remotePlayerPos.anim = data.anim;
-          remotePlayerPos.isHidden = data.isHidden;
-          remotePlayerPos.isKneeling = data.isKneeling;
-        }
-        else if (data.type === 'STATE_SYNC') {
-          gameState = data.state;
-          updateHUD();
-        }
-        else if (data.type === 'EMOTE') {
-          spawnFloatingEmoji(data.emoji);
-        }
-        else if (data.type === 'PROPOSAL') {
-          spawnFloatingEmoji('💍');
-          spawnFloatingEmoji('🌹');
-          endRound('SEEKER_WIN');
-        }
-        else if (data.type === 'NEXT_ROUND') {
-          resetRound();
-        }
+      dataConnection.on('data', data => {
+        if (data.type === 'MOVE') executeMove(data.index, data.symbol);
+        if (data.type === 'RESET') resetGame(false);
+        if (data.type === 'GIFT') triggerGiftAnimation(data.emoji, false);
+        if (data.type === 'CHAT') appendChatMessage(data.text, 'them');
       });
     }
 
     function copyCode() {
-      navigator.clipboard.writeText(document.getElementById('my-code').innerText);
-      alert("Room ID Copied! Share with Empress Devu!");
-    }
-
-    /* --- MUSIC PLAYLIST & AUDIO SYSTEM (4 ROMANTIC SONGS) --- */
-    const songs = [
-      { id: 'music1', name: '🎵 Song 1: Romantic Guitars' },
-      { id: 'music2', name: '🎹 Song 2: Soft Love Piano' },
-      { id: 'music3', name: '🌸 Song 3: Sweet Garden Serenade' },
-      { id: 'music4', name: '✨ Song 4: Cinematic Love Story' }
-    ];
-    let currentSongIdx = -1;
-
-    function cycleMusic() {
-      if (currentSongIdx >= 0) {
-        document.getElementById(songs[currentSongIdx].id).pause();
-      }
-      currentSongIdx = (currentSongIdx + 1) % (songs.length + 1);
-
-      const btn = document.getElementById('musicBtn');
-      const label = document.getElementById('song-title');
-
-      if (currentSongIdx === songs.length) {
-        currentSongIdx = -1; // Mute state
-        btn.classList.remove('active');
-        label.innerText = '🎵 Music: Off';
-      } else {
-        const audio = document.getElementById(songs[currentSongIdx].id);
-        audio.play().catch(()=>{});
-        btn.classList.add('active');
-        label.innerText = songs[currentSongIdx].name;
+      const code = document.getElementById('my-code').innerText;
+      if (code && code !== "Generating...") {
+        navigator.clipboard.writeText(code);
+        alert("Code copied!");
       }
     }
 
+    /* ========== GIFTS & ANIMATION ========== */
+    function sendGift(emoji) {
+      triggerGiftAnimation(emoji, true);
+      if (isMultiplayer && dataConnection) {
+        dataConnection.send({ type: 'GIFT', emoji: emoji });
+      }
+    }
+
+    function triggerGiftAnimation(emoji, isSentByMe) {
+      const startCard = isSentByMe ? document.getElementById('p1-card') : document.getElementById('p2-card');
+      const targetCard = isSentByMe ? document.getElementById('p2-card') : document.getElementById('p1-card');
+      const startRect = startCard.getBoundingClientRect();
+      const targetRect = targetCard.getBoundingClientRect();
+
+      const giftEl = document.createElement('div');
+      giftEl.className = 'flying-gift'; giftEl.innerText = emoji;
+      giftEl.style.left = `${startRect.left + 20}px`; giftEl.style.top = `${startRect.top}px`;
+      document.body.appendChild(giftEl);
+
+      setTimeout(() => {
+        giftEl.style.left = `${targetRect.left + 20}px`;
+        giftEl.style.top = `${targetRect.top}px`;
+        giftEl.style.transform = 'scale(1.4) rotate(360deg)';
+      }, 50);
+
+      setTimeout(() => {
+        giftEl.remove();
+        const blastEl = document.createElement('div');
+        blastEl.className = 'blast-effect';
+        blastEl.innerText = emoji === '🥊' ? '💥' : '💖';
+        blastEl.style.left = `${targetRect.left + 10}px`; blastEl.style.top = `${targetRect.top}px`;
+        document.body.appendChild(blastEl);
+        setTimeout(() => blastEl.remove(), 600);
+      }, 850);
+    }
+
+    /* ========== MIC VOICE CONTROL ========== */
     async function toggleMic() {
       const micBtn = document.getElementById('micBtn');
       if (!micActive) {
@@ -573,526 +835,15 @@
           micActive = true;
           micBtn.classList.add('active');
           micBtn.innerHTML = '<i class="fa-solid fa-microphone"></i>';
-          if (dataConn) peer.call(dataConn.peer, localStream);
-        } catch(e) { alert("Mic Permission Denied!"); }
+          if (dataConnection && peer) peer.call(dataConnection.peer, localStream);
+        } catch (err) { alert('Microphone access blocked.'); }
       } else {
-        if (localStream) localStream.getTracks().forEach(t => t.stop());
+        if (localStream) localStream.getTracks().forEach(track => track.stop());
         micActive = false;
         micBtn.classList.remove('active');
         micBtn.innerHTML = '<i class="fa-solid fa-microphone-slash"></i>';
       }
     }
-
-    function toggleVibe() {
-      if (navigator.vibrate) navigator.vibrate([100, 50, 100, 50, 150]);
-      document.getElementById('vibeBtn').classList.toggle('active');
-    }
-
-    /* --- EMOTE & PROPOSAL VISUALS --- */
-    function triggerEmote(emoji) {
-      spawnFloatingEmoji(emoji);
-      if (dataConn && dataConn.open) {
-        dataConn.send({ type: 'EMOTE', emoji: emoji });
-      }
-    }
-
-    function spawnFloatingEmoji(emoji) {
-      const el = document.createElement('div');
-      el.className = 'floating-emoji';
-      el.innerText = emoji;
-      el.style.left = (35 + Math.random() * 30) + '%';
-      el.style.top = '65%';
-      document.body.appendChild(el);
-      setTimeout(() => {
-        el.style.top = '20%';
-        el.style.transform = 'scale(1.8) rotate(15deg)';
-        el.style.opacity = '0';
-      }, 50);
-      setTimeout(() => el.remove(), 1250);
-    }
-
-    /* --- 3D ENGINE & ROMANTIC MAP (THREE.JS) --- */
-    let scene, camera, renderer;
-    let localMesh, remoteMesh;
-    let hidingSpots = [];
-    let nearbySpot = null;
-    let isKneelingLocal = false;
-
-    function buildRealisticCharacter(gender) {
-      const group = new THREE.Group();
-      const isBoy = gender === 'boy';
-
-      // Outfit & Skin Materials
-      const clothMat = new THREE.MeshPhongMaterial({ color: isBoy ? 0x1a2a3a : 0xff1493, shininess: 40 });
-      const skinMat = new THREE.MeshPhongMaterial({ color: 0xffdfc4, shininess: 10 });
-      const hairMat = new THREE.MeshLambertMaterial({ color: isBoy ? 0x110800 : 0x3d1c02 });
-      const goldAccent = new THREE.MeshPhongMaterial({ color: 0xffd700, shininess: 80 });
-
-      // Torso & Dress
-      let bodyGeo = isBoy ? new THREE.CylinderGeometry(0.32, 0.28, 1.2, 16) : new THREE.ConeGeometry(0.6, 1.2, 16);
-      const torso = new THREE.Mesh(bodyGeo, clothMat);
-      torso.position.y = 0.85;
-      torso.castShadow = true;
-      group.add(torso);
-
-      // Head & Facial Structure
-      const headGeo = new THREE.SphereGeometry(0.28, 20, 20);
-      const head = new THREE.Mesh(headGeo, skinMat);
-      head.position.y = 1.65;
-      head.castShadow = true;
-      group.add(head);
-
-      // Hair Mesh
-      const hairGeo = isBoy ? new THREE.SphereGeometry(0.3, 16, 16, 0, Math.PI*2, 0, Math.PI/2) : new THREE.SphereGeometry(0.34, 16, 16);
-      const hair = new THREE.Mesh(hairGeo, hairMat);
-      hair.position.y = isBoy ? 1.72 : 1.68;
-      group.add(hair);
-
-      // Empress Devu Crown / Aarav Prince Cap
-      if (!isBoy) {
-        const crownGeo = new THREE.ConeGeometry(0.2, 0.25, 5);
-        const crown = new THREE.Mesh(crownGeo, goldAccent);
-        crown.position.y = 2.05;
-        group.add(crown);
-      }
-
-      // Legs
-      const legGeo = new THREE.CylinderGeometry(0.09, 0.08, 0.65, 12);
-      const legMat = new THREE.MeshLambertMaterial({ color: 0x111122 });
-
-      const legL = new THREE.Mesh(legGeo, legMat); legL.position.set(-0.14, 0.32, 0); group.add(legL);
-      const legR = new THREE.Mesh(legGeo, legMat); legR.position.set(0.14, 0.32, 0); group.add(legR);
-
-      // Arms & Rose Prop
-      const armGeo = new THREE.CylinderGeometry(0.07, 0.06, 0.6, 12);
-      const armL = new THREE.Mesh(armGeo, skinMat); armL.position.set(-0.35, 1.1, 0); group.add(armL);
-      const armR = new THREE.Mesh(armGeo, skinMat); armR.position.set(0.35, 1.1, 0); group.add(armR);
-
-      // Held Red Rose Prop
-      const roseGroup = new THREE.Group();
-      const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.02, 0.3), new THREE.MeshLambertMaterial({color: 0x008000}));
-      const petal = new THREE.Mesh(new THREE.SphereGeometry(0.08, 8, 8), new THREE.MeshPhongMaterial({color: 0xff0000}));
-      petal.position.y = 0.15;
-      roseGroup.add(stem); roseGroup.add(petal);
-      roseGroup.position.set(0.35, 0.85, 0.2);
-      roseGroup.rotation.x = Math.PI/4;
-      group.add(roseGroup);
-
-      group.userData = { legL, legR, armL, armR, torso, gender, roseGroup };
-      return group;
-    }
-
-    function init3DGame() {
-      const container = document.getElementById('game-container');
-      container.innerHTML = '';
-
-      scene = new THREE.Scene();
-      scene.background = new THREE.Color(0x0d031a);
-      scene.fog = new THREE.FogExp2(0x0d031a, 0.015);
-
-      camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-
-      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      renderer.shadowMap.enabled = true;
-      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-      container.appendChild(renderer.domElement);
-
-      // Romantic Atmosphere Lighting
-      const ambientLight = new THREE.AmbientLight(0xffb6c1, 0.8);
-      scene.add(ambientLight);
-
-      const moonLight = new THREE.DirectionalLight(0xffd700, 1.3);
-      moonLight.position.set(20, 45, 20);
-      moonLight.castShadow = true;
-      moonLight.shadow.mapSize.width = 1024;
-      moonLight.shadow.mapSize.height = 1024;
-      scene.add(moonLight);
-
-      // Magical Garden Floor (Grass with Glowing Petals)
-      const groundGeo = new THREE.PlaneGeometry(120, 120);
-      const groundMat = new THREE.MeshPhongMaterial({ color: 0x162d1b, shininess: 10 });
-      const ground = new THREE.Mesh(groundGeo, groundMat);
-      ground.rotation.x = -Math.PI / 2;
-      ground.receiveShadow = true;
-      scene.add(ground);
-
-      // Build Garden Environment
-      buildEmpressGardenMap();
-
-      // Spawn Player Models
-      localMesh = buildRealisticCharacter(myGender);
-      scene.add(localMesh);
-
-      const remoteGender = myGender === 'boy' ? 'girl' : 'boy';
-      remoteMesh = buildRealisticCharacter(remoteGender);
-      scene.add(remoteMesh);
-
-      setupJoystick();
-      window.addEventListener('resize', onWindowResize);
-
-      if (isHost || !isMultiplayer) {
-        startRoundSequence();
-      }
-
-      animate3D();
-    }
-
-    function buildEmpressGardenMap() {
-      hidingSpots = [];
-
-      // Grand Romantic Pavilion Center
-      const pavilionGeo = new THREE.CylinderGeometry(5, 5.5, 3.5, 8);
-      const pavilionMat = new THREE.MeshPhongMaterial({ color: 0xfff0f5, shininess: 50 });
-      const pavilion = new THREE.Mesh(pavilionGeo, pavilionMat);
-      pavilion.position.set(0, 1.75, 0);
-      pavilion.castShadow = true;
-      scene.add(pavilion);
-
-      // Romantic Objects & Hiding Spots
-      const spotConfs = [
-        { type: 'Rose Archway 🌹', color: 0xff1493, size: [3, 3, 1] },
-        { type: 'Royal Gazebo Pillar 🏛️', color: 0xffffff, size: [1.8, 4, 1.8] },
-        { type: 'Heart Blossom Tree 🌸', color: 0xff69b4, size: [3.5, 4.5, 3.5] },
-        { type: 'Cozy Love Bench 🪑', color: 0x8b4513, size: [2.5, 1.8, 1.2] },
-        { type: 'Empress Palace Cottage 🏰', color: 0x4b0082, size: [7, 5, 7] }
-      ];
-
-      const spotPositions = [
-        [-14, -14], [14, 14], [-18, 12], [18, -14], [0, 24], [0, -24], [-24, -6], [24, 6]
-      ];
-
-      spotPositions.forEach((pos, idx) => {
-        const conf = spotConfs[idx % spotConfs.length];
-        const geo = new THREE.BoxGeometry(...conf.size);
-        const mat = new THREE.MeshPhongMaterial({ color: conf.color });
-        const mesh = new THREE.Mesh(geo, mat);
-        mesh.position.set(pos[0], conf.size[1]/2, pos[1]);
-        mesh.castShadow = true;
-        scene.add(mesh);
-
-        hidingSpots.push({
-          id: 'spot_' + idx,
-          name: conf.type,
-          x: pos[0],
-          z: pos[1],
-          radius: Math.max(...conf.size) * 0.85 + 1.2
-        });
-      });
-    }
-
-    /* --- JOYSTICK & MOBILE CONTROLS --- */
-    let moveDir = { x: 0, z: 0 };
-
-    function setupJoystick() {
-      const zone = document.getElementById('joy-zone');
-      const knob = document.getElementById('joy-knob');
-      let active = false;
-
-      const handleMove = (clientX, clientY) => {
-        const rect = zone.getBoundingClientRect();
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
-
-        let dx = clientX - centerX;
-        let dy = clientY - centerY;
-        let dist = Math.hypot(dx, dy);
-        let maxR = rect.width / 2 - 25;
-
-        if (dist > maxR) { dx *= maxR / dist; dy *= maxR / dist; }
-
-        knob.style.transform = `translate(${dx}px, ${dy}px)`;
-        moveDir.x = dx / maxR;
-        moveDir.z = dy / maxR;
-      };
-
-      zone.addEventListener('touchstart', e => { active = true; handleMove(e.touches[0].clientX, e.touches[0].clientY); }, {passive: true});
-      window.addEventListener('touchmove', e => { if (active) handleMove(e.touches[0].clientX, e.touches[0].clientY); }, {passive: true});
-      window.addEventListener('touchend', () => { active = false; knob.style.transform = `translate(0px, 0px)`; moveDir = { x: 0, z: 0 }; });
-
-      window.addEventListener('keydown', e => {
-        if (e.key === 'w' || e.key === 'ArrowUp') moveDir.z = -1;
-        if (e.key === 's' || e.key === 'ArrowDown') moveDir.z = 1;
-        if (e.key === 'a' || e.key === 'ArrowLeft') moveDir.x = -1;
-        if (e.key === 'd' || e.key === 'ArrowRight') moveDir.x = 1;
-      });
-      window.addEventListener('keyup', e => {
-        if (['w','s','a','d','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key)) moveDir = { x: 0, z: 0 };
-      });
-    }
-
-    function onWindowResize() {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    }
-
-    /* --- GAMEPLAY ACTIONS & PROPOSAL SEQUENCE --- */
-    function handleHideAction() {
-      if (!nearbySpot) return;
-      gameState.hiderIsHidden = !gameState.hiderIsHidden;
-      gameState.hidingSpotId = gameState.hiderIsHidden ? nearbySpot.id : null;
-
-      if (gameState.hiderIsHidden) {
-        localPlayerPos.x = nearbySpot.x;
-        localPlayerPos.z = nearbySpot.z;
-      }
-      updateHUD();
-    }
-
-    function handleSearchAction() {
-      if (!nearbySpot) return;
-      if (remotePlayerPos.isHidden && Math.hypot(remotePlayerPos.x - nearbySpot.x, remotePlayerPos.z - nearbySpot.z) < 3) {
-        triggerProposalSequence();
-      } else {
-        alert("Empress Devu is not hiding here! Keep searching!");
-      }
-    }
-
-    function triggerProposalSequence() {
-      isKneelingLocal = true;
-      triggerEmote('🌹');
-      triggerEmote('💍');
-      triggerEmote('🫂');
-
-      if (dataConn && dataConn.open) {
-        dataConn.send({ type: 'PROPOSAL' });
-      }
-
-      setTimeout(() => endRound('SEEKER_WIN'), 1200);
-    }
-
-    function triggerRadarPulse() {
-      const dist = Math.hypot(localPlayerPos.x - remotePlayerPos.x, localPlayerPos.z - remotePlayerPos.z);
-      alert(`Empress Heartbeat Radar: Hider is ${Math.round(dist)}m away in the garden! 💓`);
-    }
-
-    /* --- ROUND TIMERS & STATE MANAGEMENT --- */
-    let timerInterval = null;
-
-    function startRoundSequence() {
-      gameState.phase = 'PREPARE';
-      gameState.timer = 15;
-      gameState.hiderIsHidden = false;
-      isKneelingLocal = false;
-
-      updateHUD();
-      clearInterval(timerInterval);
-
-      timerInterval = setInterval(() => {
-        gameState.timer--;
-        if (gameState.timer <= 0) {
-          if (gameState.phase === 'PREPARE') {
-            gameState.phase = 'SEEK';
-            gameState.timer = 50;
-          } else if (gameState.phase === 'SEEK') {
-            clearInterval(timerInterval);
-            endRound('HIDER_WIN');
-          }
-        }
-        updateHUD();
-        if (isHost && dataConn) dataConn.send({ type: 'STATE_SYNC', state: gameState });
-      }, 1000);
-    }
-
-    function endRound(outcome) {
-      clearInterval(timerInterval);
-      gameState.phase = 'END';
-
-      const banner = document.getElementById('outcome-banner');
-      const title = document.getElementById('banner-title');
-      const desc = document.getElementById('banner-desc');
-
-      banner.style.display = 'flex';
-      if (outcome === 'SEEKER_WIN') {
-        title.innerText = " SUCCESSFUL! 💍🌹";
-        desc.innerText = "Aarav knelt down on his knees, presented a magical red rose, and proposed with an eternal embrace!";
-        gameState.scores.player1 += 1;
-      } else {
-        title.innerText = "EMPRESS DEVU SURVIVED! 🌸";
-        desc.innerText = "Time expired! Devu won this round with clever hiding!";
-        gameState.scores.player2 += 1;
-      }
-      updateHUD();
-    }
-
-    function requestNextRound() {
-      document.getElementById('outcome-banner').style.display = 'none';
-      gameState.seekerRole = gameState.seekerRole === 'boy' ? 'girl' : 'boy';
-      gameState.round++;
-      if (dataConn) dataConn.send({ type: 'NEXT_ROUND' });
-      resetRound();
-    }
-
-    function resetRound() {
-      document.getElementById('outcome-banner').style.display = 'none';
-      localPlayerPos.x = (Math.random() - 0.5) * 12;
-      localPlayerPos.z = (Math.random() - 0.5) * 12;
-      isKneelingLocal = false;
-      startRoundSequence();
-    }
-
-    function updateHUD() {
-      const isAmSeeker = (myGender === gameState.seekerRole);
-      document.getElementById('role-display').innerText = `ROLE: ${isAmSeeker ? 'SEEKER 🔍' : 'HIDER 🙈'} (${gameState.phase})`;
-
-      const m = Math.floor(gameState.timer / 60).toString().padStart(2, '0');
-      const s = (gameState.timer % 60).toString().padStart(2, '0');
-      document.getElementById('game-timer').innerText = `${m}:${s}`;
-      document.getElementById('score-display').innerText = `Score - Aarav: ${gameState.scores.player1} | Devu: ${gameState.scores.player2}`;
-
-      const hideBtn = document.getElementById('hide-btn');
-      const searchBtn = document.getElementById('search-btn');
-      const proposeBtn = document.getElementById('propose-btn');
-      const pulseBtn = document.getElementById('pulse-btn');
-
-      // Distance check to remote player
-      const distToRemote = Math.hypot(localPlayerPos.x - remotePlayerPos.x, localPlayerPos.z - remotePlayerPos.z);
-
-      if (!isAmSeeker && nearbySpot && gameState.phase !== 'END') {
-        hideBtn.style.display = 'flex';
-        hideBtn.innerHTML = gameState.hiderIsHidden ? '<i class="fa-solid fa-person-walking"></i>' : '<i class="fa-solid fa-eye-slash"></i>';
-      } else {
-        hideBtn.style.display = 'none';
-      }
-
-      if (isAmSeeker && distToRemote < 3.5 && gameState.phase === 'SEEK') {
-        proposeBtn.style.display = 'flex';
-        searchBtn.style.display = 'none';
-      } else if (isAmSeeker && nearbySpot && gameState.phase === 'SEEK') {
-        searchBtn.style.display = 'flex';
-        proposeBtn.style.display = 'none';
-      } else {
-        searchBtn.style.display = 'none';
-        proposeBtn.style.display = 'none';
-      }
-
-      pulseBtn.style.display = (isAmSeeker && gameState.phase === 'SEEK') ? 'flex' : 'none';
-    }
-
-    /* --- REAL-TIME ANIMATION LOOP --- */
-    let animClock = 0;
-
-    function animate3D() {
-      requestAnimationFrame(animate3D);
-      animClock += 0.05;
-
-      const isAmSeeker = (myGender === gameState.seekerRole);
-      const canMove = !gameState.hiderIsHidden && !isKneelingLocal && !(isAmSeeker && gameState.phase === 'PREPARE');
-
-      // Movement Calculations
-      if (canMove && (moveDir.x !== 0 || moveDir.z !== 0)) {
-        let speed = 0.19;
-        localPlayerPos.x += moveDir.x * speed;
-        localPlayerPos.z += moveDir.z * speed;
-        localPlayerPos.rotY = Math.atan2(moveDir.x, moveDir.z);
-        localPlayerPos.anim = 'walk';
-
-        localPlayerPos.x = Math.max(-55, Math.min(55, localPlayerPos.x));
-        localPlayerPos.z = Math.max(-55, Math.min(55, localPlayerPos.z));
-      } else {
-        localPlayerPos.anim = 'idle';
-      }
-
-      // Local Mesh Updates
-      localMesh.position.set(localPlayerPos.x, isKneelingLocal ? -0.35 : 0, localPlayerPos.z);
-      localMesh.rotation.y = localPlayerPos.rotY;
-
-      // Proposing Kneeling Pose Animation
-      if (isKneelingLocal) {
-        localMesh.userData.torso.rotation.x = 0.3;
-        localMesh.userData.legL.rotation.x = 1.2;
-        localMesh.userData.legR.rotation.x = -0.4;
-        localMesh.userData.armR.rotation.x = -1.2;
-      } else if (localPlayerPos.anim === 'walk') {
-        localMesh.userData.torso.rotation.x = 0;
-        localMesh.userData.legL.rotation.x = Math.sin(animClock * 3.5) * 0.65;
-        localMesh.userData.legR.rotation.x = -Math.sin(animClock * 3.5) * 0.65;
-        localMesh.userData.armL.rotation.x = -Math.sin(animClock * 3.5) * 0.5;
-        localMesh.userData.armR.rotation.x = Math.sin(animClock * 3.5) * 0.5;
-      } else {
-        localMesh.userData.torso.rotation.x = 0;
-        localMesh.userData.legL.rotation.x = 0;
-        localMesh.userData.legR.rotation.x = 0;
-        localMesh.userData.armL.rotation.x = 0;
-        localMesh.userData.armR.rotation.x = 0;
-      }
-
-      // Check Proximity to Hiding Locations
-      nearbySpot = null;
-      hidingSpots.forEach(spot => {
-        let d = Math.hypot(localPlayerPos.x - spot.x, localPlayerPos.z - spot.z);
-        if (d < spot.radius) nearbySpot = spot;
-      });
-
-      // Synchronize Remote Mesh
-      remoteMesh.position.set(remotePlayerPos.x, remotePlayerPos.isKneeling ? -0.35 : 0, remotePlayerPos.z);
-      remoteMesh.rotation.y = remotePlayerPos.rotY;
-
-      const shouldHideRemote = isAmSeeker && remotePlayerPos.isHidden;
-      remoteMesh.visible = !shouldHideRemote;
-
-      // Camera Follow Target
-      camera.position.x = localPlayerPos.x;
-      camera.position.y = 8.5;
-      camera.position.z = localPlayerPos.z + 11.5;
-      camera.lookAt(localPlayerPos.x, 1, localPlayerPos.z);
-
-      // Data Channel Broadcast
-      if (dataConn && dataConn.open) {
-        dataConn.send({
-          type: 'POS',
-          x: localPlayerPos.x,
-          y: localPlayerPos.y,
-          z: localPlayerPos.z,
-          rotY: localPlayerPos.rotY,
-          anim: localPlayerPos.anim,
-          isHidden: gameState.hiderIsHidden,
-          isKneeling: isKneelingLocal
-        });
-      }
-
-      drawMinimap();
-      renderer.render(scene, camera);
-    }
-
-    /* --- MINIMAP CANVAS RENDERER --- */
-    function drawMinimap() {
-      const canvas = document.getElementById('minimap-canvas');
-      const ctx = canvas.getContext('2d');
-      canvas.width = 105; canvas.height = 105;
-
-      ctx.clearRect(0, 0, 105, 105);
-      ctx.save();
-      ctx.translate(52.5, 52.5);
-
-      ctx.fillStyle = '#ff1493';
-      hidingSpots.forEach(spot => {
-        let mx = (spot.x - localPlayerPos.x) * 0.75;
-        let my = (spot.z - localPlayerPos.z) * 0.75;
-        if (Math.hypot(mx, my) < 42) {
-          ctx.beginPath(); ctx.arc(mx, my, 3, 0, Math.PI*2); ctx.fill();
-        }
-      });
-
-      // Local Player
-      ctx.fillStyle = '#00f5d4';
-      ctx.beginPath(); ctx.arc(0, 0, 5, 0, Math.PI*2); ctx.fill();
-
-      // Remote Player
-      const isAmSeeker = (myGender === gameState.seekerRole);
-      if (!isAmSeeker || !remotePlayerPos.isHidden) {
-        let rx = (remotePlayerPos.x - localPlayerPos.x) * 0.75;
-        let ry = (remotePlayerPos.z - localPlayerPos.z) * 0.75;
-        if (Math.hypot(rx, ry) < 42) {
-          ctx.fillStyle = '#ffd700';
-          ctx.beginPath(); ctx.arc(rx, ry, 4.5, 0, Math.PI*2); ctx.fill();
-        }
-      }
-
-      ctx.restore();
-    }
   </script>
 </body>
-  </html>
+ </html>
